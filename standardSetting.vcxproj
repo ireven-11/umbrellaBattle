@@ -135,12 +135,16 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="camera.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="player.cpp" />
     <ClCompile Include="routine.cpp" />
     <ClCompile Include="sceneManager.cpp" />
     <ClCompile Include="setting.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="camera.h" />
+    <ClInclude Include="player.h" />
     <ClInclude Include="routine.h" />
     <ClInclude Include="sceneManager.h" />
     <ClInclude Include="setting.h" />
