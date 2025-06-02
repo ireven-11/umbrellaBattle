@@ -21,5 +21,5 @@ SceneManager::~SceneManager()
 /// </summary>
 void SceneManager::reset()
 {
-	sceneType_ = TITLE;
+	sceneType_ = PLAY;
 }

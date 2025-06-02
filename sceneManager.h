@@ -4,6 +4,7 @@
 enum
 {
 	TITLE,
+	STANDBY,
 	PLAY,
 	RESULT
 };
