@@ -17,3 +17,16 @@ void ScreenSetting()
     SetDrawScreen(DX_SCREEN_BACK);		        //背景をセットする
     SetGraphMode(screenWIDTH, screenHEIGHT, 32);//ウィンドウのサイズとカラーモードを決める
 }
+
+//fps設定
+void SetFPS()
+{
+    const int wait = 16;
+    int term;
+    static int t = 0;
+    term = GetNowCount() - t;
+    //１６の部分の数値を増やすほどｆｐｓがさがっていく
+    if (wait - term > 0)
+        Sleep(wait - term);
+    t = GetNowCount();
+}

@@ -9,3 +9,4 @@ const int screenHEIGHT	= 1080;//画面高さ(学校のｐｃにあわせてる)
 
 //関数のプロトタイプ宣言
 void ScreenSetting();
+void SetFPS();
