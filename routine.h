@@ -17,8 +17,8 @@ public:
 
 private:
 	void gameRoop(shared_ptr<SceneManager> sceneManager, shared_ptr<Player>player, shared_ptr<Camera>camera);
-	void title();
-	void play(shared_ptr<Player>player);
-	void result();
-	void stanby();
+	void title(shared_ptr<SceneManager> sceneManager);
+	void play(shared_ptr<Player>player, shared_ptr<SceneManager> sceneManager);
+	void result(shared_ptr<SceneManager> sceneManager);
+	void stanby(shared_ptr<SceneManager> sceneManager);
 };

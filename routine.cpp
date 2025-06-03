@@ -48,49 +48,49 @@ void Routine::gameRoop(shared_ptr<SceneManager> sceneManager, shared_ptr<Player>
         //画面に描かれた物を消す(ゲームループの最初に呼ぶ)
         ClearDrawScreen();
 
-        camera->update();
-
         switch (sceneManager->GetsceneType_())
         {
         case TITLE:
-            title();
+            title(sceneManager);
             break;
 
         case STANDBY:
-
+            stanby(sceneManager);
             break;
 
         case PLAY:
-            play(player);
+            play(player, sceneManager);
             break;
 
         case RESULT:
-            result();
+            result(sceneManager);
             break;
 
         }
+
+        SetFPS();
 
         // 裏画面の内容を表画面に反映(ゲームループの最後に呼ぶ)
         ScreenFlip();
     }
 }
 
-void Routine::title()
+void Routine::title(shared_ptr<SceneManager> sceneManager)
 {
 
 }
 
-void Routine::stanby()
+void Routine::stanby(shared_ptr<SceneManager> sceneManager)
 {
 
 }
 
-void Routine::play(shared_ptr<Player>player)
+void Routine::play(shared_ptr<Player>player, shared_ptr<SceneManager> sceneManager)
 {
     player->update();
 }
 
-void Routine::result()
+void Routine::result(shared_ptr<SceneManager> sceneManager)
 {
 
 }
