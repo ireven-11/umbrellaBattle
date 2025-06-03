@@ -21,6 +21,7 @@ Player::~Player()
 
 void Player::update()
 {
+	//テスト用モデル変更＋回転
 	if (CheckHitKey(KEY_INPUT_1))
 	{
 		isOpening_ = true;
@@ -28,6 +29,16 @@ void Player::update()
 	if (CheckHitKey(KEY_INPUT_2))
 	{
 		isOpening_ = false;
+	}
+	if (CheckHitKey(KEY_INPUT_3))
+	{
+		MV1SetRotationXYZ(closingUmbrella_, VGet(90.0f * DX_PI_F / 180.0f, 0.0f, 0.0f));
+		MV1SetRotationXYZ(openingUmbrella_, VGet(90.0f * DX_PI_F / 180.0f, 0.0f, 0.0f));
+	}
+	if (CheckHitKey(KEY_INPUT_4))
+	{
+		MV1SetRotationXYZ(closingUmbrella_, VGet(-90.0f * DX_PI_F / 180.0f, 0.0f, 0.0f));
+		MV1SetRotationXYZ(openingUmbrella_, VGet(-90.0f * DX_PI_F / 180.0f, 0.0f, 0.0f));
 	}
 
 	MV1SetPosition(openingUmbrella_, position_);
@@ -54,4 +65,31 @@ void Player::reset()
 {
 	position_	= VGet(0.0f, 0.0f, 0.0f);
 	isOpening_	= true;
+}
+
+void Player::move()
+{
+
+}
+
+void Player::action()
+{
+	swing();
+	tackle();
+	wind();
+}
+
+void Player::swing()
+{
+
+}
+
+void Player::tackle()
+{
+
+}
+
+void Player::wind()
+{
+
 }
