@@ -6,6 +6,8 @@ Player::Player()
 	//3dÉÇÉfÉãì«Ç›çûÇ›
 	openingUmbrella_ = MV1LoadModel("3dmodel/umbrella/umblleraopen.mv1");
 	closingUmbrella_ = MV1LoadModel("3dmodel/umbrella/umblleraclose.mv1");
+	MV1SetScale(openingUmbrella_, VGet(0.1f, 0.1f, 0.1f));
+	MV1SetScale(closingUmbrella_, VGet(0.1f, 0.1f, 0.1f));
 
 	//êîílèâä˙âª
 	reset();
@@ -35,6 +37,9 @@ void Player::update()
 
 void Player::draw()const
 {
+	//âºè∞
+	DrawTriangle3D(VGet(-100, 0, -100), VGet(-100, 0, 100), VGet(1000, 0, -100), GetColor(0, 250, 50), TRUE);
+
 	if (isOpening_)
 	{
 		MV1DrawModel(openingUmbrella_);
@@ -47,6 +52,6 @@ void Player::draw()const
 
 void Player::reset()
 {
-	position_	= VGet(0, 0, 0);
+	position_	= VGet(0.0f, 0.0f, 0.0f);
 	isOpening_	= true;
 }
