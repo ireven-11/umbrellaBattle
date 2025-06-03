@@ -15,7 +15,11 @@ public:
 	SceneManager();
 	~SceneManager();
 
-	void reset();	//リセット処理
+	void reset();			//リセット処理
+	void proceedStandby();
+	void proceedPlay();
+	void proceedResult();
+	void proceedTitle();
 
 	int GetsceneType_()const { return sceneType_; }
 
