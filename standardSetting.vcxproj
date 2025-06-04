@@ -141,6 +141,7 @@
     <ClCompile Include="routine.cpp" />
     <ClCompile Include="sceneManager.cpp" />
     <ClCompile Include="setting.cpp" />
+    <ClCompile Include="stage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h" />
@@ -148,6 +149,7 @@
     <ClInclude Include="routine.h" />
     <ClInclude Include="sceneManager.h" />
     <ClInclude Include="setting.h" />
+    <ClInclude Include="stage.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
