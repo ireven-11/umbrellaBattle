@@ -4,6 +4,7 @@
 #include"sceneManager.h"
 #include"camera.h"
 #include"player.h"
+#include"stage.h"
 
 /// <summary>
 /// コンストラクタ
@@ -28,9 +29,10 @@ void Routine::game()
     shared_ptr<SceneManager>sceneManager = make_shared<SceneManager>();
     shared_ptr<Camera>camera = make_shared<Camera>();
     shared_ptr<Player>player = make_shared<Player>();
+    shared_ptr<Stage>stage = make_shared<Stage>();
 
     //ゲームループ呼び出し
-    gameRoop(sceneManager,player,camera);
+    gameRoop(sceneManager,player,camera,stage);
 
     //デリート
     sceneManager    = nullptr;
@@ -41,7 +43,7 @@ void Routine::game()
 /// <summary>
 /// ゲームループ
 /// </summary>
-void Routine::gameRoop(shared_ptr<SceneManager> sceneManager, shared_ptr<Player>player, shared_ptr<Camera>camera)
+void Routine::gameRoop(shared_ptr<SceneManager> sceneManager, shared_ptr<Player>player, shared_ptr<Camera>camera, shared_ptr<Stage> stage)
 {
     while (gameRoopSetting)
     {
@@ -60,6 +62,7 @@ void Routine::gameRoop(shared_ptr<SceneManager> sceneManager, shared_ptr<Player>
 
         case PLAY:
             play(player, sceneManager);
+            stage->update();
             break;
 
         case RESULT:
