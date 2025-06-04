@@ -49,7 +49,9 @@ void Player::update()
 void Player::draw()const
 {
 	//âºè∞
-	DrawTriangle3D(VGet(-100, 0, -100), VGet(-100, 0, 100), VGet(1000, 0, -100), GetColor(0, 250, 50), TRUE);
+	//DrawTriangle3D(VGet(-100, 0, -100), VGet(-100, 0, 100), VGet(1000, 0, -100), GetColor(0, 250, 50), TRUE);
+
+	DrawFormatString(1000, 100, GetColor(255, 255, 255), "px:%f,py:%f,pz:%f", position_.x, position_.y, position_.z);
 
 	if (isOpening_)
 	{
