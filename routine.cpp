@@ -62,7 +62,7 @@ void Routine::gameRoop(shared_ptr<SceneManager> sceneManager, shared_ptr<Player>
 
         case PLAY:
             play(player, sceneManager);
-            stage->update();
+            stage->update(player);
             break;
 
         case RESULT:
