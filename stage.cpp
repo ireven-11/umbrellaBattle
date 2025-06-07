@@ -1,5 +1,7 @@
 #include"DxLib.h"
 #include"stage.h"
+#include"player.h"
+#include<math.h>
 
 /// <summary>
 /// コンストラクタ
@@ -13,13 +15,21 @@ Stage::Stage()
 			//奇数列行と偶数行で座標をx座標をずらす
 			if (j % 2 == 0)
 			{
-				position_[j][i] = VGet(init_posX + i * shifting_number, 0.0f, init_posZ + j * (shifting_number));
+				position_[j][i] = VGet(init_posX + i * shifting_numberX, 0.0f, init_posZ + j * shifting_numberZ);
 			}
 			else
 			{
-				position_[j][i] = VGet(init_posX + i * shifting_number - shifting_number / 2, 0.0f, init_posZ + j * shifting_number);
+				position_[j][i] = VGet(init_posX + i * shifting_numberX - shifting_numberX / 2, 0.0f, init_posZ + j * shifting_numberZ);
 			}
-			modelHandle_[j][i] = MV1LoadModel("3dmodel/stage/hex_grass.mv1");
+			//同じ3dモデルを使いまわせるようにする
+			if (i == 0 && j == 0)
+			{
+				modelHandle_[j][i] = MV1LoadModel("3dmodel/stage/hex_grass.mv1");
+			}
+			else
+			{
+				modelHandle_[j][i] = MV1DuplicateModel(modelHandle_[0][0]);
+			}
 			MV1SetScale(modelHandle_[j][i], VGet(scale, scale, scale));
 		}
 	}
@@ -44,7 +54,7 @@ Stage::~Stage()
 /// <summary>
 /// 更新
 /// </summary>
-void Stage::update()
+void Stage::update(shared_ptr<Player> player)
 {
 	for (int i = 0; i < tile_number; i++)
 	{
@@ -55,6 +65,7 @@ void Stage::update()
 	}
 	draw();
 	vanishTile();
+	collisionWithPlayer(player);
 }
 
 /// <summary>
@@ -66,7 +77,7 @@ void Stage::draw()
 	{
 		for (int j = 0; j < tile_number; j++)
 		{
-			if (canExsist_[j][i])
+			if (canExist_[j][i])
 			{
 				MV1DrawModel(modelHandle_[j][i]);
 				//デバッグ用
@@ -75,6 +86,7 @@ void Stage::draw()
 		}
 	}
 
+	//デバッグ用
 	DrawFormatString(100, 100, GetColor(255, 255, 255), "ステージカウント：%d", vanishingCount_);
 }
 
@@ -88,7 +100,7 @@ void Stage::reset()
 	{
 		for (int j = 0; j < tile_number; j++)
 		{
-			canExsist_[j][i] = true;
+			canExist_[j][i] = true;
 		}
 	}
 }
@@ -110,10 +122,72 @@ void Stage::vanishTile()
 			int tempRandomJ = GetRand(4);
 			int tempRandomI = GetRand(4);
 
-			if (canExsist_[tempRandomJ][tempRandomI])
+			if (canExist_[tempRandomJ][tempRandomI])
 			{
-				canExsist_[tempRandomJ][tempRandomI] = false;
+				canExist_[tempRandomJ][tempRandomI] = false;
 				break;
+			}
+		}
+	}
+}
+
+/// <summary>
+/// 一点が三角形の中にあるか確認する
+/// </summary>
+/// <param name="trianglePos0"></param>
+/// <param name="trianglePos1"></param>
+/// <param name="trianglePos2"></param>
+/// <param name="pixelPos"></param>
+/// <returns></returns>
+bool Stage::hitTriangleAndPixel(VECTOR trianglePos0, VECTOR trianglePos1, VECTOR trianglePos2, VECTOR pixelPos)
+{
+	return true;
+}
+
+/// <summary>
+/// プレイヤーと当たり判定
+/// </summary>
+/// <param name="player"></param>
+/// <returns></returns>
+void Stage::collisionWithPlayer(shared_ptr<Player> player)
+{
+	for (int i = 0; i < tile_number; i++)
+	{
+		for (int j = 0; j < tile_number; j++)
+		{
+			if (canExist_[j][i])
+			{
+				if (hitTriangleAndPixel(VGet(position_[j][i].x - shifting_numberX * scale, 0.0f,position_[j][i].z),
+					VGet(position_[j][i].x + shifting_numberX * scale, 0.0f, position_[j][i].z),
+					VGet(position_[j][i].x, 0.0f, position_[j][i].z + shifting_numberZ * scale), player->Getposition_()) ||
+					hitTriangleAndPixel(VGet(position_[j][i].x, 0.0f, position_[j][i].z),
+						VGet(position_[j][i].x, 0.0f, position_[j][i].z),
+						VGet(position_[j][i].x, 0.0f, position_[j][i].z), player->Getposition_()) ||
+					hitTriangleAndPixel(VGet(position_[j][i].x, 0.0f, position_[j][i].z),
+						VGet(position_[j][i].x, 0.0f, position_[j][i].z),
+						VGet(position_[j][i].x, 0.0f, position_[j][i].z), player->Getposition_()) ||
+					hitTriangleAndPixel(VGet(position_[j][i].x, 0.0f, position_[j][i].z),
+						VGet(position_[j][i].x, 0.0f, position_[j][i].z),
+						VGet(position_[j][i].x, 0.0f, position_[j][i].z - shifting_numberZ * scale), player->Getposition_()))
+				{
+					//存在するタイル上にいるなら何もしない
+				}
+				else
+				{
+					player->fall();
+				}
+				DrawTriangle3D(VGet(position_[j][i].x - shifting_numberX, 0.0f, position_[j][i].z + triangle_pointZ),
+					VGet(position_[j][i].x + shifting_numberX, 0.0f, position_[j][i].z + triangle_pointZ),
+					VGet(position_[j][i].x, 0.0f, position_[j][i].z + shifting_numberZ), GetColor(255, 255, 255), TRUE);
+				DrawTriangle3D(VGet(position_[j][i].x - shifting_numberX, 0.0f, position_[j][i].z + triangle_pointZ),
+					VGet(position_[j][i].x + shifting_numberX, 0.0f, position_[j][i].z + triangle_pointZ),
+					VGet(position_[j][i].x + shifting_numberX, 0.0f, position_[j][i].z - triangle_pointZ), GetColor(255, 255, 255), TRUE);
+				DrawTriangle3D(VGet(position_[j][i].x - shifting_numberX, 0.0f, position_[j][i].z + triangle_pointZ),
+						VGet(position_[j][i].x - shifting_numberX, 0.0f, position_[j][i].z - triangle_pointZ),
+						VGet(position_[j][i].x + shifting_numberX, 0.0f, position_[j][i].z - triangle_pointZ), GetColor(255, 255, 255), TRUE);
+				DrawTriangle3D(VGet(position_[j][i].x - shifting_numberX, 0.0f, position_[j][i].z - triangle_pointZ),
+					VGet(position_[j][i].x + shifting_numberX, 0.0f, position_[j][i].z - triangle_pointZ),
+					VGet(position_[j][i].x, 0.0f, position_[j][i].z - shifting_numberZ), GetColor(255, 255, 255), TRUE);
 			}
 		}
 	}
