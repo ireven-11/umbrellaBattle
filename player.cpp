@@ -93,3 +93,11 @@ void Player::wind()
 {
 
 }
+
+/// <summary>
+/// —Ž‰º
+/// </summary>
+void Player::fall()
+{
+	--position_.y;
+}
