@@ -8,6 +8,9 @@ public:
 
 	void update();
 	void reset();
+	void fall();
+
+	VECTOR Getposition_()const { return  position_; }
 
 private:
 	void draw()const;
