@@ -7,8 +7,8 @@ constexpr int	all_tile_number		= tile_number * tile_number;
 constexpr float init_posX			= -20.0f;
 constexpr float init_posZ			= 0.0f;
 constexpr float scale				= 0.05;
-constexpr float shifting_numberX	= 200.0f * scale * 0.9f;
-constexpr float shifting_numberZ	= shifting_numberX * 0.80f;
+constexpr float shifting_numberX	= 200.0f * scale;
+constexpr float shifting_numberZ	= shifting_numberX * 0.85f;
 constexpr float triangle_pointZ		= shifting_numberX * 0.45f;
 constexpr int	vanishing_timing	= 200;
 
