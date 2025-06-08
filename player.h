@@ -26,4 +26,7 @@ private:
 	bool	isOpening_;			//傘開いてるかフラグ
 	int		hp_;				//hp
 	bool	isPrevButton_;		//前フレームにボタンを押したかフラグ
+
+	const float fall_speed	= 0.01f;
+	const float scale		= 0.1f;
 };
