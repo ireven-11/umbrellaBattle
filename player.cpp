@@ -6,8 +6,8 @@ Player::Player()
 	//3dÉÇÉfÉãì«Ç›çûÇ›
 	openingUmbrella_ = MV1LoadModel("3dmodel/umbrella/umblleraopen.mv1");
 	closingUmbrella_ = MV1LoadModel("3dmodel/umbrella/umblleraclose.mv1");
-	MV1SetScale(openingUmbrella_, VGet(0.1f, 0.1f, 0.1f));
-	MV1SetScale(closingUmbrella_, VGet(0.1f, 0.1f, 0.1f));
+	MV1SetScale(openingUmbrella_, VGet(scale, scale, scale));
+	MV1SetScale(closingUmbrella_, VGet(scale, scale, scale));
 
 	//êîílèâä˙âª
 	reset();
@@ -44,6 +44,7 @@ void Player::update()
 	MV1SetPosition(openingUmbrella_, position_);
 	MV1SetPosition(closingUmbrella_, position_);
 	draw();
+	move();
 }
 
 void Player::draw()const
@@ -63,13 +64,28 @@ void Player::draw()const
 
 void Player::reset()
 {
-	position_	= VGet(0.0f, 0.0f, 0.0f);
+	position_	= VGet(0.0f, 0.0f, 30.0f);
 	isOpening_	= true;
 }
 
 void Player::move()
 {
-
+	if (CheckHitKey(KEY_INPUT_UP) == true)
+	{
+		position_.z += 0.1f;
+	}
+	if (CheckHitKey(KEY_INPUT_DOWN) == true)
+	{
+		position_.z -= 0.1f;
+	}
+	if (CheckHitKey(KEY_INPUT_RIGHT) == true)
+	{
+		position_.x += 0.1f;
+	}
+	if (CheckHitKey(KEY_INPUT_LEFT) == true)
+	{
+		position_.x -= 0.1f;
+	}
 }
 
 void Player::action()
@@ -99,5 +115,5 @@ void Player::wind()
 /// </summary>
 void Player::fall()
 {
-	--position_.y;
+	position_.y -= fall_speed;
 }
