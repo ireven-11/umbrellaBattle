@@ -10,7 +10,7 @@ constexpr float init_posZ			= -10.0f;
 constexpr float scale				= 0.05;
 constexpr float shifting_numberX	= 185.0f * scale;
 constexpr float shifting_numberZ	= shifting_numberX * 0.85f;
-constexpr float triangle_pointZ		= shifting_numberX * 0.40f;
+constexpr float triangle_pointZ		= shifting_numberX * 0.45f;
 constexpr int	vanishing_timing	= 200;
 
 class Player;

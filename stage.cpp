@@ -9,7 +9,7 @@
 Stage::Stage()
 {
 	skydomeHandle_ = MV1LoadModel("3dmodel/Skydome/スカイドーム_雨空PP3/Skydome_PP3/Dome_PP301.pmx");
-	MV1SetScale(skydomeHandle_, VGet(scale / 1.5f, scale / 1.5f, scale));
+	MV1SetScale(skydomeHandle_, VGet(scale, scale, scale));
 	for (int i = 0; i < tile_number; i++)
 	{
 		for (int j = 0; j < tile_number; j++)
@@ -285,17 +285,17 @@ void Stage::collisionWithPlayer(vector<shared_ptr<Player>>player)
 					}
 				}
 				//プレイヤーが一度落下すると落ちる
-				else if (p->Getposition_().y < 0.0f)
+				else if (p->Getposition_().y < player_init_positionY)
 				{
 					p->fall();
 				}
 			}
 
-			//if (canExist_[j][i])
-			//{
-			//	//デバッグ用六角形描画
-			//	DrawHexagon3D(position_[j][i], shifting_numberX, shifting_numberZ, triangle_pointZ, GetColor(255, 255, 255), false);
-			//}
+			if (canExist_[j][i])
+			{
+				//デバッグ用六角形描画
+				DrawHexagon3D(position_[j][i], shifting_numberX, shifting_numberZ, triangle_pointZ, GetColor(255, 255, 255), false);
+			}
 		}
 	}
 }

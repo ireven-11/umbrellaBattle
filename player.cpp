@@ -64,7 +64,7 @@ void Player::draw()const
 
 void Player::reset()
 {
-	position_	= VGet(0.0f, 0.0f, 0.0f);
+	position_	= VGet(player_init_positionX, player_init_positionY, player_init_positionZ);
 	isOpening_	= true;
 }
 
