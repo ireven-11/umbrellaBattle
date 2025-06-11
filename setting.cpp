@@ -21,7 +21,7 @@ void ScreenSetting()
 //fpsİ’è
 void SetFPS()
 {
-    const int wait = 16;
+    const int wait = 20;
     int term;
     static int t = 0;
     term = GetNowCount() - t;
