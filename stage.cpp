@@ -8,6 +8,8 @@
 /// </summary>
 Stage::Stage()
 {
+	skydomeHandle_ = MV1LoadModel("3dmodel/Skydome_k9/OuterDome_K901.pmx");
+	MV1SetScale(skydomeHandle_, VGet(scale / 1.5f, scale / 1.5f, scale));
 	for (int i = 0; i < tile_number; i++)
 	{
 		for (int j = 0; j < tile_number; j++)
@@ -48,6 +50,7 @@ Stage::Stage()
 /// </summary>
 Stage::~Stage()
 {
+	MV1DeleteModel(skydomeHandle_);
 	for (int i = 0; i < tile_number; i++)
 	{
 		for (int j = 0; j < tile_number; j++)
@@ -62,6 +65,7 @@ Stage::~Stage()
 /// </summary>
 void Stage::update(shared_ptr<Player> player)
 {
+	MV1SetPosition(skydomeHandle_, VGet(0, 0, 0));
 	for (int i = 0; i < tile_number; i++)
 	{
 		for (int j = 0; j < tile_number; j++)
@@ -79,6 +83,7 @@ void Stage::update(shared_ptr<Player> player)
 /// </summary>
 void Stage::draw()
 {
+	MV1DrawModel(skydomeHandle_);
 	for (int i = 0; i < tile_number; i++)
 	{
 		for (int j = 0; j < tile_number; j++)
@@ -125,7 +130,7 @@ void Stage::vanishTile()
 {
 	if (vanishingCount_ <= vanishing_timing * (all_tile_number - 1))
 	{
-		//++vanishingCount_;
+		++vanishingCount_;
 	}
 	//一定カウントごとにランダな場所のタイルをけしていく
 	if (vanishingCount_ % vanishing_timing == 0 && vanishingCount_ != 0)
@@ -281,7 +286,6 @@ void Stage::collisionWithPlayer(shared_ptr<Player> player)
 			{
 				player->fall();
 			}
-
 
 			if (canExist_[j][i])
 			{
