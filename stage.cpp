@@ -8,7 +8,7 @@
 /// </summary>
 Stage::Stage()
 {
-	skydomeHandle_ = MV1LoadModel("3dmodel/Skydome_k9/OuterDome_K901.pmx");
+	skydomeHandle_ = MV1LoadModel("3dmodel/Skydome/スカイドーム_雨空PP3/Skydome_PP3/Dome_PP301.pmx");
 	MV1SetScale(skydomeHandle_, VGet(scale / 1.5f, scale / 1.5f, scale));
 	for (int i = 0; i < tile_number; i++)
 	{
@@ -63,7 +63,7 @@ Stage::~Stage()
 /// <summary>
 /// 更新
 /// </summary>
-void Stage::update(shared_ptr<Player> player)
+void Stage::update(vector<shared_ptr<Player>>player)
 {
 	MV1SetPosition(skydomeHandle_, VGet(0, 0, 0));
 	for (int i = 0; i < tile_number; i++)
@@ -255,43 +255,47 @@ void DrawHexagon3D(VECTOR standardPosition, float sideX, float sideZ, float side
 /// </summary>
 /// <param name="player"></param>
 /// <returns></returns>
-void Stage::collisionWithPlayer(shared_ptr<Player> player)
+void Stage::collisionWithPlayer(vector<shared_ptr<Player>>player)
 {
 	for (int i = 0; i < tile_number; i++)
 	{
 		for (int j = 0; j < tile_number; j++)
 		{
-			//たまにすりぬける。修正必須
-			if (hitTriangleAndPixel(VGet(position_[j][i].x - shifting_numberX / 2, position_[j][i].y, position_[j][i].z + triangle_pointZ / 1.5f),
-				VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f),
-				VGet(position_[j][i].x, 0.0f, position_[j][i].z + shifting_numberZ / 1.5f), player->Getposition_()) ||
-				hitTriangleAndPixel(VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f),
-					VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f),
-					VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z - triangle_pointZ / 1.5f), player->Getposition_()) ||
-				hitTriangleAndPixel(VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f),
-					VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z - triangle_pointZ / 1.5f),
-					VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z - triangle_pointZ / 1.5f), player->Getposition_()) ||
-				hitTriangleAndPixel(VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z - triangle_pointZ / 1.5f),
-					VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z - triangle_pointZ / 1.5f),
-					VGet(position_[j][i].x, 0.0f, position_[j][i].z - shifting_numberZ / 1.5f), player->Getposition_()))
+			//プレイヤーをvector（動的配列)にしてるので3重ループになるけどしゃあない
+			for (const auto& p:player)
 			{
-				//タイルがなかったら落ちる
-				if (!canExist_[j][i])
+				//たまにすりぬける。修正必須
+				if (hitTriangleAndPixel(VGet(position_[j][i].x - shifting_numberX / 2, position_[j][i].y, position_[j][i].z + triangle_pointZ / 1.5f),
+					VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f),
+					VGet(position_[j][i].x, 0.0f, position_[j][i].z + shifting_numberZ / 1.5f), p->Getposition_()) ||
+					hitTriangleAndPixel(VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f),
+						VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f),
+						VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z - triangle_pointZ / 1.5f), p->Getposition_()) ||
+					hitTriangleAndPixel(VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f),
+						VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z - triangle_pointZ / 1.5f),
+						VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z - triangle_pointZ / 1.5f), p->Getposition_()) ||
+					hitTriangleAndPixel(VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z - triangle_pointZ / 1.5f),
+						VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z - triangle_pointZ / 1.5f),
+						VGet(position_[j][i].x, 0.0f, position_[j][i].z - shifting_numberZ / 1.5f), p->Getposition_()))
 				{
-					player->fall();
+					//タイルがなかったら落ちる
+					if (!canExist_[j][i])
+					{
+						p->fall();
+					}
+				}
+				//プレイヤーが一度落下すると落ちる
+				else if (p->Getposition_().y < 0.0f)
+				{
+					p->fall();
 				}
 			}
-			//プレイヤーが一度落下すると落ちる
-			else if (player->Getposition_().y < 0.0f)
-			{
-				player->fall();
-			}
 
-			if (canExist_[j][i])
-			{
-				//デバッグ用六角形描画
-				DrawHexagon3D(position_[j][i], shifting_numberX, shifting_numberZ, triangle_pointZ, GetColor(255, 255, 255), false);
-			}
+			//if (canExist_[j][i])
+			//{
+			//	//デバッグ用六角形描画
+			//	DrawHexagon3D(position_[j][i], shifting_numberX, shifting_numberZ, triangle_pointZ, GetColor(255, 255, 255), false);
+			//}
 		}
 	}
 }
