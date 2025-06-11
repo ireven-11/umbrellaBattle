@@ -28,5 +28,6 @@ private:
 	bool	isPrevButton_;		//前フレームにボタンを押したかフラグ
 
 	const float fall_speed	= 0.01f;
-	const float scale		= 0.1f;
+	const float scale		= 0.2f;
+	const float move_speed	= 0.2f;
 };

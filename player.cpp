@@ -72,19 +72,19 @@ void Player::move()
 {
 	if (CheckHitKey(KEY_INPUT_UP) == true)
 	{
-		position_.z += 0.1f;
+		position_.z += move_speed;
 	}
 	if (CheckHitKey(KEY_INPUT_DOWN) == true)
 	{
-		position_.z -= 0.1f;
+		position_.z -= move_speed;
 	}
 	if (CheckHitKey(KEY_INPUT_RIGHT) == true)
 	{
-		position_.x += 0.1f;
+		position_.x += move_speed;
 	}
 	if (CheckHitKey(KEY_INPUT_LEFT) == true)
 	{
-		position_.x -= 0.1f;
+		position_.x -= move_speed;
 	}
 }
 
