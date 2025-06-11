@@ -50,7 +50,7 @@ void Player::update()
 void Player::draw()const
 {
 	//デバッグ用
-	DrawFormatString(1000, 100, GetColor(255, 255, 255), "px:%f,py:%f,pz:%f", position_.x, position_.y, position_.z);
+	//DrawFormatString(1000, 100, GetColor(255, 255, 255), "px:%f,py:%f,pz:%f", position_.x, position_.y, position_.z);
 
 	if (isOpening_)
 	{
@@ -64,7 +64,7 @@ void Player::draw()const
 
 void Player::reset()
 {
-	position_	= VGet(0.0f, 0.0f, 30.0f);
+	position_	= VGet(0.0f, 0.0f, 0.0f);
 	isOpening_	= true;
 }
 
