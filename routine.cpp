@@ -11,6 +11,7 @@
 /// </summary>
 Routine::Routine()
 {
+    player.emplace_back(make_shared<Player>());
 }
 
 /// <summary>
@@ -79,7 +80,7 @@ void Routine::title(/*shared_ptr<SceneManager> sceneManager*/)
 
 void Routine::stanby(/*shared_ptr<SceneManager> sceneManager*/)
 {
-    player.emplace_back(make_shared<Player>());
+    
 }
 
 void Routine::play(/*shared_ptr<Player>player, shared_ptr<SceneManager> sceneManager*/)
