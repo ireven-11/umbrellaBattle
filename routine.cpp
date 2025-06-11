@@ -25,25 +25,19 @@ Routine::~Routine()
 /// </summary>
 void Routine::game()
 {
-    //インスタンス化
-    shared_ptr<SceneManager>sceneManager = make_shared<SceneManager>();
-    shared_ptr<Camera>camera = make_shared<Camera>();
-    shared_ptr<Player>player = make_shared<Player>();
-    shared_ptr<Stage>stage = make_shared<Stage>();
-
     //ゲームループ呼び出し
-    gameRoop(sceneManager,player,camera,stage);
+    gameRoop(/*sceneManager,player,camera,stage*/);
 
     //デリート
     sceneManager    = nullptr;
     camera          = nullptr;
-    player          = nullptr;
+    player.clear();
 }
 
 /// <summary>
 /// ゲームループ
 /// </summary>
-void Routine::gameRoop(shared_ptr<SceneManager> sceneManager, shared_ptr<Player>player, shared_ptr<Camera>camera, shared_ptr<Stage> stage)
+void Routine::gameRoop(/*shared_ptr<SceneManager> sceneManager, shared_ptr<Player>player, shared_ptr<Camera>camera, shared_ptr<Stage> stage*/)
 {
     while (gameRoopSetting)
     {
@@ -53,20 +47,20 @@ void Routine::gameRoop(shared_ptr<SceneManager> sceneManager, shared_ptr<Player>
         switch (sceneManager->GetsceneType_())
         {
         case TITLE:
-            title(sceneManager);
+            title(/*sceneManager*/);
             break;
 
         case STANDBY:
-            stanby(sceneManager);
+            stanby(/*sceneManager*/);
             break;
 
         case PLAY:
-            play(player, sceneManager);
+            play(/*player, sceneManager*/);
             stage->update(player);
             break;
 
         case RESULT:
-            result(sceneManager);
+            result(/*sceneManager*/);
             break;
 
         }
@@ -78,22 +72,25 @@ void Routine::gameRoop(shared_ptr<SceneManager> sceneManager, shared_ptr<Player>
     }
 }
 
-void Routine::title(shared_ptr<SceneManager> sceneManager)
+void Routine::title(/*shared_ptr<SceneManager> sceneManager*/)
 {
 
 }
 
-void Routine::stanby(shared_ptr<SceneManager> sceneManager)
+void Routine::stanby(/*shared_ptr<SceneManager> sceneManager*/)
 {
-
+    player.emplace_back(make_shared<Player>());
 }
 
-void Routine::play(shared_ptr<Player>player, shared_ptr<SceneManager> sceneManager)
+void Routine::play(/*shared_ptr<Player>player, shared_ptr<SceneManager> sceneManager*/)
 {
-    player->update();
+    for (const auto& i:player)
+    {
+        i->update();
+    }
 }
 
-void Routine::result(shared_ptr<SceneManager> sceneManager)
+void Routine::result(/*shared_ptr<SceneManager> sceneManager*/)
 {
 
 }
