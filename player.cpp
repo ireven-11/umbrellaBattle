@@ -40,6 +40,11 @@ void Player::update()
 		MV1SetRotationXYZ(closingUmbrella_, VGet(-90.0f * DX_PI_F / 180.0f, 0.0f, 0.0f));
 		MV1SetRotationXYZ(openingUmbrella_, VGet(-90.0f * DX_PI_F / 180.0f, 0.0f, 0.0f));
 	}
+	//でばっぐリセット
+	if (CheckHitKey(KEY_INPUT_D) == true)
+	{
+		position_.y = player_init_positionY;
+	}
 
 	MV1SetPosition(openingUmbrella_, position_);
 	MV1SetPosition(closingUmbrella_, position_);
@@ -50,7 +55,7 @@ void Player::update()
 void Player::draw()const
 {
 	//デバッグ用
-	//DrawFormatString(1000, 100, GetColor(255, 255, 255), "px:%f,py:%f,pz:%f", position_.x, position_.y, position_.z);
+	DrawFormatString(0, 300, GetColor(255, 0, 0), "px:%f,py:%f,pz:%f", position_.x, position_.y, position_.z);
 
 	if (isOpening_)
 	{
