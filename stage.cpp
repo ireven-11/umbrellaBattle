@@ -65,14 +65,14 @@ Stage::~Stage()
 /// </summary>
 void Stage::update(vector<shared_ptr<Player>>player)
 {
-	MV1SetPosition(skydomeHandle_, VGet(0, 0, 0));
+	/*MV1SetPosition(skydomeHandle_, VGet(0, 0, 0));
 	for (int i = 0; i < tile_number; i++)
 	{
 		for (int j = 0; j < tile_number; j++)
 		{
 			MV1SetPosition(modelHandle_[j][i], position_[j][i]);
 		}
-	}
+	}*/
 	draw();
 	vanishTile();
 	collisionWithPlayer(player);
@@ -83,22 +83,27 @@ void Stage::update(vector<shared_ptr<Player>>player)
 /// </summary>
 void Stage::draw()
 {
-	MV1DrawModel(skydomeHandle_);
-	for (int i = 0; i < tile_number; i++)
-	{
-		for (int j = 0; j < tile_number; j++)
-		{
-			if (canExist_[j][i])
-			{
-				MV1DrawModel(modelHandle_[j][i]);
-				//デバッグ用
-				//DrawFormatString(100 * i, 40 * j, GetColor(255, 255, 255), "x:%f,y:%f,z:%f", position_[j][i].x, position_[j][i].y, position_[j][i].z);
-			}
-		}
-	}
+	//MV1DrawModel(skydomeHandle_);
+	//for (int i = 0; i < tile_number; i++)
+	//{
+	//	for (int j = 0; j < tile_number; j++)
+	//	{
+	//		if (canExist_[j][i])
+	//		{
+	//			MV1DrawModel(modelHandle_[j][i]);
+	//			//デバッグ用
+	//			//DrawFormatString(100 * i, 40 * j, GetColor(255, 255, 255), "x:%f,y:%f,z:%f", position_[j][i].x, position_[j][i].y, position_[j][i].z);
+	//		}
+	//	}
+	//}
 
 	//デバッグ用
-	DrawFormatString(100, 100, GetColor(255, 255, 255), "ステージカウント：%d", vanishingCount_);
+	MV1SetPosition(modelHandle_[1][1], position_[1][1]);
+	MV1DrawModel(modelHandle_[1][1]);
+
+
+	//デバッグ用
+	//DrawFormatString(100, 100, GetColor(255, 255, 255), "ステージカウント：%d", vanishingCount_);
 }
 
 /// <summary>
@@ -130,7 +135,7 @@ void Stage::vanishTile()
 {
 	if (vanishingCount_ <= vanishing_timing * (all_tile_number - 1))
 	{
-		++vanishingCount_;
+		//++vanishingCount_;
 	}
 	//一定カウントごとにランダな場所のタイルをけしていく
 	if (vanishingCount_ % vanishing_timing == 0 && vanishingCount_ != 0)
@@ -236,7 +241,7 @@ bool Stage::hitTriangleAndPixel(VECTOR trianglePos0, VECTOR trianglePos1, VECTOR
 /// <param name="fill"></param>
 void DrawHexagon3D(VECTOR standardPosition, float sideX, float sideZ, float sideZ2, int color, bool fill)
 {
-	DrawTriangle3D(VGet(standardPosition.x - sideX / 2, standardPosition.y, standardPosition.z + sideZ2 / 1.5f),
+	DrawTriangle3D(VGet(standardPosition.x - sideX / 2, 0.0f, standardPosition.z + sideZ2 / 1.5f),
 		VGet(standardPosition.x + sideX / 2, 0.0f, standardPosition.z + sideZ2 / 1.5f),
 		VGet(standardPosition.x, 0.0f, standardPosition.z + sideZ / 1.5f), color, fill);
 	DrawTriangle3D(VGet(standardPosition.x - sideX / 2, 0.0f, standardPosition.z + sideZ2 / 1.5f),
@@ -265,7 +270,7 @@ void Stage::collisionWithPlayer(vector<shared_ptr<Player>>player)
 			for (const auto& p:player)
 			{
 				//たまにすりぬける。修正必須
-				if (hitTriangleAndPixel(VGet(position_[j][i].x - shifting_numberX / 2, position_[j][i].y, position_[j][i].z + triangle_pointZ / 1.5f),
+				if (hitTriangleAndPixel(VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f),
 					VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f),
 					VGet(position_[j][i].x, 0.0f, position_[j][i].z + shifting_numberZ / 1.5f), p->Getposition_()) ||
 					hitTriangleAndPixel(VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f),
@@ -290,6 +295,9 @@ void Stage::collisionWithPlayer(vector<shared_ptr<Player>>player)
 					p->fall();
 				}
 			}
+
+			//デバッグ用
+			DrawFormatString(i * 270, j * 20, GetColor(255, 255, 255), "%d&%d x:%f,z:%f", j, i, position_[j][i].x, position_[j][i].z);
 
 			if (canExist_[j][i])
 			{
