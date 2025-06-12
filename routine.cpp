@@ -57,7 +57,6 @@ void Routine::gameRoop(/*shared_ptr<SceneManager> sceneManager, shared_ptr<Playe
 
         case PLAY:
             play(/*player, sceneManager*/);
-            stage->update(player);
             break;
 
         case RESULT:
@@ -85,6 +84,8 @@ void Routine::stanby(/*shared_ptr<SceneManager> sceneManager*/)
 
 void Routine::play(/*shared_ptr<Player>player, shared_ptr<SceneManager> sceneManager*/)
 {
+    stage->update(player);
+
     for (const auto& i:player)
     {
         i->update();

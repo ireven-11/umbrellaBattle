@@ -24,9 +24,9 @@ private:
 	vector<shared_ptr<Player>>player;
 	shared_ptr<Stage>stage = make_shared<Stage>();
 
-	void gameRoop(/*shared_ptr<SceneManager> sceneManager, shared_ptr<Player>player, shared_ptr<Camera>camera, shared_ptr<Stage> stage*/);
-	void title(/*shared_ptr<SceneManager> sceneManager*/);
-	void play(/*shared_ptr<Player>player, shared_ptr<SceneManager> sceneManager*/);
-	void result(/*shared_ptr<SceneManager> sceneManager*/);
-	void stanby(/*shared_ptr<SceneManager> sceneManager*/);
+	void gameRoop();
+	void title();
+	void play();
+	void result();
+	void stanby();
 };
