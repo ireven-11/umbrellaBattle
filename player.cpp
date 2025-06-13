@@ -32,13 +32,13 @@ void Player::update()
 	}
 	if (CheckHitKey(KEY_INPUT_3))
 	{
-		MV1SetRotationXYZ(closingUmbrella_, VGet(90.0f * DX_PI_F / 180.0f, 0.0f, 0.0f));
-		MV1SetRotationXYZ(openingUmbrella_, VGet(90.0f * DX_PI_F / 180.0f, 0.0f, 0.0f));
+		MV1SetRotationXYZ(closingUmbrella_, VGet(40.0f * DX_PI_F / 180.0f, 0.0f, 0.0f));
+		MV1SetRotationXYZ(openingUmbrella_, VGet(40.0f * DX_PI_F / 180.0f, 0.0f, 0.0f));
 	}
 	if (CheckHitKey(KEY_INPUT_4))
 	{
-		MV1SetRotationXYZ(closingUmbrella_, VGet(-90.0f * DX_PI_F / 180.0f, 0.0f, 0.0f));
-		MV1SetRotationXYZ(openingUmbrella_, VGet(-90.0f * DX_PI_F / 180.0f, 0.0f, 0.0f));
+		MV1SetRotationXYZ(closingUmbrella_, VGet(-40.0f * DX_PI_F / 180.0f, 0.0f, 0.0f));
+		MV1SetRotationXYZ(openingUmbrella_, VGet(-40.0f * DX_PI_F / 180.0f, 0.0f, 0.0f));
 	}
 	//でばっぐリセット
 	if (CheckHitKey(KEY_INPUT_D) == true)
@@ -55,7 +55,7 @@ void Player::update()
 void Player::draw()const
 {
 	//デバッグ用
-	DrawFormatString(0, 300, GetColor(255, 0, 0), "px:%f,py:%f,pz:%f", position_.x, position_.y, position_.z);
+	//DrawFormatString(0, 300, GetColor(255, 0, 0), "px:%f,py:%f,pz:%f", position_.x, position_.y, position_.z);
 
 	if (isOpening_)
 	{
