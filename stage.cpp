@@ -105,7 +105,7 @@ void Stage::draw()
 	//MV1DrawModel(modelHandle_[1][1]);
 
 	//デバッグ用
-	//DrawFormatString(100, 100, GetColor(255, 255, 255), "ステージカウント：%d", vanishingCount_);
+	DrawFormatString(100, 100, GetColor(255, 255, 255), "ステージカウント：%d", vanishingCount_);
 }
 
 /// <summary>
@@ -135,9 +135,9 @@ void Stage::reset()
 /// </summary>
 void Stage::vanishTile()
 {
-	if (vanishingCount_ <= vanishing_timing * (all_tile_number - 1))
+	if (vanishingCount_ <= vanishing_timing * (tile_number - 2) * (tile_number - 2) - vanishing_timing)
 	{
-		//++vanishingCount_;
+		++vanishingCount_;
 	}
 	//一定カウントごとにランダな場所のタイルをけしていく
 	if (vanishingCount_ % vanishing_timing == 0 && vanishingCount_ != 0)
@@ -271,7 +271,6 @@ void Stage::collisionWithPlayer(vector<shared_ptr<Player>>player)
 			//プレイヤーをvector（動的配列)にしてるので3重ループになるけどしゃあない
 			for (const auto& p:player)
 			{
-				//たまにすりぬける。修正必須
 				if (hitTriangleAndPixel(VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f),
 					VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f),
 					VGet(position_[j][i].x, 0.0f, position_[j][i].z + shifting_numberZ / 1.5f), p->Getposition_()) ||
@@ -299,7 +298,7 @@ void Stage::collisionWithPlayer(vector<shared_ptr<Player>>player)
 			}
 
 			//デバッグ用
-			DrawFormatString(i * 270, j * 20, GetColor(255, 255, 255), "%d&%d x:%f,z:%f", j, i, position_[j][i].x, position_[j][i].z);
+			//DrawFormatString(i * 270, j * 20, GetColor(255, 255, 255), "%d&%d x:%f,z:%f", j, i, position_[j][i].x, position_[j][i].z);
 
 			if (canExist_[j][i])
 			{
