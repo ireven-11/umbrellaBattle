@@ -8,8 +8,10 @@
 /// </summary>
 Stage::Stage()
 {
+	//ステージ背景をセット
 	skydomeHandle_ = MV1LoadModel("3dmodel/Skydome/スカイドーム_雨空PP3/Skydome_PP3/Dome_PP301.pmx");
 	MV1SetScale(skydomeHandle_, VGet(scale, scale, scale));
+
 	for (int i = 0; i < tile_number; i++)
 	{
 		for (int j = 0; j < tile_number; j++)
@@ -65,14 +67,14 @@ Stage::~Stage()
 /// </summary>
 void Stage::update(vector<shared_ptr<Player>>player)
 {
-	/*MV1SetPosition(skydomeHandle_, VGet(0, 0, 0));
+	MV1SetPosition(skydomeHandle_, VGet(0, 0, 0));
 	for (int i = 0; i < tile_number; i++)
 	{
 		for (int j = 0; j < tile_number; j++)
 		{
 			MV1SetPosition(modelHandle_[j][i], position_[j][i]);
 		}
-	}*/
+	}
 	draw();
 	vanishTile();
 	collisionWithPlayer(player);
@@ -83,24 +85,24 @@ void Stage::update(vector<shared_ptr<Player>>player)
 /// </summary>
 void Stage::draw()
 {
-	//MV1DrawModel(skydomeHandle_);
-	//for (int i = 0; i < tile_number; i++)
-	//{
-	//	for (int j = 0; j < tile_number; j++)
-	//	{
-	//		if (canExist_[j][i])
-	//		{
-	//			MV1DrawModel(modelHandle_[j][i]);
-	//			//デバッグ用
-	//			//DrawFormatString(100 * i, 40 * j, GetColor(255, 255, 255), "x:%f,y:%f,z:%f", position_[j][i].x, position_[j][i].y, position_[j][i].z);
-	//		}
-	//	}
-	//}
+	MV1DrawModel(skydomeHandle_);
+	for (int i = 0; i < tile_number; i++)
+	{
+		for (int j = 0; j < tile_number; j++)
+		{
+			if (canExist_[j][i])
+			{
+				MV1DrawModel(modelHandle_[j][i]);
+				//デバッグ用
+				//DrawFormatString(100 * i, 40 * j, GetColor(255, 255, 255), "x:%f,y:%f,z:%f", position_[j][i].x, position_[j][i].y, position_[j][i].z);
+			}
+		}
+	}
 
-	//デバッグ用
-	MV1SetPosition(modelHandle_[1][1], position_[1][1]);
-	MV1DrawModel(modelHandle_[1][1]);
-
+	////デバッグ用
+	//position_[1][1] = VGet(0, 0, 0);
+	//MV1SetPosition(modelHandle_[1][1], position_[1][1]);
+	//MV1DrawModel(modelHandle_[1][1]);
 
 	//デバッグ用
 	//DrawFormatString(100, 100, GetColor(255, 255, 255), "ステージカウント：%d", vanishingCount_);
@@ -284,7 +286,7 @@ void Stage::collisionWithPlayer(vector<shared_ptr<Player>>player)
 						VGet(position_[j][i].x, 0.0f, position_[j][i].z - shifting_numberZ / 1.5f), p->Getposition_()))
 				{
 					//タイルがなかったら落ちる
-					if (!canExist_[j][i])
+					if (!canExist_[j][i] || i == 0 || i == tile_number - 1 || j == 0 || j == tile_number - 1)
 					{
 						p->fall();
 					}
