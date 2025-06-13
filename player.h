@@ -1,7 +1,7 @@
 #pragma once
 
 const float player_init_positionX = 0.0f;
-const float player_init_positionY = 5.0f;
+const float player_init_positionY = 0.0f;
 const float player_init_positionZ = 0.0f;
 
 class Player
