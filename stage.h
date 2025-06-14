@@ -12,6 +12,7 @@ constexpr float shifting_numberX	= 185.0f * scale;
 constexpr float shifting_numberZ	= shifting_numberX * 0.85f;
 constexpr float triangle_pointZ		= shifting_numberX * 0.45f;
 constexpr int	vanishing_timing	= 200;
+constexpr int	change_color_timing = 50;
 
 class Player;
 
@@ -28,7 +29,7 @@ public:
 
 private:
 	void vanishTile();
-	bool hitTriangleAndPixel(VECTOR trianglePos0, VECTOR trianglePos1, VECTOR trianglePos2, VECTOR pixelPos);
+	void addvanishingCount();
 
 	int		modelHandle_[tile_number][tile_number];	//モデルハンドル
 	VECTOR	position_[tile_number][tile_number];	//座標
@@ -36,3 +37,6 @@ private:
 	int		vanishingCount_;						//消えるカウント
 	int		skydomeHandle_;							//スカイドームハンドル
 };
+
+bool HitTriangleAndPixel(VECTOR trianglePos0, VECTOR trianglePos1, VECTOR trianglePos2, VECTOR pixelPos);
+void DrawHexagon3D(VECTOR standardPosition, float sideX, float sideZ, float sideZ2, int color, bool fill);

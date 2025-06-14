@@ -33,7 +33,7 @@ Stage::Stage()
 			else if (i == 1 && j == 1)
 			{
 				//同じ3dモデルを使いまわせるようにする
-				modelHandle_[j][i] = MV1LoadModel("3dmodel/stage/hex_grass.mv1");
+				modelHandle_[j][i]	= MV1LoadModel("3dmodel/stage/hex_grass.mv1");
 				MV1SetScale(modelHandle_[j][i], VGet(scale, scale, scale));
 			}
 			else
@@ -76,6 +76,7 @@ void Stage::update(vector<shared_ptr<Player>>player)
 		}
 	}
 	draw();
+	addvanishingCount();
 	vanishTile();
 	collisionWithPlayer(player);
 }
@@ -135,10 +136,6 @@ void Stage::reset()
 /// </summary>
 void Stage::vanishTile()
 {
-	if (vanishingCount_ <= vanishing_timing * (tile_number - 2) * (tile_number - 2) - vanishing_timing)
-	{
-		++vanishingCount_;
-	}
 	//一定カウントごとにランダな場所のタイルをけしていく
 	if (vanishingCount_ % vanishing_timing == 0 && vanishingCount_ != 0)
 	{
@@ -164,7 +161,7 @@ void Stage::vanishTile()
 /// <param name="trianglePos2"></param>
 /// <param name="pixelPos"></param>
 /// <returns></returns>
-bool Stage::hitTriangleAndPixel(VECTOR trianglePos0, VECTOR trianglePos1, VECTOR trianglePos2, VECTOR pixelPos)
+bool HitTriangleAndPixel(VECTOR trianglePos0, VECTOR trianglePos1, VECTOR trianglePos2, VECTOR pixelPos)
 {
 	VECTOR vec0;
 	vec0.x = trianglePos1.x - trianglePos0.x;
@@ -271,16 +268,16 @@ void Stage::collisionWithPlayer(vector<shared_ptr<Player>>player)
 			//プレイヤーをvector（動的配列)にしてるので3重ループになるけどしゃあない
 			for (const auto& p:player)
 			{
-				if (hitTriangleAndPixel(VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f),
+				if (HitTriangleAndPixel(VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f),
 					VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f),
 					VGet(position_[j][i].x, 0.0f, position_[j][i].z + shifting_numberZ / 1.5f), p->Getposition_()) ||
-					hitTriangleAndPixel(VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f),
+					HitTriangleAndPixel(VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f),
 						VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f),
 						VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z - triangle_pointZ / 1.5f), p->Getposition_()) ||
-					hitTriangleAndPixel(VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f),
+					HitTriangleAndPixel(VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f),
 						VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z - triangle_pointZ / 1.5f),
 						VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z - triangle_pointZ / 1.5f), p->Getposition_()) ||
-					hitTriangleAndPixel(VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z - triangle_pointZ / 1.5f),
+					HitTriangleAndPixel(VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z - triangle_pointZ / 1.5f),
 						VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z - triangle_pointZ / 1.5f),
 						VGet(position_[j][i].x, 0.0f, position_[j][i].z - shifting_numberZ / 1.5f), p->Getposition_()))
 				{
@@ -306,5 +303,14 @@ void Stage::collisionWithPlayer(vector<shared_ptr<Player>>player)
 				DrawHexagon3D(position_[j][i], shifting_numberX, shifting_numberZ, triangle_pointZ, GetColor(255, 255, 255), false);
 			}
 		}
+	}
+}
+
+//消すカウントを増やす
+void Stage::addvanishingCount()
+{
+	if (vanishingCount_ <= vanishing_timing * (tile_number - 2) * (tile_number - 2) - vanishing_timing)
+	{
+		++vanishingCount_;
 	}
 }
