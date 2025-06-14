@@ -114,7 +114,9 @@ void Stage::draw()
 /// </summary>
 void Stage::reset()
 {
-	vanishingCount_ = 0;
+	vanishingCount_		= 0;
+	dicideRandomTileJ_	= 0;
+	dicideRandomTileI_	= 0;
 	for (int i = 0; i < tile_number; i++)
 	{
 		for (int j = 0; j < tile_number; j++)
@@ -312,5 +314,25 @@ void Stage::addvanishingCount()
 	if (vanishingCount_ <= vanishing_timing * (tile_number - 2) * (tile_number - 2) - vanishing_timing)
 	{
 		++vanishingCount_;
+	}
+}
+
+//3dモデルの色を7変える
+void Stage::change3dModelColor()
+{
+	//一定カウントごとにランダな場所のタイルをけしていく
+	if (vanishingCount_ % change_color_timing == 0 && vanishingCount_ != 0)
+	{
+		while (true)
+		{
+			dicideRandomTileJ_ = GetRand(tile_number - 1);
+			dicideRandomTileI_ = GetRand(tile_number - 1);
+
+			if (canExist_[dicideRandomTileJ_][dicideRandomTileI_])
+			{
+				MV1SetDifColorScale(modelHandle_[dicideRandomTileJ_][dicideRandomTileI_], GetColorF(1.0f, 0.0f, 0.0f, 1.0f));
+				break;
+			}
+		}
 	}
 }
