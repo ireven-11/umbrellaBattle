@@ -1,6 +1,9 @@
 #include"DxLib.h"
 #include"player.h"
 
+/// <summary>
+/// コンストラクタ
+/// </summary>
 Player::Player()
 {
 	//3dモデル読み込み
@@ -13,12 +16,18 @@ Player::Player()
 	reset();
 }
 
+/// <summary>
+/// デストラクタ
+/// </summary>
 Player::~Player()
 {
 	MV1DeleteModel(openingUmbrella_);
 	MV1DeleteModel(closingUmbrella_);
 }
 
+/// <summary>
+/// 更新
+/// </summary>
 void Player::update()
 {
 	//テスト用モデル変更＋回転
@@ -52,6 +61,9 @@ void Player::update()
 	move();
 }
 
+/// <summary>
+/// 描画
+/// </summary>
 void Player::draw()const
 {
 	//デバッグ用
@@ -67,12 +79,18 @@ void Player::draw()const
 	}
 }
 
+/// <summary>
+/// 変数をリセット
+/// </summary>
 void Player::reset()
 {
 	position_	= VGet(player_init_positionX, player_init_positionY, player_init_positionZ);
 	isOpening_	= true;
 }
 
+/// <summary>
+/// 移動
+/// </summary>
 void Player::move()
 {
 	if (CheckHitKey(KEY_INPUT_UP) == true)
@@ -93,6 +111,9 @@ void Player::move()
 	}
 }
 
+/// <summary>
+/// アクション
+/// </summary>
 void Player::action()
 {
 	swing();
@@ -100,16 +121,25 @@ void Player::action()
 	wind();
 }
 
+/// <summary>
+/// アクション：スイング
+/// </summary>
 void Player::swing()
 {
 
 }
 
+/// <summary>
+/// アクション：タックル
+/// </summary>
 void Player::tackle()
 {
 
 }
 
+/// <summary>
+/// アクション：風
+/// </summary>
 void Player::wind()
 {
 

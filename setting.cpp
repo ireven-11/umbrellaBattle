@@ -1,7 +1,9 @@
 #include"DxLib.h"
 #include"setting.h"
 
-//スクリーン設定関数
+/// <summary>
+/// スクリーン設定
+/// </summary>
 void ScreenSetting()
 {
     ChangeWindowMode(TRUE);				   //ウィンドウモードにする
@@ -18,7 +20,9 @@ void ScreenSetting()
     SetGraphMode(screenWIDTH, screenHEIGHT, 32);//ウィンドウのサイズとカラーモードを決める
 }
 
-//fps設定
+/// <summary>
+/// fps設定
+/// </summary>
 void SetFPS()
 {
     const int wait = 20;

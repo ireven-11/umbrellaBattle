@@ -1,6 +1,9 @@
 #include"DxLib.h"
 #include"camera.h"
 
+/// <summary>
+/// コンストラクタ
+/// </summary>
 Camera::Camera()
 {
 	position_		= VGet(0.0f, init_Y, init_z);
@@ -11,10 +14,16 @@ Camera::Camera()
 	SetCameraPositionAndTarget_UpVecY(position_, targetPosition_);
 }
 
+/// <summary>
+/// デストラクタ
+/// </summary>
 Camera::~Camera()
 {
 }
 
+/// <summary>
+/// 更新
+/// </summary>
 void Camera::update()
 {
 	

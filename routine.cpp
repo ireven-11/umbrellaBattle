@@ -27,7 +27,7 @@ Routine::~Routine()
 void Routine::game()
 {
     //ゲームループ呼び出し
-    gameRoop(/*sceneManager,player,camera,stage*/);
+    gameRoop();
 
     //デリート
     sceneManager    = nullptr;
@@ -38,7 +38,7 @@ void Routine::game()
 /// <summary>
 /// ゲームループ
 /// </summary>
-void Routine::gameRoop(/*shared_ptr<SceneManager> sceneManager, shared_ptr<Player>player, shared_ptr<Camera>camera, shared_ptr<Stage> stage*/)
+void Routine::gameRoop()
 {
     while (gameRoopSetting)
     {
@@ -48,19 +48,19 @@ void Routine::gameRoop(/*shared_ptr<SceneManager> sceneManager, shared_ptr<Playe
         switch (sceneManager->GetsceneType_())
         {
         case TITLE:
-            title(/*sceneManager*/);
+            title();
             break;
 
         case STANDBY:
-            stanby(/*sceneManager*/);
+            stanby();
             break;
 
         case PLAY:
-            play(/*player, sceneManager*/);
+            play();
             break;
 
         case RESULT:
-            result(/*sceneManager*/);
+            result();
             break;
 
         }
@@ -72,17 +72,26 @@ void Routine::gameRoop(/*shared_ptr<SceneManager> sceneManager, shared_ptr<Playe
     }
 }
 
-void Routine::title(/*shared_ptr<SceneManager> sceneManager*/)
+/// <summary>
+/// タイトルルーチン
+/// </summary>
+void Routine::title()
 {
 
 }
 
-void Routine::stanby(/*shared_ptr<SceneManager> sceneManager*/)
+/// <summary>
+/// スタンバイルーチン
+/// </summary>
+void Routine::stanby()
 {
     
 }
 
-void Routine::play(/*shared_ptr<Player>player, shared_ptr<SceneManager> sceneManager*/)
+/// <summary>
+/// プレイルーチン
+/// </summary>
+void Routine::play()
 {
     stage->update(player);
 
@@ -92,7 +101,10 @@ void Routine::play(/*shared_ptr<Player>player, shared_ptr<SceneManager> sceneMan
     }
 }
 
-void Routine::result(/*shared_ptr<SceneManager> sceneManager*/)
+/// <summary>
+/// リザルトルーチン
+/// </summary>
+void Routine::result()
 {
 
 }
