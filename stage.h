@@ -39,6 +39,7 @@ private:
 	int		skydomeHandle_;							//スカイドームハンドル
 	int		dicideRandomTileJ_;						//タイル用ランダム変数j
 	int		dicideRandomTileI_;						//タイル用ランダム変数i
+	int		tileCount_;								//タイルを何個消したかのカウント
 };
 
 bool HitTriangleAndPixel(VECTOR trianglePos0, VECTOR trianglePos1, VECTOR trianglePos2, VECTOR pixelPos);

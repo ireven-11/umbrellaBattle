@@ -77,6 +77,7 @@ void Stage::update(vector<shared_ptr<Player>>player)
 	}
 	draw();
 	addvanishingCount();
+	change3dModelColor();
 	vanishTile();
 	collisionWithPlayer(player);
 }
@@ -117,6 +118,7 @@ void Stage::reset()
 	vanishingCount_		= 0;
 	dicideRandomTileJ_	= 0;
 	dicideRandomTileI_	= 0;
+	tileCount_			= 0;
 	for (int i = 0; i < tile_number; i++)
 	{
 		for (int j = 0; j < tile_number; j++)
@@ -139,19 +141,11 @@ void Stage::reset()
 void Stage::vanishTile()
 {
 	//一定カウントごとにランダな場所のタイルをけしていく
-	if (vanishingCount_ % vanishing_timing == 0 && vanishingCount_ != 0)
+	if (vanishingCount_ == vanishing_timing && tileCount_ < (tile_number - 2) * (tile_number - 2) - 1)
 	{
-		while (true)
-		{
-			int tempRandomJ = GetRand(tile_number - 1);
-			int tempRandomI = GetRand(tile_number - 1);
-
-			if (canExist_[tempRandomJ][tempRandomI])
-			{
-				canExist_[tempRandomJ][tempRandomI] = false;
-				break;
-			}
-		}
+		canExist_[dicideRandomTileJ_][dicideRandomTileI_] = false;
+		vanishingCount_ = 0;
+		tileCount_++;
 	}
 }
 
@@ -311,17 +305,17 @@ void Stage::collisionWithPlayer(vector<shared_ptr<Player>>player)
 //消すカウントを増やす
 void Stage::addvanishingCount()
 {
-	if (vanishingCount_ <= vanishing_timing * (tile_number - 2) * (tile_number - 2) - vanishing_timing)
+	if (tileCount_ < (tile_number - 2) * (tile_number - 2) - 1)
 	{
 		++vanishingCount_;
 	}
 }
 
-//3dモデルの色を7変える
+//3dモデルの色を変える
 void Stage::change3dModelColor()
 {
 	//一定カウントごとにランダな場所のタイルをけしていく
-	if (vanishingCount_ % change_color_timing == 0 && vanishingCount_ != 0)
+	if (vanishingCount_ == change_color_timing && tileCount_ < (tile_number - 2) * (tile_number - 2) - 1)
 	{
 		while (true)
 		{
@@ -330,7 +324,7 @@ void Stage::change3dModelColor()
 
 			if (canExist_[dicideRandomTileJ_][dicideRandomTileI_])
 			{
-				MV1SetDifColorScale(modelHandle_[dicideRandomTileJ_][dicideRandomTileI_], GetColorF(1.0f, 0.0f, 0.0f, 1.0f));
+				MV1SetDifColorScale(modelHandle_[dicideRandomTileJ_][dicideRandomTileI_], GetColorF(2.0f, 2.0f, 2.0f, 1.0f));
 				break;
 			}
 		}
