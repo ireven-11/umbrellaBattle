@@ -1,5 +1,9 @@
 #include"DxLib.h"
 #include"player.h"
+#include<cmath>
+
+//コントローラー(D)用構造体変数
+DINPUT_JOYSTATE input;
 
 /// <summary>
 /// コンストラクタ
@@ -14,6 +18,9 @@ Player::Player()
 
 	//数値初期化
 	reset();
+
+	//コントローラーのデッドゾーンを設定
+	SetJoypadDeadZone(DX_INPUT_PAD1, 0.5);
 }
 
 /// <summary>
@@ -84,8 +91,8 @@ void Player::draw()const
 /// </summary>
 void Player::reset()
 {
-	position_	= VGet(player_init_positionX, player_init_positionY, player_init_positionZ);
-	isOpening_	= true;
+	position_		= VGet(player_init_positionX, player_init_positionY, player_init_positionZ);
+	isOpening_		= true;
 }
 
 /// <summary>
@@ -93,6 +100,10 @@ void Player::reset()
 /// </summary>
 void Player::move()
 {
+	//コントローラーを使えるようにする
+	GetJoypadDirectInputState(DX_INPUT_PAD1, &input);
+
+	//キーボード用（デバッグ)
 	if (CheckHitKey(KEY_INPUT_UP) == true)
 	{
 		position_.z += move_speed;
@@ -108,6 +119,27 @@ void Player::move()
 	if (CheckHitKey(KEY_INPUT_LEFT) == true)
 	{
 		position_.x -= move_speed;
+	}
+	//コントローラー用
+	if (input.Y < 0)
+	{
+		position_.z += move_speed;
+		rotation();
+	}
+	if (input.Y > 0)
+	{
+		position_.z -= move_speed;
+		rotation();
+	}
+	if (input.X > 0)
+	{
+		position_.x += move_speed;
+		rotation();
+	}
+	if (input.X < 0)
+	{
+		position_.x -= move_speed;
+		rotation();
 	}
 }
 
@@ -151,4 +183,17 @@ void Player::wind()
 void Player::fall()
 {
 	position_.y -= fall_speed;
+}
+
+//回転がうまくいってない。要修正
+void Player::rotation()
+{
+	GetJoypadAnalogInput(&input.X, &input.Y, DX_INPUT_PAD1);
+
+	//スティックの倒れてる向きから角度を求める
+	float angleRad		= atan2(input.Y, input.X);
+	float angleRotation = angleRad * (180.0f / DX_PI);
+
+	MV1SetRotationXYZ(closingUmbrella_, VGet(-40.0f * DX_PI_F / 180.0f, angleRotation - 90.0f, 0.0f));
+	MV1SetRotationXYZ(openingUmbrella_, VGet(-40.0f * DX_PI_F / 180.0f, angleRotation - 90.0f, 0.0f));
 }
