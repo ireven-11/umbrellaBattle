@@ -307,7 +307,7 @@ void Stage::addvanishingCount()
 {
 	if (tileCount_ < (tile_number - 2) * (tile_number - 2) - 1)
 	{
-		++vanishingCount_;
+		//++vanishingCount_;
 	}
 }
 
