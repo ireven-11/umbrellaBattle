@@ -307,7 +307,7 @@ void Stage::addvanishingCount()
 {
 	if (tileCount_ < (tile_number - 2) * (tile_number - 2) - 1)
 	{
-		//++vanishingCount_;
+		++vanishingCount_;
 	}
 }
 
@@ -317,6 +317,7 @@ void Stage::change3dModelColor()
 	//一定カウントごとにランダな場所のタイルをけしていく
 	if (vanishingCount_ == change_color_timing && tileCount_ < (tile_number - 2) * (tile_number - 2) - 1)
 	{
+		//まだ消えてないタイルをランダムに選んで消す
 		while (true)
 		{
 			dicideRandomTileJ_ = GetRand(tile_number - 1);
