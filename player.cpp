@@ -20,7 +20,7 @@ Player::Player()
 	reset();
 
 	//コントローラーのデッドゾーンを設定
-	SetJoypadDeadZone(DX_INPUT_PAD1, 0.5);
+	SetJoypadDeadZone(DX_INPUT_PAD1, 0.1);
 }
 
 /// <summary>
@@ -64,8 +64,8 @@ void Player::update()
 
 	MV1SetPosition(openingUmbrella_, position_);
 	MV1SetPosition(closingUmbrella_, position_);
+	action();
 	draw();
-	move();
 }
 
 /// <summary>
@@ -123,23 +123,30 @@ void Player::move()
 	//コントローラー用
 	if (input.Y < 0)
 	{
-		position_.z += move_speed;
+		//position_.z += move_speed;
 		rotation();
 	}
 	if (input.Y > 0)
 	{
-		position_.z -= move_speed;
+		//position_.z -= move_speed;
 		rotation();
 	}
 	if (input.X > 0)
 	{
-		position_.x += move_speed;
+		//position_.x += move_speed;
 		rotation();
 	}
 	if (input.X < 0)
 	{
-		position_.x -= move_speed;
+		//position_.x -= move_speed;
 		rotation();
+	}
+
+	//移動してないときはモデルの回転を元に戻す
+	if (input.X == 0 && input.Y == 0)
+	{
+		MV1SetRotationXYZ(closingUmbrella_, VGet(0.0f, 0.0f, 0.0f));
+		MV1SetRotationXYZ(openingUmbrella_, VGet(0.0f, 0.0f, 0.0f));
 	}
 }
 
@@ -148,6 +155,7 @@ void Player::move()
 /// </summary>
 void Player::action()
 {
+	move();
 	swing();
 	tackle();
 	wind();
@@ -188,12 +196,15 @@ void Player::fall()
 //回転がうまくいってない。要修正
 void Player::rotation()
 {
-	GetJoypadAnalogInput(&input.X, &input.Y, DX_INPUT_PAD1);
+	//GetJoypadAnalogInput(&input.X, &input.Y, DX_INPUT_PAD1);
 
-	//スティックの倒れてる向きから角度を求める
-	float angleRad		= atan2(input.Y, input.X);
-	float angleRotation = angleRad * (180.0f / DX_PI);
+	//スティックの倒れてる数値から角度を求める
+	float angleRad		= atan2(-input.Y, input.X);
+	float angleRotation = angleRad * (180.0f / DX_PI_F);
 
-	MV1SetRotationXYZ(closingUmbrella_, VGet(-40.0f * DX_PI_F / 180.0f, angleRotation - 90.0f, 0.0f));
-	MV1SetRotationXYZ(openingUmbrella_, VGet(-40.0f * DX_PI_F / 180.0f, angleRotation - 90.0f, 0.0f));
+	MV1SetRotationXYZ(closingUmbrella_, VGet(-45.0f * DX_PI_F / 180.0f, angleRotation/* - 90.0f*/, 0.0f));
+	MV1SetRotationXYZ(openingUmbrella_, VGet(-45.0f * DX_PI_F / 180.0f, angleRotation/* - 90.0f*/, 0.0f));
+
+	//デバッグ用
+	DrawFormatString(200, 200, GetColor(255, 255, 255), "角度:%f", angleRotation/* - 90.0f*/);
 }
