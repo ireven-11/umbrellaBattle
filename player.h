@@ -24,6 +24,7 @@ private:
 	void tackle();
 	void wind();
 	void rotation();
+	void tackleMoving();
 
 	VECTOR	position_;			//座標
 	int		openingUmbrella_;	//モデルハンドル(開いた状態)
@@ -31,6 +32,8 @@ private:
 	bool	isOpening_;			//傘開いてるかフラグ
 	int		hp_;				//hp
 	bool	isPrevButton_;		//前フレームにボタンを押したかフラグ
+	bool	isTackle_;			//タックルしてるかフラグ
+	int		tackleCount_;		//タックルカウント
 
 	const float fall_speed	= 0.01f;
 	const float scale		= 0.15f;

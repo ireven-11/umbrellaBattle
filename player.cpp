@@ -46,25 +46,16 @@ void Player::update()
 	{
 		isOpening_ = false;
 	}
-	if (CheckHitKey(KEY_INPUT_3))
-	{
-		MV1SetRotationXYZ(closingUmbrella_, VGet(40.0f * DX_PI_F / 180.0f, 0.0f, 0.0f));
-		MV1SetRotationXYZ(openingUmbrella_, VGet(40.0f * DX_PI_F / 180.0f, 0.0f, 0.0f));
-	}
-	if (CheckHitKey(KEY_INPUT_4))
-	{
-		MV1SetRotationXYZ(closingUmbrella_, VGet(-40.0f * DX_PI_F / 180.0f, 0.0f, 0.0f));
-		MV1SetRotationXYZ(openingUmbrella_, VGet(-40.0f * DX_PI_F / 180.0f, 0.0f, 0.0f));
-	}
+	
 	//でばっぐリセット
 	if (CheckHitKey(KEY_INPUT_D) == true)
 	{
 		position_.y = player_init_positionY;
 	}
 
+	action();
 	MV1SetPosition(openingUmbrella_, position_);
 	MV1SetPosition(closingUmbrella_, position_);
-	action();
 	draw();
 }
 
@@ -91,8 +82,10 @@ void Player::draw()const
 /// </summary>
 void Player::reset()
 {
-	position_		= VGet(player_init_positionX, player_init_positionY, player_init_positionZ);
-	isOpening_		= true;
+	position_			= VGet(player_init_positionX, player_init_positionY, player_init_positionZ);
+	isOpening_			= true;
+	isTackle_			= false;
+	tackleCount_		= 0;
 }
 
 /// <summary>
@@ -123,30 +116,35 @@ void Player::move()
 	//コントローラー用
 	if (input.Y < 0)
 	{
-		//position_.z += move_speed;
+		if (!isTackle_)
+		{
+			position_.z += move_speed;
+		}
 		rotation();
 	}
 	if (input.Y > 0)
 	{
-		//position_.z -= move_speed;
+		if (!isTackle_)
+		{
+			position_.z -= move_speed;
+		}
 		rotation();
 	}
 	if (input.X > 0)
 	{
-		//position_.x += move_speed;
+		if (!isTackle_)
+		{
+			position_.x += move_speed;
+		}
 		rotation();
 	}
 	if (input.X < 0)
 	{
-		//position_.x -= move_speed;
+		if (!isTackle_)
+		{
+			position_.x -= move_speed;
+		}
 		rotation();
-	}
-
-	//移動してないときはモデルの回転を元に戻す
-	if (input.X == 0 && input.Y == 0)
-	{
-		MV1SetRotationXYZ(closingUmbrella_, VGet(0.0f, 0.0f, 0.0f));
-		MV1SetRotationXYZ(openingUmbrella_, VGet(0.0f, 0.0f, 0.0f));
 	}
 }
 
@@ -174,6 +172,31 @@ void Player::swing()
 /// </summary>
 void Player::tackle()
 {
+	//ボタンを押してはなしたら
+	if (tackleCount_ > 0 && input.Buttons[0] == 0)
+	{
+		--tackleCount_;
+		tackleMoving();
+
+		//カウントが０になったらタックルを辞める
+		if (tackleCount_ == 0)
+		{
+			isTackle_ = false;
+		}
+	}
+	//Bボタンを押したら
+	else if (input.Buttons[0] > 0)
+	{
+		isTackle_ = true;
+		++tackleCount_;
+	}
+
+	//デバッグ用
+	DrawFormatString(100, 300, GetColor(255, 255, 255), "タックル:%d", tackleCount_);
+}
+
+void Player::tackleMoving()
+{
 
 }
 
@@ -196,15 +219,12 @@ void Player::fall()
 //回転がうまくいってない。要修正
 void Player::rotation()
 {
-	//GetJoypadAnalogInput(&input.X, &input.Y, DX_INPUT_PAD1);
-
 	//スティックの倒れてる数値から角度を求める
-	float angleRad		= atan2(-input.Y, input.X);
-	float angleRotation = angleRad * (180.0f / DX_PI_F);
-
-	MV1SetRotationXYZ(closingUmbrella_, VGet(-45.0f * DX_PI_F / 180.0f, angleRotation/* - 90.0f*/, 0.0f));
-	MV1SetRotationXYZ(openingUmbrella_, VGet(-45.0f * DX_PI_F / 180.0f, angleRotation/* - 90.0f*/, 0.0f));
+	double angleRad	= atan2(static_cast<double>(-input.Y), static_cast<double>(input.X));
+	
+	MV1SetRotationXYZ(closingUmbrella_, VGet(-45.0f * DX_PI_F / 180.0f, -angleRad - 1.5, 0.0f));
+	MV1SetRotationXYZ(openingUmbrella_, VGet(-45.0f * DX_PI_F / 180.0f, -angleRad - 1.5, 0.0f));
 
 	//デバッグ用
-	DrawFormatString(200, 200, GetColor(255, 255, 255), "角度:%f", angleRotation/* - 90.0f*/);
+	DrawFormatString(200, 200, GetColor(255, 255, 255), "角度:%f", angleRad);
 }
