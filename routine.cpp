@@ -85,7 +85,15 @@ void Routine::title()
 /// </summary>
 void Routine::stanby()
 {
-    
+    //コントローラーを使えるようにする
+    /*GetJoypadDirectInputState(DX_INPUT_PAD1, &input);
+    GetJoypadDirectInputState(DX_INPUT_PAD2, &input);
+    GetJoypadDirectInputState(DX_INPUT_PAD3, &input);
+    GetJoypadDirectInputState(DX_INPUT_PAD4, &input);
+    if (input.Buttons[1] > 0)
+    {
+        player.emplace_back(make_shared<Player>());
+    }*/
 }
 
 /// <summary>
