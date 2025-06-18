@@ -37,6 +37,10 @@ Player::~Player()
 /// </summary>
 void Player::update()
 {
+
+	//コントローラーを使えるようにする
+	GetJoypadDirectInputState(DX_INPUT_PAD1, &input);
+
 	//テスト用モデル変更＋回転
 	if (CheckHitKey(KEY_INPUT_1))
 	{
@@ -97,9 +101,6 @@ void Player::reset()
 /// </summary>
 void Player::move()
 {
-	//コントローラーを使えるようにする
-	GetJoypadDirectInputState(DX_INPUT_PAD1, &input);
-
 	if (input.Y < 0)
 	{
 		if (!isTackle_)
