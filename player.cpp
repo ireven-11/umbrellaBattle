@@ -50,7 +50,7 @@ void Player::update()
 	//でばっぐリセット
 	if (CheckHitKey(KEY_INPUT_D) == true)
 	{
-		position_.y = player_init_positionY;
+		position_.y = 0.0f;
 	}
 
 	action();
@@ -89,6 +89,7 @@ void Player::reset()
 	tackleVector_		= VGet(0.0f, 0.0f, 0.0f);
 	rotationAngleY_		= 0.0;
 	rotaionMatrix_		= MGetIdent();
+	isMovingtackle_		= false;
 }
 
 /// <summary>
@@ -99,24 +100,6 @@ void Player::move()
 	//コントローラーを使えるようにする
 	GetJoypadDirectInputState(DX_INPUT_PAD1, &input);
 
-	//キーボード用（デバッグ)
-	if (CheckHitKey(KEY_INPUT_UP) == true)
-	{
-		position_.z += move_speed;
-	}
-	if (CheckHitKey(KEY_INPUT_DOWN) == true)
-	{
-		position_.z -= move_speed;
-	}
-	if (CheckHitKey(KEY_INPUT_RIGHT) == true)
-	{
-		position_.x += move_speed;
-	}
-	if (CheckHitKey(KEY_INPUT_LEFT) == true)
-	{
-		position_.x -= move_speed;
-	}
-	//コントローラー用
 	if (input.Y < 0)
 	{
 		if (!isTackle_)
@@ -178,13 +161,12 @@ void Player::tackle()
 	//ボタンを押してはなしたら
 	if (tackleCount_ > 0 && input.Buttons[0] == 0)
 	{
+		isMovingtackle_ = true;
 		--tackleCount_;
 		tackleMoving(rotaionMatrix_);
-
-		stopTackle();
 	}
 	//Bボタンを押したら
-	else if (input.Buttons[0] > 0)
+	else if (input.Buttons[0] > 0 && !isMovingtackle_)
 	{
 		isTackle_ = true;
 		if (max_tackle_count > tackleCount_)
@@ -195,6 +177,8 @@ void Player::tackle()
 		//どの方向にタックルするか回転行列で決める
 		rotaionMatrix_ = MGetRotY(rotationAngleY_ + agnle_shift_number);
 	}
+
+	stopTackle();
 
 	//デバッグ用
 	DrawFormatString(100, 300, GetColor(255, 255, 255), "タックル:%f", tackleCount_);
@@ -208,6 +192,12 @@ void Player::tackleMoving(MATRIX rotation)
 {
 	VECTOR moveVector = VTransform(VGet(tackleCount_ / adjust_tackle, 0.0f, tackleCount_ / adjust_tackle), rotation);
 	position_ = VAdd(position_, moveVector);
+
+	//移動中は落下しずらくするようにyに補正をかける
+	if (position_.y < 0.0f)
+	{
+		position_.y += adjust_position_y;
+	}
 }
 
 /// <summary>
@@ -215,10 +205,12 @@ void Player::tackleMoving(MATRIX rotation)
 /// </summary>
 void Player::stopTackle()
 {
-	//カウントが０になったらタックルを辞める
-	if (tackleCount_ == 0)
+	//カウントが０なるかタックル中にBを押したらやめる
+	if (tackleCount_ == 0 && isMovingtackle_ || isMovingtackle_ && input.Buttons[0] > 0)
 	{
-		isTackle_ = false;
+		isTackle_		= false;
+		isMovingtackle_ = false;
+		tackleCount_	= 0;
 	}
 }
 
