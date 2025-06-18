@@ -85,7 +85,10 @@ void Player::reset()
 	position_			= VGet(player_init_positionX, player_init_positionY, player_init_positionZ);
 	isOpening_			= true;
 	isTackle_			= false;
-	tackleCount_		= 0;
+	tackleCount_		= 0.0f;
+	tackleVector_		= VGet(0.0f, 0.0f, 0.0f);
+	rotationAngleY_		= 0.0;
+	rotaionMatrix_		= MGetIdent();
 }
 
 /// <summary>
@@ -176,28 +179,47 @@ void Player::tackle()
 	if (tackleCount_ > 0 && input.Buttons[0] == 0)
 	{
 		--tackleCount_;
-		tackleMoving();
+		tackleMoving(rotaionMatrix_);
 
-		//カウントが０になったらタックルを辞める
-		if (tackleCount_ == 0)
-		{
-			isTackle_ = false;
-		}
+		stopTackle();
 	}
 	//Bボタンを押したら
 	else if (input.Buttons[0] > 0)
 	{
 		isTackle_ = true;
-		++tackleCount_;
+		if (max_tackle_count > tackleCount_)
+		{
+			++tackleCount_;
+		}
+		
+		//どの方向にタックルするか回転行列で決める
+		rotaionMatrix_ = MGetRotY(rotationAngleY_ + agnle_shift_number);
 	}
 
 	//デバッグ用
-	DrawFormatString(100, 300, GetColor(255, 255, 255), "タックル:%d", tackleCount_);
+	DrawFormatString(100, 300, GetColor(255, 255, 255), "タックル:%f", tackleCount_);
 }
 
-void Player::tackleMoving()
+/// <summary>
+/// タックル移動中
+/// </summary>
+/// <param name="rotation">どの方向にタックルするか決める回転行列</param>
+void Player::tackleMoving(MATRIX rotation)
 {
+	VECTOR moveVector = VTransform(VGet(tackleCount_ / adjust_tackle, 0.0f, tackleCount_ / adjust_tackle), rotation);
+	position_ = VAdd(position_, moveVector);
+}
 
+/// <summary>
+/// タックルをやめる
+/// </summary>
+void Player::stopTackle()
+{
+	//カウントが０になったらタックルを辞める
+	if (tackleCount_ == 0)
+	{
+		isTackle_ = false;
+	}
 }
 
 /// <summary>
@@ -216,15 +238,17 @@ void Player::fall()
 	position_.y -= fall_speed;
 }
 
-//回転がうまくいってない。要修正
+/// <summary>
+/// コントローラーのスティックの傾きに応じた3dモデルの回転
+/// </summary>
 void Player::rotation()
 {
 	//スティックの倒れてる数値から角度を求める
-	double angleRad	= atan2(static_cast<double>(-input.Y), static_cast<double>(input.X));
+	rotationAngleY_ = atan2(static_cast<double>(input.Y), static_cast<double>(input.X));
 	
-	MV1SetRotationXYZ(closingUmbrella_, VGet(-45.0f * DX_PI_F / 180.0f, -angleRad - 1.5, 0.0f));
-	MV1SetRotationXYZ(openingUmbrella_, VGet(-45.0f * DX_PI_F / 180.0f, -angleRad - 1.5, 0.0f));
+	MV1SetRotationXYZ(closingUmbrella_, VGet(rotation_angle_x * DX_PI_F / 180.0f, rotationAngleY_ + adjust_rotation_angle_y, 0.0f));
+	MV1SetRotationXYZ(openingUmbrella_, VGet(rotation_angle_x * DX_PI_F / 180.0f, rotationAngleY_ + adjust_rotation_angle_y, 0.0f));
 
 	//デバッグ用
-	DrawFormatString(200, 200, GetColor(255, 255, 255), "角度:%f", angleRad);
+	//DrawFormatString(200, 200, GetColor(255, 255, 255), "角度:%f", rotationAngle_);
 }
