@@ -21,7 +21,7 @@ SceneManager::~SceneManager()
 /// </summary>
 void SceneManager::reset()
 {
-	sceneType_ = PLAY;
+	sceneType_ = STANDBY;
 }
 
 /// <summary>
@@ -37,7 +37,10 @@ void SceneManager::proceedStandby()
 /// </summary>
 void SceneManager::proceedPlay()
 {
-	sceneType_ = PLAY;
+	if (CheckHitKey(KEY_INPUT_RETURN) == true)
+	{
+		sceneType_ = PLAY;
+	}
 }
 
 /// <summary>
