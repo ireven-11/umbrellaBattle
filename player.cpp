@@ -8,7 +8,7 @@ DINPUT_JOYSTATE input;
 /// <summary>
 /// コンストラクタ
 /// </summary>
-Player::Player()
+Player::Player(const int join_number)
 {
 	//3dモデル読み込み
 	openingUmbrella_ = MV1LoadModel("3dmodel/umbrella/umblleraopen.mv1");
@@ -19,8 +19,10 @@ Player::Player()
 	//数値初期化
 	reset();
 
+	controlerNumber_ = join_number;
+
 	//コントローラーのデッドゾーンを設定
-	SetJoypadDeadZone(DX_INPUT_PAD1, 0.1);
+	SetJoypadDeadZone(controlerNumber_, 0.1);
 }
 
 /// <summary>
@@ -39,7 +41,7 @@ void Player::update()
 {
 
 	//コントローラーを使えるようにする
-	GetJoypadDirectInputState(DX_INPUT_PAD1, &input);
+	GetJoypadDirectInputState(controlerNumber_, &input);
 
 	//テスト用モデル変更＋回転
 	if (CheckHitKey(KEY_INPUT_1))
@@ -94,6 +96,7 @@ void Player::reset()
 	rotationAngleY_		= 0.0;
 	rotaionMatrix_		= MGetIdent();
 	isMovingtackle_		= false;
+	controlerNumber_	= 0;
 }
 
 /// <summary>
