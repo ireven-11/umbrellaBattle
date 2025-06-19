@@ -4,10 +4,13 @@
 
 using namespace std;
 
+const int max_player_number = 4;
+
 class SceneManager;
 class Player;
 class Camera;
 class Stage;
+class StandbyUI;
 
 class Routine
 {
@@ -23,10 +26,15 @@ private:
 	shared_ptr<Camera>camera = make_shared<Camera>();
 	vector<shared_ptr<Player>>player;
 	shared_ptr<Stage>stage = make_shared<Stage>();
+	shared_ptr<StandbyUI>standbyUI = make_shared<StandbyUI>();
 
 	void gameRoop();
 	void title();
 	void play();
 	void result();
 	void stanby();
+	void reset();
+	void joinPlayer();
+
+	bool isjoiningPlayer[max_player_number];	//プレイヤー参加フラグ
 };

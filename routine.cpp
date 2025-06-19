@@ -5,13 +5,14 @@
 #include"camera.h"
 #include"player.h"
 #include"stage.h"
+#include"standbyUI.h"
 
 /// <summary>
 /// コンストラクタ
 /// </summary>
 Routine::Routine()
 {
-    player.emplace_back(make_shared<Player>());
+    reset();
 }
 
 /// <summary>
@@ -33,6 +34,8 @@ void Routine::game()
     sceneManager    = nullptr;
     camera          = nullptr;
     player.clear();
+    stage           = nullptr;
+    standbyUI       = nullptr;
 }
 
 /// <summary>
@@ -85,15 +88,11 @@ void Routine::title()
 /// </summary>
 void Routine::stanby()
 {
-    //コントローラーを使えるようにする
-    /*GetJoypadDirectInputState(DX_INPUT_PAD1, &input);
-    GetJoypadDirectInputState(DX_INPUT_PAD2, &input);
-    GetJoypadDirectInputState(DX_INPUT_PAD3, &input);
-    GetJoypadDirectInputState(DX_INPUT_PAD4, &input);
-    if (input.Buttons[1] > 0)
-    {
-        player.emplace_back(make_shared<Player>());
-    }*/
+    joinPlayer();
+
+    sceneManager->proceedPlay();
+
+    standbyUI->update(isjoiningPlayer, max_player_number);
 }
 
 /// <summary>
@@ -115,4 +114,51 @@ void Routine::play()
 void Routine::result()
 {
 
+}
+
+/// <summary>
+/// 変数をリセット
+/// </summary>
+void Routine::reset()
+{
+    for (int i = 0; i < max_player_number; i++)
+    {
+        isjoiningPlayer[i] = false;
+    }
+}
+
+void Routine::joinPlayer()
+{
+    //コントローラー(D)用構造体変数
+    DINPUT_JOYSTATE input1;
+    DINPUT_JOYSTATE input2;
+    DINPUT_JOYSTATE input3;
+    DINPUT_JOYSTATE input4;
+
+    //コントローラーを使えるようにする
+    GetJoypadDirectInputState(DX_INPUT_PAD1, &input1);
+    GetJoypadDirectInputState(DX_INPUT_PAD2, &input2);
+    GetJoypadDirectInputState(DX_INPUT_PAD3, &input3);
+    GetJoypadDirectInputState(DX_INPUT_PAD4, &input4);
+    //プレイヤーはコントローラのAボタンを押したら参加できる
+    if (input1.Buttons[1] > 0 && !isjoiningPlayer[0])
+    {
+        player.emplace_back(make_shared<Player>(DX_INPUT_PAD1));
+        isjoiningPlayer[0] = true;
+    }
+    if (input2.Buttons[1] > 0 && !isjoiningPlayer[1])
+    {
+        player.emplace_back(make_shared<Player>(DX_INPUT_PAD2));
+        isjoiningPlayer[1] = true;
+    }
+    if (input3.Buttons[1] > 0 && !isjoiningPlayer[2])
+    {
+        player.emplace_back(make_shared<Player>(DX_INPUT_PAD3));
+        isjoiningPlayer[2] = true;
+    }
+    if (input4.Buttons[1] > 0 && !isjoiningPlayer[3])
+    {
+        player.emplace_back(make_shared<Player>(DX_INPUT_PAD4));
+        isjoiningPlayer[3] = true;
+    }
 }
