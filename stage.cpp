@@ -246,7 +246,7 @@ void DrawHexagon3D(VECTOR standardPosition, float sideX, float sideZ, float side
 		VGet(standardPosition.x - sideX / 2, 0.0f, standardPosition.z - sideZ2 / 1.5f),
 		VGet(standardPosition.x + sideX / 2, 0.0f, standardPosition.z - sideZ2 / 1.5f), color, fill);
 	DrawTriangle3D(VGet(standardPosition.x - sideX / 2, 0.0f, standardPosition.z - sideZ2 / 1.5f),
-		VGet(standardPosition.x + sideX / 2, 0.0f, standardPosition.z - triangle_pointZ / 1.5f),
+		VGet(standardPosition.x + sideX / 2, 0.0f, standardPosition.z - sideZ2 / 1.5f),
 		VGet(standardPosition.x, 0.0f, standardPosition.z - sideZ / 1.5f), color, fill);
 }
 
