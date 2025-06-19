@@ -40,6 +40,8 @@ private:
 	MATRIX	rotaionMatrix_;		//回転行列を保存する変数
 	bool	isMovingtackle_;	//タックル移動中かどうか
 	int		controlerNumber_;	//どのコントローラかを表す数字
+	bool	isSwing_;			//スイング中かどうか
+	double	angleSwing_;		//スイングの角度
 
 	const float		fall_speed				= 0.005f;
 	const float		scale					= 0.15f;
@@ -50,4 +52,7 @@ private:
 	const float		rotation_angle_x		= -45.0f;
 	const double	adjust_rotation_angle_y = -1.5;
 	const float		adjust_position_y		= 0.2f;
+	const int		max_hp					= 100;
+	const double	swing_speed				= 0.40;
+	const double	max_swing_angle			= 3.0;
 };

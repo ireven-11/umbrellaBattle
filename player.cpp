@@ -39,7 +39,6 @@ Player::~Player()
 /// </summary>
 void Player::update()
 {
-
 	//コントローラーを使えるようにする
 	GetJoypadDirectInputState(controlerNumber_, &input);
 
@@ -97,6 +96,9 @@ void Player::reset()
 	rotaionMatrix_		= MGetIdent();
 	isMovingtackle_		= false;
 	controlerNumber_	= 0;
+	isSwing_			= false;
+	hp_					= max_hp;
+	angleSwing_			= 0.00;
 }
 
 /// <summary>
@@ -106,7 +108,7 @@ void Player::move()
 {
 	if (input.Y < 0)
 	{
-		if (!isTackle_)
+		if (!isTackle_ && !isSwing_)
 		{
 			position_.z += move_speed;
 		}
@@ -114,7 +116,7 @@ void Player::move()
 	}
 	if (input.Y > 0)
 	{
-		if (!isTackle_)
+		if (!isTackle_ && !isSwing_)
 		{
 			position_.z -= move_speed;
 		}
@@ -122,7 +124,7 @@ void Player::move()
 	}
 	if (input.X > 0)
 	{
-		if (!isTackle_)
+		if (!isTackle_ && !isSwing_)
 		{
 			position_.x += move_speed;
 		}
@@ -130,7 +132,7 @@ void Player::move()
 	}
 	if (input.X < 0)
 	{
-		if (!isTackle_)
+		if (!isTackle_ && !isSwing_)
 		{
 			position_.x -= move_speed;
 		}
@@ -143,10 +145,18 @@ void Player::move()
 /// </summary>
 void Player::action()
 {
-	move();
-	swing();
-	tackle();
-	wind();
+	//hpがあるとき
+	if (hp_ > 0)
+	{
+		move();
+		swing();
+		tackle();
+	}
+	//hpがないとき
+	else
+	{
+		wind();
+	}
 }
 
 /// <summary>
@@ -154,7 +164,25 @@ void Player::action()
 /// </summary>
 void Player::swing()
 {
+	//他アクションしてない時だけ
+	if (!isSwing_&& input.Buttons[1] > 0 && !isTackle_)
+	{
+		isSwing_	= true;
+		angleSwing_ = rotationAngleY_;
+	}
+	//スイングしてるときはy軸回転する
+	else if (isSwing_)
+	{
+		angleSwing_ += swing_speed;
+		MV1SetRotationXYZ(openingUmbrella_, VGet(rotation_angle_x * DX_PI_F / 180.0f, angleSwing_ + adjust_rotation_angle_y, 0.0f));
 
+		//最大までスイングしたら元の角度に戻る
+		if (angleSwing_ >= max_swing_angle + rotationAngleY_)
+		{
+			MV1SetRotationXYZ(openingUmbrella_, VGet(rotation_angle_x * DX_PI_F / 180.0f, rotationAngleY_ + adjust_rotation_angle_y, 0.0f));
+			isSwing_ = false;
+		}
+	}
 }
 
 /// <summary>
@@ -239,12 +267,16 @@ void Player::fall()
 /// </summary>
 void Player::rotation()
 {
-	//スティックの倒れてる数値から角度を求める
-	rotationAngleY_ = atan2(static_cast<double>(input.Y), static_cast<double>(input.X));
-	
-	MV1SetRotationXYZ(closingUmbrella_, VGet(rotation_angle_x * DX_PI_F / 180.0f, rotationAngleY_ + adjust_rotation_angle_y, 0.0f));
-	MV1SetRotationXYZ(openingUmbrella_, VGet(rotation_angle_x * DX_PI_F / 180.0f, rotationAngleY_ + adjust_rotation_angle_y, 0.0f));
+	//アクションをしてない時だけ
+	if (!isMovingtackle_ && !isSwing_)
+	{
+		//スティックの倒れてる数値から角度を求める
+		rotationAngleY_ = atan2(static_cast<double>(input.Y), static_cast<double>(input.X));
 
+		MV1SetRotationXYZ(closingUmbrella_, VGet(rotation_angle_x * DX_PI_F / 180.0f, rotationAngleY_ + adjust_rotation_angle_y, 0.0f));
+		MV1SetRotationXYZ(openingUmbrella_, VGet(rotation_angle_x * DX_PI_F / 180.0f, rotationAngleY_ + adjust_rotation_angle_y, 0.0f));
+	}
+	
 	//デバッグ用
 	//DrawFormatString(200, 200, GetColor(255, 255, 255), "角度:%f", rotationAngle_);
 }
