@@ -264,29 +264,33 @@ void Stage::collisionWithPlayer(vector<shared_ptr<Player>>player)
 			//プレイヤーをvector（動的配列)にしてるので3重ループになるけどしゃあない
 			for (const auto& p:player)
 			{
-				if (HitTriangleAndPixel(VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f),
-					VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f),
-					VGet(position_[j][i].x, 0.0f, position_[j][i].z + shifting_numberZ / 1.5f), p->Getposition_()) ||
-					HitTriangleAndPixel(VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f),
-						VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f),
-						VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z - triangle_pointZ / 1.5f), p->Getposition_()) ||
-					HitTriangleAndPixel(VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f),
-						VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z - triangle_pointZ / 1.5f),
-						VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z - triangle_pointZ / 1.5f), p->Getposition_()) ||
-					HitTriangleAndPixel(VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z - triangle_pointZ / 1.5f),
-						VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z - triangle_pointZ / 1.5f),
-						VGet(position_[j][i].x, 0.0f, position_[j][i].z - shifting_numberZ / 1.5f), p->Getposition_()))
+				//プレイヤーが扇風機出ない時だけ
+				if (!p->GetisFan_())
 				{
-					//タイルがなかったら落ちる
-					if (!canExist_[j][i] || i == 0 || i == tile_number - 1 || j == 0 || j == tile_number - 1)
+					if (HitTriangleAndPixel(VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f),
+						VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f),
+						VGet(position_[j][i].x, 0.0f, position_[j][i].z + shifting_numberZ / 1.5f), p->Getposition_()) ||
+						HitTriangleAndPixel(VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f),
+							VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f),
+							VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z - triangle_pointZ / 1.5f), p->Getposition_()) ||
+						HitTriangleAndPixel(VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f),
+							VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z - triangle_pointZ / 1.5f),
+							VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z - triangle_pointZ / 1.5f), p->Getposition_()) ||
+						HitTriangleAndPixel(VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z - triangle_pointZ / 1.5f),
+							VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z - triangle_pointZ / 1.5f),
+							VGet(position_[j][i].x, 0.0f, position_[j][i].z - shifting_numberZ / 1.5f), p->Getposition_()))
+					{
+						//タイルがなかったら落ちる
+						if (!canExist_[j][i] || i == 0 || i == tile_number - 1 || j == 0 || j == tile_number - 1)
+						{
+							p->fall();
+						}
+					}
+					//プレイヤーが一度落下すると落ちる
+					else if (p->Getposition_().y < player_init_positionY)
 					{
 						p->fall();
 					}
-				}
-				//プレイヤーが一度落下すると落ちる
-				else if (p->Getposition_().y < player_init_positionY)
-				{
-					p->fall();
 				}
 			}
 
