@@ -11,10 +11,12 @@ DINPUT_JOYSTATE input;
 Player::Player(const int join_number)
 {
 	//3dモデル読み込み
-	openingUmbrella_ = MV1LoadModel("3dmodel/umbrella/umblleraopen.mv1");
-	closingUmbrella_ = MV1LoadModel("3dmodel/umbrella/umblleraclose.mv1");
+	openingUmbrella_	= MV1LoadModel("3dmodel/umbrella/umblleraopen.mv1");
+	closingUmbrella_	= MV1LoadModel("3dmodel/umbrella/umblleraclose.mv1");
+	fan_				= MV1LoadModel("3dmodel/fan/fanWithTile.mv1");
 	MV1SetScale(openingUmbrella_, VGet(scale, scale, scale));
 	MV1SetScale(closingUmbrella_, VGet(scale, scale, scale));
+	MV1SetScale(fan_, VGet(scale / 10, scale / 10, scale / 10));
 
 	//数値初期化
 	reset();
@@ -61,6 +63,7 @@ void Player::update()
 	action();
 	MV1SetPosition(openingUmbrella_, position_);
 	MV1SetPosition(closingUmbrella_, position_);
+	MV1SetPosition(fan_, position_);
 	draw();
 }
 
@@ -72,11 +75,15 @@ void Player::draw()const
 	//デバッグ用
 	//DrawFormatString(0, 300, GetColor(255, 0, 0), "px:%f,py:%f,pz:%f", position_.x, position_.y, position_.z);
 
-	if (isOpening_)
+	if (isFan_)
+	{
+		MV1DrawModel(fan_);
+	}
+	else if (isOpening_)
 	{
 		MV1DrawModel(openingUmbrella_);
 	}
-	else
+	else if (!isOpening_)
 	{
 		MV1DrawModel(closingUmbrella_);
 	}
@@ -99,6 +106,7 @@ void Player::reset()
 	isSwing_			= false;
 	hp_					= max_hp;
 	angleSwing_			= 0.00;
+	isFan_				= true;
 }
 
 /// <summary>

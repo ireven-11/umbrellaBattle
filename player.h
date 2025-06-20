@@ -14,7 +14,8 @@ public:
 	void reset();
 	void fall();
 
-	VECTOR Getposition_()const { return  position_; }
+	VECTOR	Getposition_()const { return  position_; }
+	bool	GetisFan_()const { return isFan_; }
 
 private:
 	void draw()const;
@@ -42,6 +43,8 @@ private:
 	int		controlerNumber_;	//どのコントローラかを表す数字
 	bool	isSwing_;			//スイング中かどうか
 	double	angleSwing_;		//スイングの角度
+	int		fan_;				//扇風機
+	bool	isFan_;				//扇風機かどうかフラグ
 
 	const float		fall_speed				= 0.005f;
 	const float		scale					= 0.15f;
@@ -52,7 +55,7 @@ private:
 	const float		rotation_angle_x		= -45.0f;
 	const double	adjust_rotation_angle_y = -1.5;
 	const float		adjust_position_y		= 0.2f;
-	const int		max_hp					= 100;
+	const int		max_hp					= 0;
 	const double	swing_speed				= 0.40;
 	const double	max_swing_angle			= 3.0;
 };
