@@ -10,7 +10,7 @@ Stage::Stage()
 {
 	//ステージ背景をセット
 	skydomeHandle_ = MV1LoadModel("3dmodel/Skydome/スカイドーム_雨空PP3/Skydome_PP3/Dome_PP301.pmx");
-	MV1SetScale(skydomeHandle_, VGet(scale, scale, scale));
+	MV1SetScale(skydomeHandle_, VGet(scale * 1.5, scale * 1.5, scale * 1.5));
 
 	for (int i = 0; i < tile_number; i++)
 	{
@@ -108,6 +108,7 @@ void Stage::draw()
 
 	//デバッグ用
 	DrawFormatString(100, 100, GetColor(255, 255, 255), "ステージカウント：%d", vanishingCount_);
+	//DrawSphere3D(stage_center, 2.0f, 64, GetColor(255, 0, 0), GetColor(255,0,0), true);
 }
 
 /// <summary>
