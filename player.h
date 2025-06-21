@@ -45,6 +45,7 @@ private:
 	double	angleSwing_;		//スイングの角度
 	int		fan_;				//扇風機
 	bool	isFan_;				//扇風機かどうかフラグ
+	double	fanMoveAngle_;		//扇風機の移動角度
 
 	const float		fall_speed				= 0.005f;
 	const float		scale					= 0.15f;
@@ -55,7 +56,8 @@ private:
 	const float		rotation_angle_x		= -45.0f;
 	const double	adjust_rotation_angle_y = -1.5;
 	const float		adjust_position_y		= 0.2f;
-	const int		max_hp					= 0;
+	const int		max_hp					= 100;
 	const double	swing_speed				= 0.40;
 	const double	max_swing_angle			= 3.0;
+	const double	fan_move_speed			= 5.0;
 };

@@ -1,6 +1,7 @@
 #include"DxLib.h"
 #include"player.h"
 #include<cmath>
+#include"stage.h"
 
 //コントローラー(D)用構造体変数
 DINPUT_JOYSTATE input;
@@ -16,7 +17,7 @@ Player::Player(const int join_number)
 	fan_				= MV1LoadModel("3dmodel/fan/fanWithTile.mv1");
 	MV1SetScale(openingUmbrella_, VGet(scale, scale, scale));
 	MV1SetScale(closingUmbrella_, VGet(scale, scale, scale));
-	MV1SetScale(fan_, VGet(scale / 10, scale / 10, scale / 10));
+	MV1SetScale(fan_, VGet(scale / 12, scale / 12, scale / 12));
 
 	//数値初期化
 	reset();
@@ -58,6 +59,16 @@ void Player::update()
 	if (CheckHitKey(KEY_INPUT_D) == true)
 	{
 		position_.y = 0.0f;
+	}
+
+	//デバッグ用扇風機
+	if (CheckHitKey(KEY_INPUT_0) == true)
+	{
+		isFan_ = true;
+	}
+	if (CheckHitKey(KEY_INPUT_9) == true)
+	{
+		isFan_ = false;
 	}
 
 	action();
@@ -106,7 +117,8 @@ void Player::reset()
 	isSwing_			= false;
 	hp_					= max_hp;
 	angleSwing_			= 0.00;
-	isFan_				= true;
+	isFan_				= false;
+	fanMoveAngle_		= 0.0;
 }
 
 /// <summary>
@@ -114,21 +126,22 @@ void Player::reset()
 /// </summary>
 void Player::move()
 {
-	if (input.Y < 0)
+	auto isNoneAction = !isTackle_ && !isSwing_;
+	if (input.Y < 0 && isNoneAction)
 	{
-		if (!isTackle_ && !isSwing_)
+		//if ()
 		{
 			position_.z += move_speed;
 		}
-		rotation();
+		//rotation();
 	}
-	if (input.Y > 0)
+	if (input.Y > 0 && isNoneAction)
 	{
-		if (!isTackle_ && !isSwing_)
+		//if (!isTackle_ && !isSwing_)
 		{
 			position_.z -= move_speed;
 		}
-		rotation();
+		//rotation();
 	}
 	if (input.X > 0)
 	{
@@ -136,7 +149,7 @@ void Player::move()
 		{
 			position_.x += move_speed;
 		}
-		rotation();
+		//rotation();
 	}
 	if (input.X < 0)
 	{
@@ -144,8 +157,9 @@ void Player::move()
 		{
 			position_.x -= move_speed;
 		}
-		rotation();
+		//rotation();
 	}
+	rotation();
 }
 
 /// <summary>
@@ -153,14 +167,12 @@ void Player::move()
 /// </summary>
 void Player::action()
 {
-	//hpがあるとき
-	if (hp_ > 0)
+	if (!isFan_)
 	{
 		move();
 		swing();
 		tackle();
 	}
-	//hpがないとき
 	else
 	{
 		wind();
@@ -259,7 +271,27 @@ void Player::stopTackle()
 /// </summary>
 void Player::wind()
 {
-
+	//ZRとZLで移動
+	if (isFan_)
+	{
+		double radiun = fanMoveAngle_ * DX_PI / 180.0;
+		if (input.Buttons[6] > 0)
+		{
+			double addAngleX = cos(radiun) * stage_radius;
+			double addAngleZ = sin(radiun) * stage_radius;
+			fanMoveAngle_ += fan_move_speed;
+			position_.x = stage_center.x + addAngleX;
+			position_.z = stage_center.z + addAngleZ;
+		}
+		if (input.Buttons[7] > 0)
+		{
+			double addAngleX = cos(radiun) * stage_radius;
+			double addAngleZ = sin(radiun) * stage_radius;
+			fanMoveAngle_ -= fan_move_speed;
+			position_.x = stage_center.x + addAngleX;
+			position_.z = stage_center.z + addAngleZ;
+		}
+	}
 }
 
 /// <summary>
