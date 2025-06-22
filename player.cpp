@@ -72,6 +72,7 @@ void Player::update()
 	}
 
 	action();
+	transformFan();
 	MV1SetPosition(openingUmbrella_, position_);
 	MV1SetPosition(closingUmbrella_, position_);
 	MV1SetPosition(fan_, position_);
@@ -266,32 +267,37 @@ void Player::wind()
 	//ZRとZLで移動
 	if (isFan_)
 	{
-		double radiun = fanMoveAngle_ * DX_PI / 180.0;
-		if (input.Buttons[6] > 0)
-		{
-			double addAngleX = cos(radiun) * stage_radius;
-			double addAngleZ = sin(radiun) * stage_radius;
-			fanMoveAngle_ += fan_move_speed;
-			position_.x = stage_center.x + addAngleX;
-			position_.z = stage_center.z + addAngleZ;
-		}
-		if (input.Buttons[7] > 0)
-		{
-			double addAngleX = cos(radiun) * stage_radius;
-			double addAngleZ = sin(radiun) * stage_radius;
-			fanMoveAngle_ -= fan_move_speed;
-			position_.x = stage_center.x + addAngleX;
-			position_.z = stage_center.z + addAngleZ;
-		}
-
-		double tempRotation = atan2(position_.x, position_.z);
-
-		//ステージの中心を向くようにモデルを回転
-		MV1SetRotationXYZ(fan_, VGet(0.0f, tempRotation + DX_PI, 0.0f));
+		moveFan();
 	}
 
 	//デバッグ用
 	DrawFormatString(100, 500, GetColor(255, 255, 255), "%f", fanMoveAngle_);
+}
+
+void Player::moveFan()
+{
+	double radiun = fanMoveAngle_ * DX_PI / 180.0;
+	if (input.Buttons[6] > 0)
+	{
+		double addAngleX = cos(radiun) * stage_radius;
+		double addAngleZ = sin(radiun) * stage_radius;
+		fanMoveAngle_ += fan_move_speed;
+		position_.x = stage_center.x + addAngleX;
+		position_.z = stage_center.z + addAngleZ;
+	}
+	if (input.Buttons[7] > 0)
+	{
+		double addAngleX = cos(radiun) * stage_radius;
+		double addAngleZ = sin(radiun) * stage_radius;
+		fanMoveAngle_ -= fan_move_speed;
+		position_.x = stage_center.x + addAngleX;
+		position_.z = stage_center.z + addAngleZ;
+	}
+
+	double tempRotation = atan2(position_.x, position_.z);
+
+	//ステージの中心を向くようにモデルを回転
+	MV1SetRotationXYZ(fan_, VGet(0.0f, tempRotation + DX_PI, 0.0f));
 }
 
 /// <summary>
@@ -319,4 +325,17 @@ void Player::rotation()
 	
 	//デバッグ用
 	//DrawFormatString(200, 200, GetColor(255, 255, 255), "角度:%f", rotationAngle_);
+}
+
+void Player::transformFan()
+{
+	//一定の高さまで落ちたら
+	if (position_.y < transform_position_y)
+	{
+		isFan_ = true;
+		position_.y = player_init_positionY;
+		//落ちた瞬間に扇風機の移動をして扇風機の位置を設定する
+		input.Buttons[6] = 100;
+		moveFan();
+	}
 }

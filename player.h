@@ -1,8 +1,8 @@
 #pragma once
 
-constexpr float		player_init_positionX	= 0.0f;
-constexpr float		player_init_positionY	= 0.0f;
-constexpr float		player_init_positionZ	= 0.0f;
+constexpr float	player_init_positionX = 0.0f;
+constexpr float	player_init_positionY = 0.0f;
+constexpr float	player_init_positionZ = 0.0f;
 
 class Player
 {
@@ -13,6 +13,7 @@ public:
 	void update();
 	void reset();
 	void fall();
+	void transformFan();
 
 	VECTOR	Getposition_()const { return  position_; }
 	bool	GetisFan_()const { return isFan_; }
@@ -26,6 +27,7 @@ private:
 	void tackleMoving(MATRIX rotation);
 	void stopTackle();
 	void wind();
+	void moveFan();
 	void rotation();
 
 	VECTOR	position_;			//ç¿ïW
@@ -60,4 +62,5 @@ private:
 	const double	swing_speed				= 0.40;
 	const double	max_swing_angle			= 3.0;
 	const double	fan_move_speed			= 2.5;
+	const float		transform_position_y	= -10.0;
 };
