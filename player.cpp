@@ -62,10 +62,6 @@ void Player::update()
 	}
 
 	//デバッグ用扇風機
-	if (CheckHitKey(KEY_INPUT_0) == true)
-	{
-		isFan_ = true;
-	}
 	if (CheckHitKey(KEY_INPUT_9) == true)
 	{
 		isFan_ = false;
@@ -119,7 +115,7 @@ void Player::reset()
 	hp_					= max_hp;
 	angleSwing_			= 0.00;
 	isFan_				= false;
-	fanMoveAngle_		= 0.0;
+	fanMoveAngle_		= 90.0;
 }
 
 /// <summary>
@@ -335,7 +331,7 @@ void Player::transformFan()
 		isFan_ = true;
 		position_.y = player_init_positionY;
 		//落ちた瞬間に扇風機の移動をして扇風機の位置を設定する
-		input.Buttons[6] = 100;
+		input.Buttons[6] = 1;
 		moveFan();
 	}
 }
