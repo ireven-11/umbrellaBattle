@@ -25,11 +25,11 @@ void ScreenSetting()
 /// </summary>
 void SetFPS()
 {
+    //wait‚Ì•”•ª‚Ì”’l‚ð‘‚â‚·‚Ù‚Ç‚†‚‚“‚ª‚³‚ª‚Á‚Ä‚¢‚­
     const int wait = 20;
     int term;
     static int t = 0;
     term = GetNowCount() - t;
-    //‚P‚U‚Ì•”•ª‚Ì”’l‚ð‘‚â‚·‚Ù‚Ç‚†‚‚“‚ª‚³‚ª‚Á‚Ä‚¢‚­
     if (wait - term > 0)
         Sleep(wait - term);
     t = GetNowCount();
