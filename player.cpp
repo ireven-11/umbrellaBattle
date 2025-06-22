@@ -127,38 +127,30 @@ void Player::reset()
 void Player::move()
 {
 	auto isNoneAction = !isTackle_ && !isSwing_;
+
+	//早期リターン
+	if (input.X == 0 && input.Y == 0)
+	{
+		return;
+	}
+
 	if (input.Y < 0 && isNoneAction)
 	{
-		//if ()
-		{
-			position_.z += move_speed;
-		}
-		//rotation();
+		position_.z += move_speed;
 	}
 	if (input.Y > 0 && isNoneAction)
 	{
-		//if (!isTackle_ && !isSwing_)
-		{
-			position_.z -= move_speed;
-		}
-		//rotation();
+		position_.z -= move_speed;
 	}
-	if (input.X > 0)
+	if (input.X > 0 && isNoneAction)
 	{
-		if (!isTackle_ && !isSwing_)
-		{
-			position_.x += move_speed;
-		}
-		//rotation();
+		position_.x += move_speed;
 	}
-	if (input.X < 0)
+	if (input.X < 0 && isNoneAction)
 	{
-		if (!isTackle_ && !isSwing_)
-		{
-			position_.x -= move_speed;
-		}
-		//rotation();
+		position_.x -= move_speed;
 	}
+
 	rotation();
 }
 
@@ -291,7 +283,15 @@ void Player::wind()
 			position_.x = stage_center.x + addAngleX;
 			position_.z = stage_center.z + addAngleZ;
 		}
+
+		double tempRotation = atan2(position_.x, position_.z);
+
+		//ステージの中心を向くようにモデルを回転
+		MV1SetRotationXYZ(fan_, VGet(0.0f, tempRotation + DX_PI, 0.0f));
 	}
+
+	//デバッグ用
+	DrawFormatString(100, 500, GetColor(255, 255, 255), "%f", fanMoveAngle_);
 }
 
 /// <summary>

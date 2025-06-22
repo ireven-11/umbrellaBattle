@@ -59,5 +59,5 @@ private:
 	const int		max_hp					= 100;
 	const double	swing_speed				= 0.40;
 	const double	max_swing_angle			= 3.0;
-	const double	fan_move_speed			= 5.0;
+	const double	fan_move_speed			= 2.5;
 };
