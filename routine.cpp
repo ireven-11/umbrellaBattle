@@ -33,7 +33,7 @@ void Routine::game()
     //デリート
     sceneManager    = nullptr;
     camera          = nullptr;
-    player.clear();
+    players.clear();
     stage           = nullptr;
     standbyUI       = nullptr;
 }
@@ -100,9 +100,9 @@ void Routine::stanby()
 /// </summary>
 void Routine::play()
 {
-    stage->update(player);
+    stage->update(players);
 
-    for (const auto& i:player)
+    for (const auto& i:players)
     {
         i->update();
     }
@@ -143,22 +143,22 @@ void Routine::joinPlayer()
     //プレイヤーはコントローラのAボタンを押したら参加できる
     if (input1.Buttons[1] > 0 && !isjoiningPlayer[0])
     {
-        player.emplace_back(make_shared<Player>(DX_INPUT_PAD1));
+        players.emplace_back(make_shared<Player>(DX_INPUT_PAD1));
         isjoiningPlayer[0] = true;
     }
     if (input2.Buttons[1] > 0 && !isjoiningPlayer[1])
     {
-        player.emplace_back(make_shared<Player>(DX_INPUT_PAD2));
+        players.emplace_back(make_shared<Player>(DX_INPUT_PAD2));
         isjoiningPlayer[1] = true;
     }
     if (input3.Buttons[1] > 0 && !isjoiningPlayer[2])
     {
-        player.emplace_back(make_shared<Player>(DX_INPUT_PAD3));
+        players.emplace_back(make_shared<Player>(DX_INPUT_PAD3));
         isjoiningPlayer[2] = true;
     }
     if (input4.Buttons[1] > 0 && !isjoiningPlayer[3])
     {
-        player.emplace_back(make_shared<Player>(DX_INPUT_PAD4));
+        players.emplace_back(make_shared<Player>(DX_INPUT_PAD4));
         isjoiningPlayer[3] = true;
     }
 }
