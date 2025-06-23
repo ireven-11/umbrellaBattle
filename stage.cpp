@@ -65,7 +65,7 @@ Stage::~Stage()
 /// <summary>
 /// çXêV
 /// </summary>
-void Stage::update(vector<shared_ptr<Player>>player)
+void Stage::update(vector<shared_ptr<CharaBase>>player)
 {
 	MV1SetPosition(skydomeHandle_, VGet(0, 0, 0));
 	for (int i = 0; i < tile_number; i++)
@@ -256,7 +256,7 @@ void DrawHexagon3D(VECTOR standardPosition, float sideX, float sideZ, float side
 /// </summary>
 /// <param name="player"></param>
 /// <returns></returns>
-void Stage::collisionWithPlayer(vector<shared_ptr<Player>>player)
+void Stage::collisionWithPlayer(vector<shared_ptr<CharaBase>>player)
 {
 	for (int i = 0; i < tile_number; i++)
 	{

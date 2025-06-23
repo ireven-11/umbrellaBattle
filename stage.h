@@ -16,7 +16,7 @@ constexpr	int		change_color_timing = 150;
 constexpr	float	stage_radius		= 37.5f;
 const		VECTOR	stage_center = VGet(-2.0f, 0.0f, 15.0f);
 
-class Player;
+class CharaBase;
 
 class Stage
 {
@@ -24,10 +24,10 @@ public:
 	Stage();
 	~Stage();
 
-	void update(vector<shared_ptr<Player>>player);
+	void update(vector<shared_ptr<CharaBase>>player);
 	void draw();
 	void reset();
-	void collisionWithPlayer(vector<shared_ptr<Player>>player);
+	void collisionWithPlayer(vector<shared_ptr<CharaBase>>player);
 
 private:
 	void vanishTile();
