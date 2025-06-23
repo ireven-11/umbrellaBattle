@@ -1,25 +1,26 @@
 #pragma once
+#include"charaBase.h"
 
-constexpr float	player_init_positionX = 0.0f;
-constexpr float	player_init_positionY = 0.0f;
-constexpr float	player_init_positionZ = 0.0f;
+//constexpr float	player_init_positionX = 0.0f;
+//constexpr float	player_init_positionY = 0.0f;
+//constexpr float	player_init_positionZ = 0.0f;
 
-class Player
+class Player:public CharaBase
 {
 public:
-	Player(const int join_number);
+	Player(/*const int join_number*/);
 	~Player();
 
-	void update();
+	/*void update();
 	void reset();
 	void fall();
 	void transformFan();
 
 	VECTOR	Getposition_()const { return  position_; }
-	bool	GetisFan_()const { return isFan_; }
+	bool	GetisFan_()const { return isFan_; }*/
 
 private:
-	void draw()const;
+	/*void draw()const;
 	void move();
 	void action();
 	void swing();
@@ -28,28 +29,28 @@ private:
 	void stopTackle();
 	void wind();
 	void moveFan();
-	void rotation();
+	void rotation();*/
 
-	VECTOR	position_;			//座標
-	int		openingUmbrella_;	//モデルハンドル(開いた状態)
-	int		closingUmbrella_;	//モデルハンドル(閉じた状態)
-	bool	isOpening_;			//傘開いてるかフラグ
-	int		hp_;				//hp
-	bool	isPrevButton_;		//前フレームにボタンを押したかフラグ
-	bool	isTackle_;			//タックルしてるかフラグ
-	float	tackleCount_;		//タックルカウント
-	VECTOR	tackleVector_;		//タックルのベクトル
-	double	rotationAngleY_;	//回転角度
-	MATRIX	rotaionMatrix_;		//回転行列を保存する変数
-	bool	isMovingtackle_;	//タックル移動中かどうか
+	//VECTOR	position_;			//座標
+	//int		openingUmbrella_;	//モデルハンドル(開いた状態)
+	//int		closingUmbrella_;	//モデルハンドル(閉じた状態)
+	//bool	isOpening_;			//傘開いてるかフラグ
+	//int		hp_;				//hp
+	//bool	isPrevButton_;		//前フレームにボタンを押したかフラグ
+	//bool	isTackle_;			//タックルしてるかフラグ
+	//float	tackleCount_;		//タックルカウント
+	//VECTOR	tackleVector_;		//タックルのベクトル
+	//double	rotationAngleY_;	//回転角度
+	//MATRIX	rotaionMatrix_;		//回転行列を保存する変数
+	//bool	isMovingtackle_;	//タックル移動中かどうか
 	int		controlerNumber_;	//どのコントローラかを表す数字
-	bool	isSwing_;			//スイング中かどうか
-	double	angleSwing_;		//スイングの角度
-	int		fan_;				//扇風機
-	bool	isFan_;				//扇風機かどうかフラグ
-	double	fanMoveAngle_;		//扇風機の移動角度
+	//bool	isSwing_;			//スイング中かどうか
+	//double	angleSwing_;		//スイングの角度
+	//int		fan_;				//扇風機
+	//bool	isFan_;				//扇風機かどうかフラグ
+	//double	fanMoveAngle_;		//扇風機の移動角度
 
-	const float		fall_speed				= 0.005f;
+	/*const float		fall_speed				= 0.005f;
 	const float		scale					= 0.15f;
 	const float		move_speed				= 0.2f;
 	const float		max_tackle_count		= 50.0f;
@@ -62,5 +63,5 @@ private:
 	const double	swing_speed				= 0.40;
 	const double	max_swing_angle			= 3.0;
 	const double	fan_move_speed			= 2.5;
-	const float		transform_position_y	= -10.0;
+	const float		transform_position_y	= -10.0;*/
 };
