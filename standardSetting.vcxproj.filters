@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="ソース ファイル\chara">
+      <UniqueIdentifier>{6849c82b-e517-4640-9a76-a2fda1451f9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\chara">
+      <UniqueIdentifier>{35ca5709-3d0a-413c-af13-e303150f3be4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -30,9 +36,6 @@
     <ClCompile Include="sceneManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="player.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="camera.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -42,8 +45,14 @@
     <ClCompile Include="standbyUI.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="charaBase.cpp">
+      <Filter>ソース ファイル\chara</Filter>
+    </ClCompile>
     <ClCompile Include="cpu.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\chara</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>ソース ファイル\chara</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -56,9 +65,6 @@
     <ClInclude Include="sceneManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="player.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="camera.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -68,8 +74,14 @@
     <ClInclude Include="standbyUI.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="charaBase.h">
+      <Filter>ヘッダー ファイル\chara</Filter>
+    </ClInclude>
     <ClInclude Include="cpu.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\chara</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>ヘッダー ファイル\chara</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
