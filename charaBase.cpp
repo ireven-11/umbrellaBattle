@@ -31,7 +31,7 @@ CharaBase::~CharaBase()
 /// </summary>
 void CharaBase::update()
 {
-	//コントローラーを使えるようにする
+	//コントローラーの入力状態を取得する
 	GetJoypadDirectInputState(controlerNumber_, &input);
 
 	//テスト用モデル変更＋回転
@@ -48,12 +48,6 @@ void CharaBase::update()
 	if (CheckHitKey(KEY_INPUT_D) == true)
 	{
 		position_.y = 0.0f;
-	}
-
-	//デバッグ用扇風機
-	if (CheckHitKey(KEY_INPUT_9) == true)
-	{
-		isFan_ = false;
 	}
 
 	action();
@@ -259,6 +253,9 @@ void CharaBase::wind()
 	DrawFormatString(100, 500, GetColor(255, 255, 255), "%f", fanMoveAngle_);
 }
 
+/// <summary>
+/// 扇風機移動
+/// </summary>
 void CharaBase::moveFan()
 {
 	double radiun = fanMoveAngle_ * DX_PI / 180.0;
@@ -312,6 +309,9 @@ void CharaBase::rotation()
 	//DrawFormatString(200, 200, GetColor(255, 255, 255), "角度:%f", rotationAngle_);
 }
 
+/// <summary>
+/// 扇風機に変身
+/// </summary>
 void CharaBase::transformFan()
 {
 	//一定の高さまで落ちたら

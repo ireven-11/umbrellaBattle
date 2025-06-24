@@ -10,25 +10,25 @@ public:
 	CharaBase();
 	~CharaBase();
 
-	void update();
+	virtual void update();
 	void reset();
 	void fall();
-	void transformFan();
 
 	VECTOR	Getposition_()const { return  position_; }
 	bool	GetisFan_()const { return isFan_; }
 
 private:
 	void draw()const;
-	void move();
+	virtual void move();
 	void action();
-	void swing();
-	void tackle();
+	virtual void swing();
+	virtual void tackle();
 	void tackleMoving(MATRIX rotation);
-	void stopTackle();
+	virtual void stopTackle();
 	void wind();
-	void moveFan();
-	void rotation();
+	virtual void moveFan();
+	virtual void transformFan();
+	virtual void rotation();
 
 	const float		fall_speed = 0.005f;
 	const float		scale = 0.15f;
