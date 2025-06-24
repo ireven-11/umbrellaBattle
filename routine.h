@@ -36,6 +36,7 @@ private:
 	void stanby();
 	void reset();
 	void joinPlayer();
+	void joinCPU();
 
 	bool isjoiningPlayer[max_player_number];	//プレイヤー参加フラグ
 };

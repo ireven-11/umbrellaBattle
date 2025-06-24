@@ -6,6 +6,7 @@
 #include"player.h"
 #include"stage.h"
 #include"standbyUI.h"
+#include"cpu.h"
 
 /// <summary>
 /// コンストラクタ
@@ -90,7 +91,11 @@ void Routine::stanby()
 {
     joinPlayer();
 
-    sceneManager->proceedPlay();
+    if (sceneManager->proceedPlay())
+    {
+        //プレイ画面へ行くときにcpuを参加
+        joinCPU();
+    }
 
     standbyUI->update(isjoiningPlayer, max_player_number);
 }
@@ -163,5 +168,20 @@ void Routine::joinPlayer()
     {
         players.emplace_back(make_shared<Player>(DX_INPUT_PAD4));
         isjoiningPlayer[3] = true;
+    }
+}
+
+/// <summary>
+/// cpu参加
+/// </summary>
+void Routine::joinCPU()
+{
+    for (auto i = 0; i < max_player_number; i++)
+    {
+        //プレイヤーが参加してなければ
+        if (!isjoiningPlayer[i])
+        {
+            players.emplace_back(make_shared<CPU>());
+        }
     }
 }
