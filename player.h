@@ -8,7 +8,7 @@
 class Player:public CharaBase
 {
 public:
-	Player(/*const int join_number*/);
+	Player(const int join_number);
 	~Player();
 
 	/*void update();
@@ -43,7 +43,7 @@ private:
 	//double	rotationAngleY_;	//回転角度
 	//MATRIX	rotaionMatrix_;		//回転行列を保存する変数
 	//bool	isMovingtackle_;	//タックル移動中かどうか
-	int		controlerNumber_;	//どのコントローラかを表す数字
+	//int		controlerNumber_;	//どのコントローラかを表す数字
 	//bool	isSwing_;			//スイング中かどうか
 	//double	angleSwing_;		//スイングの角度
 	//int		fan_;				//扇風機
