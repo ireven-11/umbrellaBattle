@@ -35,12 +35,15 @@ void SceneManager::proceedStandby()
 /// <summary>
 /// ƒvƒŒƒC‰æ–Ê‚Ö
 /// </summary>
-void SceneManager::proceedPlay()
+bool SceneManager::proceedPlay()
 {
 	if (CheckHitKey(KEY_INPUT_RETURN) == true)
 	{
 		sceneType_ = PLAY;
+		return true;
 	}
+
+	return false;
 }
 
 /// <summary>

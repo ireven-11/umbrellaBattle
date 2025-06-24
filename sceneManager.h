@@ -17,7 +17,7 @@ public:
 
 	void reset();			//ƒŠƒZƒbƒgˆ—
 	void proceedStandby();
-	void proceedPlay();
+	bool proceedPlay();
 	void proceedResult();
 	void proceedTitle();
 
