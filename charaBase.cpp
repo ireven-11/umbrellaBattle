@@ -6,7 +6,7 @@
 //コントローラー(D)用構造体変数
 DINPUT_JOYSTATE input;
 
-CharaBase::CharaBase(/*const int join_number*/)
+CharaBase::CharaBase()
 {
 	//3dモデル読み込み
 	openingUmbrella_ = MV1LoadModel("3dmodel/umbrella/umblleraopen.mv1");
@@ -18,11 +18,6 @@ CharaBase::CharaBase(/*const int join_number*/)
 
 	//数値初期化
 	reset();
-
-	//controlerNumber_ = join_number;
-
-	////コントローラーのデッドゾーンを設定
-	//SetJoypadDeadZone(controlerNumber_, 0.1);
 }
 
 CharaBase::~CharaBase()

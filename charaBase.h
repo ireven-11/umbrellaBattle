@@ -7,7 +7,7 @@ constexpr float	player_init_positionZ = 0.0f;
 class CharaBase
 {
 public:
-	CharaBase(/*const int join_number*/);
+	CharaBase();
 	~CharaBase();
 
 	void update();
@@ -46,7 +46,6 @@ private:
 	const float		transform_position_y = -10.0;
 
 protected:
-
 	VECTOR	position_;			//座標
 	int		openingUmbrella_;	//モデルハンドル(開いた状態)
 	int		closingUmbrella_;	//モデルハンドル(閉じた状態)
