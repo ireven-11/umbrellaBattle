@@ -127,6 +127,9 @@ void Routine::reset()
     }
 }
 
+/// <summary>
+/// プレイヤー参加
+/// </summary>
 void Routine::joinPlayer()
 {
     //コントローラー(D)用構造体変数
