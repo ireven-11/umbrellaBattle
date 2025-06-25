@@ -6,7 +6,7 @@
 //コントローラー(D)用構造体変数
 DINPUT_JOYSTATE input;
 
-CharaBase::CharaBase()
+CharaBase::CharaBase(const int join_number)
 {
 	//3dモデル読み込み
 	openingUmbrella_ = MV1LoadModel("3dmodel/umbrella/umblleraopen.mv1");
@@ -16,8 +16,13 @@ CharaBase::CharaBase()
 	MV1SetScale(closingUmbrella_, VGet(scale, scale, scale));
 	MV1SetScale(fan_, VGet(scale / 12, scale / 12, scale / 12));
 
+	controlerNumber_ = join_number;
+
 	//数値初期化
 	reset();
+
+	//コントローラーのデッドゾーンを設定
+	SetJoypadDeadZone(controlerNumber_, 0.1);
 }
 
 CharaBase::~CharaBase()
@@ -93,7 +98,7 @@ void CharaBase::reset()
 	rotationAngleY_ = 0.0;
 	rotaionMatrix_ = MGetIdent();
 	isMovingtackle_ = false;
-	controlerNumber_ = 0;
+	//controlerNumber_ = 0;
 	isSwing_ = false;
 	hp_ = max_hp;
 	angleSwing_ = 0.00;

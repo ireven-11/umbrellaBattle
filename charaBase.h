@@ -7,7 +7,7 @@ constexpr float	player_init_positionZ = 0.0f;
 class CharaBase
 {
 public:
-	CharaBase();
+	CharaBase(const int join_number);
 	~CharaBase();
 
 	virtual void update();
