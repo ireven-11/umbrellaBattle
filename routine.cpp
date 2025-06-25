@@ -181,7 +181,7 @@ void Routine::joinCPU()
         //プレイヤーが参加してなければ
         if (!isjoiningPlayer[i])
         {
-            players.emplace_back(make_shared<CPU>());
+            players.emplace_back(make_shared<CPU>(i + 1));
         }
     }
 }
