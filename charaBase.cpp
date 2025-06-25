@@ -90,7 +90,22 @@ void CharaBase::draw()const
 /// </summary>
 void CharaBase::reset()
 {
-	position_ = VGet(player_init_positionX, player_init_positionY, player_init_positionZ);
+	if (controlerNumber_ == 1)
+	{
+		position_ = player1_init_position;
+	}
+	else if (controlerNumber_ == 2)
+	{
+		position_ = player2_init_position;
+	}
+	else if (controlerNumber_ == 3)
+	{
+		position_ = player3_init_position;
+	}
+	else if (controlerNumber_ == 4)
+	{
+		position_ = player4_init_position;
+	}
 	isOpening_ = true;
 	isTackle_ = false;
 	tackleCount_ = 0.0f;
@@ -118,6 +133,8 @@ void CharaBase::move()
 	{
 		return;
 	}
+
+	VECTOR moveVector;
 
 	if (input.Y < 0 && isNoneAction)
 	{

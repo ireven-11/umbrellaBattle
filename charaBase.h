@@ -44,6 +44,10 @@ private:
 	const double	max_swing_angle = 3.0;
 	const double	fan_move_speed = 2.5;
 	const float		transform_position_y = -10.0;
+	const VECTOR	player1_init_position = VGet(-10.0f, 0.0f, 20.0f);
+	const VECTOR	player2_init_position = VGet(-10.0f, 0.0f, 0.0f);
+	const VECTOR	player3_init_position = VGet(0.0f, 0.0f, 20.0f);
+	const VECTOR	player4_init_position = VGet(0.0f, 0.0f, 0.0f);
 
 protected:
 	VECTOR	position_;			//ç¿ïW
