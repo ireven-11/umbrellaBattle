@@ -9,7 +9,7 @@
 /// <summary>
 /// コンストラクタ
 /// </summary>
-Player::Player(const int join_number)
+Player::Player(const int join_number) : CharaBase(join_number)
 {
 	////3dモデル読み込み
 	//openingUmbrella_	= MV1LoadModel("3dmodel/umbrella/umblleraopen.mv1");
@@ -22,10 +22,10 @@ Player::Player(const int join_number)
 	////数値初期化
 	//reset();
 
-	controlerNumber_ = join_number;
+	//controlerNumber_ = join_number;
 
 	//コントローラーのデッドゾーンを設定
-	SetJoypadDeadZone(controlerNumber_, 0.1);
+	//SetJoypadDeadZone(controlerNumber_, 0.1);
 }
 
 /// <summary>
