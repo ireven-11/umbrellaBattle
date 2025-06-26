@@ -1,8 +1,12 @@
 #pragma once
+#include<memory>
+using namespace std;
 
 constexpr float	player_init_positionX = 0.0f;
 constexpr float	player_init_positionY = 0.0f;
 constexpr float	player_init_positionZ = 0.0f;
+
+class CharaState;
 
 class CharaBase
 {
@@ -15,12 +19,21 @@ public:
 	void fall();
 
 	VECTOR	Getposition_()const { return  position_; }
-	bool	GetisFan_()const { return isFan_; }
+	int		Getstate_()const { return state_; }
+
+	shared_ptr<CharaState> charaState = make_shared<CharaState>();
+
+	enum State
+	{
+		OPEN,
+		CLOSE,
+		TRUMPET,
+		FAN
+	};
 
 private:
 	void draw()const;
 	virtual void move();
-	void action();
 	virtual void swing();
 	virtual void tackle();
 	void tackleMoving(MATRIX rotation);
@@ -53,7 +66,6 @@ protected:
 	VECTOR	position_;			//座標
 	int		openingUmbrella_;	//モデルハンドル(開いた状態)
 	int		closingUmbrella_;	//モデルハンドル(閉じた状態)
-	bool	isOpening_;			//傘開いてるかフラグ
 	int		hp_;				//hp
 	bool	isPrevButton_;		//前フレームにボタンを押したかフラグ
 	bool	isTackle_;			//タックルしてるかフラグ
@@ -66,6 +78,6 @@ protected:
 	bool	isSwing_;			//スイング中かどうか
 	double	angleSwing_;		//スイングの角度
 	int		fan_;				//扇風機
-	bool	isFan_;				//扇風機かどうかフラグ
 	double	fanMoveAngle_;		//扇風機の移動角度
+	int		state_;				//プレイヤーの状態
 };

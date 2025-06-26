@@ -2,6 +2,7 @@
 #include"charaBase.h"
 #include<cmath>
 #include"stage.h"
+#include"charaState.h"
 
 //コントローラー(D)用構造体変数
 DINPUT_JOYSTATE input;
@@ -39,14 +40,38 @@ void CharaBase::update()
 	//コントローラーの入力状態を取得する
 	GetJoypadDirectInputState(controlerNumber_, &input);
 
+	switch (state_)
+	{
+	case OPEN:
+		move();
+		swing();
+		tackle();
+		transformFan();
+		break;
+
+	case CLOSE:
+		move();
+		transformFan();
+		break;
+
+	case TRUMPET:
+		move();
+		transformFan();
+		break;
+
+	case FAN:
+		wind();
+		break;
+	}
+
 	//テスト用モデル変更＋回転
 	if (CheckHitKey(KEY_INPUT_1))
 	{
-		isOpening_ = true;
+		state_ = OPEN;
 	}
 	if (CheckHitKey(KEY_INPUT_2))
 	{
-		isOpening_ = false;
+		state_ = CLOSE;
 	}
 
 	//でばっぐリセット
@@ -55,8 +80,6 @@ void CharaBase::update()
 		position_.y = 0.0f;
 	}
 
-	action();
-	transformFan();
 	MV1SetPosition(openingUmbrella_, position_);
 	MV1SetPosition(closingUmbrella_, position_);
 	MV1SetPosition(fan_, position_);
@@ -71,15 +94,15 @@ void CharaBase::draw()const
 	//デバッグ用
 	//DrawFormatString(0, 300, GetColor(255, 0, 0), "px:%f,py:%f,pz:%f", position_.x, position_.y, position_.z);
 
-	if (isFan_)
+	if (state_== FAN)
 	{
 		MV1DrawModel(fan_);
 	}
-	else if (isOpening_)
+	else if (state_ == OPEN)
 	{
 		MV1DrawModel(openingUmbrella_);
 	}
-	else if (!isOpening_)
+	else if (state_ == CLOSE)
 	{
 		MV1DrawModel(closingUmbrella_);
 	}
@@ -106,7 +129,6 @@ void CharaBase::reset()
 	{
 		position_ = player4_init_position;
 	}
-	isOpening_ = true;
 	isTackle_ = false;
 	tackleCount_ = 0.0f;
 	tackleVector_ = VGet(0.0f, 0.0f, 0.0f);
@@ -117,8 +139,8 @@ void CharaBase::reset()
 	isSwing_ = false;
 	hp_ = max_hp;
 	angleSwing_ = 0.00;
-	isFan_ = false;
 	fanMoveAngle_ = 90.0;
+	state_ = OPEN;
 }
 
 /// <summary>
@@ -165,23 +187,6 @@ void CharaBase::move()
 
 	//DrawFormatString(100,800,)
 	DrawFormatString(100, 700, GetColor(255, 255, 255), "ムーブベクター x:%f y:%f z:%f", moveVector.x, moveVector.y, moveVector.z);
-}
-
-/// <summary>
-/// アクション
-/// </summary>
-void CharaBase::action()
-{
-	if (!isFan_)
-	{
-		move();
-		swing();
-		tackle();
-	}
-	else
-	{
-		wind();
-	}
 }
 
 /// <summary>
@@ -235,6 +240,7 @@ void CharaBase::tackle()
 		rotaionMatrix_ = MGetRotY(rotationAngleY_ + agnle_shift_number);
 	}
 
+	//タックルをやめる
 	stopTackle();
 
 	//デバッグ用
@@ -277,10 +283,7 @@ void CharaBase::stopTackle()
 void CharaBase::wind()
 {
 	//ZRとZLで移動
-	if (isFan_)
-	{
-		moveFan();
-	}
+	moveFan();
 
 	//デバッグ用
 	DrawFormatString(100, 500, GetColor(255, 255, 255), "%f", fanMoveAngle_);
@@ -310,7 +313,6 @@ void CharaBase::moveFan()
 	}
 
 	double tempRotation = atan2(position_.x, position_.z);
-
 	//ステージの中心を向くようにモデルを回転
 	MV1SetRotationXYZ(fan_, VGet(0.0f, tempRotation + DX_PI, 0.0f));
 }
@@ -350,7 +352,7 @@ void CharaBase::transformFan()
 	//一定の高さまで落ちたら
 	if (position_.y < transform_position_y)
 	{
-		isFan_ = true;
+		state_ = FAN;
 		position_.y = player_init_positionY;
 		//落ちた瞬間に扇風機の移動をして扇風機の位置を設定する
 		input.Buttons[6] = 1;
