@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="charaBase.cpp" />
+    <ClCompile Include="charaState.cpp" />
     <ClCompile Include="cpu.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="player.cpp" />
@@ -153,6 +154,7 @@
   <ItemGroup>
     <ClInclude Include="camera.h" />
     <ClInclude Include="charaBase.h" />
+    <ClInclude Include="charaState.h" />
     <ClInclude Include="cpu.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="routine.h" />
