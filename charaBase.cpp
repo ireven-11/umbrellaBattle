@@ -134,26 +134,37 @@ void CharaBase::move()
 		return;
 	}
 
-	VECTOR moveVector;
+	VECTOR moveVector = VGet(0.0f, 0.0f, 0.0f);
 
 	if (input.Y < 0 && isNoneAction)
 	{
-		position_.z += move_speed;
+		//position_.z += move_speed;
+		moveVector = VAdd(moveVector, VGet(0.0f, 0.0f, move_speed));
 	}
 	if (input.Y > 0 && isNoneAction)
 	{
-		position_.z -= move_speed;
+		//position_.z -= move_speed;
+		moveVector = VAdd(moveVector, VGet(0.0f, 0.0f, -move_speed));
 	}
 	if (input.X > 0 && isNoneAction)
 	{
-		position_.x += move_speed;
+		//position_.x += move_speed;
+		moveVector = VAdd(moveVector, VGet(move_speed, 0.0f, 0.0f));
 	}
 	if (input.X < 0 && isNoneAction)
 	{
-		position_.x -= move_speed;
+		//position_.x -= move_speed;
+		moveVector = VAdd(moveVector, VGet(-move_speed, 0.0f, 0.0f));
 	}
 
 	rotation();
+
+	/*rotaionMatrix_ = MGetRotY(rotationAngleY_ + agnle_shift_number);
+	moveVector = VTransform(moveVector, rotaionMatrix_);*/
+	position_ = VAdd(position_, moveVector);
+
+	//DrawFormatString(100,800,)
+	DrawFormatString(100, 700, GetColor(255, 255, 255), "ムーブベクター x:%f y:%f z:%f", moveVector.x, moveVector.y, moveVector.z);
 }
 
 /// <summary>
@@ -328,7 +339,7 @@ void CharaBase::rotation()
 	}
 
 	//デバッグ用
-	//DrawFormatString(200, 200, GetColor(255, 255, 255), "角度:%f", rotationAngle_);
+	DrawFormatString(200, 200, GetColor(255, 255, 255), "角度:%f", rotationAngleY_);
 }
 
 /// <summary>
