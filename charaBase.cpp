@@ -2,7 +2,7 @@
 #include"charaBase.h"
 #include<cmath>
 #include"stage.h"
-#include"charaState.h"
+#include"openState.h"
 
 //コントローラー(D)用構造体変数
 DINPUT_JOYSTATE input;
@@ -46,12 +46,14 @@ void CharaBase::update()
 		move();
 		swing();
 		tackle();
+		changeOpenToClose();
 		transformFan();
 		break;
 
 	case CLOSE:
 		move();
 		transformFan();
+		changeCloseToOpen();
 		break;
 
 	case TRUMPET:
@@ -62,16 +64,6 @@ void CharaBase::update()
 	case FAN:
 		wind();
 		break;
-	}
-
-	//テスト用モデル変更＋回転
-	if (CheckHitKey(KEY_INPUT_1))
-	{
-		state_ = OPEN;
-	}
-	if (CheckHitKey(KEY_INPUT_2))
-	{
-		state_ = CLOSE;
 	}
 
 	//でばっぐリセット
@@ -129,18 +121,19 @@ void CharaBase::reset()
 	{
 		position_ = player4_init_position;
 	}
-	isTackle_ = false;
-	tackleCount_ = 0.0f;
-	tackleVector_ = VGet(0.0f, 0.0f, 0.0f);
+	isTackle_		= false;
+	tackleCount_	= 0.0f;
+	tackleVector_	= VGet(0.0f, 0.0f, 0.0f);
 	rotationAngleY_ = 0.0;
-	rotaionMatrix_ = MGetIdent();
+	rotaionMatrix_	= MGetIdent();
 	isMovingtackle_ = false;
 	//controlerNumber_ = 0;
-	isSwing_ = false;
-	hp_ = max_hp;
-	angleSwing_ = 0.00;
-	fanMoveAngle_ = 90.0;
-	state_ = OPEN;
+	isSwing_		= false;
+	hp_				= max_hp;
+	angleSwing_		= 0.00;
+	fanMoveAngle_	= 90.0;
+	state_			= OPEN;
+	isPrevButton_	= false;
 }
 
 /// <summary>
@@ -160,22 +153,18 @@ void CharaBase::move()
 
 	if (input.Y < 0 && isNoneAction)
 	{
-		//position_.z += move_speed;
 		moveVector = VAdd(moveVector, VGet(0.0f, 0.0f, move_speed));
 	}
 	if (input.Y > 0 && isNoneAction)
 	{
-		//position_.z -= move_speed;
 		moveVector = VAdd(moveVector, VGet(0.0f, 0.0f, -move_speed));
 	}
 	if (input.X > 0 && isNoneAction)
 	{
-		//position_.x += move_speed;
 		moveVector = VAdd(moveVector, VGet(move_speed, 0.0f, 0.0f));
 	}
 	if (input.X < 0 && isNoneAction)
 	{
-		//position_.x -= move_speed;
 		moveVector = VAdd(moveVector, VGet(-move_speed, 0.0f, 0.0f));
 	}
 
@@ -225,7 +214,7 @@ void CharaBase::tackle()
 	{
 		isMovingtackle_ = true;
 		--tackleCount_;
-		tackleMoving(rotaionMatrix_);
+		tackleMoving();
 	}
 	//Bボタンを押したら
 	else if (input.Buttons[0] > 0 && !isMovingtackle_)
@@ -251,9 +240,9 @@ void CharaBase::tackle()
 /// タックル移動中
 /// </summary>
 /// <param name="rotation">どの方向にタックルするか決める回転行列</param>
-void CharaBase::tackleMoving(MATRIX rotation)
+void CharaBase::tackleMoving()
 {
-	VECTOR moveVector = VTransform(VGet(tackleCount_ / adjust_tackle, 0.0f, tackleCount_ / adjust_tackle), rotation);
+	VECTOR moveVector = VTransform(VGet(tackleCount_ / adjust_tackle, 0.0f, tackleCount_ / adjust_tackle), rotaionMatrix_);
 	position_ = VAdd(position_, moveVector);
 
 	//移動中は落下しずらくするようにyに補正をかける
@@ -357,5 +346,43 @@ void CharaBase::transformFan()
 		//落ちた瞬間に扇風機の移動をして扇風機の位置を設定する
 		input.Buttons[6] = 1;
 		moveFan();
+	}
+}
+
+/// <summary>
+/// 開いた状態から閉じた状態へ
+/// </summary>
+void CharaBase::changeOpenToClose()
+{
+	if (input.Buttons[2] > 0)
+	{
+		if (!isPrevButton_)
+		{
+			state_ = CLOSE;
+		}
+		isPrevButton_ = true;
+	}
+	else
+	{
+		isPrevButton_ = false;
+	}
+}
+
+/// <summary>
+/// 閉じた状態から開いた状態へ
+/// </summary>
+void CharaBase::changeCloseToOpen()
+{
+	if (input.Buttons[2] > 0)
+	{
+		if (!isPrevButton_)
+		{
+			state_ = OPEN;
+		}
+		isPrevButton_ = true;
+	}
+	else
+	{
+		isPrevButton_ = false;
 	}
 }

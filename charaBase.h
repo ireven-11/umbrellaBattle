@@ -7,6 +7,7 @@ constexpr float	player_init_positionY = 0.0f;
 constexpr float	player_init_positionZ = 0.0f;
 
 class CharaState;
+class OpenState;
 
 class CharaBase
 {
@@ -21,7 +22,7 @@ public:
 	VECTOR	Getposition_()const { return  position_; }
 	int		Getstate_()const { return state_; }
 
-	shared_ptr<CharaState> charaState = make_shared<CharaState>();
+	//shared_ptr<CharaState> charaState = make_shared<OpenState>();
 
 	enum State
 	{
@@ -36,12 +37,14 @@ private:
 	virtual void move();
 	virtual void swing();
 	virtual void tackle();
-	void tackleMoving(MATRIX rotation);
+	void tackleMoving();
 	virtual void stopTackle();
 	void wind();
 	virtual void moveFan();
 	virtual void transformFan();
 	virtual void rotation();
+	virtual void changeOpenToClose();
+	virtual void changeCloseToOpen();
 
 	const float		fall_speed = 0.005f;
 	const float		scale = 0.15f;

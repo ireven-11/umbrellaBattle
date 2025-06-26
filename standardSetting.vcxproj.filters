@@ -57,6 +57,9 @@
     <ClCompile Include="charaState.cpp">
       <Filter>ソース ファイル\chara</Filter>
     </ClCompile>
+    <ClCompile Include="openState.cpp">
+      <Filter>ソース ファイル\chara</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="setting.h">
@@ -87,6 +90,9 @@
       <Filter>ヘッダー ファイル\chara</Filter>
     </ClInclude>
     <ClInclude Include="charaState.h">
+      <Filter>ヘッダー ファイル\chara</Filter>
+    </ClInclude>
+    <ClInclude Include="openState.h">
       <Filter>ヘッダー ファイル\chara</Filter>
     </ClInclude>
   </ItemGroup>

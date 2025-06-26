@@ -4,8 +4,7 @@ class CharaState
 {
 public:
 	CharaState();
-	~CharaState();
+	virtual ~CharaState();
 
-private:
-
+	virtual void update();
 };

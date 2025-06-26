@@ -144,6 +144,7 @@
     <ClCompile Include="charaState.cpp" />
     <ClCompile Include="cpu.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="openState.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="routine.cpp" />
     <ClCompile Include="sceneManager.cpp" />
@@ -156,6 +157,7 @@
     <ClInclude Include="charaBase.h" />
     <ClInclude Include="charaState.h" />
     <ClInclude Include="cpu.h" />
+    <ClInclude Include="openState.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="routine.h" />
     <ClInclude Include="sceneManager.h" />

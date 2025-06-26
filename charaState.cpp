@@ -8,3 +8,8 @@ CharaState::CharaState()
 CharaState::~CharaState()
 {
 }
+
+void CharaState::update()
+{
+
+}
