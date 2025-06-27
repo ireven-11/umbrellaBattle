@@ -18,6 +18,9 @@ public:
 	virtual void update();
 	void reset();
 	void fall();
+	virtual void changeOpenToClose();
+	virtual void changeCloseToOpen();
+	virtual void transformFan();
 
 	VECTOR	Getposition_()const { return  position_; }
 	int		Getstate_()const { return state_; }
@@ -41,10 +44,7 @@ private:
 	virtual void stopTackle();
 	void wind();
 	virtual void moveFan();
-	virtual void transformFan();
 	virtual void rotation();
-	virtual void changeOpenToClose();
-	virtual void changeCloseToOpen();
 
 	const float		fall_speed = 0.005f;
 	const float		scale = 0.15f;
