@@ -141,7 +141,6 @@
   <ItemGroup>
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="charaBase.cpp" />
-    <ClCompile Include="charaState.cpp" />
     <ClCompile Include="cpu.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="openState.cpp" />

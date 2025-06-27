@@ -54,9 +54,6 @@
     <ClCompile Include="player.cpp">
       <Filter>ソース ファイル\chara</Filter>
     </ClCompile>
-    <ClCompile Include="charaState.cpp">
-      <Filter>ソース ファイル\chara</Filter>
-    </ClCompile>
     <ClCompile Include="openState.cpp">
       <Filter>ソース ファイル\chara</Filter>
     </ClCompile>
