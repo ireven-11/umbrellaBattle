@@ -1,10 +1,11 @@
 #pragma once
+#include"charaBase.h"
 
 class CharaState
 {
 public:
-	CharaState();
-	virtual ~CharaState();
+	virtual ~CharaState(){}
 
-	virtual void update();
+	virtual void changeState(shared_ptr<CharaBase> charaBase){}
+	virtual void update(shared_ptr<CharaBase> charaBase){}
 };
