@@ -25,8 +25,6 @@ public:
 	VECTOR	Getposition_()const { return  position_; }
 	int		Getstate_()const { return state_; }
 
-	//shared_ptr<CharaState> charaState = make_shared<OpenState>();
-
 	enum State
 	{
 		OPEN,

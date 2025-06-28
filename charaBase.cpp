@@ -7,6 +7,10 @@
 //コントローラー(D)用構造体変数
 DINPUT_JOYSTATE input;
 
+/// <summary>
+/// コンストラクタ
+/// </summary>
+/// <param name="join_number">何Pかを表す数字</param>
 CharaBase::CharaBase(const int join_number)
 {
 	//3dモデル読み込み
@@ -26,6 +30,9 @@ CharaBase::CharaBase(const int join_number)
 	SetJoypadDeadZone(controlerNumber_, 0.1);
 }
 
+/// <summary>
+/// デストラクタ
+/// </summary>
 CharaBase::~CharaBase()
 {
 	MV1DeleteModel(openingUmbrella_);
