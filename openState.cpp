@@ -30,5 +30,7 @@ void OpenState::changeState(shared_ptr<CharaBase> charaBase)
 /// <param name="charaBase"></param>
 void OpenState::update(shared_ptr<CharaBase> charaBase)
 {
-
+	charaBase->move();
+	charaBase->swing();
+	charaBase->tackle();
 }

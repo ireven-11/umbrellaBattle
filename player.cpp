@@ -3,6 +3,8 @@
 #include<cmath>
 #include"stage.h"
 
+#include "charaState.h"
+
 //コントローラー(D)用構造体変数
 //DINPUT_JOYSTATE input;
 
@@ -26,6 +28,9 @@ Player::Player(const int join_number) : CharaBase(join_number)
 
 	//コントローラーのデッドゾーンを設定
 	//SetJoypadDeadZone(controlerNumber_, 0.1);
+
+	//stateCurrent_ = std::make_shared<PlayerState::PlayerIdleState>();
+	//stateCurrent_->update(this);
 }
 
 /// <summary>

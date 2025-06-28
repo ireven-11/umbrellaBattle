@@ -6,9 +6,6 @@ constexpr float	player_init_positionX = 0.0f;
 constexpr float	player_init_positionY = 0.0f;
 constexpr float	player_init_positionZ = 0.0f;
 
-class CharaState;
-class OpenState;
-
 class CharaBase
 {
 public:
@@ -21,10 +18,13 @@ public:
 	virtual void changeOpenToClose();
 	virtual void changeCloseToOpen();
 	virtual void transformFan();
+	virtual void move();
+	virtual void swing();
+	virtual void tackle();
 
 	VECTOR	Getposition_()const { return  position_; }
 	int		Getstate_()const { return state_; }
-
+	
 	enum State
 	{
 		OPEN,
@@ -33,11 +33,11 @@ public:
 		FAN
 	};
 
+protected:
+	//shared_ptr<StateMachine::IState> stateCurrent_;
+
 private:
 	void draw()const;
-	virtual void move();
-	virtual void swing();
-	virtual void tackle();
 	void tackleMoving();
 	virtual void stopTackle();
 	void wind();

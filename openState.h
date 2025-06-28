@@ -1,7 +1,7 @@
 #pragma once
 #include"charaState.h"
 
-class OpenState:public CharaState
+class OpenState:public StateMachine::IState
 {
 public:
 	OpenState();
