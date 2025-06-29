@@ -156,7 +156,6 @@
     <ClInclude Include="charaBase.h" />
     <ClInclude Include="charaState.h" />
     <ClInclude Include="cpu.h" />
-    <ClInclude Include="openState.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="routine.h" />
     <ClInclude Include="sceneManager.h" />
