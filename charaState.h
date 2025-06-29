@@ -1,6 +1,7 @@
 #pragma once
 #include"charaBase.h"
 
+/// @brief ステートマシーンインターフェース
 namespace StateMachine
 {
 	class IState
@@ -8,33 +9,77 @@ namespace StateMachine
 	public:
 		virtual ~IState() = default;
 
-		virtual void changeState(shared_ptr<IState> state) = 0;
-		virtual void update(CharaBase *charaBase) = 0;
+		virtual void changeState(shared_ptr<IState> state, shared_ptr<CharaBase> charaBase) = 0;
+		virtual void update(shared_ptr<CharaBase> charaBase) = 0;
 	};
 }
 
-
-namespace PlayerState
+/// @brief キャラステート
+namespace CharaState
 {
-	class PlayerIdleState : public StateMachine::IState
+	//開いた状態
+	class OpenState : public StateMachine::IState
 	{
 	public:
-		void changeState(shared_ptr<IState> state)
+		OpenState();
+		~OpenState();
+		void changeState(shared_ptr<IState> state, shared_ptr<CharaBase> charaBase)
 		{
 			// 実際の処理
 		}
 
-		void update(CharaBase *charaBase) {}
+		void update(shared_ptr<CharaBase> charaBase)
+		{
+
+		}
 	};
 
-	class PlayerWalkState : public StateMachine::IState
+	//閉じた状態
+	class CloseState : public StateMachine::IState
 	{
 	public:
-		void changeState(shared_ptr<IState> state)
+		CloseState();
+		~CloseState();
+		void changeState(shared_ptr<IState> state, shared_ptr<CharaBase> charaBase)
 		{
 			// 実際の処理
 		}
 
-		void update(CharaBase *charaBase) {}
+		void update(shared_ptr<CharaBase> charaBase)
+		{
+
+		}
+	};
+
+	//ラッパ状態
+	class TrumpetState : public StateMachine::IState
+	{
+	public:
+		TrumpetState();
+		~TrumpetState();
+		void changeState(shared_ptr<IState> state, shared_ptr<CharaBase> charaBase)
+		{
+		}
+
+		void update(shared_ptr<CharaBase> charaBase)
+		{
+		}
+	};
+
+	//扇風機状態
+	class FanState : public StateMachine::IState
+	{
+	public:
+		FanState();
+		~FanState();
+		void changeState(shared_ptr<IState> state, shared_ptr<CharaBase> charaBase)
+		{
+			// 実際の処理
+		}
+
+		void update(shared_ptr<CharaBase> charaBase)
+		{
+
+		}
 	};
 }

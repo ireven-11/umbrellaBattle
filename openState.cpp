@@ -1,5 +1,6 @@
 #include"DxLib.h"
-#include"openState.h"
+#include"CharaState.h"
+using namespace CharaState;
 
 /// <summary>
 /// コンストラクタ
@@ -18,7 +19,7 @@ OpenState::~OpenState()
 /// <summary>
 /// 状態変化/// </summary>
 /// <param name="charaBase">キャラの親クラス</param>
-void OpenState::changeState(shared_ptr<CharaBase> charaBase)
+void OpenState::changeState(shared_ptr<IState> state, shared_ptr<CharaBase> charaBase)
 {
 	charaBase->changeOpenToClose();
 	charaBase->transformFan();

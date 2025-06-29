@@ -2,8 +2,7 @@
 #include"player.h"
 #include<cmath>
 #include"stage.h"
-
-#include "charaState.h"
+//#include "charaState.h"
 
 //コントローラー(D)用構造体変数
 //DINPUT_JOYSTATE input;

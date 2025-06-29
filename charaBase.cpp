@@ -2,7 +2,7 @@
 #include"charaBase.h"
 #include<cmath>
 #include"stage.h"
-#include"openState.h"
+#include"charaState.h"
 
 //コントローラー(D)用構造体変数
 DINPUT_JOYSTATE input;
