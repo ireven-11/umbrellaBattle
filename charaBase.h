@@ -1,5 +1,6 @@
 #pragma once
 #include<memory>
+#include"charaState.h"
 using namespace std;
 
 constexpr float	player_init_positionX = 0.0f;
@@ -32,9 +33,6 @@ public:
 		TRUMPET,
 		FAN
 	};
-
-protected:
-	//shared_ptr<StateMachine::IState> stateCurrent_;
 
 private:
 	void draw()const;
@@ -81,4 +79,7 @@ protected:
 	int		fan_;				//扇風機
 	double	fanMoveAngle_;		//扇風機の移動角度
 	int		state_;				//プレイヤーの状態
+
+	//状態
+	shared_ptr<StateMachine::IState> state;
 };

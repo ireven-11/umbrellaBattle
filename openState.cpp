@@ -1,4 +1,5 @@
 #include"DxLib.h"
+#include"charaBase.h"
 #include"CharaState.h"
 using namespace CharaState;
 
@@ -6,7 +7,7 @@ using namespace CharaState;
 /// コンストラクタ
 /// </summary>
 OpenState::OpenState()
-{
+{ 
 }
 
 /// <summary>

@@ -1,5 +1,7 @@
 #pragma once
-#include"charaBase.h"
+#include<memory>
+using namespace std;
+class CharaBase;
 
 /// @brief ステートマシーンインターフェース
 namespace StateMachine
@@ -23,15 +25,8 @@ namespace CharaState
 	public:
 		OpenState();
 		~OpenState();
-		void changeState(shared_ptr<IState> state, shared_ptr<CharaBase> charaBase)
-		{
-			// 実際の処理
-		}
-
-		void update(shared_ptr<CharaBase> charaBase)
-		{
-
-		}
+		void changeState(shared_ptr<IState> state, shared_ptr<CharaBase> charaBase);
+		void update(shared_ptr<CharaBase> charaBase);
 	};
 
 	//閉じた状態
@@ -40,15 +35,8 @@ namespace CharaState
 	public:
 		CloseState();
 		~CloseState();
-		void changeState(shared_ptr<IState> state, shared_ptr<CharaBase> charaBase)
-		{
-			// 実際の処理
-		}
-
-		void update(shared_ptr<CharaBase> charaBase)
-		{
-
-		}
+		void changeState(shared_ptr<IState> state, shared_ptr<CharaBase> charaBase);
+		void update(shared_ptr<CharaBase> charaBase);
 	};
 
 	//ラッパ状態
@@ -57,13 +45,8 @@ namespace CharaState
 	public:
 		TrumpetState();
 		~TrumpetState();
-		void changeState(shared_ptr<IState> state, shared_ptr<CharaBase> charaBase)
-		{
-		}
-
-		void update(shared_ptr<CharaBase> charaBase)
-		{
-		}
+		void changeState(shared_ptr<IState> state, shared_ptr<CharaBase> charaBase);
+		void update(shared_ptr<CharaBase> charaBase);
 	};
 
 	//扇風機状態
@@ -72,14 +55,7 @@ namespace CharaState
 	public:
 		FanState();
 		~FanState();
-		void changeState(shared_ptr<IState> state, shared_ptr<CharaBase> charaBase)
-		{
-			// 実際の処理
-		}
-
-		void update(shared_ptr<CharaBase> charaBase)
-		{
-
-		}
+		void changeState(shared_ptr<IState> state, shared_ptr<CharaBase> charaBase);
+		void update(shared_ptr<CharaBase> charaBase);
 	};
 }

@@ -28,6 +28,9 @@ CharaBase::CharaBase(const int join_number)
 
 	//コントローラーのデッドゾーンを設定
 	SetJoypadDeadZone(controlerNumber_, 0.1);
+
+	//ステートインスタンス化
+	state = make_shared<CharaState::OpenState>();
 }
 
 /// <summary>
@@ -47,7 +50,7 @@ void CharaBase::update()
 	//コントローラーの入力状態を取得する
 	GetJoypadDirectInputState(controlerNumber_, &input);
 
-	switch (state_)
+	/*switch (state_)
 	{
 	case OPEN:
 		move();
@@ -71,7 +74,9 @@ void CharaBase::update()
 	case FAN:
 		wind();
 		break;
-	}
+	}*/
+
+	state->update(*this);
 
 	//でばっぐリセット
 	if (CheckHitKey(KEY_INPUT_D) == true)
@@ -182,7 +187,7 @@ void CharaBase::move()
 	position_ = VAdd(position_, moveVector);
 
 	//DrawFormatString(100,800,)
-	DrawFormatString(100, 700, GetColor(255, 255, 255), "ムーブベクター x:%f y:%f z:%f", moveVector.x, moveVector.y, moveVector.z);
+	//DrawFormatString(100, 700, GetColor(255, 255, 255), "ムーブベクター x:%f y:%f z:%f", moveVector.x, moveVector.y, moveVector.z);
 }
 
 /// <summary>
