@@ -20,7 +20,7 @@ OpenState::~OpenState()
 /// <summary>
 /// 状態変化/// </summary>
 /// <param name="charaBase">キャラの親クラス</param>
-void OpenState::changeState(shared_ptr<IState> state, shared_ptr<CharaBase> charaBase)
+void OpenState::changeState(CharaBase* charaBase)
 {
 	charaBase->changeOpenToClose();
 	charaBase->transformFan();
@@ -29,10 +29,11 @@ void OpenState::changeState(shared_ptr<IState> state, shared_ptr<CharaBase> char
 /// <summary>
 /// OPEN状態で行う処理内容
 /// </summary>
-/// <param name="charaBase"></param>
-void OpenState::update(shared_ptr<CharaBase> charaBase)
+/// <param name="charaBase">キャラの親クラス</param>
+void OpenState::update(CharaBase* charaBase)
 {
 	charaBase->move();
 	charaBase->swing();
 	charaBase->tackle();
+	changeState(charaBase);
 }

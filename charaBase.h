@@ -22,6 +22,7 @@ public:
 	virtual void move();
 	virtual void swing();
 	virtual void tackle();
+	void wind();
 
 	VECTOR	Getposition_()const { return  position_; }
 	int		Getstate_()const { return state_; }
@@ -38,9 +39,9 @@ private:
 	void draw()const;
 	void tackleMoving();
 	virtual void stopTackle();
-	void wind();
 	virtual void moveFan();
 	virtual void rotation();
+	shared_ptr<CharaBase> charaBasePointer;//シェアドポインタを渡す用
 
 	const float		fall_speed = 0.005f;
 	const float		scale = 0.15f;

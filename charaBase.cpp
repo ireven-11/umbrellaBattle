@@ -76,7 +76,7 @@ void CharaBase::update()
 		break;
 	}*/
 
-	state->update(*this);
+	state->update(this);
 
 	//でばっぐリセット
 	if (CheckHitKey(KEY_INPUT_D) == true)
@@ -354,6 +354,7 @@ void CharaBase::transformFan()
 	if (position_.y < transform_position_y)
 	{
 		state_ = FAN;
+		state = make_shared<CharaState::FanState>();
 		position_.y = player_init_positionY;
 		//落ちた瞬間に扇風機の移動をして扇風機の位置を設定する
 		input.Buttons[6] = 1;
@@ -368,9 +369,10 @@ void CharaBase::changeOpenToClose()
 {
 	if (input.Buttons[2] > 0)
 	{
-		if (!isPrevButton_)
+		if (!isPrevButton_ && !isTackle_)
 		{
 			state_ = CLOSE;
+			state = make_shared<CharaState::CloseState>();
 		}
 		isPrevButton_ = true;
 	}
@@ -390,6 +392,7 @@ void CharaBase::changeCloseToOpen()
 		if (!isPrevButton_)
 		{
 			state_ = OPEN;
+			state = make_shared<CharaState::OpenState>();
 		}
 		isPrevButton_ = true;
 	}

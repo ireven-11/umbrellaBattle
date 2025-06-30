@@ -94,7 +94,7 @@ void Routine::stanby()
     if (sceneManager->proceedPlay())
     {
         //プレイ画面へ行くときにcpuを参加
-        //joinCPU();
+        joinCPU();
     }
 
     standbyUI->update(isjoiningPlayer, max_player_number);

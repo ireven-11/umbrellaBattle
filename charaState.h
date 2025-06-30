@@ -11,8 +11,8 @@ namespace StateMachine
 	public:
 		virtual ~IState() = default;
 
-		virtual void changeState(shared_ptr<IState> state, shared_ptr<CharaBase> charaBase) = 0;
-		virtual void update(shared_ptr<CharaBase> charaBase) = 0;
+		virtual void changeState(CharaBase* charaBase) = 0;
+		virtual void update(CharaBase* charaBase) = 0;
 	};
 }
 
@@ -25,8 +25,8 @@ namespace CharaState
 	public:
 		OpenState();
 		~OpenState();
-		void changeState(shared_ptr<IState> state, shared_ptr<CharaBase> charaBase);
-		void update(shared_ptr<CharaBase> charaBase);
+		void changeState(CharaBase* charaBase);
+		void update(CharaBase* charaBase);
 	};
 
 	//•Â‚¶‚½ó‘Ô
@@ -35,8 +35,8 @@ namespace CharaState
 	public:
 		CloseState();
 		~CloseState();
-		void changeState(shared_ptr<IState> state, shared_ptr<CharaBase> charaBase);
-		void update(shared_ptr<CharaBase> charaBase);
+		void changeState(CharaBase* charaBase);
+		void update(CharaBase* charaBase);
 	};
 
 	//ƒ‰ƒbƒpó‘Ô
@@ -45,8 +45,8 @@ namespace CharaState
 	public:
 		TrumpetState();
 		~TrumpetState();
-		void changeState(shared_ptr<IState> state, shared_ptr<CharaBase> charaBase);
-		void update(shared_ptr<CharaBase> charaBase);
+		void changeState(CharaBase* charaBase);
+		void update(CharaBase* charaBase);
 	};
 
 	//î•—‹@ó‘Ô
@@ -55,7 +55,7 @@ namespace CharaState
 	public:
 		FanState();
 		~FanState();
-		void changeState(shared_ptr<IState> state, shared_ptr<CharaBase> charaBase);
-		void update(shared_ptr<CharaBase> charaBase);
+		void changeState(CharaBase* charaBase);
+		void update(CharaBase* charaBase);
 	};
 }
