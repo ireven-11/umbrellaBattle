@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="charaBase.cpp" />
+    <ClCompile Include="closeState.cpp" />
     <ClCompile Include="cpu.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="openState.cpp" />
@@ -150,6 +151,7 @@
     <ClCompile Include="setting.cpp" />
     <ClCompile Include="stage.cpp" />
     <ClCompile Include="standbyUI.cpp" />
+    <ClCompile Include="fanState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h" />
