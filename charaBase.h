@@ -24,9 +24,10 @@ public:
 	virtual void tackle();
 	void wind();
 
-	VECTOR	Getposition_()const { return  position_; }
-	int		Getstate_()const { return state_; }
-	
+	VECTOR								Getposition_()const { return  position_; }
+	shared_ptr<StateMachine::IState>	Getstate_()const { return state_; }
+	int	Getstate()const { return state; }
+
 	enum State
 	{
 		OPEN,
@@ -41,7 +42,6 @@ private:
 	virtual void stopTackle();
 	virtual void moveFan();
 	virtual void rotation();
-	shared_ptr<CharaBase> charaBasePointer;//シェアドポインタを渡す用
 
 	const float		fall_speed = 0.005f;
 	const float		scale = 0.15f;
@@ -79,8 +79,8 @@ protected:
 	double	angleSwing_;		//スイングの角度
 	int		fan_;				//扇風機
 	double	fanMoveAngle_;		//扇風機の移動角度
-	int		state_;				//プレイヤーの状態
+	int		state;				//プレイヤーの状態
 
 	//状態
-	shared_ptr<StateMachine::IState> state;
+	shared_ptr<StateMachine::IState> state_;
 };

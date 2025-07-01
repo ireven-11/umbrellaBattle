@@ -2,6 +2,7 @@
 #include"stage.h"
 #include"player.h"
 #include<math.h>
+#include"charaState.h"
 
 /// <summary>
 /// コンストラクタ
@@ -266,7 +267,7 @@ void Stage::collisionWithPlayer(vector<shared_ptr<CharaBase>>player)
 			for (const auto& p:player)
 			{
 				//プレイヤーが扇風機出ない時だけ
-				if (!p->Getstate_())
+				if (p->Getstate() != p->FAN)
 				{
 					if (HitTriangleAndPixel(VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f),
 						VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f),
@@ -301,7 +302,7 @@ void Stage::collisionWithPlayer(vector<shared_ptr<CharaBase>>player)
 			if (canExist_[j][i])
 			{
 				//デバッグ用六角形描画
-				DrawHexagon3D(position_[j][i], shifting_numberX, shifting_numberZ, triangle_pointZ, GetColor(255, 255, 255), false);
+				//DrawHexagon3D(position_[j][i], shifting_numberX, shifting_numberZ, triangle_pointZ, GetColor(255, 255, 255), false);
 			}
 		}
 	}

@@ -30,7 +30,7 @@ CharaBase::CharaBase(const int join_number)
 	SetJoypadDeadZone(controlerNumber_, 0.1);
 
 	//ステートインスタンス化
-	state = make_shared<CharaState::OpenState>();
+	state_ = make_shared<CharaState::OpenState>();
 }
 
 /// <summary>
@@ -76,7 +76,7 @@ void CharaBase::update()
 		break;
 	}*/
 
-	state->update(this);
+	state_->update(this);
 
 	//でばっぐリセット
 	if (CheckHitKey(KEY_INPUT_D) == true)
@@ -98,15 +98,28 @@ void CharaBase::draw()const
 	//デバッグ用
 	//DrawFormatString(0, 300, GetColor(255, 0, 0), "px:%f,py:%f,pz:%f", position_.x, position_.y, position_.z);
 
-	if (state_== FAN)
+	/*if (state_ == make_shared<CharaState::FanState>())
 	{
 		MV1DrawModel(fan_);
 	}
-	else if (state_ == OPEN)
+	else if (state_ == make_shared<CharaState::OpenState>())
 	{
 		MV1DrawModel(openingUmbrella_);
 	}
-	else if (state_ == CLOSE)
+	else if (state_ == make_shared<CharaState::CloseState>())
+	{
+		MV1DrawModel(closingUmbrella_);
+	}*/
+
+	if (state == FAN)
+	{
+		MV1DrawModel(fan_);
+	}
+	else if (state == OPEN)
+	{
+		MV1DrawModel(openingUmbrella_);
+	}
+	else if (state == CLOSE)
 	{
 		MV1DrawModel(closingUmbrella_);
 	}
@@ -139,12 +152,11 @@ void CharaBase::reset()
 	rotationAngleY_ = 0.0;
 	rotaionMatrix_	= MGetIdent();
 	isMovingtackle_ = false;
-	//controlerNumber_ = 0;
 	isSwing_		= false;
 	hp_				= max_hp;
 	angleSwing_		= 0.00;
 	fanMoveAngle_	= 90.0;
-	state_			= OPEN;
+	state			= OPEN;
 	isPrevButton_	= false;
 }
 
@@ -353,8 +365,8 @@ void CharaBase::transformFan()
 	//一定の高さまで落ちたら
 	if (position_.y < transform_position_y)
 	{
-		state_ = FAN;
-		state = make_shared<CharaState::FanState>();
+		state = FAN;
+		state_ = make_shared<CharaState::FanState>();
 		position_.y = player_init_positionY;
 		//落ちた瞬間に扇風機の移動をして扇風機の位置を設定する
 		input.Buttons[6] = 1;
@@ -371,8 +383,8 @@ void CharaBase::changeOpenToClose()
 	{
 		if (!isPrevButton_ && !isTackle_)
 		{
-			state_ = CLOSE;
-			state = make_shared<CharaState::CloseState>();
+			state = CLOSE;
+			state_ = make_shared<CharaState::CloseState>();
 		}
 		isPrevButton_ = true;
 	}
@@ -391,8 +403,8 @@ void CharaBase::changeCloseToOpen()
 	{
 		if (!isPrevButton_)
 		{
-			state_ = OPEN;
-			state = make_shared<CharaState::OpenState>();
+			state = OPEN;
+			state_ = make_shared<CharaState::OpenState>();
 		}
 		isPrevButton_ = true;
 	}
