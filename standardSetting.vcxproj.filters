@@ -69,6 +69,15 @@
     <ClCompile Include="fanState.cpp">
       <Filter>ソース ファイル\chara\state</Filter>
     </ClCompile>
+    <ClCompile Include="waitState.cpp">
+      <Filter>ソース ファイル\chara\state</Filter>
+    </ClCompile>
+    <ClCompile Include="escapeState.cpp">
+      <Filter>ソース ファイル\chara\state</Filter>
+    </ClCompile>
+    <ClCompile Include="chaseState.cpp">
+      <Filter>ソース ファイル\chara\state</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="setting.h">
@@ -89,9 +98,6 @@
     <ClInclude Include="standbyUI.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="charaBase.h">
-      <Filter>ヘッダー ファイル\chara</Filter>
-    </ClInclude>
     <ClInclude Include="cpu.h">
       <Filter>ヘッダー ファイル\chara</Filter>
     </ClInclude>
@@ -100,6 +106,9 @@
     </ClInclude>
     <ClInclude Include="charaState.h">
       <Filter>ヘッダー ファイル\chara\state</Filter>
+    </ClInclude>
+    <ClInclude Include="charaBase.h">
+      <Filter>ヘッダー ファイル\chara</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
