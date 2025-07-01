@@ -267,7 +267,7 @@ void Stage::collisionWithPlayer(vector<shared_ptr<CharaBase>>player)
 			for (const auto& p:player)
 			{
 				//プレイヤーが扇風機出ない時だけ
-				if (p->Getstate() != p->FAN)
+				if (p->Getstate_() != std::dynamic_pointer_cast<CharaState::FanState>(p->Getstate_()))
 				{
 					if (HitTriangleAndPixel(VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f),
 						VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f),

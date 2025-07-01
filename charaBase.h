@@ -26,7 +26,6 @@ public:
 
 	VECTOR								Getposition_()const { return  position_; }
 	shared_ptr<StateMachine::IState>	Getstate_()const { return state_; }
-	int	Getstate()const { return state; }
 
 	enum State
 	{
@@ -79,7 +78,6 @@ protected:
 	double	angleSwing_;		//スイングの角度
 	int		fan_;				//扇風機
 	double	fanMoveAngle_;		//扇風機の移動角度
-	int		state;				//プレイヤーの状態
 
 	//状態
 	shared_ptr<StateMachine::IState> state_;

@@ -111,15 +111,15 @@ void CharaBase::draw()const
 		MV1DrawModel(closingUmbrella_);
 	}*/
 
-	if (state == FAN)
+	if (state_ == std::dynamic_pointer_cast<CharaState::FanState>(state_))
 	{
 		MV1DrawModel(fan_);
 	}
-	else if (state == OPEN)
+	else if (state_ == std::dynamic_pointer_cast<CharaState::OpenState>(state_))
 	{
 		MV1DrawModel(openingUmbrella_);
 	}
-	else if (state == CLOSE)
+	else if (state_ == std::dynamic_pointer_cast<CharaState::CloseState>(state_))
 	{
 		MV1DrawModel(closingUmbrella_);
 	}
@@ -156,7 +156,6 @@ void CharaBase::reset()
 	hp_				= max_hp;
 	angleSwing_		= 0.00;
 	fanMoveAngle_	= 90.0;
-	state			= OPEN;
 	isPrevButton_	= false;
 }
 
@@ -365,7 +364,6 @@ void CharaBase::transformFan()
 	//ˆê’è‚Ì‚‚³‚Ü‚Å—‚¿‚½‚ç
 	if (position_.y < transform_position_y)
 	{
-		state = FAN;
 		state_ = make_shared<CharaState::FanState>();
 		position_.y = player_init_positionY;
 		//—‚¿‚½uŠÔ‚Éî•—‹@‚ÌˆÚ“®‚ğ‚µ‚Äî•—‹@‚ÌˆÊ’u‚ğİ’è‚·‚é
@@ -383,7 +381,6 @@ void CharaBase::changeOpenToClose()
 	{
 		if (!isPrevButton_ && !isTackle_)
 		{
-			state = CLOSE;
 			state_ = make_shared<CharaState::CloseState>();
 		}
 		isPrevButton_ = true;
@@ -403,7 +400,6 @@ void CharaBase::changeCloseToOpen()
 	{
 		if (!isPrevButton_)
 		{
-			state = OPEN;
 			state_ = make_shared<CharaState::OpenState>();
 		}
 		isPrevButton_ = true;

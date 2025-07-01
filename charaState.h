@@ -59,3 +59,34 @@ namespace CharaState
 		void update(CharaBase* charaBase);
 	};
 }
+
+/// @brief アクションステート
+namespace ActionState
+{
+	class WaitState : public StateMachine::IState
+	{
+	public:
+		WaitState();
+		~WaitState();
+		void changeState(CharaBase* charaBase);
+		void update(CharaBase* charaBase);
+	};
+
+	class EscapeState : public StateMachine::IState
+	{
+	public:
+		EscapeState();
+		~EscapeState();
+		void changeState(CharaBase* charaBase);
+		void update(CharaBase* charaBase);
+	};
+
+	class ChaseState : public StateMachine::IState
+	{
+	public:
+		ChaseState();
+		~ChaseState();
+		void changeState(CharaBase* charaBase);
+		void update(CharaBase* charaBase);
+	};
+}
