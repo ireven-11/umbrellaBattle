@@ -78,6 +78,9 @@
     <ClCompile Include="chaseState.cpp">
       <Filter>ソース ファイル\chara\state</Filter>
     </ClCompile>
+    <ClCompile Include="attackState.cpp">
+      <Filter>ソース ファイル\chara\state</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="setting.h">
