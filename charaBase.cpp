@@ -50,32 +50,7 @@ void CharaBase::update()
 	//コントローラーの入力状態を取得する
 	GetJoypadDirectInputState(controlerNumber_, &input);
 
-	/*switch (state_)
-	{
-	case OPEN:
-		move();
-		swing();
-		tackle();
-		changeOpenToClose();
-		transformFan();
-		break;
-
-	case CLOSE:
-		move();
-		transformFan();
-		changeCloseToOpen();
-		break;
-
-	case TRUMPET:
-		move();
-		transformFan();
-		break;
-
-	case FAN:
-		wind();
-		break;
-	}*/
-
+	//状態によって行動を変える
 	state_->update(this);
 
 	//でばっぐリセット
@@ -193,8 +168,8 @@ void CharaBase::move()
 
 	rotation();
 
-	/*rotaionMatrix_ = MGetRotY(rotationAngleY_ + agnle_shift_number);
-	moveVector = VTransform(moveVector, rotaionMatrix_);*/
+	//rotaionMatrix_ = MGetRotY(rotationAngleY_ + agnle_shift_number);
+	//moveVector = VTransform(VGet(moveVector.x, 0.0f, moveVector.z), rotaionMatrix_);
 	position_ = VAdd(position_, moveVector);
 
 	//DrawFormatString(100,800,)
@@ -248,7 +223,7 @@ void CharaBase::tackle()
 			++tackleCount_;
 		}
 
-		//どの方向にタックルするか回転行列で決める
+		//どの方向にタックルするかY軸の回転行列で決める
 		rotaionMatrix_ = MGetRotY(rotationAngleY_ + agnle_shift_number);
 	}
 

@@ -89,4 +89,13 @@ namespace ActionState
 		void changeState(CharaBase* charaBase);
 		void update(CharaBase* charaBase);
 	};
+
+	class AttackState : public StateMachine::IState
+	{
+	public:
+		AttackState();
+		~AttackState();
+		void changeState(CharaBase* charaBase);
+		void update(CharaBase* charaBase);
+	};
 }
