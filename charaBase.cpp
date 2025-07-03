@@ -30,7 +30,7 @@ CharaBase::CharaBase(const int join_number)
 	SetJoypadDeadZone(controlerNumber_, 0.1);
 
 	//ステートインスタンス化
-	state_ = make_shared<CharaState::OpenState>();
+	state_ = openState_();
 }
 
 /// <summary>
@@ -72,19 +72,6 @@ void CharaBase::draw()const
 {
 	//デバッグ用
 	//DrawFormatString(0, 300, GetColor(255, 0, 0), "px:%f,py:%f,pz:%f", position_.x, position_.y, position_.z);
-
-	/*if (state_ == make_shared<CharaState::FanState>())
-	{
-		MV1DrawModel(fan_);
-	}
-	else if (state_ == make_shared<CharaState::OpenState>())
-	{
-		MV1DrawModel(openingUmbrella_);
-	}
-	else if (state_ == make_shared<CharaState::CloseState>())
-	{
-		MV1DrawModel(closingUmbrella_);
-	}*/
 
 	if (state_ == std::dynamic_pointer_cast<CharaState::FanState>(state_))
 	{
@@ -339,7 +326,8 @@ void CharaBase::transformFan()
 	//一定の高さまで落ちたら
 	if (position_.y < transform_position_y)
 	{
-		state_ = make_shared<CharaState::FanState>();
+		//state_ = make_shared<CharaState::FanState>();
+		state_ = fanState_();
 		position_.y = player_init_positionY;
 		//落ちた瞬間に扇風機の移動をして扇風機の位置を設定する
 		input.Buttons[6] = 1;
@@ -356,7 +344,8 @@ void CharaBase::changeOpenToClose()
 	{
 		if (!isPrevButton_ && !isTackle_)
 		{
-			state_ = make_shared<CharaState::CloseState>();
+			//state_ = make_shared<CharaState::CloseState>();
+			state_ = closeState_();
 		}
 		isPrevButton_ = true;
 	}
@@ -375,7 +364,8 @@ void CharaBase::changeCloseToOpen()
 	{
 		if (!isPrevButton_)
 		{
-			state_ = make_shared<CharaState::OpenState>();
+			//state_ = make_shared<CharaState::OpenState>();
+			state_ = openState_();
 		}
 		isPrevButton_ = true;
 	}

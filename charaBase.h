@@ -13,7 +13,7 @@ public:
 	CharaBase(const int join_number);
 	~CharaBase();
 
-	virtual void update();
+	void update();
 	void reset();
 	void fall();
 	virtual void changeOpenToClose();
@@ -23,23 +23,15 @@ public:
 	virtual void swing();
 	virtual void tackle();
 	void wind();
+	virtual void moveFan();
 
 	VECTOR								Getposition_()const { return  position_; }
 	shared_ptr<StateMachine::IState>	Getstate_()const { return state_; }
-
-	enum State
-	{
-		OPEN,
-		CLOSE,
-		TRUMPET,
-		FAN
-	};
 
 private:
 	void draw()const;
 	void tackleMoving();
 	virtual void stopTackle();
-	virtual void moveFan();
 	virtual void rotation();
 
 	const float		fall_speed = 0.005f;
@@ -62,7 +54,22 @@ private:
 	const VECTOR	player4_init_position = VGet(0.0f, 0.0f, 0.0f);
 
 	//èÛë‘
-	shared_ptr<StateMachine::IState> state_;
+	shared_ptr<StateMachine::IState>	state_;
+	static shared_ptr<CharaState::OpenState> openState_()
+	{
+		static shared_ptr<CharaState::OpenState> state = make_shared<CharaState::OpenState>();
+		return state;
+	}
+	static shared_ptr<CharaState::CloseState> closeState_()
+	{
+		static shared_ptr<CharaState::CloseState> state = make_shared<CharaState::CloseState>();
+		return state;
+	}
+	static shared_ptr<CharaState::FanState> fanState_()
+	{
+		static shared_ptr<CharaState::FanState> state = make_shared<CharaState::FanState>();
+		return state;
+	}
 
 protected:
 	VECTOR	position_;			//ç¿ïW
