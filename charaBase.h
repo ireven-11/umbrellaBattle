@@ -61,6 +61,9 @@ private:
 	const VECTOR	player3_init_position = VGet(0.0f, 0.0f, 20.0f);
 	const VECTOR	player4_init_position = VGet(0.0f, 0.0f, 0.0f);
 
+	//状態
+	shared_ptr<StateMachine::IState> state_;
+
 protected:
 	VECTOR	position_;			//座標
 	int		openingUmbrella_;	//モデルハンドル(開いた状態)
@@ -78,7 +81,4 @@ protected:
 	double	angleSwing_;		//スイングの角度
 	int		fan_;				//扇風機
 	double	fanMoveAngle_;		//扇風機の移動角度
-
-	//状態
-	shared_ptr<StateMachine::IState> state_;
 };

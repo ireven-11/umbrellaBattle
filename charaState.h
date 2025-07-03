@@ -98,4 +98,13 @@ namespace ActionState
 		void changeState(CharaBase* charaBase);
 		void update(CharaBase* charaBase);
 	};
+
+	class ThinkState
+	{
+	public:
+		ThinkState();
+		~ThinkState();
+		void changeState(CharaBase* charaBase);
+		void update(CharaBase* charaBase);
+	};
 }
