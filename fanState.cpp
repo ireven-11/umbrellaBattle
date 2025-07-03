@@ -3,22 +3,37 @@
 #include"CharaState.h"
 using namespace CharaState;
 
+/// <summary>
+/// コンストラクタ
+/// </summary>
 FanState::FanState()
 {
 
 }
 
+/// <summary>
+/// デストラクタ
+/// </summary>
 FanState::~FanState()
 {
 
 }
 
+/// <summary>
+/// ステート変更
+/// </summary>
+/// <param name="charaBase">キャラの親クラス</param>
 void FanState::changeState(CharaBase* charaBase)
 {
-	charaBase->wind();
 }
 
+/// <summary>
+/// 更新
+/// </summary>
+/// <param name="charaBase">キャラの親クラス</param>
 void FanState::update(CharaBase* charaBase)
 {
+	charaBase->wind();
+	charaBase->moveFan();
 	changeState(charaBase);
 }
