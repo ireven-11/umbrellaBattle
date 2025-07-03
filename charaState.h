@@ -99,7 +99,7 @@ namespace ActionState
 		void update(CharaBase* charaBase);
 	};
 
-	class ThinkState
+	class ThinkState : public StateMachine::IState
 	{
 	public:
 		ThinkState();
