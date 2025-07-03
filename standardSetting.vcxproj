@@ -155,9 +155,11 @@
     <ClCompile Include="stage.cpp" />
     <ClCompile Include="standbyUI.cpp" />
     <ClCompile Include="fanState.cpp" />
+    <ClCompile Include="thinkState.cpp" />
     <ClCompile Include="waitState.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="calculateDistance.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="charaBase.h" />
     <ClInclude Include="charaState.h" />
