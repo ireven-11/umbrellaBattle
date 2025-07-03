@@ -14,7 +14,7 @@ constexpr	float	triangle_pointZ		= shifting_numberX * 0.45f;
 constexpr	int		vanishing_timing	= 200;
 constexpr	int		change_color_timing = 150;
 constexpr	float	stage_radius		= 37.5f;
-const		VECTOR	stage_center = VGet(-2.0f, 0.0f, 15.0f);
+const		VECTOR	stage_center		= VGet(-2.0f, 0.0f, 15.0f);
 
 class CharaBase;
 
