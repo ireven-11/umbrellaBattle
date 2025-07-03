@@ -9,4 +9,7 @@ public:
 
 private:
 
+
+	//s“®‚Ìó‘Ô
+	shared_ptr<StateMachine::IState> actionState_;
 };
