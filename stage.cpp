@@ -2,7 +2,7 @@
 #include"stage.h"
 #include"player.h"
 #include<math.h>
-#include"charaState.h"
+#include"fanState.h"
 
 /// <summary>
 /// コンストラクタ
