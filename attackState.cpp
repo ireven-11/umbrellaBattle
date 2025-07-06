@@ -1,33 +1,35 @@
 #include"DxLib.h"
 #include"charaBase.h"
-#include"CharaState.h"
-using namespace ActionState;
+#include"attackState.h"
 
-/// <summary>
+namespace ActionState
+{
+	/// <summary>
 /// コンストラクタ
 /// </summary>
-AttackState::AttackState()
-{
-}
+	AttackState::AttackState()
+	{
+	}
 
-/// <summary>
-/// デストラクタ
-/// </summary>
-AttackState::~AttackState()
-{
-}
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	AttackState::~AttackState()
+	{
+	}
 
-/// <summary>
-/// ステート変更
-/// </summary>
-/// <param name="charaBase"></param>
-void AttackState::changeState(CharaBase* charaBase)
-{
+	/// <summary>
+	/// ステート変更
+	/// </summary>
+	/// <param name="charaBase"></param>
+	void AttackState::changeState(CharaBase* charaBase)
+	{
 
-}
+	}
 
-///
-void AttackState::update(CharaBase* charaBase)
-{
+	///
+	void AttackState::update(CharaBase* charaBase)
+	{
 
+	}
 }
