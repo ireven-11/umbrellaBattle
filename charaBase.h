@@ -1,6 +1,10 @@
 #pragma once
 #include<memory>
-#include"charaState.h"
+#include"IState.h"
+#include"openState.h"
+#include"closeState.h"
+#include"fanState.h"
+#include"trumpetState.h"
 using namespace std;
 
 constexpr float	player_init_positionX = 0.0f;
@@ -13,7 +17,7 @@ public:
 	CharaBase(const int join_number);
 	~CharaBase();
 
-	void update();
+	virtual void update();
 	void reset();
 	void fall();
 	virtual void changeOpenToClose();
@@ -27,13 +31,9 @@ public:
 
 	VECTOR								Getposition_()const { return  position_; }
 	shared_ptr<StateMachine::IState>	Getstate_()const { return state_; }
+	int									GetcontrolerNumber_()const { return controlerNumber_; }
 
 private:
-	void draw()const;
-	void tackleMoving();
-	virtual void stopTackle();
-	virtual void rotation();
-
 	const float		fall_speed = 0.005f;
 	const float		scale = 0.15f;
 	const float		move_speed = 0.2f;
@@ -53,6 +53,30 @@ private:
 	const VECTOR	player3_init_position = VGet(0.0f, 0.0f, 20.0f);
 	const VECTOR	player4_init_position = VGet(0.0f, 0.0f, 0.0f);
 
+protected:
+	void draw()const;
+	void tackleMoving();
+	virtual void stopTackle();
+	virtual void rotation();
+
+	DINPUT_JOYSTATE input;		//コントローラー(D)用構造体変数
+	VECTOR	position_;			//座標
+	int		openingUmbrella_;	//モデルハンドル(開いた状態)
+	int		closingUmbrella_;	//モデルハンドル(閉じた状態)
+	int		hp_;				//hp
+	bool	isPrevButton_;		//前フレームにボタンを押したかフラグ
+	bool	isTackle_;			//タックルしてるかフラグ
+	float	tackleCount_;		//タックルカウント
+	VECTOR	tackleVector_;		//タックルのベクトル
+	double	rotationAngleY_;	//回転角度
+	MATRIX	rotaionMatrix_;		//回転行列を保存する変数
+	bool	isMovingtackle_;	//タックル移動中かどうか
+	int		controlerNumber_;	//どのコントローラかを表す数字
+	bool	isSwing_;			//スイング中かどうか
+	double	angleSwing_;		//スイングの角度
+	int		fan_;				//扇風機
+	double	fanMoveAngle_;		//扇風機の移動角度
+
 	//状態
 	shared_ptr<StateMachine::IState>	state_;
 	static shared_ptr<CharaState::OpenState> openState_()
@@ -70,22 +94,4 @@ private:
 		static shared_ptr<CharaState::FanState> state = make_shared<CharaState::FanState>();
 		return state;
 	}
-
-protected:
-	VECTOR	position_;			//座標
-	int		openingUmbrella_;	//モデルハンドル(開いた状態)
-	int		closingUmbrella_;	//モデルハンドル(閉じた状態)
-	int		hp_;				//hp
-	bool	isPrevButton_;		//前フレームにボタンを押したかフラグ
-	bool	isTackle_;			//タックルしてるかフラグ
-	float	tackleCount_;		//タックルカウント
-	VECTOR	tackleVector_;		//タックルのベクトル
-	double	rotationAngleY_;	//回転角度
-	MATRIX	rotaionMatrix_;		//回転行列を保存する変数
-	bool	isMovingtackle_;	//タックル移動中かどうか
-	int		controlerNumber_;	//どのコントローラかを表す数字
-	bool	isSwing_;			//スイング中かどうか
-	double	angleSwing_;		//スイングの角度
-	int		fan_;				//扇風機
-	double	fanMoveAngle_;		//扇風機の移動角度
 };
