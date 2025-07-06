@@ -145,6 +145,7 @@
     <ClCompile Include="chaseState.cpp" />
     <ClCompile Include="closeState.cpp" />
     <ClCompile Include="cpu.cpp" />
+    <ClCompile Include="cpuBrain.cpp" />
     <ClCompile Include="escapeState.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="openState.cpp" />
@@ -159,17 +160,28 @@
     <ClCompile Include="waitState.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="attackState.h" />
     <ClInclude Include="calculateDistance.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="charaBase.h" />
     <ClInclude Include="charaState.h" />
+    <ClInclude Include="chaseState.h" />
+    <ClInclude Include="closeState.h" />
     <ClInclude Include="cpu.h" />
+    <ClInclude Include="cpuBrain.h" />
+    <ClInclude Include="escapeState.h" />
+    <ClInclude Include="fanState.h" />
+    <ClInclude Include="IState.h" />
+    <ClInclude Include="openState.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="routine.h" />
     <ClInclude Include="sceneManager.h" />
     <ClInclude Include="setting.h" />
     <ClInclude Include="stage.h" />
     <ClInclude Include="standbyUI.h" />
+    <ClInclude Include="thinkState.h" />
+    <ClInclude Include="trumpetState.h" />
+    <ClInclude Include="waitState.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

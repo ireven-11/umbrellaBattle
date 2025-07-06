@@ -84,6 +84,9 @@
     <ClCompile Include="thinkState.cpp">
       <Filter>ソース ファイル\chara\state</Filter>
     </ClCompile>
+    <ClCompile Include="cpuBrain.cpp">
+      <Filter>ソース ファイル\chara</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="setting.h">
@@ -118,6 +121,39 @@
     </ClInclude>
     <ClInclude Include="calculateDistance.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="IState.h">
+      <Filter>ヘッダー ファイル\chara\state</Filter>
+    </ClInclude>
+    <ClInclude Include="openState.h">
+      <Filter>ヘッダー ファイル\chara\state</Filter>
+    </ClInclude>
+    <ClInclude Include="closeState.h">
+      <Filter>ヘッダー ファイル\chara\state</Filter>
+    </ClInclude>
+    <ClInclude Include="trumpetState.h">
+      <Filter>ヘッダー ファイル\chara\state</Filter>
+    </ClInclude>
+    <ClInclude Include="fanState.h">
+      <Filter>ヘッダー ファイル\chara\state</Filter>
+    </ClInclude>
+    <ClInclude Include="waitState.h">
+      <Filter>ヘッダー ファイル\chara\state</Filter>
+    </ClInclude>
+    <ClInclude Include="escapeState.h">
+      <Filter>ヘッダー ファイル\chara\state</Filter>
+    </ClInclude>
+    <ClInclude Include="chaseState.h">
+      <Filter>ヘッダー ファイル\chara\state</Filter>
+    </ClInclude>
+    <ClInclude Include="attackState.h">
+      <Filter>ヘッダー ファイル\chara\state</Filter>
+    </ClInclude>
+    <ClInclude Include="thinkState.h">
+      <Filter>ヘッダー ファイル\chara\state</Filter>
+    </ClInclude>
+    <ClInclude Include="cpuBrain.h">
+      <Filter>ヘッダー ファイル\chara</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
