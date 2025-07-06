@@ -21,11 +21,12 @@ public:
 
 	void game();
 
+	vector<shared_ptr<CharaBase>>players;
+
 private:
 	//インスタンス化
 	shared_ptr<SceneManager>sceneManager = make_shared<SceneManager>();
 	shared_ptr<Camera>camera = make_shared<Camera>();
-	vector<shared_ptr<CharaBase>>players;
 	shared_ptr<Stage>stage = make_shared<Stage>();
 	shared_ptr<StandbyUI>standbyUI = make_shared<StandbyUI>();
 
