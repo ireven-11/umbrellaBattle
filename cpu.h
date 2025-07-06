@@ -1,5 +1,12 @@
 #pragma once
-#include"charaBase.h"
+#include<memory>
+#include"waitState.h"
+#include"attackState.h"
+#include"chaseState.h"
+#include"escapeState.h"
+#include"thinkState.h"
+
+class CPUBrain;
 
 class CPU:public CharaBase
 {
@@ -7,7 +14,12 @@ public:
 	CPU(const int join_number);
 	~CPU();
 
+	void update()override;
+
 private:
+	//ƒuƒŒƒCƒ“‚ğéŒ¾
+	shared_ptr<CPUBrain> brain_ = make_shared<CPUBrain>();
+
 	//s“®‚Ìó‘Ô
 	shared_ptr<StateMachine::IState> actionState_;
 	static shared_ptr<ActionState::WaitState> waitState_()
