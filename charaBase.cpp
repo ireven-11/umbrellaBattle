@@ -2,6 +2,7 @@
 #include"charaBase.h"
 #include<cmath>
 #include"stage.h"
+#include"routine.h"
 
 /// <summary>
 /// コンストラクタ
@@ -41,7 +42,7 @@ CharaBase::~CharaBase()
 /// <summary>
 /// 更新
 /// </summary>
-void CharaBase::update()
+void CharaBase::update(Routine* routine)
 {
 	//コントローラーの入力状態を取得する
 	GetJoypadDirectInputState(controlerNumber_, &input);

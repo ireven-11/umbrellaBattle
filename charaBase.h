@@ -11,13 +11,15 @@ constexpr float	player_init_positionX = 0.0f;
 constexpr float	player_init_positionY = 0.0f;
 constexpr float	player_init_positionZ = 0.0f;
 
+class Routine;
+
 class CharaBase
 {
 public:
 	CharaBase(const int join_number);
 	~CharaBase();
 
-	virtual void update();
+	virtual void update(Routine* routine);
 	void reset();
 	void fall();
 	virtual void changeOpenToClose();
@@ -29,6 +31,7 @@ public:
 	void wind();
 	virtual void moveFan();
 
+	DINPUT_JOYSTATE input;		//コントローラー(D)用構造体変数
 	VECTOR								Getposition_()const { return  position_; }
 	shared_ptr<StateMachine::IState>	Getstate_()const { return state_; }
 	int									GetcontrolerNumber_()const { return controlerNumber_; }
@@ -59,7 +62,6 @@ protected:
 	virtual void stopTackle();
 	virtual void rotation();
 
-	DINPUT_JOYSTATE input;		//コントローラー(D)用構造体変数
 	VECTOR	position_;			//座標
 	int		openingUmbrella_;	//モデルハンドル(開いた状態)
 	int		closingUmbrella_;	//モデルハンドル(閉じた状態)

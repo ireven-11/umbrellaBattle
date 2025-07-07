@@ -14,5 +14,6 @@ public:
 	void update(CharaBase* charaBase, Routine* routine);
 
 private:
-
+	bool	isTarget_;
+	int		randomTarget_;
 };

@@ -259,15 +259,15 @@ void DrawHexagon3D(VECTOR standardPosition, float sideX, float sideZ, float side
 /// <returns></returns>
 void Stage::collisionWithPlayer(vector<shared_ptr<CharaBase>>player)
 {
-	for (int i = 0; i < tile_number; i++)
+	//プレイヤーをvector（動的配列)にしてるので3重ループになるけどしゃあない
+	for (const auto& p : player)
 	{
-		for (int j = 0; j < tile_number; j++)
+		//プレイヤーが扇風機出ない時だけ
+		if (p->Getstate_() != std::dynamic_pointer_cast<CharaState::FanState>(p->Getstate_()))
 		{
-			//プレイヤーをvector（動的配列)にしてるので3重ループになるけどしゃあない
-			for (const auto& p:player)
+			for (int i = 0; i < tile_number; i++)
 			{
-				//プレイヤーが扇風機出ない時だけ
-				if (p->Getstate_() != std::dynamic_pointer_cast<CharaState::FanState>(p->Getstate_()))
+				for (int j = 0; j < tile_number; j++)
 				{
 					if (HitTriangleAndPixel(VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f),
 						VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f),
@@ -293,16 +293,16 @@ void Stage::collisionWithPlayer(vector<shared_ptr<CharaBase>>player)
 					{
 						p->fall();
 					}
+
+					//デバッグ用
+					//DrawFormatString(i * 270, j * 20, GetColor(255, 255, 255), "%d&%d x:%f,z:%f", j, i, position_[j][i].x, position_[j][i].z);
+
+					if (canExist_[j][i])
+					{
+						//デバッグ用六角形描画
+						//DrawHexagon3D(position_[j][i], shifting_numberX, shifting_numberZ, triangle_pointZ, GetColor(255, 255, 255), false);
+					}
 				}
-			}
-
-			//デバッグ用
-			//DrawFormatString(i * 270, j * 20, GetColor(255, 255, 255), "%d&%d x:%f,z:%f", j, i, position_[j][i].x, position_[j][i].z);
-
-			if (canExist_[j][i])
-			{
-				//デバッグ用六角形描画
-				//DrawHexagon3D(position_[j][i], shifting_numberX, shifting_numberZ, triangle_pointZ, GetColor(255, 255, 255), false);
 			}
 		}
 	}

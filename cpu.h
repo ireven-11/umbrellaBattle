@@ -14,7 +14,7 @@ public:
 	CPU(const int join_number);
 	~CPU();
 
-	void update()override;
+	void update(Routine* routine)override;
 
 private:
 	//ƒuƒŒƒCƒ“‚ğéŒ¾

@@ -109,7 +109,7 @@ void Routine::play()
 
     for (const auto& i:players)
     {
-        i->update();
+        i->update(this);
     }
 }
 

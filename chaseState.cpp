@@ -33,6 +33,6 @@ namespace ActionState
 	/// <param name="charaBase">キャラの親クラス</param>
 	void ChaseState::update(CharaBase* charaBase)
 	{
-
+		
 	}
 }

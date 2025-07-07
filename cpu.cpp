@@ -9,7 +9,7 @@
 /// <param name="join_number">何Pかの数字</param>
 CPU::CPU(const int join_number) : CharaBase(join_number)
 {
-	actionState_ = thinkState_();
+	actionState_ = chaseState_();
 }
 
 /// <summary>
@@ -19,12 +19,13 @@ CPU::~CPU()
 {
 }
 
-void CPU::update()
+void CPU::update(Routine* routine)
 {
 	//コントローラーの入力状態を取得する
 	GetJoypadDirectInputState(controlerNumber_, &input);
 
 	//状態によって行動を変える
+	brain_->update(this, routine);
 	actionState_->update(this);
 	state_->update(this);
 
