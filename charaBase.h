@@ -35,6 +35,8 @@ public:
 	VECTOR								Getposition_()const { return  position_; }
 	shared_ptr<StateMachine::IState>	Getstate_()const { return state_; }
 	int									GetcontrolerNumber_()const { return controlerNumber_; }
+	float								GettackleCount_()const { return tackleCount_; }
+	float								Getmax_tackle_count()const { return max_tackle_count; }
 
 private:
 	const float		fall_speed = 0.005f;
