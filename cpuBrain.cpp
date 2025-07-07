@@ -10,7 +10,7 @@ CPUBrain::CPUBrain()
 	isTarget_		= true;
 	randomTarget_	= 0;
 	distance_		= 0.0f;
-	canCharge_	= false;
+	canCharge_		= true;
 	actionState_	= chaseState_();
 }
 
@@ -80,6 +80,35 @@ void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine)
 		}
 
 		charaBase->input.Buttons[0] = 128;
+		VECTOR stickVector = VGet(0.0f, 0.0f, 0.0f);
+		if (charaBase->Getposition_().x < routine->players[randomTarget_ - 1]->Getposition_().x)
+		{
+			//charaBase->input.X = 635;
+			stickVector.x += 635.0f;
+		}
+		else if (charaBase->Getposition_().x > routine->players[randomTarget_ - 1]->Getposition_().x)
+		{
+			//charaBase->input.X = -745;
+			stickVector.x += -745.0f;
+		}
+		if (charaBase->Getposition_().z < routine->players[randomTarget_ - 1]->Getposition_().z)
+		{
+			//charaBase->input.Y = -830;
+			stickVector.y += -830.0f;
+		}
+		else if (charaBase->Getposition_().z > routine->players[randomTarget_ - 1]->Getposition_().z)
+		{
+			//charaBase->input.Y = 750;
+			stickVector.y += 750.0f;
+		}
+
+		double targetAngle = atan2(static_cast<double>(routine->players[randomTarget_ - 1]->Getposition_().x - charaBase->Getposition_().x),
+			static_cast<double>(routine->players[randomTarget_ - 1]->Getposition_().z - charaBase->Getposition_().z));
+		MATRIX rotationMatrix = MGetRotY(targetAngle);
+		stickVector = VTransform(stickVector, rotationMatrix);
+		
+		charaBase->input.X = stickVector.x;
+		charaBase->input.Y = stickVector.y;
 	}
 	else
 	{
