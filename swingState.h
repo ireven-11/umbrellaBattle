@@ -3,12 +3,14 @@
 
 namespace ActionState
 {
-	class AttackState : public StateMachine::IState
+	class SwingState : public StateMachine::IState
 	{
 	public:
-		AttackState();
-		~AttackState();
+		SwingState();
+		~SwingState();
 		void changeState(CharaBase* charaBase);
 		void update(CharaBase* charaBase);
+	private:
+
 	};
 }

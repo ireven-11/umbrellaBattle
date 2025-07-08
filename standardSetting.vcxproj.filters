@@ -78,14 +78,20 @@
     <ClCompile Include="chaseState.cpp">
       <Filter>ソース ファイル\chara\state</Filter>
     </ClCompile>
-    <ClCompile Include="attackState.cpp">
-      <Filter>ソース ファイル\chara\state</Filter>
-    </ClCompile>
     <ClCompile Include="thinkState.cpp">
       <Filter>ソース ファイル\chara\state</Filter>
     </ClCompile>
     <ClCompile Include="cpuBrain.cpp">
       <Filter>ソース ファイル\chara</Filter>
+    </ClCompile>
+    <ClCompile Include="swingState.cpp">
+      <Filter>ソース ファイル\chara\state</Filter>
+    </ClCompile>
+    <ClCompile Include="tackleState.cpp">
+      <Filter>ソース ファイル\chara\state</Filter>
+    </ClCompile>
+    <ClCompile Include="windState.cpp">
+      <Filter>ソース ファイル\chara\state</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -146,14 +152,20 @@
     <ClInclude Include="chaseState.h">
       <Filter>ヘッダー ファイル\chara\state</Filter>
     </ClInclude>
-    <ClInclude Include="attackState.h">
-      <Filter>ヘッダー ファイル\chara\state</Filter>
-    </ClInclude>
     <ClInclude Include="thinkState.h">
       <Filter>ヘッダー ファイル\chara\state</Filter>
     </ClInclude>
     <ClInclude Include="cpuBrain.h">
       <Filter>ヘッダー ファイル\chara</Filter>
+    </ClInclude>
+    <ClInclude Include="swingState.h">
+      <Filter>ヘッダー ファイル\chara\state</Filter>
+    </ClInclude>
+    <ClInclude Include="tackleState.h">
+      <Filter>ヘッダー ファイル\chara\state</Filter>
+    </ClInclude>
+    <ClInclude Include="windState.h">
+      <Filter>ヘッダー ファイル\chara\state</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

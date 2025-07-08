@@ -24,16 +24,16 @@ void CPUBrain::update(CharaBase* charaBase, Routine* routine)
 
 	distance_ = CalculateDistance<float>(charaBase->Getposition_(), routine->players[randomTarget_ - 1]->Getposition_());
 
-	//キャラが扇風機出ない時だけターゲットにする
+	//ターゲットが扇風機でない時だけ次の行動に移る
 	if (routine->players[randomTarget_ - 1]->Getstate_() != std::dynamic_pointer_cast<CharaState::FanState>(routine->players[randomTarget_ - 1]->Getstate_()))
 	{
 		decideNextAction(charaBase, routine);
 	}
 	else
 	{
+		//ターゲットを再決定
 		isTarget_ = true;
 	}
-
 
 	actionState_->update(charaBase);
 }
@@ -69,8 +69,7 @@ void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine)
 	//距離によってどの行動をするか変える
 	if (distance_ < 5)
 	{
-		charaBase->input.Buttons[1] = 128;
-		//actionState_ = attackState_();
+		actionState_ = swingState_();
 	}
 	else if (distance_ > 15 && charaBase->GettackleCount_() <= charaBase->Getmax_tackle_count() && canCharge_)
 	{
@@ -112,7 +111,7 @@ void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine)
 	}
 	else
 	{
-		if (charaBase->Getposition_().x < routine->players[randomTarget_ - 1]->Getposition_().x)
+		/*if (charaBase->Getposition_().x < routine->players[randomTarget_ - 1]->Getposition_().x)
 		{
 			charaBase->input.X = 635;
 		}
@@ -127,7 +126,8 @@ void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine)
 		else if(charaBase->Getposition_().z > routine->players[randomTarget_ - 1]->Getposition_().z)
 		{
 			charaBase->input.Y = 750;
-		}
+		}*/
+		actionState_ = chaseState_();
 	}
 
 	if (charaBase->GettackleCount_() == 0)

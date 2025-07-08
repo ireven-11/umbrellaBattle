@@ -2,10 +2,12 @@
 #include<memory>
 #include"IState.h"
 #include"waitState.h"
-#include"attackState.h"
 #include"chaseState.h"
 #include"escapeState.h"
 #include"thinkState.h"
+#include"swingState.h"
+#include"tackleState.h"
+#include"windState.h"
 
 class CharaBase;
 class Routine;
@@ -34,9 +36,19 @@ private:
 		static shared_ptr<ActionState::WaitState> state = make_shared<ActionState::WaitState>();
 		return state;
 	}
-	static shared_ptr<ActionState::AttackState> attackState_()
+	static shared_ptr<ActionState::SwingState> swingState_()
 	{
-		static shared_ptr<ActionState::AttackState> state = make_shared<ActionState::AttackState>();
+		static shared_ptr<ActionState::SwingState> state = make_shared<ActionState::SwingState>();
+		return state;
+	}
+	static shared_ptr<ActionState::TackleState> tackleState_()
+	{
+		static shared_ptr<ActionState::TackleState> state = make_shared<ActionState::TackleState>();
+		return state;
+	}
+	static shared_ptr <ActionState::WindState> windState_()
+	{
+		static shared_ptr<ActionState::WindState> state = make_shared<ActionState::WindState>();
 		return state;
 	}
 	static shared_ptr<ActionState::ChaseState> chaseState_()
