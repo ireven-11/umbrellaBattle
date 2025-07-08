@@ -11,6 +11,8 @@ CPUBrain::CPUBrain()
 	randomTarget_	= 0;
 	distance_		= 0.0f;
 	canCharge_		= true;
+	doActionRandom_ = 0;
+	dicideActionCount_ = 0;
 	actionState_	= chaseState_();
 }
 
@@ -67,67 +69,131 @@ void CPUBrain::decideTarget(CharaBase* charaBase)
 void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine)
 {
 	//ãóó£Ç…ÇÊÇ¡ÇƒÇ«ÇÃçsìÆÇÇ∑ÇÈÇ©ïœÇ¶ÇÈ
-	if (distance_ < 5)
+	if (distance_ < 3)
 	{
-		actionState_ = swingState_();
+		//int doActionRandom_ = GetRand(100);
+
+		if (doActionRandom_ > 50)
+		{
+			//actionState_ = swingState_();
+			charaBase->input.Buttons[1] = 128;
+		}
+		else
+		{
+			if (charaBase->Getposition_().x < routine->players[randomTarget_ - 1]->Getposition_().x)
+			{
+				charaBase->input.X = -745;
+			}
+			else if (charaBase->Getposition_().x > routine->players[randomTarget_ - 1]->Getposition_().x)
+			{
+				charaBase->input.X = 635;
+			}
+			if (charaBase->Getposition_().z < routine->players[randomTarget_ - 1]->Getposition_().z)
+			{
+				charaBase->input.Y = 750;
+			}
+			else if (charaBase->Getposition_().z > routine->players[randomTarget_ - 1]->Getposition_().z)
+			{
+				charaBase->input.Y = -830;
+			}
+		}
 	}
-	else if (distance_ > 15 && charaBase->GettackleCount_() <= charaBase->Getmax_tackle_count() && canCharge_)
+	else if (distance_ > 20 && charaBase->GettackleCount_() <= charaBase->Getmax_tackle_count() && canCharge_)
 	{
-		if (charaBase->GettackleCount_() == charaBase->Getmax_tackle_count())
+		doActionRandom_ = GetRand(50);
+		if (charaBase->GettackleCount_() == charaBase->Getmax_tackle_count() - doActionRandom_)
 		{
 			canCharge_ = false;
 		}
 
-		charaBase->input.Buttons[0] = 128;
-		VECTOR stickVector = VGet(0.0f, 0.0f, 0.0f);
-		if (charaBase->Getposition_().x < routine->players[randomTarget_ - 1]->Getposition_().x)
+		//if (random > 30)
 		{
-			//charaBase->input.X = 635;
-			stickVector.x += 635.0f;
-		}
-		else if (charaBase->Getposition_().x > routine->players[randomTarget_ - 1]->Getposition_().x)
-		{
-			//charaBase->input.X = -745;
-			stickVector.x += -745.0f;
-		}
-		if (charaBase->Getposition_().z < routine->players[randomTarget_ - 1]->Getposition_().z)
-		{
-			//charaBase->input.Y = -830;
-			stickVector.y += -830.0f;
-		}
-		else if (charaBase->Getposition_().z > routine->players[randomTarget_ - 1]->Getposition_().z)
-		{
-			//charaBase->input.Y = 750;
-			stickVector.y += 750.0f;
-		}
+			charaBase->input.Buttons[0] = 128;
+			VECTOR stickVector = VGet(0.0f, 0.0f, 0.0f);
+			if (charaBase->Getposition_().x < routine->players[randomTarget_ - 1]->Getposition_().x)
+			{
+				//charaBase->input.X = 635;
+				stickVector.x += 635.0f;
+			}
+			else if (charaBase->Getposition_().x > routine->players[randomTarget_ - 1]->Getposition_().x)
+			{
+				//charaBase->input.X = -745;
+				stickVector.x += -745.0f;
+			}
+			if (charaBase->Getposition_().z < routine->players[randomTarget_ - 1]->Getposition_().z)
+			{
+				//charaBase->input.Y = -830;
+				stickVector.y += -830.0f;
+			}
+			else if (charaBase->Getposition_().z > routine->players[randomTarget_ - 1]->Getposition_().z)
+			{
+				//charaBase->input.Y = 750;
+				stickVector.y += 750.0f;
+			}
 
-		double targetAngle = atan2(static_cast<double>(routine->players[randomTarget_ - 1]->Getposition_().x - charaBase->Getposition_().x),
-			static_cast<double>(routine->players[randomTarget_ - 1]->Getposition_().z - charaBase->Getposition_().z));
-		MATRIX rotationMatrix = MGetRotY(targetAngle);
-		stickVector = VTransform(stickVector, rotationMatrix);
-		
-		charaBase->input.X = stickVector.x;
-		charaBase->input.Y = stickVector.y;
+			double targetAngle = atan2(static_cast<double>(routine->players[randomTarget_ - 1]->Getposition_().x - charaBase->Getposition_().x),
+				static_cast<double>(routine->players[randomTarget_ - 1]->Getposition_().z - charaBase->Getposition_().z));
+			MATRIX rotationMatrix = MGetRotY(targetAngle);
+			stickVector = VTransform(stickVector, rotationMatrix);
+
+			charaBase->input.X = stickVector.x;
+			charaBase->input.Y = stickVector.y;
+		}
 	}
 	else
 	{
-		/*if (charaBase->Getposition_().x < routine->players[randomTarget_ - 1]->Getposition_().x)
+		if (dicideActionCount_ == 0)
 		{
-			charaBase->input.X = 635;
+			doActionRandom_ = GetRand(100);
 		}
-		else if(charaBase->Getposition_().x > routine->players[randomTarget_ - 1]->Getposition_().x)
+		else if (dicideActionCount_ > 200)
 		{
-			charaBase->input.X = -745;
+			dicideActionCount_ = 0;
 		}
-		if (charaBase->Getposition_().z < routine->players[randomTarget_ - 1]->Getposition_().z)
+
+		dicideActionCount_++;
+
+
+		if (doActionRandom_ > 30)
 		{
-			charaBase->input.Y = -830;
+			if (charaBase->Getposition_().x < routine->players[randomTarget_ - 1]->Getposition_().x)
+			{
+				charaBase->input.X = 635;
+			}
+			else if (charaBase->Getposition_().x > routine->players[randomTarget_ - 1]->Getposition_().x)
+			{
+				charaBase->input.X = -745;
+			}
+			if (charaBase->Getposition_().z < routine->players[randomTarget_ - 1]->Getposition_().z)
+			{
+				charaBase->input.Y = -830;
+			}
+			else if (charaBase->Getposition_().z > routine->players[randomTarget_ - 1]->Getposition_().z)
+			{
+				charaBase->input.Y = 750;
+			}
 		}
-		else if(charaBase->Getposition_().z > routine->players[randomTarget_ - 1]->Getposition_().z)
+		else
 		{
-			charaBase->input.Y = 750;
-		}*/
-		actionState_ = chaseState_();
+			if (charaBase->Getposition_().x < routine->players[randomTarget_ - 1]->Getposition_().x)
+			{
+				charaBase->input.X = -745;
+			}
+			else if (charaBase->Getposition_().x > routine->players[randomTarget_ - 1]->Getposition_().x)
+			{
+				charaBase->input.X = 635;
+			}
+			if (charaBase->Getposition_().z < routine->players[randomTarget_ - 1]->Getposition_().z)
+			{
+				charaBase->input.Y = 750;
+			}
+			else if (charaBase->Getposition_().z > routine->players[randomTarget_ - 1]->Getposition_().z)
+			{
+				charaBase->input.Y = -830;
+			}
+		}
+
+		//actionState_ = chaseState_();
 	}
 
 	if (charaBase->GettackleCount_() == 0)

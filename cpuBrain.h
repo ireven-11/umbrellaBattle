@@ -28,6 +28,8 @@ private:
 	int		randomTarget_;
 	float	distance_;
 	bool	canCharge_;
+	int		dicideActionCount_;
+	int		doActionRandom_;
 
 	//s“®‚Ìó‘Ô
 	std::shared_ptr<StateMachine::IState> actionState_;

@@ -19,6 +19,6 @@ namespace ActionState
 
 	void SwingState::update(CharaBase* charaBase)
 	{
-		charaBase->input.Buttons[1] = 128;
+		//charaBase->input.Buttons[1] = 128;
 	}
 }
