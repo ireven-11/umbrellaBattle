@@ -2,6 +2,7 @@
 #include"charaBase.h"
 #include"cpuBrain.h"
 #include"cpu.h"
+#include"stage.h"
 
 /// <summary>
 /// コンストラクタ
@@ -19,13 +20,13 @@ CPU::~CPU()
 {
 }
 
-void CPU::update(Routine* routine)
+void CPU::update(Routine* routine, shared_ptr<Stage> stage)
 {
 	//コントローラーの入力状態を取得する
 	GetJoypadDirectInputState(controlerNumber_, &input);
 
 	//状態によって行動を変える
-	brain_->update(this, routine);
+	brain_->update(this, routine, stage);
 	state_->update(this);
 
 	//でばっぐリセット

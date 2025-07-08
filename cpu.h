@@ -9,7 +9,7 @@ public:
 	CPU(const int join_number);
 	~CPU();
 
-	void update(Routine* routine)override;
+	void update(Routine* routine, shared_ptr<Stage> stage)override;
 
 private:
 	//ƒuƒŒƒCƒ“‚ğéŒ¾

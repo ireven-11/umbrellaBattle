@@ -42,7 +42,7 @@ CharaBase::~CharaBase()
 /// <summary>
 /// 更新
 /// </summary>
-void CharaBase::update(Routine* routine)
+void CharaBase::update(Routine* routine, shared_ptr<Stage> stage)
 {
 	//コントローラーの入力状態を取得する
 	GetJoypadDirectInputState(controlerNumber_, &input);

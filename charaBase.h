@@ -12,6 +12,7 @@ constexpr float	player_init_positionY = 0.0f;
 constexpr float	player_init_positionZ = 0.0f;
 
 class Routine;
+class Stage;
 
 class CharaBase
 {
@@ -19,7 +20,7 @@ public:
 	CharaBase(const int join_number);
 	~CharaBase();
 
-	virtual void update(Routine* routine);
+	virtual void update(Routine* routine, shared_ptr<Stage> stage);
 	void reset();
 	void fall();
 	virtual void changeOpenToClose();

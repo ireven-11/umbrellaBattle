@@ -18,11 +18,11 @@ public:
 	CPUBrain();
 	~CPUBrain();
 
-	void update(CharaBase* charaBase, Routine* routine);
+	void update(CharaBase* charaBase, Routine* routine, shared_ptr<Stage> stage);
 
 private:
 	void decideTarget(CharaBase* charaBase);
-	void decideNextAction(CharaBase* charaBase, Routine* routine);
+	void decideNextAction(CharaBase* charaBase, Routine* routine, shared_ptr<Stage> stage);
 
 	bool	isTarget_;
 	int		randomTarget_;

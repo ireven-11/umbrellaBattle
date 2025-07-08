@@ -4,6 +4,7 @@
 #include"charaBase.h"
 #include"routine.h"
 #include"cpuBrain.h"
+#include"stage.h"
 
 CPUBrain::CPUBrain()
 {
@@ -20,7 +21,7 @@ CPUBrain::~CPUBrain()
 {
 }
 
-void CPUBrain::update(CharaBase* charaBase, Routine* routine)
+void CPUBrain::update(CharaBase* charaBase, Routine* routine, shared_ptr<Stage> stage)
 {
 	decideTarget(charaBase);
 
@@ -29,7 +30,7 @@ void CPUBrain::update(CharaBase* charaBase, Routine* routine)
 	//ターゲットが扇風機でない時だけ次の行動に移る
 	if (routine->players[randomTarget_ - 1]->Getstate_() != std::dynamic_pointer_cast<CharaState::FanState>(routine->players[randomTarget_ - 1]->Getstate_()))
 	{
-		decideNextAction(charaBase, routine);
+		decideNextAction(charaBase, routine, stage);
 	}
 	else
 	{
@@ -66,12 +67,12 @@ void CPUBrain::decideTarget(CharaBase* charaBase)
 /// </summary>
 /// <param name="charaBase">キャラの親クラス</param>
 /// <param name="routine">ルーチンクラス</param>
-void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine)
+void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, shared_ptr<Stage> stage)
 {
 	//距離によってどの行動をするか変える
 	if (distance_ < 3)
 	{
-		//int doActionRandom_ = GetRand(100);
+		int doActionRandom_ = GetRand(100);
 
 		if (doActionRandom_ > 50)
 		{
