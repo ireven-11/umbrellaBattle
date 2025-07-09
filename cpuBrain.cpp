@@ -70,7 +70,7 @@ void CPUBrain::decideTarget(CharaBase* charaBase)
 void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, shared_ptr<Stage> stage)
 {
 	//距離によってどの行動をするか変える
-	if (distance_ < 3)
+	if (distance_ < 3)//スイング
 	{
 		int doActionRandom_ = GetRand(100);
 
@@ -79,7 +79,7 @@ void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, shared_p
 			//actionState_ = swingState_();
 			charaBase->input.Buttons[1] = 128;
 		}
-		else
+		/*else
 		{
 			if (charaBase->Getposition_().x < routine->players[randomTarget_ - 1]->Getposition_().x)
 			{
@@ -97,19 +97,82 @@ void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, shared_p
 			{
 				charaBase->input.Y = -830;
 			}
-		}
+		}*/
 	}
-	else if (distance_ > 20 && charaBase->GettackleCount_() <= charaBase->Getmax_tackle_count() && canCharge_)
+	else if (distance_ > 20 && charaBase->GettackleCount_() <= charaBase->Getmax_tackle_count() && canCharge_)//タックル
 	{
-		doActionRandom_ = GetRand(50);
-		if (charaBase->GettackleCount_() == charaBase->Getmax_tackle_count() - doActionRandom_)
+		//doActionRandom_ = GetRand(50);
+		//if (charaBase->GettackleCount_() == charaBase->Getmax_tackle_count() - doActionRandom_)
+		//{
+		//	canCharge_ = false;
+		//}
+
+		////if (random > 30)
+		//{
+		//	charaBase->input.Buttons[0] = 128;
+		//	VECTOR stickVector = VGet(0.0f, 0.0f, 0.0f);
+		//	if (charaBase->Getposition_().x < routine->players[randomTarget_ - 1]->Getposition_().x)
+		//	{
+		//		//charaBase->input.X = 635;
+		//		stickVector.x += 635.0f;
+		//	}
+		//	else if (charaBase->Getposition_().x > routine->players[randomTarget_ - 1]->Getposition_().x)
+		//	{
+		//		//charaBase->input.X = -745;
+		//		stickVector.x += -745.0f;
+		//	}
+		//	if (charaBase->Getposition_().z < routine->players[randomTarget_ - 1]->Getposition_().z)
+		//	{
+		//		//charaBase->input.Y = -830;
+		//		stickVector.y += -830.0f;
+		//	}
+		//	else if (charaBase->Getposition_().z > routine->players[randomTarget_ - 1]->Getposition_().z)
+		//	{
+		//		//charaBase->input.Y = 750;
+		//		stickVector.y += 750.0f;
+		//	}
+
+		//	double targetAngle = atan2(static_cast<double>(routine->players[randomTarget_ - 1]->Getposition_().x - charaBase->Getposition_().x),
+		//		static_cast<double>(routine->players[randomTarget_ - 1]->Getposition_().z - charaBase->Getposition_().z));
+		//	MATRIX rotationMatrix = MGetRotY(targetAngle);
+		//	stickVector = VTransform(stickVector, rotationMatrix);
+
+		//	charaBase->input.X = stickVector.x;
+		//	charaBase->input.Y = stickVector.y;
+		//}
+	}
+	else//移動
+	{
+		//if (dicideActionCount_ == 0)
 		{
-			canCharge_ = false;
+			doActionRandom_ = GetRand(100);
+		}
+		/*else if (dicideActionCount_ > 200)
+		{
+			dicideActionCount_ = 0;
 		}
 
-		//if (random > 30)
+		dicideActionCount_++;*/
+
+		//追跡
+		if (doActionRandom_ > 30)
 		{
-			charaBase->input.Buttons[0] = 128;
+			/*if (charaBase->Getposition_().x < routine->players[randomTarget_ - 1]->Getposition_().x)
+			{
+				charaBase->input.X = 635;
+			}
+			else if (charaBase->Getposition_().x > routine->players[randomTarget_ - 1]->Getposition_().x)
+			{
+				charaBase->input.X = -745;
+			}
+			if (charaBase->Getposition_().z < routine->players[randomTarget_ - 1]->Getposition_().z)
+			{
+				charaBase->input.Y = -830;
+			}
+			else if (charaBase->Getposition_().z > routine->players[randomTarget_ - 1]->Getposition_().z)
+			{
+				charaBase->input.Y = 750;
+			}*/
 			VECTOR stickVector = VGet(0.0f, 0.0f, 0.0f);
 			if (charaBase->Getposition_().x < routine->players[randomTarget_ - 1]->Getposition_().x)
 			{
@@ -131,50 +194,14 @@ void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, shared_p
 				//charaBase->input.Y = 750;
 				stickVector.y += 750.0f;
 			}
-
-			double targetAngle = atan2(static_cast<double>(routine->players[randomTarget_ - 1]->Getposition_().x - charaBase->Getposition_().x),
+			/*double targetAngle = atan2(static_cast<double>(routine->players[randomTarget_ - 1]->Getposition_().x - charaBase->Getposition_().x),
 				static_cast<double>(routine->players[randomTarget_ - 1]->Getposition_().z - charaBase->Getposition_().z));
 			MATRIX rotationMatrix = MGetRotY(targetAngle);
-			stickVector = VTransform(stickVector, rotationMatrix);
-
+			stickVector = VTransform(stickVector, rotationMatrix);*/
 			charaBase->input.X = stickVector.x;
 			charaBase->input.Y = stickVector.y;
 		}
-	}
-	else
-	{
-		if (dicideActionCount_ == 0)
-		{
-			doActionRandom_ = GetRand(100);
-		}
-		else if (dicideActionCount_ > 200)
-		{
-			dicideActionCount_ = 0;
-		}
-
-		dicideActionCount_++;
-
-
-		if (doActionRandom_ > 30)
-		{
-			if (charaBase->Getposition_().x < routine->players[randomTarget_ - 1]->Getposition_().x)
-			{
-				charaBase->input.X = 635;
-			}
-			else if (charaBase->Getposition_().x > routine->players[randomTarget_ - 1]->Getposition_().x)
-			{
-				charaBase->input.X = -745;
-			}
-			if (charaBase->Getposition_().z < routine->players[randomTarget_ - 1]->Getposition_().z)
-			{
-				charaBase->input.Y = -830;
-			}
-			else if (charaBase->Getposition_().z > routine->players[randomTarget_ - 1]->Getposition_().z)
-			{
-				charaBase->input.Y = 750;
-			}
-		}
-		else
+		/*else
 		{
 			if (charaBase->Getposition_().x < routine->players[randomTarget_ - 1]->Getposition_().x)
 			{
@@ -192,7 +219,7 @@ void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, shared_p
 			{
 				charaBase->input.Y = -830;
 			}
-		}
+		}*/
 
 		//actionState_ = chaseState_();
 	}

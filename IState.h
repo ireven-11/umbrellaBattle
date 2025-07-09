@@ -4,6 +4,7 @@ class CharaBase;
 /// @brief ステートマシーンインターフェース
 namespace StateMachine
 {
+
 	class IState
 	{
 	public:
