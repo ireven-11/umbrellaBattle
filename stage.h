@@ -15,6 +15,7 @@ constexpr	int		vanishing_timing	= 200;
 constexpr	int		change_color_timing = 150;
 constexpr	float	stage_radius		= 37.5f;
 const		VECTOR	stage_center		= VGet(-2.0f, 0.0f, 15.0f);
+const		float	sphereRad			= 185.0f * scale / 1.8f;
 
 class CharaBase;
 
@@ -33,7 +34,7 @@ private:
 	void vanishTile();
 	void addvanishingCount();
 	void change3dModelColor();
-
+	
 	int		modelHandle_[tile_number][tile_number];	//モデルハンドル
 	VECTOR	position_[tile_number][tile_number];	//座標
 	bool	canExist_[tile_number][tile_number];	//存在できるかフラグ

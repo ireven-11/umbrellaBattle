@@ -99,6 +99,10 @@ void Stage::draw()
 				//デバッグ用
 				//DrawFormatString(100 * i, 40 * j, GetColor(255, 255, 255), "x:%f,y:%f,z:%f", position_[j][i].x, position_[j][i].y, position_[j][i].z);
 			}
+			else
+			{
+				DrawSphere3D(position_[j][i], sphereRad, 32, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
+			}
 		}
 	}
 
@@ -303,6 +307,13 @@ void Stage::collisionWithPlayer(vector<shared_ptr<CharaBase>>player)
 						//DrawHexagon3D(position_[j][i], shifting_numberX, shifting_numberZ, triangle_pointZ, GetColor(255, 255, 255), false);
 					}
 				}
+			}
+
+			//プレイヤーがステージ外出たら落下する
+			if (p->Getposition_().x < position_[0][0].x || p->Getposition_().x > position_[tile_number - 1][tile_number - 1].x - shifting_numberX / 2
+				|| p->Getposition_().z < position_[0][0].z || p->Getposition_().z > position_[tile_number - 1][tile_number - 1].z)
+			{
+				p->fall();
 			}
 		}
 	}
