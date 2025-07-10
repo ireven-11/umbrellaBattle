@@ -1,6 +1,6 @@
 #pragma once
 
-const float init_Y = 100.0f;
+const float init_Y = 30.0f;
 const float init_z = -30.0f;
 
 class Camera

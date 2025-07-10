@@ -12,6 +12,9 @@
 class CharaBase;
 class Routine;
 
+const VECTOR stick_max_range		= VGet(635.0f, -830.0f, 0.0f);
+const VECTOR stick_minimum_range	= VGet(-745.0f, 750.0f, 0.0f);
+
 class CPUBrain
 {
 public:
@@ -30,6 +33,7 @@ private:
 	bool	canCharge_;
 	int		dicideActionCount_;
 	int		doActionRandom_;
+	int		dicideTargetCount_;
 
 	//s“®‚Ìó‘Ô
 	std::shared_ptr<StateMachine::IState> actionState_;

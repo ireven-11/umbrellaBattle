@@ -15,7 +15,7 @@ constexpr	int		vanishing_timing	= 200;
 constexpr	int		change_color_timing = 150;
 constexpr	float	stage_radius		= 37.5f;
 const		VECTOR	stage_center		= VGet(-2.0f, 0.0f, 15.0f);
-const		float	sphereRad			= 185.0f * scale / 1.8f;
+const		float	sphereRad			= 185.0f * scale / 1.6f;
 
 class CharaBase;
 

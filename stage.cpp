@@ -101,7 +101,7 @@ void Stage::draw()
 			}
 			else
 			{
-				DrawSphere3D(position_[j][i], sphereRad, 32, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
+				//DrawSphere3D(position_[j][i], sphereRad, 32, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
 			}
 		}
 	}

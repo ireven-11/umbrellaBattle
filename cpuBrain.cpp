@@ -15,6 +15,7 @@ CPUBrain::CPUBrain()
 	doActionRandom_ = 0;
 	dicideActionCount_ = 0;
 	actionState_	= chaseState_();
+	dicideTargetCount_ = 0;
 }
 
 CPUBrain::~CPUBrain()
@@ -24,11 +25,13 @@ CPUBrain::~CPUBrain()
 void CPUBrain::update(CharaBase* charaBase, Routine* routine, shared_ptr<Stage> stage)
 {
 	decideTarget(charaBase);
+	dicideTargetCount_++;
 
 	distance_ = CalculateDistance<float>(charaBase->Getposition_(), routine->players[randomTarget_ - 1]->Getposition_());
 
 	//ターゲットが扇風機でない時だけ次の行動に移る
-	if (routine->players[randomTarget_ - 1]->Getstate_() != std::dynamic_pointer_cast<CharaState::FanState>(routine->players[randomTarget_ - 1]->Getstate_()))
+	if (routine->players[randomTarget_ - 1]->Getstate_() != std::dynamic_pointer_cast<CharaState::FanState>(routine->players[randomTarget_ - 1]->Getstate_()) 
+		&& dicideTargetCount_ != 150)
 	{
 		decideNextAction(charaBase, routine, stage);
 	}
@@ -36,6 +39,7 @@ void CPUBrain::update(CharaBase* charaBase, Routine* routine, shared_ptr<Stage> 
 	{
 		//ターゲットを再決定
 		isTarget_ = true;
+		dicideTargetCount_ = 0;
 	}
 
 	actionState_->update(charaBase);
@@ -76,7 +80,6 @@ void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, shared_p
 
 		if (doActionRandom_ > 50)
 		{
-			//actionState_ = swingState_();
 			charaBase->input.Buttons[1] = 128;
 		}
 	}
@@ -124,67 +127,22 @@ void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, shared_p
 	}
 	else//移動
 	{
-		//if (dicideActionCount_ == 0)
-		{
-			doActionRandom_ = GetRand(100);
-		}
-		/*else if (dicideActionCount_ > 200)
-		{
-			dicideActionCount_ = 0;
-		}
-
-		dicideActionCount_++;*/
-
 		//追跡
-		//if (doActionRandom_ > 30)
+		if (charaBase->Getposition_().x < routine->players[randomTarget_ - 1]->Getposition_().x)
 		{
-			if (charaBase->Getposition_().x < routine->players[randomTarget_ - 1]->Getposition_().x)
-			{
-				charaBase->input.X = 635;
-			}
-			else if (charaBase->Getposition_().x > routine->players[randomTarget_ - 1]->Getposition_().x)
-			{
-				charaBase->input.X = -745;
-			}
-			if (charaBase->Getposition_().z < routine->players[randomTarget_ - 1]->Getposition_().z)
-			{
-				charaBase->input.Y = -830;
-			}
-			else if (charaBase->Getposition_().z > routine->players[randomTarget_ - 1]->Getposition_().z)
-			{
-				charaBase->input.Y = 750;
-			}
-			//VECTOR stickVector = VGet(0.0f, 0.0f, 0.0f);
-			//if (charaBase->Getposition_().x < routine->players[randomTarget_ - 1]->Getposition_().x)
-			//{
-			//	//charaBase->input.X = 635;
-			//	//stickVector = VGet(635.0f, 0.0f, -830.0f);
-			//	stickVector.x += 635.0f;
-			//}
-			//else if (charaBase->Getposition_().x > routine->players[randomTarget_ - 1]->Getposition_().x)
-			//{
-			//	//charaBase->input.X = -745;
-			//	//stickVector = VGet(635.0f, 0.0f, -830.0f);
-			//	stickVector.x += -745.0f;
-			//}
-			//else if (charaBase->Getposition_().z < routine->players[randomTarget_ - 1]->Getposition_().z)
-			//{
-			//	//charaBase->input.Y = -830;
-			//	stickVector.y += -830.0f;
-			//	//stickVector = VGet(635.0f, 0.0f, -830.0f);
-			//}
-			//else if (charaBase->Getposition_().z > routine->players[randomTarget_ - 1]->Getposition_().z)
-			//{
-			//	//charaBase->input.Y = 750;
-			//	stickVector.y += 750.0f;
-			//	//stickVector = VGet(635.0f, 0.0f, -830.0f);
-			//}
-			///*double targetAngle = atan2(static_cast<double>(routine->players[randomTarget_ - 1]->Getposition_().x - charaBase->Getposition_().x),
-			//	static_cast<double>(routine->players[randomTarget_ - 1]->Getposition_().z - charaBase->Getposition_().z));
-			//MATRIX rotationMatrix = MGetRotY(targetAngle);
-			//stickVector = VTransform(stickVector, rotationMatrix);*/
-			//charaBase->input.X = stickVector.x;
-			//charaBase->input.Y = stickVector.y;
+			charaBase->input.X = 635;
+		}
+		else if (charaBase->Getposition_().x > routine->players[randomTarget_ - 1]->Getposition_().x)
+		{
+			charaBase->input.X = -745;
+		}
+		if (charaBase->Getposition_().z < routine->players[randomTarget_ - 1]->Getposition_().z)
+		{
+			charaBase->input.Y = -830;
+		}
+		else if (charaBase->Getposition_().z > routine->players[randomTarget_ - 1]->Getposition_().z)
+		{
+			charaBase->input.Y = 750;
 		}
 		/*else//逃走
 		{
