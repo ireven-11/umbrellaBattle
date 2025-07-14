@@ -5,6 +5,7 @@
 #include"routine.h"
 #include"cpuBrain.h"
 #include"stage.h"
+#include"AStar.h"
 
 CPUBrain::CPUBrain()
 {

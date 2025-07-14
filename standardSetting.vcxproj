@@ -162,10 +162,10 @@
     <ClCompile Include="windState.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AStar.h" />
     <ClInclude Include="calculateDistance.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="charaBase.h" />
-    <ClInclude Include="charaState.h" />
     <ClInclude Include="chaseState.h" />
     <ClInclude Include="closeState.h" />
     <ClInclude Include="cpu.h" />
