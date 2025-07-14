@@ -31,6 +31,7 @@ public:
 	virtual void tackle();
 	void wind();
 	virtual void moveFan();
+	void SetonTilePosition(VECTOR tilePosition);
 
 	DINPUT_JOYSTATE input;		//コントローラー(D)用構造体変数
 	VECTOR								Getposition_()const { return  position_; }
@@ -81,6 +82,7 @@ protected:
 	double	angleSwing_;		//スイングの角度
 	int		fan_;				//扇風機
 	double	fanMoveAngle_;		//扇風機の移動角度
+	VECTOR	onTilePosition_;
 
 	//状態
 	shared_ptr<StateMachine::IState>	state_;

@@ -273,6 +273,7 @@ void Stage::collisionWithPlayer(vector<shared_ptr<CharaBase>>player)
 			{
 				for (int j = 0; j < tile_number; j++)
 				{
+					//六角形の中にいるかどうか
 					if (HitTriangleAndPixel(VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f),
 						VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f),
 						VGet(position_[j][i].x, 0.0f, position_[j][i].z + shifting_numberZ / 1.5f), p->Getposition_()) ||
@@ -290,6 +291,11 @@ void Stage::collisionWithPlayer(vector<shared_ptr<CharaBase>>player)
 						if (!canExist_[j][i] || i == 0 || i == tile_number - 1 || j == 0 || j == tile_number - 1)
 						{
 							p->fall();
+						}
+						else
+						{
+							//キャラがどのタイル上にいるかを座標を保存して記録しておく
+							p->SetonTilePosition(position_[j][i]);
 						}
 					}
 					//プレイヤーが一度落下すると落ちる

@@ -116,6 +116,7 @@ void CharaBase::reset()
 	angleSwing_		= 0.00;
 	fanMoveAngle_	= 90.0;
 	isPrevButton_	= false;
+	onTilePosition_ = VGet(0.0f, 0.0f, 0.0f);
 }
 
 /// <summary>
@@ -372,4 +373,9 @@ void CharaBase::changeCloseToOpen()
 	{
 		isPrevButton_ = false;
 	}
+}
+
+void CharaBase::SetonTilePosition(VECTOR tilePosition)
+{
+	onTilePosition_ = VGet(tilePosition.x, tilePosition.y, tilePosition.z);
 }
