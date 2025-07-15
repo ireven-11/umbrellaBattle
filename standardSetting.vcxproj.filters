@@ -93,6 +93,9 @@
     <ClCompile Include="windState.cpp">
       <Filter>ソース ファイル\chara\state</Filter>
     </ClCompile>
+    <ClCompile Include="AStar.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="setting.h">

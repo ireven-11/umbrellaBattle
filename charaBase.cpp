@@ -375,6 +375,10 @@ void CharaBase::changeCloseToOpen()
 	}
 }
 
+/// <summary>
+/// タイルの上にいるときのタイル座標を保存する
+/// </summary>
+/// <param name="tilePosition">タイル座標</param>
 void CharaBase::SetonTilePosition(VECTOR tilePosition)
 {
 	onTilePosition_ = VGet(tilePosition.x, tilePosition.y, tilePosition.z);

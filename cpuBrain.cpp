@@ -5,7 +5,6 @@
 #include"routine.h"
 #include"cpuBrain.h"
 #include"stage.h"
-#include"AStar.h"
 
 CPUBrain::CPUBrain()
 {
@@ -17,6 +16,11 @@ CPUBrain::CPUBrain()
 	dicideActionCount_ = 0;
 	actionState_	= chaseState_();
 	dicideTargetCount_ = 0;
+	aStarStartPosition_.x = 0;
+	aStarStartPosition_.y = 0;
+	aStarGoalPosition_.x = 0;
+	aStarGoalPosition_.y = 0;
+	chaseCount_ = 0;
 }
 
 CPUBrain::~CPUBrain()
@@ -128,7 +132,22 @@ void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, shared_p
 	}
 	else//ˆÚ“®
 	{
-		//’ÇÕ
+		++chaseCount_;
+		if (chaseCount_ > 3)
+		{
+			chaseCount_ = 0;
+		}
+		if (chaseCount_ == 3)
+		{
+			//a*‚ÅŒo˜H’Tõ
+			aStarStartPosition_.x = charaBase->GetonTilePosition_().x;
+			aStarStartPosition_.y = charaBase->GetonTilePosition_().y;
+			aStarGoalPosition_.x = routine->players[randomTarget_ - 1]->GetonTilePosition_().x;
+			aStarGoalPosition_.y = routine->players[randomTarget_ - 1]->GetonTilePosition_().y;
+			chaseRoot_ = a_star(aStarStartPosition_, aStarGoalPosition_);
+		}
+		
+		//’Tõ‚µ‚½ƒ‹[ƒg‚Å’ÇÕ‚·‚é
 		if (charaBase->Getposition_().x < routine->players[randomTarget_ - 1]->Getposition_().x)
 		{
 			charaBase->input.X = 635;

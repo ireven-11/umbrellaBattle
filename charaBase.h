@@ -39,6 +39,7 @@ public:
 	int									GetcontrolerNumber_()const { return controlerNumber_; }
 	float								GettackleCount_()const { return tackleCount_; }
 	float								Getmax_tackle_count()const { return max_tackle_count; }
+	VECTOR								GetonTilePosition_()const { return onTilePosition_; }
 
 private:
 	const float		fall_speed = 0.005f;
@@ -82,7 +83,7 @@ protected:
 	double	angleSwing_;		//スイングの角度
 	int		fan_;				//扇風機
 	double	fanMoveAngle_;		//扇風機の移動角度
-	VECTOR	onTilePosition_;
+	VECTOR	onTilePosition_;	//乗っているタイルの座標
 
 	//状態
 	shared_ptr<StateMachine::IState>	state_;

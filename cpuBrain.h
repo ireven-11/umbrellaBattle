@@ -1,5 +1,6 @@
 #pragma once
 #include<memory>
+#include<list>
 #include"IState.h"
 #include"waitState.h"
 #include"chaseState.h"
@@ -8,6 +9,7 @@
 #include"swingState.h"
 #include"tackleState.h"
 #include"windState.h"
+#include"AStar.h"
 
 class CharaBase;
 class Routine;
@@ -34,6 +36,10 @@ private:
 	int		dicideActionCount_;
 	int		doActionRandom_;
 	int		dicideTargetCount_;
+	std::list<position> chaseRoot_;
+	position aStarStartPosition_;
+	position aStarGoalPosition_;
+	int		chaseCount_;
 
 	//çsìÆÇÃèÛë‘
 	std::shared_ptr<StateMachine::IState> actionState_;
