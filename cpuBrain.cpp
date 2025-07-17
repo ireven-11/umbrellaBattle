@@ -140,10 +140,10 @@ void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, shared_p
 		if (chaseCount_ == 3)
 		{
 			//a*‚ÅŒo˜H’Tõ
-			aStarStartPosition_.x = charaBase->GetonTilePosition_().x;
-			aStarStartPosition_.y = charaBase->GetonTilePosition_().y;
-			aStarGoalPosition_.x = routine->players[randomTarget_ - 1]->GetonTilePosition_().x;
-			aStarGoalPosition_.y = routine->players[randomTarget_ - 1]->GetonTilePosition_().y;
+			aStarStartPosition_.x = charaBase->GetonTileNumberX_();
+			aStarStartPosition_.y = charaBase->GetonTileNumberY_();
+			aStarGoalPosition_.x = routine->players[randomTarget_ - 1]->GetonTileNumberX_();
+			aStarGoalPosition_.y = routine->players[randomTarget_ - 1]->GetonTileNumberY_();
 			chaseRoot_ = a_star(aStarStartPosition_, aStarGoalPosition_);
 		}
 		

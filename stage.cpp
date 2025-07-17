@@ -296,6 +296,8 @@ void Stage::collisionWithPlayer(vector<shared_ptr<CharaBase>>player)
 						{
 							//キャラがどのタイル上にいるかを座標を保存して記録しておく
 							p->SetonTilePosition(position_[j][i]);
+							p->SetonTilePositionX_(i);
+							p->SetonTilePositionY_(j);
 						}
 					}
 					//プレイヤーが一度落下すると落ちる

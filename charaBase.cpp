@@ -383,3 +383,13 @@ void CharaBase::SetonTilePosition(VECTOR tilePosition)
 {
 	onTilePosition_ = VGet(tilePosition.x, tilePosition.y, tilePosition.z);
 }
+
+void CharaBase::SetonTilePositionX_(short tileNumberX)
+{
+	onTileNumberX_ = tileNumberX;
+}
+
+void CharaBase::SetonTilePositionY_(short tileNumberY)
+{
+	onTileNumberY_ = tileNumberY;
+}

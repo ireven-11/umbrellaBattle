@@ -127,7 +127,6 @@ list<position> a_star(position start, position goal) {
 			heuristic = (short)(deltax + deltay);
 #elif DIR_MAX == 6
 			// 6方向移動のヒューリスティック
-			//heuristic = (short)(deltax + deltay);
 			heuristic = (short)(deltax > deltay ? deltax : deltay);
 #endif
 			score = cost + heuristic;
