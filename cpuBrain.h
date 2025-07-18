@@ -28,6 +28,7 @@ public:
 private:
 	void decideTarget(CharaBase* charaBase);
 	void decideNextAction(CharaBase* charaBase, Routine* routine, shared_ptr<Stage> stage);
+	void decideChaceRoot(CharaBase* charaBase, Routine* routine);
 
 	bool	isTarget_;
 	int		randomTarget_;
@@ -40,6 +41,7 @@ private:
 	position aStarStartPosition_;
 	position aStarGoalPosition_;
 	int		chaseCount_;
+	position nextTilePosition_;
 
 	//çsìÆÇÃèÛë‘
 	std::shared_ptr<StateMachine::IState> actionState_;

@@ -21,6 +21,8 @@ CPUBrain::CPUBrain()
 	aStarGoalPosition_.x = 0;
 	aStarGoalPosition_.y = 0;
 	chaseCount_ = 0;
+	nextTilePosition_.x = 0;
+	nextTilePosition_.y = 0;
 }
 
 CPUBrain::~CPUBrain()
@@ -132,23 +134,36 @@ void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, shared_p
 	}
 	else//移動
 	{
-		++chaseCount_;
-		if (chaseCount_ > 3)
-		{
-			chaseCount_ = 0;
-		}
-		if (chaseCount_ == 3)
-		{
-			//a*で経路探索
-			aStarStartPosition_.x = charaBase->GetonTileNumberX_();
-			aStarStartPosition_.y = charaBase->GetonTileNumberY_();
-			aStarGoalPosition_.x = routine->players[randomTarget_ - 1]->GetonTileNumberX_();
-			aStarGoalPosition_.y = routine->players[randomTarget_ - 1]->GetonTileNumberY_();
-			chaseRoot_ = a_star(aStarStartPosition_, aStarGoalPosition_);
-		}
-		
+		//追跡ルート決定
+		decideChaceRoot(charaBase, routine);
+
 		//探索したルートで追跡する
-		if (charaBase->Getposition_().x < routine->players[randomTarget_ - 1]->Getposition_().x)
+		//nextTilePosition_ = chaseRoot_.front();
+		if (charaBase->Getposition_().x < stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x].x)
+		{
+			charaBase->input.X = 635;
+		}
+		else if (charaBase->Getposition_().x > stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x].x)
+		{
+			charaBase->input.X = -745;
+		}
+		if (charaBase->Getposition_().y < stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x].z)
+		{
+			charaBase->input.Y = -830;
+		}
+		else if (charaBase->Getposition_().y > stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x].z)
+		{
+			charaBase->input.Y = 750;
+		}
+
+		//タイルにたどり着いたら
+		if (charaBase->Getposition_().y == stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x].y
+			&& charaBase->Getposition_().x == stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x].x)
+		{
+			chaseRoot_.pop_front();
+			nextTilePosition_ = chaseRoot_.front();
+		}
+		/*if (charaBase->Getposition_().x < routine->players[randomTarget_ - 1]->Getposition_().x)
 		{
 			charaBase->input.X = 635;
 		}
@@ -163,7 +178,7 @@ void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, shared_p
 		else if (charaBase->Getposition_().z > routine->players[randomTarget_ - 1]->Getposition_().z)
 		{
 			charaBase->input.Y = 750;
-		}
+		}*/
 		/*else//逃走
 		{
 			if (charaBase->Getposition_().x < routine->players[randomTarget_ - 1]->Getposition_().x)
@@ -190,5 +205,28 @@ void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, shared_p
 	if (charaBase->GettackleCount_() == 0)
 	{
 		canCharge_ = true;
+	}
+}
+
+/// <summary>
+/// 追跡ルート決定
+/// </summary>
+/// <param name="charaBase">キャラの親クラス</param>
+/// <param name="routine">ルーチンクラス</param>
+void CPUBrain::decideChaceRoot(CharaBase* charaBase, Routine* routine)
+{
+	++chaseCount_;
+	if (chaseCount_ > 3)
+	{
+		chaseCount_ = 0;
+	}
+	if (chaseCount_ == 3)
+	{
+		//a*で経路探索
+		aStarStartPosition_.x = charaBase->GetonTileNumberX_();
+		aStarStartPosition_.y = charaBase->GetonTileNumberY_();
+		aStarGoalPosition_.x = routine->players[randomTarget_ - 1]->GetonTileNumberX_();
+		aStarGoalPosition_.y = routine->players[randomTarget_ - 1]->GetonTileNumberY_();
+		chaseRoot_ = a_star(aStarStartPosition_, aStarGoalPosition_);
 	}
 }

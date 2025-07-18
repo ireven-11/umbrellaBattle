@@ -29,6 +29,7 @@ public:
 	void draw();
 	void reset();
 	void collisionWithPlayer(vector<shared_ptr<CharaBase>>player);
+	const VECTOR (&Getposition_()const) [tile_number][tile_number]{ return position_; }
 
 private:
 	void vanishTile();

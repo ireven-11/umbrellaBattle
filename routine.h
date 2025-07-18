@@ -25,10 +25,10 @@ public:
 
 private:
 	//インスタンス化
-	shared_ptr<SceneManager>sceneManager = make_shared<SceneManager>();
-	shared_ptr<Camera>camera = make_shared<Camera>();
-	shared_ptr<Stage>stage = make_shared<Stage>();
-	shared_ptr<StandbyUI>standbyUI = make_shared<StandbyUI>();
+	shared_ptr<SceneManager>sceneManager	= make_shared<SceneManager>();
+	shared_ptr<Camera>camera				= make_shared<Camera>();
+	shared_ptr<Stage>stage					= make_shared<Stage>();
+	shared_ptr<StandbyUI>standbyUI			= make_shared<StandbyUI>();
 
 	void gameRoop();
 	void title();

@@ -134,7 +134,7 @@ void CharaBase::move()
 
 	//スティックを傾けたら移動を決定
 	VECTOR moveVector = VGet(0.0f, 0.0f, 0.0f);
-	if (input.Y < 0 && isNoneAction)
+	if (input.Y != 0 && isNoneAction)
 	{
 		moveVector = VAdd(moveVector, VGet(move_speed, 0.0f, move_speed));
 	}
@@ -150,13 +150,21 @@ void CharaBase::move()
 	{
 		moveVector = VAdd(moveVector, VGet(move_speed, 0.0f, move_speed));
 	}
+	/*if (input.Y != 0 && isNoneAction)
+	{
+		moveVector = VAdd(moveVector, VGet(move_speed, 0.0f, move_speed));
+	}
+	if (input.X != 0 && isNoneAction)
+	{
+		moveVector = VAdd(moveVector, VGet(move_speed, 0.0f, move_speed));
+	}*/
 
 	//スティックの傾きからどのくらいモデルを回転させるか決定
 	rotation();
 
 	//スティックを傾けてる向きに移動
 	rotaionMatrix_	= MGetRotY(rotationAngleY_ + agnle_shift_number);
-	moveVector		= VTransform(VGet(moveVector.x, 0.0f, moveVector.z), rotaionMatrix_);
+	moveVector		= VTransform(moveVector, rotaionMatrix_);
 	position_		= VAdd(position_, moveVector);
 
 	//DrawFormatString(100,800,)

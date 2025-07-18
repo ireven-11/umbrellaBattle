@@ -1,6 +1,8 @@
 #pragma once
-
+#include<list>
 using namespace std;
+
+class Stage;
 
 // ノード構造体の定義
 typedef struct _node {
@@ -35,3 +37,4 @@ typedef enum _STATE { UNCHECKED = 0, IN_OPEN_LIST, IN_CLOSE_LIST } STATE;
 #define Y_ELM 1					// 親子ノードのy成分
 
 list<position> a_star(position start, position goal);
+void mapChipUpdate(bool canExistTile);

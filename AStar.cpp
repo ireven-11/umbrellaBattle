@@ -1,5 +1,6 @@
-#include<list>
 #include"AStar.h"
+#include"DxLib.h"
+#include"stage.h"
 
 //隣接するマスの方向を表す数値
 int direction_delta[DIR_MAX][2] = {
@@ -156,4 +157,26 @@ list<position> a_star(position start, position goal) {
 	}
 	// コンテナを返す
 	return result;
+}
+
+/// <summary>
+/// マップチップの更新
+/// </summary>
+/// <param name="stage">タイル存在フラグ</param>
+void mapChipUpdate(bool canExistTile)
+{
+	for (auto j = 0; j < MAP_HEIGHTMAX; j++)
+	{
+		for (auto i = 0; i < MAP_WIDTHMAX; i++)
+		{
+			if (canExistTile)
+			{
+				map[i][j] = 0;
+			}
+			else
+			{
+				map[i][j] = 1;
+			}
+		}
+	}
 }
