@@ -8,13 +8,13 @@
 
 CPUBrain::CPUBrain()
 {
-	isTarget_		= true;
-	randomTarget_	= 0;
-	distance_		= 0.0f;
-	canCharge_		= true;
+	isTarget_ = true;
+	randomTarget_ = 0;
+	distance_ = 0.0f;
+	canCharge_ = true;
 	doActionRandom_ = 0;
 	dicideActionCount_ = 0;
-	actionState_	= chaseState_();
+	actionState_ = chaseState_();
 	dicideTargetCount_ = 0;
 	aStarStartPosition_.x = 0;
 	aStarStartPosition_.y = 0;
@@ -37,7 +37,7 @@ void CPUBrain::update(CharaBase* charaBase, Routine* routine, shared_ptr<Stage> 
 	distance_ = CalculateDistance<float>(charaBase->Getposition_(), routine->players[randomTarget_ - 1]->Getposition_());
 
 	//ターゲットが扇風機でない時だけ次の行動に移る
-	if (routine->players[randomTarget_ - 1]->Getstate_() != std::dynamic_pointer_cast<CharaState::FanState>(routine->players[randomTarget_ - 1]->Getstate_()) 
+	if (routine->players[randomTarget_ - 1]->Getstate_() != std::dynamic_pointer_cast<CharaState::FanState>(routine->players[randomTarget_ - 1]->Getstate_())
 		&& dicideTargetCount_ != 150)
 	{
 		decideNextAction(charaBase, routine, stage);
@@ -147,20 +147,29 @@ void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, shared_p
 		{
 			charaBase->input.X = -745;
 		}
-		if (charaBase->Getposition_().y < stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x].z)
+		if (charaBase->Getposition_().z < stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x].z)
 		{
 			charaBase->input.Y = -830;
 		}
-		else if (charaBase->Getposition_().y > stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x].z)
+		else if (charaBase->Getposition_().z > stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x].z)
 		{
 			charaBase->input.Y = 750;
 		}
 
 		//タイルにたどり着いたら
-		if (CalculateDistance<float>(charaBase->Getposition_(), stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x]) < 0.5f)
+		if (CalculateDistance<float>(charaBase->Getposition_(), stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x]) < 0.05f)
 		{
-			chaseRoot_.pop_front();
-			nextTilePosition_ = chaseRoot_.front();
+			//先頭要素を削除
+			chaseRoot_.pop_front();//バグあり（emptyの部分を消そうとする）
+
+			//新しく先頭要素になったものの座標を次に進む座標とする
+			auto it = chaseRoot_.begin();
+			if (chaseRoot_.size() > 1)
+			{
+				it++;
+			}
+
+			nextTilePosition_ = *it;
 		}
 
 		/*if (charaBase->Getposition_().x < routine->players[randomTarget_ - 1]->Getposition_().x)
@@ -215,6 +224,7 @@ void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, shared_p
 /// <param name="routine">ルーチンクラス</param>
 void CPUBrain::decideChaceRoot(CharaBase* charaBase, Routine* routine)
 {
+	//毎フレーム探索すると処理が重くなりそうなので3fに一回にする
 	++chaseCount_;
 	if (chaseCount_ > 3)
 	{
@@ -228,6 +238,11 @@ void CPUBrain::decideChaceRoot(CharaBase* charaBase, Routine* routine)
 		aStarGoalPosition_.x = routine->players[randomTarget_ - 1]->GetonTileNumberX_();
 		aStarGoalPosition_.y = routine->players[randomTarget_ - 1]->GetonTileNumberY_();
 		chaseRoot_ = a_star(aStarStartPosition_, aStarGoalPosition_);
-		nextTilePosition_ = chaseRoot_.front();
+		auto it = chaseRoot_.begin();
+		if (chaseRoot_.size() > 1)
+		{
+			it++;
+		}
+		nextTilePosition_ = *it;
 	}
 }
