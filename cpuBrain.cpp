@@ -157,12 +157,12 @@ void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, shared_p
 		}
 
 		//ƒ^ƒCƒ‹‚É‚½‚Ç‚è’…‚¢‚½‚ç
-		if (charaBase->Getposition_().y == stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x].y
-			&& charaBase->Getposition_().x == stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x].x)
+		if (CalculateDistance<float>(charaBase->Getposition_(), stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x]) < 0.5f)
 		{
 			chaseRoot_.pop_front();
 			nextTilePosition_ = chaseRoot_.front();
 		}
+
 		/*if (charaBase->Getposition_().x < routine->players[randomTarget_ - 1]->Getposition_().x)
 		{
 			charaBase->input.X = 635;
