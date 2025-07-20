@@ -228,5 +228,6 @@ void CPUBrain::decideChaceRoot(CharaBase* charaBase, Routine* routine)
 		aStarGoalPosition_.x = routine->players[randomTarget_ - 1]->GetonTileNumberX_();
 		aStarGoalPosition_.y = routine->players[randomTarget_ - 1]->GetonTileNumberY_();
 		chaseRoot_ = a_star(aStarStartPosition_, aStarGoalPosition_);
+		nextTilePosition_ = chaseRoot_.front();
 	}
 }
