@@ -171,11 +171,11 @@ void mapChipUpdate(bool canExistTile)
 		{
 			if (canExistTile)
 			{
-				map[i][j] = 0;
+				map[j][i] = 0;
 			}
 			else
 			{
-				map[i][j] = 1;
+				map[j][i] = 1;
 			}
 		}
 	}
