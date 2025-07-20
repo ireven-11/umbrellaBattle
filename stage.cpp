@@ -75,7 +75,7 @@ void Stage::update(vector<shared_ptr<CharaBase>>player)
 		for (int j = 0; j < tile_number; j++)
 		{
 			MV1SetPosition(modelHandle_[j][i], position_[j][i]);
-			mapChipUpdate(canExist_[j][i]);
+			mapChipUpdate(canExist_[j][i], j, i);
 		}
 	}
 	draw();

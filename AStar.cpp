@@ -163,20 +163,14 @@ list<position> a_star(position start, position goal) {
 /// マップチップの更新
 /// </summary>
 /// <param name="stage">タイル存在フラグ</param>
-void mapChipUpdate(bool canExistTile)
+void mapChipUpdate(bool canExistTile, int tileXNumber, int tileYNumber)
 {
-	for (auto j = 0; j < MAP_HEIGHTMAX; j++)
+	if (canExistTile)
 	{
-		for (auto i = 0; i < MAP_WIDTHMAX; i++)
-		{
-			if (canExistTile)
-			{
-				map[j][i] = 0;
-			}
-			else
-			{
-				map[j][i] = 1;
-			}
-		}
+		map[tileYNumber][tileXNumber] = 0;
+	}
+	else
+	{
+		map[tileYNumber][tileXNumber] = 1;
 	}
 }
