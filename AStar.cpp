@@ -18,7 +18,7 @@ int direction_delta[DIR_MAX][2] = {
 };
 
 // 地形コスト(地形によるコスト差がない場合は壁以外をすべて1にする)
-short chip_cost[] = { 0, 1 };
+short chip_cost[] = { 0, 255 };
 
 // マップ
 char map[MAP_HEIGHTMAX][MAP_WIDTHMAX] = {

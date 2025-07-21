@@ -1,4 +1,5 @@
 #pragma once
+#include<math.h>
 
 template<typename T>
 T CalculateDistance(VECTOR position1, VECTOR position2)

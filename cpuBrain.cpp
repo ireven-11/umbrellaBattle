@@ -83,12 +83,12 @@ void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, shared_p
 	//距離によってどの行動をするか変える
 	if (distance_ < 3)//スイング
 	{
-		int doActionRandom_ = GetRand(100);
+		/*int doActionRandom_ = GetRand(100);
 
 		if (doActionRandom_ > 50)
 		{
 			charaBase->input.Buttons[1] = 128;
-		}
+		}*/
 	}
 	else if (distance_ > 20 && charaBase->GettackleCount_() <= charaBase->Getmax_tackle_count() && canCharge_)//タックル
 	{
@@ -157,10 +157,10 @@ void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, shared_p
 		}
 
 		//タイルにたどり着いたら
-		if (CalculateDistance<float>(charaBase->Getposition_(), stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x]) < 0.05f)
+		if (CalculateDistance<float>(charaBase->Getposition_(), stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x]) < 0.01f)
 		{
 			//先頭要素を削除
-			chaseRoot_.pop_front();//バグあり（emptyの部分を消そうとする）
+			chaseRoot_.pop_front();
 
 			//新しく先頭要素になったものの座標を次に進む座標とする
 			auto it = chaseRoot_.begin();
@@ -168,8 +168,10 @@ void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, shared_p
 			{
 				it++;
 			}
-
-			nextTilePosition_ = *it;
+			if (it != chaseRoot_.end())
+			{
+				nextTilePosition_ = *it;
+			}
 		}
 
 		/*if (charaBase->Getposition_().x < routine->players[randomTarget_ - 1]->Getposition_().x)
@@ -211,10 +213,10 @@ void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, shared_p
 		//actionState_ = chaseState_();
 	}
 
-	if (charaBase->GettackleCount_() == 0)
+	/*if (charaBase->GettackleCount_() == 0)
 	{
 		canCharge_ = true;
-	}
+	}*/
 }
 
 /// <summary>
@@ -225,12 +227,12 @@ void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, shared_p
 void CPUBrain::decideChaceRoot(CharaBase* charaBase, Routine* routine)
 {
 	//毎フレーム探索すると処理が重くなりそうなので3fに一回にする
-	++chaseCount_;
+	/*++chaseCount_;
 	if (chaseCount_ > 3)
 	{
 		chaseCount_ = 0;
 	}
-	if (chaseCount_ == 3)
+	if (chaseCount_ == 3)*/
 	{
 		//a*で経路探索
 		aStarStartPosition_.x = charaBase->GetonTileNumberX_();
@@ -243,6 +245,9 @@ void CPUBrain::decideChaceRoot(CharaBase* charaBase, Routine* routine)
 		{
 			it++;
 		}
-		nextTilePosition_ = *it;
+		if (it != chaseRoot_.end())
+		{
+			nextTilePosition_ = *it;
+		}
 	}
 }
