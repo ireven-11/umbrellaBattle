@@ -144,6 +144,7 @@
     <ClCompile Include="charaBase.cpp" />
     <ClCompile Include="chaseState.cpp" />
     <ClCompile Include="closeState.cpp" />
+    <ClCompile Include="collision.cpp" />
     <ClCompile Include="cpu.cpp" />
     <ClCompile Include="cpuBrain.cpp" />
     <ClCompile Include="escapeState.cpp" />
@@ -169,6 +170,7 @@
     <ClInclude Include="charaBase.h" />
     <ClInclude Include="chaseState.h" />
     <ClInclude Include="closeState.h" />
+    <ClInclude Include="collision.h" />
     <ClInclude Include="cpu.h" />
     <ClInclude Include="cpuBrain.h" />
     <ClInclude Include="escapeState.h" />

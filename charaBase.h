@@ -7,9 +7,10 @@
 #include"trumpetState.h"
 using namespace std;
 
-constexpr float	player_init_positionX = 0.0f;
-constexpr float	player_init_positionY = 0.0f;
-constexpr float	player_init_positionZ = 0.0f;
+constexpr float	player_init_positionX	= 0.0f;
+constexpr float	player_init_positionY	= 0.0f;
+constexpr float	player_init_positionZ	= 0.0f;
+constexpr float collision_radius		= 3.5;
 
 class Routine;
 class Stage;

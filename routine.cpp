@@ -7,6 +7,7 @@
 #include"stage.h"
 #include"standbyUI.h"
 #include"cpu.h"
+#include"collision.h"
 
 /// <summary>
 /// コンストラクタ
@@ -37,6 +38,7 @@ void Routine::game()
     players.clear();
     stage           = nullptr;
     standbyUI       = nullptr;
+    collision       = nullptr;
 }
 
 /// <summary>
@@ -110,7 +112,28 @@ void Routine::play()
     for (const auto& i:players)
     {
         i->update(this, stage);
+
+        DrawSphere3D(i->Getposition_(), collision_radius, 32, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
+
+        //二重範囲forにして当たり判定をチェック
+        for (const auto& j : players)
+        {
+            if (i == j)
+            {
+                continue;
+            }
+            else
+            {
+                //プレイヤー同士が当たっているときは押し戻しをする
+                if (collision->players(i->Getposition_(), j->Getposition_()))
+                {
+
+                }
+            }
+        }
     }
+
+
 }
 
 /// <summary>

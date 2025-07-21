@@ -12,6 +12,7 @@ class Camera;
 class Stage;
 class StandbyUI;
 class CharaBase;
+class Collision;
 
 class Routine
 {
@@ -29,6 +30,7 @@ private:
 	shared_ptr<Camera>camera				= make_shared<Camera>();
 	shared_ptr<Stage>stage					= make_shared<Stage>();
 	shared_ptr<StandbyUI>standbyUI			= make_shared<StandbyUI>();
+	shared_ptr<Collision>collision			= make_shared<Collision>();
 
 	void gameRoop();
 	void title();
