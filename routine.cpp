@@ -7,7 +7,6 @@
 #include"stage.h"
 #include"standbyUI.h"
 #include"cpu.h"
-#include"collision.h"
 
 /// <summary>
 /// コンストラクタ
@@ -38,7 +37,6 @@ void Routine::game()
     players.clear();
     stage           = nullptr;
     standbyUI       = nullptr;
-    collision       = nullptr;
 }
 
 /// <summary>
@@ -124,11 +122,7 @@ void Routine::play()
             }
             else
             {
-                //プレイヤー同士が当たっているときは押し戻しをする
-                if (collision->players(i->Getposition_(), j->Getposition_()))
-                {
-
-                }
+                i->pushBackWithChara(j);
             }
         }
     }

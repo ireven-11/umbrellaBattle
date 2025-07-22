@@ -35,6 +35,8 @@ public:
 	void SetonTilePosition(VECTOR tilePosition);
 	void SetonTilePositionX_(short tileNumberX);
 	void SetonTilePositionY_(short tileNumberY);
+	void pushBackWithChara(shared_ptr<CharaBase> otherChara);
+	void positionAdjustmentAfterHit(float distance, float nx, float nz, float overlap, float impulseX, float impulseZ);
 
 	DINPUT_JOYSTATE input;		//コントローラー(D)用構造体変数
 	VECTOR								Getposition_()const { return  position_; }
@@ -91,6 +93,7 @@ protected:
 	VECTOR	onTilePosition_;	//乗っているタイルの座標
 	short	onTileNumberX_;		//乗っているタイルの配列の要素数x
 	short	onTileNumberY_;		//乗っているタイルの配列の要素数y
+	VECTOR  moveVector_;
 
 	//状態
 	shared_ptr<StateMachine::IState>	state_;

@@ -3,6 +3,7 @@
 #include<cmath>
 #include"stage.h"
 #include"routine.h"
+#include"calculateDistance.h"
 
 /// <summary>
 /// コンストラクタ
@@ -117,6 +118,7 @@ void CharaBase::reset()
 	fanMoveAngle_	= 90.0;
 	isPrevButton_	= false;
 	onTilePosition_ = VGet(0.0f, 0.0f, 0.0f);
+	moveVector_		= VGet(0.0f, 0.0f, 0.0f);
 }
 
 /// <summary>
@@ -132,23 +134,24 @@ void CharaBase::move()
 		return;
 	}
 
+	moveVector_ = VGet(0.0f, 0.0f, 0.0f);
 	//スティックを傾けたら移動を決定
-	VECTOR moveVector = VGet(0.0f, 0.0f, 0.0f);
+	moveVector_ = VGet(0.0f, 0.0f, 0.0f);
 	if (input.Y != 0 && isNoneAction)
 	{
-		moveVector = VAdd(moveVector, VGet(move_speed, 0.0f, move_speed));
+		moveVector_ = VAdd(moveVector_, VGet(move_speed, 0.0f, move_speed));
 	}
 	else if (input.Y > 0 && isNoneAction)
 	{
-		moveVector = VAdd(moveVector, VGet(move_speed, 0.0f, move_speed));
+		moveVector_ = VAdd(moveVector_, VGet(move_speed, 0.0f, move_speed));
 	}
 	else if (input.X > 0 && isNoneAction)
 	{
-		moveVector = VAdd(moveVector, VGet(move_speed, 0.0f, move_speed));
+		moveVector_ = VAdd(moveVector_, VGet(move_speed, 0.0f, move_speed));
 	}
 	else if (input.X < 0 && isNoneAction)
 	{
-		moveVector = VAdd(moveVector, VGet(move_speed, 0.0f, move_speed));
+		moveVector_ = VAdd(moveVector_, VGet(move_speed, 0.0f, move_speed));
 	}
 	/*if (input.Y != 0 && isNoneAction)
 	{
@@ -164,8 +167,8 @@ void CharaBase::move()
 
 	//スティックを傾けてる向きに移動
 	rotaionMatrix_	= MGetRotY(rotationAngleY_ + agnle_shift_number);
-	moveVector		= VTransform(moveVector, rotaionMatrix_);
-	position_		= VAdd(position_, moveVector);
+	moveVector_		= VTransform(moveVector_, rotaionMatrix_);
+	position_		= VAdd(position_, moveVector_);
 
 	//DrawFormatString(100,800,)
 	//DrawFormatString(100, 700, GetColor(255, 255, 255), "ムーブベクター x:%f y:%f z:%f", moveVector.x, moveVector.y, moveVector.z);
@@ -235,8 +238,8 @@ void CharaBase::tackle()
 /// <param name="rotation">どの方向にタックルするか決める回転行列</param>
 void CharaBase::tackleMoving()
 {
-	VECTOR moveVector = VTransform(VGet(tackleCount_ / adjust_tackle, 0.0f, tackleCount_ / adjust_tackle), rotaionMatrix_);
-	position_ = VAdd(position_, moveVector);
+	moveVector_ = VTransform(VGet(tackleCount_ / adjust_tackle, 0.0f, tackleCount_ / adjust_tackle), rotaionMatrix_);
+	position_ = VAdd(position_, moveVector_);
 
 	//移動中は落下しずらくするようにyに補正をかける
 	if (position_.y < 0.0f)
@@ -400,4 +403,57 @@ void CharaBase::SetonTilePositionX_(short tileNumberX)
 void CharaBase::SetonTilePositionY_(short tileNumberY)
 {
 	onTileNumberY_ = tileNumberY;
+}
+
+void CharaBase::pushBackWithChara(shared_ptr<CharaBase> otherChara)
+{
+	//if (state_ != fanState_())
+	//{
+	//	float dx = otherChara->Getposition_().x - position_.x;
+	//	float dy = otherChara->Getposition_().y - position_.y;
+	//	float dz = otherChara->Getposition_().z - position_.z;
+	//	float distance = CalculateDistance<float>(position_, otherChara->Getposition_());
+
+	//	// 衝突の法線ベクトル
+	//	float nx = dx / distance;
+	//	float ny = dy / distance;
+	//	float nz = dz / distance;
+
+	//	// 2球間の相対速度
+	//	float vx_rel = move_speed - move_speed;
+	//	float vy_rel = 0.0f - 0.0f;
+	//	float vz_rel = move_speed - move_speed;
+
+	//	// 法線方向の相対速度
+	//	float velocityAlongNormal = vx_rel * nx + vy_rel * ny + vz_rel * nz;
+
+	//	// 反発係数（完全弾性衝突と仮定）
+	//	if (velocityAlongNormal > 0) return;  // すでに離れようとしている場合は何もしない
+
+	//	// 衝突後の速度更新（弾性衝突）
+	//	float restitution = 1.0f; // 完全弾性衝突
+
+	//	// 質量の比に基づいて速度の変化量を計算
+	//	float impulse = 2 * velocityAlongNormal;
+	//	float impulseX = impulse * nx;
+	//	float impulseZ = impulse * nz;
+
+	//	// 速度の更新
+	//	moveVector_.x += impulseX;
+	//	moveVector_.z += impulseZ;
+
+	//	// 衝突後の位置調整（重なりを解消）
+	//	float overlap = collision_radius * 2 - distance;
+	//	otherChara->positionAdjustmentAfterHit(distance, nx, nz, overlap, impulseX, impulseZ);
+	//	position_.x -= nx * overlap / 2;
+	//	position_.z -= nz * overlap / 2;
+	//}
+}
+
+void CharaBase::positionAdjustmentAfterHit(float distance, float nx, float nz, float overlap, float impulseX, float impulseZ)
+{
+	moveVector_.x -= impulseX;
+	moveVector_.z -= impulseZ;
+	position_.x += nx * overlap / 2;
+	position_.z += nz * overlap / 2;
 }
