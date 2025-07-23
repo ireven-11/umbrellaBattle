@@ -29,7 +29,7 @@ CPUBrain::~CPUBrain()
 {
 }
 
-void CPUBrain::update(CharaBase* charaBase, Routine* routine, shared_ptr<Stage> stage)
+void CPUBrain::update(CharaBase* charaBase, Routine* routine, std::shared_ptr<Stage> stage)
 {
 	decideTarget(charaBase);
 	dicideTargetCount_++;
@@ -78,7 +78,7 @@ void CPUBrain::decideTarget(CharaBase* charaBase)
 /// </summary>
 /// <param name="charaBase">キャラの親クラス</param>
 /// <param name="routine">ルーチンクラス</param>
-void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, shared_ptr<Stage> stage)
+void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, std::shared_ptr<Stage> stage)
 {
 	//距離によってどの行動をするか変える
 	if (distance_ < 3)//スイング

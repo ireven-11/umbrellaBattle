@@ -23,11 +23,11 @@ public:
 	CPUBrain();
 	~CPUBrain();
 
-	void update(CharaBase* charaBase, Routine* routine, shared_ptr<Stage> stage);
+	void update(CharaBase* charaBase, Routine* routine, std::shared_ptr<Stage> stage);
 
 private:
 	void decideTarget(CharaBase* charaBase);
-	void decideNextAction(CharaBase* charaBase, Routine* routine, shared_ptr<Stage> stage);
+	void decideNextAction(CharaBase* charaBase, Routine* routine, std::shared_ptr<Stage> stage);
 	void decideChaceRoot(CharaBase* charaBase, Routine* routine);
 
 	bool	isTarget_;
@@ -45,38 +45,38 @@ private:
 
 	//s“®‚Ìó‘Ô
 	std::shared_ptr<StateMachine::IState> actionState_;
-	static shared_ptr<ActionState::WaitState> waitState_()
+	static std::shared_ptr<ActionState::WaitState> waitState_()
 	{
-		static shared_ptr<ActionState::WaitState> state = make_shared<ActionState::WaitState>();
+		static std::shared_ptr<ActionState::WaitState> state = std::make_shared<ActionState::WaitState>();
 		return state;
 	}
-	static shared_ptr<ActionState::SwingState> swingState_()
+	static std::shared_ptr<ActionState::SwingState> swingState_()
 	{
-		static shared_ptr<ActionState::SwingState> state = make_shared<ActionState::SwingState>();
+		static std::shared_ptr<ActionState::SwingState> state = std::make_shared<ActionState::SwingState>();
 		return state;
 	}
-	static shared_ptr<ActionState::TackleState> tackleState_()
+	static std::shared_ptr<ActionState::TackleState> tackleState_()
 	{
-		static shared_ptr<ActionState::TackleState> state = make_shared<ActionState::TackleState>();
+		static std::shared_ptr<ActionState::TackleState> state = std::make_shared<ActionState::TackleState>();
 		return state;
 	}
-	static shared_ptr <ActionState::WindState> windState_()
+	static std::shared_ptr <ActionState::WindState> windState_()
 	{
-		static shared_ptr<ActionState::WindState> state = make_shared<ActionState::WindState>();
+		static std::shared_ptr<ActionState::WindState> state = std::make_shared<ActionState::WindState>();
 		return state;
 	}
-	static shared_ptr<ActionState::ChaseState> chaseState_()
+	static std::shared_ptr<ActionState::ChaseState> chaseState_()
 	{
-		static shared_ptr<ActionState::ChaseState> state = make_shared<ActionState::ChaseState>();
+		static std::shared_ptr<ActionState::ChaseState> state = std::make_shared<ActionState::ChaseState>();
 		return state;
-	}static shared_ptr<ActionState::EscapeState> escapeState_()
+	}static std::shared_ptr<ActionState::EscapeState> escapeState_()
 	{
-		static shared_ptr<ActionState::EscapeState> state = make_shared<ActionState::EscapeState>();
+		static std::shared_ptr<ActionState::EscapeState> state = std::make_shared<ActionState::EscapeState>();
 		return state;
 	}
-	static shared_ptr<ActionState::ThinkState> thinkState_()
+	static std::shared_ptr<ActionState::ThinkState> thinkState_()
 	{
-		static shared_ptr<ActionState::ThinkState> state = make_shared<ActionState::ThinkState>();
+		static std::shared_ptr<ActionState::ThinkState> state = std::make_shared<ActionState::ThinkState>();
 		return state;
 	}
 };

@@ -1,4 +1,5 @@
 #include"Dxlib.h"
+//#include"YuiLib/YuiLib.h"
 #include"charaBase.h"
 #include<cmath>
 #include"stage.h"
@@ -12,9 +13,33 @@
 CharaBase::CharaBase(const int join_number)
 {
 	//3dモデル読み込み
-	openingUmbrella_ = MV1LoadModel("3dmodel/umbrella/umblleraopen.mv1");
-	closingUmbrella_ = MV1LoadModel("3dmodel/umbrella/umblleraclose.mv1");
-	fan_ = MV1LoadModel("3dmodel/fan/fanWithTile.mv1");
+	switch (join_number)
+	{
+	case 1:
+		openingUmbrella_ = MV1LoadModel("3dmodel/umbrella/umblleraopen.mv1");
+		closingUmbrella_ = MV1LoadModel("3dmodel/umbrella/umblleraclose.mv1");
+		fan_ = MV1LoadModel("3dmodel/fan/fanWithTile.mv1");
+		break;
+
+	case 2:
+		openingUmbrella_ = MV1LoadModel("3dmodel/umbrella/umblleraopen2.mv1");
+		closingUmbrella_ = MV1LoadModel("3dmodel/umbrella/umblleraclose2.mv1");
+		fan_ = MV1LoadModel("3dmodel/fan/fanWithTile.mv1");
+		break;
+
+	case 3:
+		openingUmbrella_ = MV1LoadModel("3dmodel/umbrella/umblleraopen3.mv1");
+		closingUmbrella_ = MV1LoadModel("3dmodel/umbrella/umblleraclose3.mv1");
+		fan_ = MV1LoadModel("3dmodel/fan/fanWithTile.mv1");
+		break;
+
+	case 4:
+		openingUmbrella_ = MV1LoadModel("3dmodel/umbrella/umblleraopen4.mv1");
+		closingUmbrella_ = MV1LoadModel("3dmodel/umbrella/umblleraclose4.mv1");
+		fan_ = MV1LoadModel("3dmodel/fan/fanWithTile.mv1");
+		break;
+	}
+	
 	MV1SetScale(openingUmbrella_, VGet(scale, scale, scale));
 	MV1SetScale(closingUmbrella_, VGet(scale, scale, scale));
 	MV1SetScale(fan_, VGet(scale / 12, scale / 12, scale / 12));
@@ -43,7 +68,7 @@ CharaBase::~CharaBase()
 /// <summary>
 /// 更新
 /// </summary>
-void CharaBase::update(Routine* routine, shared_ptr<Stage> stage)
+void CharaBase::update(Routine* routine, std::shared_ptr<Stage> stage)
 {
 	//コントローラーの入力状態を取得する
 	GetJoypadDirectInputState(controlerNumber_, &input);
@@ -119,6 +144,7 @@ void CharaBase::reset()
 	isPrevButton_	= false;
 	onTilePosition_ = VGet(0.0f, 0.0f, 0.0f);
 	moveVector_		= VGet(0.0f, 0.0f, 0.0f);
+	collisionCenterPosition_ = VGet(0.0f, 0.0f, 0.0f);
 }
 
 /// <summary>
@@ -405,49 +431,52 @@ void CharaBase::SetonTilePositionY_(short tileNumberY)
 	onTileNumberY_ = tileNumberY;
 }
 
-void CharaBase::pushBackWithChara(shared_ptr<CharaBase> otherChara)
+void CharaBase::pushBackWithChara(std::shared_ptr<CharaBase> otherChara)
 {
-	//if (state_ != fanState_())
-	//{
-	//	float dx = otherChara->Getposition_().x - position_.x;
-	//	float dy = otherChara->Getposition_().y - position_.y;
-	//	float dz = otherChara->Getposition_().z - position_.z;
-	//	float distance = CalculateDistance<float>(position_, otherChara->Getposition_());
+	if (state_ != fanState_())
+	{
+		float dx = otherChara->Getposition_().x - position_.x;
+		float dy = otherChara->Getposition_().y - position_.y;
+		float dz = otherChara->Getposition_().z - position_.z;
+		float distance = CalculateDistance<float>(position_, otherChara->Getposition_());
 
-	//	// 衝突の法線ベクトル
-	//	float nx = dx / distance;
-	//	float ny = dy / distance;
-	//	float nz = dz / distance;
+		if (distance < collision_radius * 2)
+		{
+			// 衝突の法線ベクトル
+			float nx = dx / distance;
+			float ny = dy / distance;
+			float nz = dz / distance;
 
-	//	// 2球間の相対速度
-	//	float vx_rel = move_speed - move_speed;
-	//	float vy_rel = 0.0f - 0.0f;
-	//	float vz_rel = move_speed - move_speed;
+			// 2球間の相対速度
+			float vx_rel = move_speed - move_speed;
+			float vy_rel = 0.0f - 0.0f;
+			float vz_rel = move_speed - move_speed;
 
-	//	// 法線方向の相対速度
-	//	float velocityAlongNormal = vx_rel * nx + vy_rel * ny + vz_rel * nz;
+			// 法線方向の相対速度
+			float velocityAlongNormal = vx_rel * nx + vy_rel * ny + vz_rel * nz;
 
-	//	// 反発係数（完全弾性衝突と仮定）
-	//	if (velocityAlongNormal > 0) return;  // すでに離れようとしている場合は何もしない
+			// 反発係数（完全弾性衝突と仮定）
+			if (velocityAlongNormal > 0) return;  // すでに離れようとしている場合は何もしない
 
-	//	// 衝突後の速度更新（弾性衝突）
-	//	float restitution = 1.0f; // 完全弾性衝突
+			// 衝突後の速度更新（弾性衝突）
+			float restitution = 1.0f; // 完全弾性衝突
 
-	//	// 質量の比に基づいて速度の変化量を計算
-	//	float impulse = 2 * velocityAlongNormal;
-	//	float impulseX = impulse * nx;
-	//	float impulseZ = impulse * nz;
+			// 質量の比に基づいて速度の変化量を計算
+			float impulse = 2 * velocityAlongNormal;
+			float impulseX = impulse * nx;
+			float impulseZ = impulse * nz;
 
-	//	// 速度の更新
-	//	moveVector_.x += impulseX;
-	//	moveVector_.z += impulseZ;
+			// 速度の更新
+			moveVector_.x += impulseX;
+			moveVector_.z += impulseZ;
 
-	//	// 衝突後の位置調整（重なりを解消）
-	//	float overlap = collision_radius * 2 - distance;
-	//	otherChara->positionAdjustmentAfterHit(distance, nx, nz, overlap, impulseX, impulseZ);
-	//	position_.x -= nx * overlap / 2;
-	//	position_.z -= nz * overlap / 2;
-	//}
+			// 衝突後の位置調整（重なりを解消）
+			float overlap = collision_radius * 2 - distance;
+			otherChara->positionAdjustmentAfterHit(distance, nx, nz, overlap, impulseX, impulseZ);
+			position_.x -= nx * overlap / 2;
+			position_.z -= nz * overlap / 2;
+		}
+	}
 }
 
 void CharaBase::positionAdjustmentAfterHit(float distance, float nx, float nz, float overlap, float impulseX, float impulseZ)

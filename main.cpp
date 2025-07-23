@@ -1,5 +1,6 @@
 #include"DxLib.h"
 #include"setting.h" 
+//#include"YuiLib/YuiLib.h"
 #include"routine.h"
 
 int WINAPI WinMain(winmainSetting)

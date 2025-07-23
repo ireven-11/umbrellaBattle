@@ -79,6 +79,7 @@
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -95,6 +96,7 @@
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -111,6 +113,7 @@
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -127,6 +130,7 @@
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -173,6 +177,7 @@
     <ClInclude Include="cpuBrain.h" />
     <ClInclude Include="escapeState.h" />
     <ClInclude Include="fanState.h" />
+    <ClInclude Include="GameObjectTag.h" />
     <ClInclude Include="IState.h" />
     <ClInclude Include="openState.h" />
     <ClInclude Include="player.h" />

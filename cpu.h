@@ -9,9 +9,9 @@ public:
 	CPU(const int join_number);
 	~CPU();
 
-	void update(Routine* routine, shared_ptr<Stage> stage)override;
+	void update(Routine* routine, std::shared_ptr<Stage> stage)override;
 
 private:
 	//ƒuƒŒƒCƒ“‚ğéŒ¾
-	shared_ptr<CPUBrain> brain_ = make_shared<CPUBrain>();
+	std::shared_ptr<CPUBrain> brain_ = std::make_shared<CPUBrain>();
 };

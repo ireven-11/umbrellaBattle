@@ -1,5 +1,4 @@
 #include"DxLib.h"
-#include"routine.h"
 #include"setting.h"
 #include"sceneManager.h"
 #include"camera.h"
@@ -7,6 +6,8 @@
 #include"stage.h"
 #include"standbyUI.h"
 #include"cpu.h"
+//#include"YuiLib/YuiLib.h"
+#include"routine.h"
 
 /// <summary>
 /// コンストラクタ
@@ -111,7 +112,7 @@ void Routine::play()
     {
         i->update(this, stage);
 
-        DrawSphere3D(i->Getposition_(), collision_radius, 32, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
+        //DrawSphere3D(i->Getposition_(), collision_radius, 32, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
 
         //二重範囲forにして当たり判定をチェック
         for (const auto& j : players)
@@ -168,22 +169,22 @@ void Routine::joinPlayer()
     //プレイヤーはコントローラのAボタンを押したら参加できる
     if (input1.Buttons[1] > 0 && !isjoiningPlayer[0])
     {
-        players.emplace_back(make_shared<Player>(DX_INPUT_PAD1));
+        players.emplace_back(std::make_shared<Player>(DX_INPUT_PAD1));
         isjoiningPlayer[0] = true;
     }
     if (input2.Buttons[1] > 0 && !isjoiningPlayer[1])
     {
-        players.emplace_back(make_shared<Player>(DX_INPUT_PAD2));
+        players.emplace_back(std::make_shared<Player>(DX_INPUT_PAD2));
         isjoiningPlayer[1] = true;
     }
     if (input3.Buttons[1] > 0 && !isjoiningPlayer[2])
     {
-        players.emplace_back(make_shared<Player>(DX_INPUT_PAD3));
+        players.emplace_back(std::make_shared<Player>(DX_INPUT_PAD3));
         isjoiningPlayer[2] = true;
     }
     if (input4.Buttons[1] > 0 && !isjoiningPlayer[3])
     {
-        players.emplace_back(make_shared<Player>(DX_INPUT_PAD4));
+        players.emplace_back(std::make_shared<Player>(DX_INPUT_PAD4));
         isjoiningPlayer[3] = true;
     }
 }
@@ -198,7 +199,7 @@ void Routine::joinCPU()
         //プレイヤーが参加してなければ
         if (!isjoiningPlayer[i])
         {
-            players.emplace_back(make_shared<CPU>(i + 1));
+            players.emplace_back(std::make_shared<CPU>(i + 1));
         }
     }
 }

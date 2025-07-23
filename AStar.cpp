@@ -39,7 +39,7 @@ bool operator!=(const position& o1, const position& o2) {
 	return o1.x != o2.x || o1.y != o2.y;
 }
 
-list<position> a_star(position start, position goal) {
+std::list<position> a_star(position start, position goal) {
 	// ノード用メモリの確保
 	node map_node[MAP_HEIGHTMAX][MAP_WIDTHMAX];
 	// ノード用ワーク変数
@@ -47,13 +47,13 @@ list<position> a_star(position start, position goal) {
 	int neighborX, neighborY;		// 隣接座標
 	int deltax, deltay;				// x,y差分
 	short cost, score, heuristic;	// 評価値計算用
-	list<position> result;
+	std::list<position> result;
 
 	// nodeデータの初期化
 	memset(map_node, 0, sizeof(map_node));
 
 	// オープンリストの作成
-	list<position> open_list = { start };
+	std::list<position> open_list = { start };
 	// とりあえずスタート地点をオープンリストに追加したフラグを立てる
 	map_node[start.y][start.x].state = IN_OPEN_LIST;
 
@@ -137,7 +137,7 @@ list<position> a_star(position start, position goal) {
 			next_node.direction = (char)i;			// 親セルの方向
 			// 隣セルノードをオープンリストに追加する
 			next_node.state = IN_OPEN_LIST;
-			list<position>::iterator iter;
+			std::list<position>::iterator iter;
 			// オープンリスト内のノードがスコアの昇順になるように新ノードを挿入する
 			for (iter = open_list.begin(); iter != open_list.end(); ++iter) {
 				if (score <= map_node[iter->y][iter->x].score) {

@@ -20,7 +20,7 @@ CPU::~CPU()
 {
 }
 
-void CPU::update(Routine* routine, shared_ptr<Stage> stage)
+void CPU::update(Routine* routine, std::shared_ptr<Stage> stage)
 {
 	//コントローラーの入力状態を取得する
 	GetJoypadDirectInputState(controlerNumber_, &input);

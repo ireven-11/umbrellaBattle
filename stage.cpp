@@ -67,7 +67,7 @@ Stage::~Stage()
 /// <summary>
 /// 更新
 /// </summary>
-void Stage::update(vector<shared_ptr<CharaBase>>player)
+void Stage::update(std::vector<std::shared_ptr<CharaBase>>player)
 {
 	MV1SetPosition(skydomeHandle_, VGet(0, 0, 0));
 	for (int i = 0; i < tile_number; i++)
@@ -263,7 +263,7 @@ void DrawHexagon3D(VECTOR standardPosition, float sideX, float sideZ, float side
 /// </summary>
 /// <param name="player"></param>
 /// <returns></returns>
-void Stage::collisionWithPlayer(vector<shared_ptr<CharaBase>>player)
+void Stage::collisionWithPlayer(std::vector<std::shared_ptr<CharaBase>>player)
 {
 	//プレイヤーをvector（動的配列)にしてるので3重ループになるけどしゃあない
 	for (const auto& p : player)

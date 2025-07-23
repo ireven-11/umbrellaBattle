@@ -1,7 +1,6 @@
 #pragma once
 #include<memory>
 #include<vector>
-using namespace std;
 
 constexpr	int		tile_number			= 7;
 constexpr	int		all_tile_number		= tile_number * tile_number;
@@ -25,10 +24,10 @@ public:
 	Stage();
 	~Stage();
 
-	void update(vector<shared_ptr<CharaBase>>player);
+	void update(std::vector<std::shared_ptr<CharaBase>>player);
 	void draw();
 	void reset();
-	void collisionWithPlayer(vector<shared_ptr<CharaBase>>player);
+	void collisionWithPlayer(std::vector<std::shared_ptr<CharaBase>>player);
 	const VECTOR (&Getposition_()const) [tile_number][tile_number]{ return position_; }
 
 private:

@@ -2,8 +2,6 @@
 #include<memory>
 #include<vector>
 
-using namespace std;
-
 const int max_player_number = 4;
 
 class SceneManager;
@@ -13,6 +11,11 @@ class Stage;
 class StandbyUI;
 class CharaBase;
 
+//namespace YuiLib 
+//{
+//	class Physics;
+//}
+
 class Routine
 {
 public:
@@ -21,14 +24,15 @@ public:
 
 	void game();
 
-	vector<shared_ptr<CharaBase>>players;
+	std::vector<std::shared_ptr<CharaBase>>players;
 
 private:
 	//インスタンス化
-	shared_ptr<SceneManager>sceneManager	= make_shared<SceneManager>();
-	shared_ptr<Camera>camera				= make_shared<Camera>();
-	shared_ptr<Stage>stage					= make_shared<Stage>();
-	shared_ptr<StandbyUI>standbyUI			= make_shared<StandbyUI>();
+	std::shared_ptr<SceneManager>sceneManager	= std::make_shared<SceneManager>();
+	std::shared_ptr<Camera>camera				= std::make_shared<Camera>();
+	std::shared_ptr<Stage>stage					= std::make_shared<Stage>();
+	std::shared_ptr<StandbyUI>standbyUI			= std::make_shared<StandbyUI>();
+	//shared_ptr<YuiLib::Physics>physics		= make_shared<YuiLib::Physics>();
 	
 	void gameRoop();
 	void title();

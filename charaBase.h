@@ -5,23 +5,28 @@
 #include"closeState.h"
 #include"fanState.h"
 #include"trumpetState.h"
-using namespace std;
+//#include"YuiLib/YuiLib.h"
 
 constexpr float	player_init_positionX	= 0.0f;
 constexpr float	player_init_positionY	= 0.0f;
 constexpr float	player_init_positionZ	= 0.0f;
-constexpr float collision_radius		= 3.5;
+constexpr float collision_radius		= 1.5;
 
 class Routine;
 class Stage;
 
-class CharaBase
+//namespace YuiLib
+//{
+//	class Collidable;
+//}
+
+class CharaBase/* : public YuiLib::Collidable*/
 {
 public:
 	CharaBase(const int join_number);
 	~CharaBase();
 
-	virtual void update(Routine* routine, shared_ptr<Stage> stage);
+	virtual void update(Routine* routine, std::shared_ptr<Stage> stage);
 	void reset();
 	void fall();
 	virtual void changeOpenToClose();
@@ -35,12 +40,12 @@ public:
 	void SetonTilePosition(VECTOR tilePosition);
 	void SetonTilePositionX_(short tileNumberX);
 	void SetonTilePositionY_(short tileNumberY);
-	void pushBackWithChara(shared_ptr<CharaBase> otherChara);
+	void pushBackWithChara(std::shared_ptr<CharaBase> otherChara);
 	void positionAdjustmentAfterHit(float distance, float nx, float nz, float overlap, float impulseX, float impulseZ);
 
 	DINPUT_JOYSTATE input;		//コントローラー(D)用構造体変数
 	VECTOR								Getposition_()const { return  position_; }
-	shared_ptr<StateMachine::IState>	Getstate_()const { return state_; }
+	std::shared_ptr<StateMachine::IState>	Getstate_()const { return state_; }
 	int									GetcontrolerNumber_()const { return controlerNumber_; }
 	float								GettackleCount_()const { return tackleCount_; }
 	float								Getmax_tackle_count()const { return max_tackle_count; }
@@ -56,7 +61,7 @@ private:
 	const double	agnle_shift_number = 0.75;
 	const int		adjust_tackle = 50;
 	const float		rotation_angle_x = -45.0f;
-	const double	adjust_rotation_angle_y = -1.5;
+	const double	adjust_rotation_angle_y = agnle_shift_number * -2;
 	const float		adjust_position_y = 0.2f;
 	const int		max_hp = 100;
 	const double	swing_speed = 0.40;
@@ -94,22 +99,23 @@ protected:
 	short	onTileNumberX_;		//乗っているタイルの配列の要素数x
 	short	onTileNumberY_;		//乗っているタイルの配列の要素数y
 	VECTOR  moveVector_;
+	VECTOR	collisionCenterPosition_;
 
 	//状態
-	shared_ptr<StateMachine::IState>	state_;
-	static shared_ptr<CharaState::OpenState> openState_()
+	std::shared_ptr<StateMachine::IState>	state_;
+	static std::shared_ptr<CharaState::OpenState> openState_()
 	{
-		static shared_ptr<CharaState::OpenState> state = make_shared<CharaState::OpenState>();
+		static std::shared_ptr<CharaState::OpenState> state = std::make_shared<CharaState::OpenState>();
 		return state;
 	}
-	static shared_ptr<CharaState::CloseState> closeState_()
+	static std::shared_ptr<CharaState::CloseState> closeState_()
 	{
-		static shared_ptr<CharaState::CloseState> state = make_shared<CharaState::CloseState>();
+		static std::shared_ptr<CharaState::CloseState> state = std::make_shared<CharaState::CloseState>();
 		return state;
 	}
-	static shared_ptr<CharaState::FanState> fanState_()
+	static std::shared_ptr<CharaState::FanState> fanState_()
 	{
-		static shared_ptr<CharaState::FanState> state = make_shared<CharaState::FanState>();
+		static std::shared_ptr<CharaState::FanState> state = std::make_shared<CharaState::FanState>();
 		return state;
 	}
 };
