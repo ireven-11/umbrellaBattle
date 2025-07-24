@@ -1,5 +1,5 @@
-#include"AStar.h"
 #include"DxLib.h"
+#include"AStar.h"
 #include"stage.h"
 
 //隣接するマスの方向を表す数値

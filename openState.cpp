@@ -36,6 +36,7 @@ namespace CharaState
 		charaBase->move();
 		charaBase->swing();
 		charaBase->tackle();
+		charaBase->collisionRotation();
 		changeState(charaBase);
 	}
 }

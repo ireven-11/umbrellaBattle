@@ -160,7 +160,6 @@ void CharaBase::move()
 		return;
 	}
 
-	moveVector_ = VGet(0.0f, 0.0f, 0.0f);
 	//スティックを傾けたら移動を決定
 	moveVector_ = VGet(0.0f, 0.0f, 0.0f);
 	if (input.Y != 0 && isNoneAction)
@@ -179,14 +178,6 @@ void CharaBase::move()
 	{
 		moveVector_ = VAdd(moveVector_, VGet(move_speed, 0.0f, move_speed));
 	}
-	/*if (input.Y != 0 && isNoneAction)
-	{
-		moveVector = VAdd(moveVector, VGet(move_speed, 0.0f, move_speed));
-	}
-	if (input.X != 0 && isNoneAction)
-	{
-		moveVector = VAdd(moveVector, VGet(move_speed, 0.0f, move_speed));
-	}*/
 
 	//スティックの傾きからどのくらいモデルを回転させるか決定
 	rotation();
@@ -435,10 +426,10 @@ void CharaBase::pushBackWithChara(std::shared_ptr<CharaBase> otherChara)
 {
 	if (state_ != fanState_())
 	{
-		float dx = otherChara->Getposition_().x - position_.x;
-		float dy = otherChara->Getposition_().y - position_.y;
-		float dz = otherChara->Getposition_().z - position_.z;
-		float distance = CalculateDistance<float>(position_, otherChara->Getposition_());
+		float dx = otherChara->GetcollisionCenterPosition_().x - collisionCenterPosition_.x;
+		float dy = otherChara->GetcollisionCenterPosition_().y - collisionCenterPosition_.y;
+		float dz = otherChara->GetcollisionCenterPosition_().z - collisionCenterPosition_.z;
+		float distance = CalculateDistance<float>(collisionCenterPosition_, otherChara->GetcollisionCenterPosition_());
 
 		if (distance < collision_radius * 2)
 		{
@@ -473,6 +464,8 @@ void CharaBase::pushBackWithChara(std::shared_ptr<CharaBase> otherChara)
 			// 衝突後の位置調整（重なりを解消）
 			float overlap = collision_radius * 2 - distance;
 			otherChara->positionAdjustmentAfterHit(distance, nx, nz, overlap, impulseX, impulseZ);
+			collisionCenterPosition_.x -= nx * overlap / 2;
+			collisionCenterPosition_.z -= nz * overlap / 2;
 			position_.x -= nx * overlap / 2;
 			position_.z -= nz * overlap / 2;
 		}
@@ -483,6 +476,15 @@ void CharaBase::positionAdjustmentAfterHit(float distance, float nx, float nz, f
 {
 	moveVector_.x -= impulseX;
 	moveVector_.z -= impulseZ;
+	collisionCenterPosition_.x += nx * overlap / 2;
+	collisionCenterPosition_.z += nz * overlap / 2;
 	position_.x += nx * overlap / 2;
 	position_.z += nz * overlap / 2;
+}
+
+void CharaBase::collisionRotation()
+{
+	MATRIX tempMatrix = MGetRotY(rotationAngleY_);
+	VECTOR tempVector = VTransform(collision_adjust_position, rotaionMatrix_);
+	collisionCenterPosition_ = VAdd(position_, tempVector);
 }

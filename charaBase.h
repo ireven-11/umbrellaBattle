@@ -10,7 +10,7 @@
 constexpr float	player_init_positionX	= 0.0f;
 constexpr float	player_init_positionY	= 0.0f;
 constexpr float	player_init_positionZ	= 0.0f;
-constexpr float collision_radius		= 1.5;
+constexpr float collision_radius		= 2.0;
 
 class Routine;
 class Stage;
@@ -42,6 +42,7 @@ public:
 	void SetonTilePositionY_(short tileNumberY);
 	void pushBackWithChara(std::shared_ptr<CharaBase> otherChara);
 	void positionAdjustmentAfterHit(float distance, float nx, float nz, float overlap, float impulseX, float impulseZ);
+	void collisionRotation();
 
 	DINPUT_JOYSTATE input;		//コントローラー(D)用構造体変数
 	VECTOR								Getposition_()const { return  position_; }
@@ -52,6 +53,7 @@ public:
 	VECTOR								GetonTilePosition_()const { return onTilePosition_; }
 	short								GetonTileNumberX_()const { return onTileNumberX_; }
 	short								GetonTileNumberY_()const { return onTileNumberY_; }
+	VECTOR								GetcollisionCenterPosition_()const { return collisionCenterPosition_; }
 
 private:
 	const float		fall_speed = 0.005f;
@@ -72,6 +74,7 @@ private:
 	const VECTOR	player2_init_position = VGet(-10.0f, 0.0f, 0.0f);
 	const VECTOR	player3_init_position = VGet(0.0f, 0.0f, 20.0f);
 	const VECTOR	player4_init_position = VGet(0.0f, 0.0f, 0.0f);
+	const VECTOR	collision_adjust_position = VGet(1.5f, 0.0f, 1.0f);
 
 protected:
 	void draw()const;
@@ -98,8 +101,8 @@ protected:
 	VECTOR	onTilePosition_;	//乗っているタイルの座標
 	short	onTileNumberX_;		//乗っているタイルの配列の要素数x
 	short	onTileNumberY_;		//乗っているタイルの配列の要素数y
-	VECTOR  moveVector_;
-	VECTOR	collisionCenterPosition_;
+	VECTOR  moveVector_;		//移動ベクトル
+	VECTOR	collisionCenterPosition_;//コリジョンの中心座標
 
 	//状態
 	std::shared_ptr<StateMachine::IState>	state_;

@@ -113,6 +113,7 @@ void Routine::play()
         i->update(this, stage);
 
         //DrawSphere3D(i->Getposition_(), collision_radius, 32, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
+        DrawSphere3D(i->GetcollisionCenterPosition_(), collision_radius, 32, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
 
         //二重範囲forにして当たり判定をチェック
         for (const auto& j : players)
