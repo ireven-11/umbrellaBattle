@@ -454,7 +454,7 @@ void CharaBase::pushBackWithChara(std::shared_ptr<CharaBase> otherChara)
 			if (velocityAlongNormal > 0) return;  // すでに離れようとしている場合は何もしない
 
 			// 衝突後の速度更新（弾性衝突）
-			float restitution = 20.0f; // 完全弾性衝突
+			float restitution = 1.0f; // 完全弾性衝突
 
 			// 質量の比に基づいて速度の変化量を計算
 			float impulse = 2 * velocityAlongNormal / (mass_ + otherChara->Getmass_());
