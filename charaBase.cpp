@@ -145,6 +145,7 @@ void CharaBase::reset()
 	onTilePosition_ = VGet(0.0f, 0.0f, 0.0f);
 	moveVector_		= VGet(0.0f, 0.0f, 0.0f);
 	collisionCenterPosition_ = VGet(0.0f, 0.0f, 0.0f);
+	mass_			= init_mass;
 }
 
 /// <summary>
@@ -256,7 +257,8 @@ void CharaBase::tackle()
 void CharaBase::tackleMoving()
 {
 	moveVector_ = VTransform(VGet(tackleCount_ / adjust_tackle, 0.0f, tackleCount_ / adjust_tackle), rotaionMatrix_);
-	position_ = VAdd(position_, moveVector_);
+	position_	= VAdd(position_, moveVector_);
+	mass_		= tackle_mass;
 
 	//移動中は落下しずらくするようにyに補正をかける
 	if (position_.y < 0.0f)
@@ -273,9 +275,10 @@ void CharaBase::stopTackle()
 	//カウントが０なるかタックル中にBを押したらやめる
 	if (tackleCount_ == 0 && isMovingtackle_ || isMovingtackle_ && input.Buttons[0] > 0)
 	{
-		isTackle_ = false;
+		isTackle_		= false;
 		isMovingtackle_ = false;
-		tackleCount_ = 0;
+		tackleCount_	= 0;
+		mass_			= init_mass;
 	}
 }
 
@@ -453,13 +456,13 @@ void CharaBase::pushBackWithChara(std::shared_ptr<CharaBase> otherChara)
 			float restitution = 1.0f; // 完全弾性衝突
 
 			// 質量の比に基づいて速度の変化量を計算
-			float impulse = 2 * velocityAlongNormal;
+			float impulse = 2 * velocityAlongNormal / (mass_ + otherChara->Getmass_());
 			float impulseX = impulse * nx;
 			float impulseZ = impulse * nz;
 
 			// 速度の更新
-			moveVector_.x += impulseX;
-			moveVector_.z += impulseZ;
+			moveVector_.x += impulseX * mass_;
+			moveVector_.z += impulseZ * mass_;
 
 			// 衝突後の位置調整（重なりを解消）
 			float overlap = collision_radius * 2 - distance;
@@ -474,8 +477,8 @@ void CharaBase::pushBackWithChara(std::shared_ptr<CharaBase> otherChara)
 
 void CharaBase::positionAdjustmentAfterHit(float distance, float nx, float nz, float overlap, float impulseX, float impulseZ)
 {
-	moveVector_.x -= impulseX;
-	moveVector_.z -= impulseZ;
+	moveVector_.x -= impulseX * mass_;
+	moveVector_.z -= impulseZ * mass_;
 	collisionCenterPosition_.x += nx * overlap / 2;
 	collisionCenterPosition_.z += nz * overlap / 2;
 	position_.x += nx * overlap / 2;

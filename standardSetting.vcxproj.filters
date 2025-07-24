@@ -5,10 +5,6 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="ヘッダー ファイル">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="リソース ファイル">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
@@ -16,11 +12,15 @@
     <Filter Include="ソース ファイル\chara">
       <UniqueIdentifier>{6849c82b-e517-4640-9a76-a2fda1451f9f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\chara">
-      <UniqueIdentifier>{35ca5709-3d0a-413c-af13-e303150f3be4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\chara\state">
       <UniqueIdentifier>{1dbbb89b-2f77-4ddb-b18a-cb84d1887b21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\chara">
+      <UniqueIdentifier>{35ca5709-3d0a-413c-af13-e303150f3be4}</UniqueIdentifier>
     </Filter>
     <Filter Include="ヘッダー ファイル\chara\state">
       <UniqueIdentifier>{34623cc0-b24f-4d81-a5bb-6ac965282c54}</UniqueIdentifier>

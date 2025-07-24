@@ -54,6 +54,7 @@ public:
 	short								GetonTileNumberX_()const { return onTileNumberX_; }
 	short								GetonTileNumberY_()const { return onTileNumberY_; }
 	VECTOR								GetcollisionCenterPosition_()const { return collisionCenterPosition_; }
+	short								Getmass_()const { return mass_; }
 
 private:
 	const float		fall_speed = 0.005f;
@@ -75,6 +76,8 @@ private:
 	const VECTOR	player3_init_position = VGet(0.0f, 0.0f, 20.0f);
 	const VECTOR	player4_init_position = VGet(0.0f, 0.0f, 0.0f);
 	const VECTOR	collision_adjust_position = VGet(1.5f, 0.0f, 1.0f);
+	const short		init_mass	= 1;
+	const short		tackle_mass = 2;
 
 protected:
 	void draw()const;
@@ -103,6 +106,7 @@ protected:
 	short	onTileNumberY_;		//乗っているタイルの配列の要素数y
 	VECTOR  moveVector_;		//移動ベクトル
 	VECTOR	collisionCenterPosition_;//コリジョンの中心座標
+	short	mass_;				//質量
 
 	//状態
 	std::shared_ptr<StateMachine::IState>	state_;
