@@ -130,6 +130,21 @@ void Routine::play()
     }
 
 
+    //‹­§ƒŠƒZƒbƒg
+    if (CheckHitKey(KEY_INPUT_R) == true)
+    {
+        sceneManager = nullptr;
+        camera = nullptr;
+        players.clear();
+        stage = nullptr;
+        standbyUI = nullptr;
+
+        sceneManager = std::make_shared<SceneManager>();
+        camera = std::make_shared<Camera>();
+        stage = std::make_shared<Stage>();
+        standbyUI = std::make_shared<StandbyUI>();
+        reset();
+    }
 }
 
 /// <summary>

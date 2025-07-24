@@ -32,7 +32,6 @@ private:
 	std::shared_ptr<Camera>camera				= std::make_shared<Camera>();
 	std::shared_ptr<Stage>stage					= std::make_shared<Stage>();
 	std::shared_ptr<StandbyUI>standbyUI			= std::make_shared<StandbyUI>();
-	//shared_ptr<YuiLib::Physics>physics		= make_shared<YuiLib::Physics>();
 	
 	void gameRoop();
 	void title();

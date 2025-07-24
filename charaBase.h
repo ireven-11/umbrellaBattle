@@ -41,8 +41,9 @@ public:
 	void SetonTilePositionX_(short tileNumberX);
 	void SetonTilePositionY_(short tileNumberY);
 	void pushBackWithChara(std::shared_ptr<CharaBase> otherChara);
-	void positionAdjustmentAfterHit(float distance, float nx, float nz, float overlap, float impulseX, float impulseZ);
+	void positionAdjustmentAfterHit(float nx, float nz, float overlap, float impulseX, float impulseZ);
 	void collisionRotation();
+	void blownAway(float nx, float nz, float overlap, float impulseX, float impulseZ);
 
 	DINPUT_JOYSTATE input;		//コントローラー(D)用構造体変数
 	VECTOR								Getposition_()const { return  position_; }
@@ -78,6 +79,7 @@ private:
 	const VECTOR	collision_adjust_position = VGet(1.5f, 0.0f, 1.0f);
 	const short		init_mass	= 1;
 	const short		tackle_mass = 2;
+	const short		blow_away_percent = 10;
 
 protected:
 	void draw()const;

@@ -63,6 +63,7 @@ CharaBase::~CharaBase()
 {
 	MV1DeleteModel(openingUmbrella_);
 	MV1DeleteModel(closingUmbrella_);
+	MV1DeleteModel(fan_);
 }
 
 /// <summary>
@@ -453,7 +454,7 @@ void CharaBase::pushBackWithChara(std::shared_ptr<CharaBase> otherChara)
 			if (velocityAlongNormal > 0) return;  // すでに離れようとしている場合は何もしない
 
 			// 衝突後の速度更新（弾性衝突）
-			float restitution = 1.0f; // 完全弾性衝突
+			float restitution = 20.0f; // 完全弾性衝突
 
 			// 質量の比に基づいて速度の変化量を計算
 			float impulse = 2 * velocityAlongNormal / (mass_ + otherChara->Getmass_());
@@ -464,18 +465,31 @@ void CharaBase::pushBackWithChara(std::shared_ptr<CharaBase> otherChara)
 			moveVector_.x += impulseX * mass_;
 			moveVector_.z += impulseZ * mass_;
 
-			// 衝突後の位置調整（重なりを解消）
+			//タックル中だったら相手を吹っ飛ばす
 			float overlap = collision_radius * 2 - distance;
-			otherChara->positionAdjustmentAfterHit(distance, nx, nz, overlap, impulseX, impulseZ);
-			collisionCenterPosition_.x -= nx * overlap / 2;
-			collisionCenterPosition_.z -= nz * overlap / 2;
-			position_.x -= nx * overlap / 2;
-			position_.z -= nz * overlap / 2;
+			if (isMovingtackle_)
+			{
+				otherChara->blownAway(nx, nz, overlap, impulseX, impulseZ);
+
+				//タックルをやめる
+				isTackle_		= false;
+				isMovingtackle_ = false;
+				tackleCount_	= 0;
+			}
+			else
+			{
+				// 衝突後の位置調整（重なりを解消）
+				otherChara->positionAdjustmentAfterHit(nx, nz, overlap, impulseX, impulseZ);
+				collisionCenterPosition_.x -= nx * overlap / 2;
+				collisionCenterPosition_.z -= nz * overlap / 2;
+				position_.x -= nx * overlap / 2;
+				position_.z -= nz * overlap / 2;
+			}
 		}
 	}
 }
 
-void CharaBase::positionAdjustmentAfterHit(float distance, float nx, float nz, float overlap, float impulseX, float impulseZ)
+void CharaBase::positionAdjustmentAfterHit(float nx, float nz, float overlap, float impulseX, float impulseZ)
 {
 	moveVector_.x -= impulseX * mass_;
 	moveVector_.z -= impulseZ * mass_;
@@ -485,9 +499,26 @@ void CharaBase::positionAdjustmentAfterHit(float distance, float nx, float nz, f
 	position_.z += nz * overlap / 2;
 }
 
+/// <summary>
+/// 当たり判定を３dモデルに応じて回転させる
+/// </summary>
 void CharaBase::collisionRotation()
 {
 	MATRIX tempMatrix = MGetRotY(rotationAngleY_);
 	VECTOR tempVector = VTransform(collision_adjust_position, rotaionMatrix_);
 	collisionCenterPosition_ = VAdd(position_, tempVector);
+}
+
+/// <summary>
+/// 吹っ飛ばされる
+/// </summary>
+void CharaBase::blownAway(float nx, float nz, float overlap, float impulseX, float impulseZ)
+{
+	moveVector_.x -= impulseX * mass_;
+	moveVector_.z -= impulseZ * mass_;
+
+	collisionCenterPosition_.x += nx * overlap * blow_away_percent * 2;
+	collisionCenterPosition_.z += nz * overlap * blow_away_percent * 2;
+	position_.x += nx * overlap * blow_away_percent * 2;
+	position_.z += nz * overlap * blow_away_percent * 2;
 }
