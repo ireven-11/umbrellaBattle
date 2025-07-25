@@ -1,5 +1,4 @@
 #include"Dxlib.h"
-//#include"YuiLib/YuiLib.h"
 #include"charaBase.h"
 #include<cmath>
 #include"stage.h"
@@ -437,54 +436,114 @@ void CharaBase::pushBackWithChara(std::shared_ptr<CharaBase> otherChara)
 
 		if (distance < collision_radius * 2)
 		{
+			//// 衝突の法線ベクトル
+			//float nx = dx / distance;
+			//float ny = dy / distance;
+			//float nz = dz / distance;
+
+			//// 2球間の相対速度
+			//float vx_rel = GetmoveVector_().x - moveVector_.x;
+			//float vy_rel = GetmoveVector_().y - moveVector_.y;
+			//float vz_rel = GetmoveVector_().z - moveVector_.z;
+
+			//// 法線方向の相対速度
+			//float velocityAlongNormal = vx_rel * nx + vy_rel * ny + vz_rel * nz;
+
+			//// 反発係数（完全弾性衝突と仮定）
+			//if (velocityAlongNormal > 0) return;  // すでに離れようとしている場合は何もしない
+
+			//// 衝突後の速度更新（弾性衝突）
+			//float restitution = 1.0f; // 完全弾性衝突
+
+			//// 質量の比に基づいて速度の変化量を計算
+			//float impulse = -(1.0f + restitution) * velocityAlongNormal / (1.0f / mass_ + 1.0f / otherChara->Getmass_());
+			//float impulseX = impulse * nx;
+			//float impulseZ = impulse * nz;
+
+			//// 速度の更新
+			//moveVector_.x -= impulseX / mass_;
+			//moveVector_.z -= impulseZ / mass_;
+
+			////タックル中だったら相手を吹っ飛ばす
+			//float overlap = collision_radius * 2 - distance;
+			//if (isMovingtackle_)
+			//{
+			//	otherChara->blownAway(nx, nz, overlap, impulseX, impulseZ);
+
+			//	//タックルをやめる
+			//	isTackle_ = false;
+			//	isMovingtackle_ = false;
+			//	tackleCount_ = 0;
+			//}
+			//else
+			//{
+			//	// 衝突後の位置調整（重なりを解消）
+			//	otherChara->positionAdjustmentAfterHit(nx, nz, overlap, impulseX, impulseZ);
+			//	collisionCenterPosition_.x -= nx * overlap / 2;
+			//	collisionCenterPosition_.z -= nz * overlap / 2;
+			//	position_.x -= nx * overlap / 2;
+			//	position_.z -= nz * overlap / 2;
+			//}
+
 			// 衝突の法線ベクトル
 			float nx = dx / distance;
 			float ny = dy / distance;
 			float nz = dz / distance;
 
-			// 2球間の相対速度
-			float vx_rel = move_speed - move_speed;
-			float vy_rel = 0.0f - 0.0f;
-			float vz_rel = move_speed - move_speed;
+			// 両者の速度ベクトル
+			VECTOR myVelocity = moveVector_;
+			VECTOR otherVelocity = otherChara->GetmoveVector_();
+
+			// 相対速度ベクトル
+			VECTOR relativeVelocity = {
+				otherVelocity.x - myVelocity.x,
+				otherVelocity.y - myVelocity.y,
+				otherVelocity.z - myVelocity.z
+			};
 
 			// 法線方向の相対速度
-			float velocityAlongNormal = vx_rel * nx + vy_rel * ny + vz_rel * nz;
+			float velocityAlongNormal = relativeVelocity.x * nx +
+				relativeVelocity.y * ny +
+				relativeVelocity.z * nz;
 
-			// 反発係数（完全弾性衝突と仮定）
-			if (velocityAlongNormal > 0) return;  // すでに離れようとしている場合は何もしない
+			// すでに離れようとしているなら何もしない
+			if (velocityAlongNormal > 0) return;
 
-			// 衝突後の速度更新（弾性衝突）
-			float restitution = 1.0f; // 完全弾性衝突
+			// 弾性係数（1.0 = 完全弾性）
+			float restitution = 5.0f;
 
-			// 質量の比に基づいて速度の変化量を計算
-			float impulse = 2 * velocityAlongNormal / (mass_ + otherChara->Getmass_());
-			float impulseX = impulse * nx;
-			float impulseZ = impulse * nz;
+			// 質量取得
+			float m1 = mass_;
+			float m2 = otherChara->Getmass_();
 
-			// 速度の更新
-			moveVector_.x += impulseX * mass_;
-			moveVector_.z += impulseZ * mass_;
+			// インパルススカラー
+			float impulseScalar = -(1.0f + restitution) * velocityAlongNormal / (1.0f / m1 + 1.0f / m2);
 
-			//タックル中だったら相手を吹っ飛ばす
+			// インパルスベクトル
+			float impulseX = impulseScalar * nx;
+			float impulseY = impulseScalar * ny;
+			float impulseZ = impulseScalar * nz;
+
+			// 自キャラへの反発速度適用
+			moveVector_.x -= (impulseX / m1);
+			moveVector_.y -= (impulseY / m1);
+			moveVector_.z -= (impulseZ / m1);
+
+			position_ = VAdd(position_, moveVector_);
+
 			float overlap = collision_radius * 2 - distance;
-			if (isMovingtackle_)
-			{
-				otherChara->blownAway(nx, nz, overlap, impulseX, impulseZ);
 
-				//タックルをやめる
-				isTackle_		= false;
-				isMovingtackle_ = false;
-				tackleCount_	= 0;
-			}
-			else
-			{
-				// 衝突後の位置調整（重なりを解消）
-				otherChara->positionAdjustmentAfterHit(nx, nz, overlap, impulseX, impulseZ);
-				collisionCenterPosition_.x -= nx * overlap / 2;
-				collisionCenterPosition_.z -= nz * overlap / 2;
-				position_.x -= nx * overlap / 2;
-				position_.z -= nz * overlap / 2;
-			}
+			// 相手キャラへの反発速度適用
+			otherChara->AddImpulse(impulseX / m2, impulseY / m2, impulseZ / m2);
+
+			// 重なり解消のための位置補正
+			collisionCenterPosition_.x -= nx * overlap / 2;
+			collisionCenterPosition_.z -= nz * overlap / 2;
+
+			position_.x -= nx * overlap / 2;
+			position_.z -= nz * overlap / 2;
+
+			otherChara->AdjustPositionAfterCollision(nx, ny, nz, overlap / 2);
 		}
 	}
 }
@@ -500,16 +559,6 @@ void CharaBase::positionAdjustmentAfterHit(float nx, float nz, float overlap, fl
 }
 
 /// <summary>
-/// 当たり判定を３dモデルに応じて回転させる
-/// </summary>
-void CharaBase::collisionRotation()
-{
-	MATRIX tempMatrix = MGetRotY(rotationAngleY_);
-	VECTOR tempVector = VTransform(collision_adjust_position, rotaionMatrix_);
-	collisionCenterPosition_ = VAdd(position_, tempVector);
-}
-
-/// <summary>
 /// 吹っ飛ばされる
 /// </summary>
 void CharaBase::blownAway(float nx, float nz, float overlap, float impulseX, float impulseZ)
@@ -517,8 +566,36 @@ void CharaBase::blownAway(float nx, float nz, float overlap, float impulseX, flo
 	moveVector_.x -= impulseX * mass_;
 	moveVector_.z -= impulseZ * mass_;
 
-	collisionCenterPosition_.x += nx * overlap * blow_away_percent * 2;
-	collisionCenterPosition_.z += nz * overlap * blow_away_percent * 2;
-	position_.x += nx * overlap * blow_away_percent * 2;
-	position_.z += nz * overlap * blow_away_percent * 2;
+	collisionCenterPosition_.x += nx * overlap * blow_away_percent;
+	collisionCenterPosition_.z += nz * overlap * blow_away_percent;
+	position_.x += nx * overlap * blow_away_percent;
+	position_.z += nz * overlap * blow_away_percent;
+}
+
+void CharaBase::AddImpulse(float impulseX, float impulseY, float impulseZ)
+{
+	moveVector_.x += impulseX;
+	moveVector_.z += impulseZ;
+
+	position_ = VAdd(position_, moveVector_);
+}
+
+void CharaBase::AdjustPositionAfterCollision(float nx, float ny, float nz, float amount)
+{
+	collisionCenterPosition_.x += nx * amount;
+	collisionCenterPosition_.z += nz * amount;
+
+	position_.x += nx * amount;
+	position_.z += nz * amount;
+}
+
+
+/// <summary>
+/// 当たり判定を３dモデルに応じて回転させる
+/// </summary>
+void CharaBase::collisionRotation()
+{
+	MATRIX tempMatrix = MGetRotY(rotationAngleY_);
+	VECTOR tempVector = VTransform(collision_adjust_position, rotaionMatrix_);
+	collisionCenterPosition_ = VAdd(position_, tempVector);
 }

@@ -44,7 +44,8 @@ public:
 	void positionAdjustmentAfterHit(float nx, float nz, float overlap, float impulseX, float impulseZ);
 	void collisionRotation();
 	void blownAway(float nx, float nz, float overlap, float impulseX, float impulseZ);
-
+	void AdjustPositionAfterCollision(float nx, float ny, float nz, float amount);
+	void AddImpulse(float impulseX, float impulseY, float impulseZ);
 	DINPUT_JOYSTATE input;		//コントローラー(D)用構造体変数
 	VECTOR								Getposition_()const { return  position_; }
 	std::shared_ptr<StateMachine::IState>	Getstate_()const { return state_; }
@@ -56,6 +57,7 @@ public:
 	short								GetonTileNumberY_()const { return onTileNumberY_; }
 	VECTOR								GetcollisionCenterPosition_()const { return collisionCenterPosition_; }
 	short								Getmass_()const { return mass_; }
+	VECTOR								GetmoveVector_()const { return moveVector_; }
 
 private:
 	const float		fall_speed = 0.005f;
@@ -78,7 +80,7 @@ private:
 	const VECTOR	player4_init_position = VGet(0.0f, 0.0f, 0.0f);
 	const VECTOR	collision_adjust_position = VGet(1.5f, 0.0f, 1.0f);
 	const short		init_mass	= 1;
-	const short		tackle_mass = 2;
+	const short		tackle_mass = 5;
 	const short		blow_away_percent = 10;
 
 protected:
