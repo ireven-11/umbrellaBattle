@@ -118,7 +118,7 @@ void Stage::draw()
 	//MV1DrawModel(modelHandle_[1][1]);
 
 	//デバッグ用
-	DrawFormatString(100, 100, GetColor(255, 255, 255), "ステージカウント：%d", vanishingCount_);
+	//DrawFormatString(100, 100, GetColor(255, 255, 255), "ステージカウント：%d", vanishingCount_);
 	//DrawSphere3D(stage_center, 2.0f, 64, GetColor(255, 0, 0), GetColor(255,0,0), true);
 }
 

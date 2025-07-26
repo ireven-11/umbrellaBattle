@@ -262,7 +262,7 @@ void CharaBase::tackle()
 	stopTackle();
 
 	//デバッグ用
-	DrawFormatString(100, 300, GetColor(255, 255, 255), "タックル:%f", tackleCount_);
+	//DrawFormatString(100, 300, GetColor(255, 255, 255), "タックル:%f", tackleCount_);
 }
 
 /// <summary>
@@ -361,7 +361,7 @@ void CharaBase::rotation()
 	}
 
 	//デバッグ用
-	DrawFormatString(200, 200, GetColor(255, 255, 255), "角度:%f", rotationAngleY_);
+	//DrawFormatString(200, 200, GetColor(255, 255, 255), "角度:%f", rotationAngleY_);
 }
 
 /// <summary>
