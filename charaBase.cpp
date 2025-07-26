@@ -43,6 +43,9 @@ CharaBase::CharaBase(const int join_number)
 	MV1SetScale(closingUmbrella_, VGet(scale, scale, scale));
 	MV1SetScale(fan_, VGet(scale / 12, scale / 12, scale / 12));
 
+	chargeSound_ = LoadSoundMem("sound/charge.mp3");
+	ChangeVolumeSoundMem(255, chargeSound_);
+
 	controlerNumber_ = join_number;
 
 	//数値初期化
@@ -67,6 +70,7 @@ CharaBase::~CharaBase()
 	MV1DeleteModel(closingUmbrella_);
 	MV1DeleteModel(fan_);
 	DeleteSoundMem(hitSound_);
+	DeleteSoundMem(chargeSound_);
 }
 
 /// <summary>
@@ -151,6 +155,7 @@ void CharaBase::reset()
 	collisionCenterPosition_ = VGet(0.0f, 0.0f, 0.0f);
 	mass_			= init_mass;
 	isChargeTackle_ = false;
+	canLoopSound_	= false;
 }
 
 /// <summary>
@@ -242,6 +247,8 @@ void CharaBase::tackle()
 	if (tackleCount_ > 0 && input.Buttons[0] == 0)
 	{
 		isMovingtackle_ = true;
+		StopSoundMem(chargeSound_);
+		canLoopSound_	= false;
 		--tackleCount_;
 		tackleMoving();
 	}
@@ -256,6 +263,12 @@ void CharaBase::tackle()
 
 		//どの方向にタックルするかY軸の回転行列で決める
 		rotaionMatrix_ = MGetRotY(rotationAngleY_ + agnle_shift_number);
+
+		if (!canLoopSound_)
+		{
+			PlaySoundMem(chargeSound_, DX_PLAYTYPE_LOOP, TRUE);
+			canLoopSound_ = true;
+		}
 	}
 
 	//タックルをやめる

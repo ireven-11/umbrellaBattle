@@ -109,6 +109,8 @@ protected:
 	short	mass_;				//質量
 	int		hitSound_;			//ヒット効果音
 	bool	isChargeTackle_;	//タックルチャージしてるか
+	int		chargeSound_;		//チャージ音
+	bool	canLoopSound_;
 
 	//状態
 	std::shared_ptr<StateMachine::IState>	state_;
