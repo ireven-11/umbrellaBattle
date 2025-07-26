@@ -297,7 +297,6 @@ void Stage::collisionWithPlayer(std::vector<std::shared_ptr<CharaBase>>player)
 						if (!canExist_[j][i] || i == 0 || i == tile_number - 1 || j == 0 || j == tile_number - 1)
 						{
 							p->fall();
-							PlaySoundMem(fallSound_, DX_PLAYTYPE_BACK, TRUE);
 						}
 						else
 						{
@@ -308,10 +307,9 @@ void Stage::collisionWithPlayer(std::vector<std::shared_ptr<CharaBase>>player)
 						}
 					}
 					//プレイヤーが一度落下すると落ちる
-					else if (p->Getposition_().y < player_init_positionY)
+					if (p->Getposition_().y < player_init_positionY)
 					{
 						p->fall();
-						PlaySoundMem(fallSound_, DX_PLAYTYPE_BACK, TRUE);
 					}
 
 					//デバッグ用
@@ -330,6 +328,11 @@ void Stage::collisionWithPlayer(std::vector<std::shared_ptr<CharaBase>>player)
 				|| p->Getposition_().z < position_[0][0].z || p->Getposition_().z > position_[tile_number - 1][tile_number - 1].z)
 			{
 				p->fall();
+			}
+
+			if (p->Getposition_().y < -5.0f)
+			{
+				PlaySoundMem(fallSound_, DX_PLAYTYPE_BACK, TRUE);
 			}
 		}
 	}

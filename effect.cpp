@@ -49,9 +49,12 @@ void Effect::updateCharge(std::shared_ptr<CharaBase> chara)
 	{
 		playingCharge_ = PlayEffekseer3DEffect(charge_);
 
+		SetScalePlayingEffekseer3DEffect(playingCharge_, charge_scale, charge_scale, charge_scale);
+		SetSpeedPlayingEffekseer3DEffect(playingCharge_, charge_speed);
+
 		chargePosition_ = chara->Getposition_();
 
-		SetPosPlayingEffekseer3DEffect(playingCharge_, hitPosition_.x, hitPosition_.y, hitPosition_.z);
+		SetPosPlayingEffekseer3DEffect(playingCharge_, chargePosition_.x, chargePosition_.y, chargePosition_.z);
 	}
 }
 

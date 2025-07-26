@@ -228,7 +228,15 @@ void CharaBase::swing()
 /// </summary>
 void CharaBase::tackle()
 {
-	isChargeTackle_ = input.Buttons[0] > 0 && !isMovingtackle_;
+	if (input.Buttons[0] > 0 && !isMovingtackle_)
+	{
+		isChargeTackle_ = true;
+	}
+	else
+	{
+		isChargeTackle_ = false;
+	}
+	
 
 	//ƒ{ƒ^ƒ“‚ð‰Ÿ‚µ‚Ä‚Í‚È‚µ‚½‚ç
 	if (tackleCount_ > 0 && input.Buttons[0] == 0)

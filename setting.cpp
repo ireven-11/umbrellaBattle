@@ -1,6 +1,6 @@
+#include"EffekseerForDXLib.h"
 #include"DxLib.h"
 #include"setting.h"
-#include"EffekseerForDXLib.h"
 
 /// <summary>
 /// スクリーン設定
@@ -45,7 +45,7 @@ int setEffekseer()
 
 	// Effekseerを初期化する。
 	// 引数には画面に表示する最大パーティクル数を設定する。
-	if (Effkseer_Init(8000) == -1)
+	if (Effekseer_Init(1000) == -1)
 	{
 		return -1;
 	}
@@ -53,9 +53,6 @@ int setEffekseer()
 	// フルスクリーンウインドウの切り替えでリソースが消えるのを防ぐ。
 	// Effekseerを使用する場合は必ず設定する。
 	SetChangeScreenModeGraphicsSystemResetFlag(FALSE);
-
-	// Effekseerに2D描画の設定をする。(画面の幅と高さを引数として持たせる)
-	//Effekseer_Set2DSetting(screenWIDTH, screenHEIGHT);
 
 	// Zバッファを有効にする。
 	// Effekseerを使用する場合、2DゲームでもZバッファを使用する。

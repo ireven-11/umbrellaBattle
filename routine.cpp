@@ -122,8 +122,8 @@ void Routine::play()
         DrawSphere3D(i->GetcollisionCenterPosition_(), collision_radius, 32, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
 
         effect->updateCharge(i);
-        effect->updateFall(i);
-        effect->updateHit(i);
+        /*effect->updateFall(i);
+        effect->updateHit(i);*/
 
         //二重範囲forにして当たり判定をチェック
         for (const auto& j : players)

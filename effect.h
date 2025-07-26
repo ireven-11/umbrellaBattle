@@ -24,4 +24,7 @@ private:
 	VECTOR hitPosition_;
 	VECTOR fallPosition_;
 	VECTOR chargePosition_;
+
+	const short charge_speed = 20;
+	const float charge_scale = 0.5f;
 };
