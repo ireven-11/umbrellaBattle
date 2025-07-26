@@ -49,9 +49,11 @@ bool SceneManager::proceedPlay()
 /// <summary>
 /// ƒŠƒUƒ‹ƒg‰æ–Ê‚Ö
 /// </summary>
-void SceneManager::proceedResult()
+bool SceneManager::proceedResult()
 {
 	sceneType_ = RESULT;
+
+	return true;
 }
 
 /// <summary>

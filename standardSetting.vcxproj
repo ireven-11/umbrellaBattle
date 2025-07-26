@@ -80,10 +80,12 @@
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>EffekseerForDXLib</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>EffekseerForDXLib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -114,10 +116,12 @@
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>EffekseerForDXLib</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>EffekseerForDXLib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -150,6 +154,7 @@
     <ClCompile Include="closeState.cpp" />
     <ClCompile Include="cpu.cpp" />
     <ClCompile Include="cpuBrain.cpp" />
+    <ClCompile Include="effect.cpp" />
     <ClCompile Include="escapeState.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="openState.cpp" />
@@ -175,6 +180,7 @@
     <ClInclude Include="closeState.h" />
     <ClInclude Include="cpu.h" />
     <ClInclude Include="cpuBrain.h" />
+    <ClInclude Include="effect.h" />
     <ClInclude Include="escapeState.h" />
     <ClInclude Include="fanState.h" />
     <ClInclude Include="GameObjectTag.h" />

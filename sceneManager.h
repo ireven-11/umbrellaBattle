@@ -18,7 +18,7 @@ public:
 	void reset();			//ƒŠƒZƒbƒgˆ—
 	void proceedStandby();
 	bool proceedPlay();
-	void proceedResult();
+	bool proceedResult();
 	void proceedTitle();
 
 	int GetsceneType_()const { return sceneType_; }
