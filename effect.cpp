@@ -54,7 +54,7 @@ void Effect::updateCharge(std::shared_ptr<CharaBase> chara)
 
 		chargePosition_ = chara->Getposition_();
 
-		SetPosPlayingEffekseer3DEffect(playingCharge_, chargePosition_.x, chargePosition_.y, chargePosition_.z);
+		SetPosPlayingEffekseer3DEffect(playingCharge_, chargePosition_.x, chargePosition_.y + 2.0f, chargePosition_.z);
 	}
 }
 
