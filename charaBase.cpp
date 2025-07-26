@@ -48,6 +48,9 @@ CharaBase::CharaBase(const int join_number)
 	//数値初期化
 	reset();
 
+	hitSound_ = LoadSoundMem("sound/hit.mp3");
+	ChangeVolumeSoundMem(hit_sound_volume, hitSound_);
+
 	//コントローラーのデッドゾーンを設定
 	SetJoypadDeadZone(controlerNumber_, 0.1);
 
@@ -63,6 +66,7 @@ CharaBase::~CharaBase()
 	MV1DeleteModel(openingUmbrella_);
 	MV1DeleteModel(closingUmbrella_);
 	MV1DeleteModel(fan_);
+	DeleteSoundMem(hitSound_);
 }
 
 /// <summary>
@@ -544,6 +548,8 @@ void CharaBase::pushBackWithChara(std::shared_ptr<CharaBase> otherChara)
 			position_.z -= nz * overlap / 2;
 
 			otherChara->AdjustPositionAfterCollision(nx, ny, nz, overlap / 2);
+
+			PlaySoundMem(hitSound_, DX_PLAYTYPE_BACK, TRUE);
 		}
 	}
 }

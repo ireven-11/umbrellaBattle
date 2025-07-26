@@ -42,5 +42,8 @@ private:
 	void joinPlayer();
 	void joinCPU();
 
-	bool isjoiningPlayer[max_player_number];	//プレイヤー参加フラグ
+	bool	isjoiningPlayer[max_player_number];	//プレイヤー参加フラグ
+	int		bgm_;
+
+	const short bgm_volume = 170;
 };

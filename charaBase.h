@@ -82,6 +82,7 @@ private:
 	const short		init_mass	= 1;
 	const short		tackle_mass = 5;
 	const short		blow_away_percent = 10;
+	const short		hit_sound_volume = 255;
 
 protected:
 	void draw()const;
@@ -111,6 +112,7 @@ protected:
 	VECTOR  moveVector_;		//移動ベクトル
 	VECTOR	collisionCenterPosition_;//コリジョンの中心座標
 	short	mass_;				//質量
+	int		hitSound_;			//ヒット効果音
 
 	//状態
 	std::shared_ptr<StateMachine::IState>	state_;

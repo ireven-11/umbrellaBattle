@@ -14,6 +14,8 @@
 /// </summary>
 Routine::Routine()
 {
+    bgm_ = LoadSoundMem("sound/bgm.mp3");
+    ChangeVolumeSoundMem(bgm_volume, bgm_);
     reset();
 }
 
@@ -22,6 +24,7 @@ Routine::Routine()
 /// </summary>
 Routine::~Routine()
 {
+    DeleteSoundMem(bgm_);
 }
 
 /// <summary>
@@ -96,6 +99,8 @@ void Routine::stanby()
     {
         //プレイ画面へ行くときにcpuを参加
         joinCPU();
+
+        PlaySoundMem(bgm_, DX_PLAYTYPE_LOOP, TRUE);
     }
 
     standbyUI->update(isjoiningPlayer, max_player_number);
