@@ -173,9 +173,6 @@
     <ClInclude Include="AStar.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="GameObjectTag.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="effect.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>

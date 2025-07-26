@@ -183,7 +183,6 @@
     <ClInclude Include="effect.h" />
     <ClInclude Include="escapeState.h" />
     <ClInclude Include="fanState.h" />
-    <ClInclude Include="GameObjectTag.h" />
     <ClInclude Include="IState.h" />
     <ClInclude Include="openState.h" />
     <ClInclude Include="player.h" />

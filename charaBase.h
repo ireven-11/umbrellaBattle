@@ -5,7 +5,6 @@
 #include"closeState.h"
 #include"fanState.h"
 #include"trumpetState.h"
-//#include"YuiLib/YuiLib.h"
 
 constexpr float	player_init_positionX	= 0.0f;
 constexpr float	player_init_positionY	= 0.0f;
@@ -15,12 +14,7 @@ constexpr float collision_radius		= 2.0;
 class Routine;
 class Stage;
 
-//namespace YuiLib
-//{
-//	class Collidable;
-//}
-
-class CharaBase/* : public YuiLib::Collidable*/
+class CharaBase
 {
 public:
 	CharaBase(const int join_number);
@@ -58,6 +52,7 @@ public:
 	VECTOR								GetcollisionCenterPosition_()const { return collisionCenterPosition_; }
 	short								Getmass_()const { return mass_; }
 	VECTOR								GetmoveVector_()const { return moveVector_; }
+	bool								GetisChargeTackle_()const { return isChargeTackle_; }
 
 private:
 	const float		fall_speed = 0.005f;
@@ -113,6 +108,7 @@ protected:
 	VECTOR	collisionCenterPosition_;//コリジョンの中心座標
 	short	mass_;				//質量
 	int		hitSound_;			//ヒット効果音
+	bool	isChargeTackle_;	//タックルチャージしてるか
 
 	//状態
 	std::shared_ptr<StateMachine::IState>	state_;

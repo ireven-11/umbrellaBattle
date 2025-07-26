@@ -1,12 +1,15 @@
 #include"DxLib.h"
 #include"setting.h" 
-//#include"YuiLib/YuiLib.h"
+#include"EffekseerForDXlib.h"
 #include"routine.h"
 
 int WINAPI WinMain(winmainSetting)
 {
     //画面設定
     ScreenSetting();
+
+    //エフェクシア設定
+    setEffekseer();
 
     //dxlibを初期化
     if (DxLib_Init() == -1)
@@ -20,5 +23,7 @@ int WINAPI WinMain(winmainSetting)
     routine = nullptr;
 
     DxLib_End();
+    //Effekseerを終了する。
+    Effkseer_End();
     return 0;
 }

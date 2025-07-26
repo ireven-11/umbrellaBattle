@@ -6,7 +6,7 @@
 #include"stage.h"
 #include"standbyUI.h"
 #include"cpu.h"
-//#include"YuiLib/YuiLib.h"
+#include"effect.h"
 #include"routine.h"
 
 /// <summary>
@@ -52,6 +52,8 @@ void Routine::gameRoop()
     {
         //画面に描かれた物を消す(ゲームループの最初に呼ぶ)
         ClearDrawScreen();
+        
+        camera->update();
 
         switch (sceneManager->GetsceneType_())
         {
@@ -117,8 +119,11 @@ void Routine::play()
     {
         i->update(this, stage);
 
-        //DrawSphere3D(i->Getposition_(), collision_radius, 32, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
         DrawSphere3D(i->GetcollisionCenterPosition_(), collision_radius, 32, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
+
+        effect->updateCharge(i);
+        effect->updateFall(i);
+        effect->updateHit(i);
 
         //二重範囲forにして当たり判定をチェック
         for (const auto& j : players)
@@ -134,6 +139,7 @@ void Routine::play()
         }
     }
 
+    effect->draw();
 
     //強制リセット
     if (CheckHitKey(KEY_INPUT_R) == true)

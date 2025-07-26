@@ -150,6 +150,7 @@ void CharaBase::reset()
 	moveVector_		= VGet(0.0f, 0.0f, 0.0f);
 	collisionCenterPosition_ = VGet(0.0f, 0.0f, 0.0f);
 	mass_			= init_mass;
+	isChargeTackle_ = false;
 }
 
 /// <summary>
@@ -227,6 +228,8 @@ void CharaBase::swing()
 /// </summary>
 void CharaBase::tackle()
 {
+	isChargeTackle_ = input.Buttons[0] > 0 && !isMovingtackle_;
+
 	//ボタンを押してはなしたら
 	if (tackleCount_ > 0 && input.Buttons[0] == 0)
 	{
@@ -235,7 +238,7 @@ void CharaBase::tackle()
 		tackleMoving();
 	}
 	//Bボタンを押したら
-	else if (input.Buttons[0] > 0 && !isMovingtackle_)
+	else if (isChargeTackle_)
 	{
 		isTackle_ = true;
 		if (max_tackle_count > tackleCount_)
