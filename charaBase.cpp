@@ -56,9 +56,6 @@ CharaBase::CharaBase(const int join_number)
 
 	//コントローラーのデッドゾーンを設定
 	SetJoypadDeadZone(controlerNumber_, 0.1);
-
-	//ステートインスタンス化
-	state_ = openState_();
 }
 
 /// <summary>
@@ -156,6 +153,10 @@ void CharaBase::reset()
 	mass_			= init_mass;
 	isChargeTackle_ = false;
 	canLoopSound_	= false;
+	isHit_			= false;
+	state_			= openState_();
+	isKnockBack_	= false;
+	isFalling_		= false;
 }
 
 /// <summary>
@@ -166,7 +167,7 @@ void CharaBase::move()
 	auto isNoneAction = !isTackle_ && !isSwing_;
 
 	//早期リターン
-	if (input.X == 0 && input.Y == 0)
+	if (input.X == 0 && input.Y == 0 || isKnockBack_)
 	{
 		return;
 	}
@@ -348,6 +349,12 @@ void CharaBase::moveFan()
 	double tempRotation = atan2(position_.x, position_.z);
 	//ステージの中心を向くようにモデルを回転
 	MV1SetRotationXYZ(fan_, VGet(0.0f, tempRotation + DX_PI, 0.0f));
+
+	//オーバーフロー対策
+	if (fanMoveAngle_ > 452.5 || fanMoveAngle_ < -270.5)
+	{
+		fanMoveAngle_ = 92.5f;
+	}
 }
 
 /// <summary>
@@ -356,6 +363,7 @@ void CharaBase::moveFan()
 void CharaBase::fall()
 {
 	position_.y -= fall_speed;
+	isFalling_	= true;
 }
 
 /// <summary>
@@ -385,12 +393,16 @@ void CharaBase::transformFan()
 	//一定の高さまで落ちたら
 	if (position_.y < transform_position_y)
 	{
-		//state_ = make_shared<CharaState::FanState>();
 		state_ = fanState_();
 		position_.y = player_init_positionY;
+
 		//落ちた瞬間に扇風機の移動をして扇風機の位置を設定する
 		input.Buttons[6] = 1;
 		moveFan();
+
+		isChargeTackle_ = false;
+		isHit_			= false;
+		isFalling_		= false;
 	}
 }
 
@@ -403,7 +415,6 @@ void CharaBase::changeOpenToClose()
 	{
 		if (!isPrevButton_ && !isTackle_)
 		{
-			//state_ = make_shared<CharaState::CloseState>();
 			state_ = closeState_();
 		}
 		isPrevButton_ = true;
@@ -423,7 +434,6 @@ void CharaBase::changeCloseToOpen()
 	{
 		if (!isPrevButton_)
 		{
-			//state_ = make_shared<CharaState::OpenState>();
 			state_ = openState_();
 		}
 		isPrevButton_ = true;
@@ -464,55 +474,6 @@ void CharaBase::pushBackWithChara(std::shared_ptr<CharaBase> otherChara)
 
 		if (distance < collision_radius * 2)
 		{
-			//// 衝突の法線ベクトル
-			//float nx = dx / distance;
-			//float ny = dy / distance;
-			//float nz = dz / distance;
-
-			//// 2球間の相対速度
-			//float vx_rel = GetmoveVector_().x - moveVector_.x;
-			//float vy_rel = GetmoveVector_().y - moveVector_.y;
-			//float vz_rel = GetmoveVector_().z - moveVector_.z;
-
-			//// 法線方向の相対速度
-			//float velocityAlongNormal = vx_rel * nx + vy_rel * ny + vz_rel * nz;
-
-			//// 反発係数（完全弾性衝突と仮定）
-			//if (velocityAlongNormal > 0) return;  // すでに離れようとしている場合は何もしない
-
-			//// 衝突後の速度更新（弾性衝突）
-			//float restitution = 1.0f; // 完全弾性衝突
-
-			//// 質量の比に基づいて速度の変化量を計算
-			//float impulse = -(1.0f + restitution) * velocityAlongNormal / (1.0f / mass_ + 1.0f / otherChara->Getmass_());
-			//float impulseX = impulse * nx;
-			//float impulseZ = impulse * nz;
-
-			//// 速度の更新
-			//moveVector_.x -= impulseX / mass_;
-			//moveVector_.z -= impulseZ / mass_;
-
-			////タックル中だったら相手を吹っ飛ばす
-			//float overlap = collision_radius * 2 - distance;
-			//if (isMovingtackle_)
-			//{
-			//	otherChara->blownAway(nx, nz, overlap, impulseX, impulseZ);
-
-			//	//タックルをやめる
-			//	isTackle_ = false;
-			//	isMovingtackle_ = false;
-			//	tackleCount_ = 0;
-			//}
-			//else
-			//{
-			//	// 衝突後の位置調整（重なりを解消）
-			//	otherChara->positionAdjustmentAfterHit(nx, nz, overlap, impulseX, impulseZ);
-			//	collisionCenterPosition_.x -= nx * overlap / 2;
-			//	collisionCenterPosition_.z -= nz * overlap / 2;
-			//	position_.x -= nx * overlap / 2;
-			//	position_.z -= nz * overlap / 2;
-			//}
-
 			// 衝突の法線ベクトル
 			float nx = dx / distance;
 			float ny = dy / distance;
@@ -538,7 +499,7 @@ void CharaBase::pushBackWithChara(std::shared_ptr<CharaBase> otherChara)
 			if (velocityAlongNormal > 0) return;
 
 			// 弾性係数（1.0 = 完全弾性）
-			float restitution = 5.0f;
+			const float restitution = 5.0f;
 
 			// 質量取得
 			float m1 = mass_;
@@ -557,60 +518,45 @@ void CharaBase::pushBackWithChara(std::shared_ptr<CharaBase> otherChara)
 			moveVector_.y -= (impulseY / m1);
 			moveVector_.z -= (impulseZ / m1);
 
-			position_ = VAdd(position_, moveVector_);
+			//反発した分を座標に足す
+			position_ = VAdd(position_, VGet(moveVector_.x, 0.0f, moveVector_.z));
 
 			float overlap = collision_radius * 2 - distance;
 
 			// 相手キャラへの反発速度適用
-			otherChara->AddImpulse(impulseX / m2, impulseY / m2, impulseZ / m2);
+			//otherChara->AddImpulse(impulseX / m2, impulseZ / m2);
 
 			// 重なり解消のための位置補正
-			collisionCenterPosition_.x -= nx * overlap / 2;
-			collisionCenterPosition_.z -= nz * overlap / 2;
+			/*collisionCenterPosition_.x -= nx * overlap / 2;
+			collisionCenterPosition_.z -= nz * overlap / 2;*/
 
-			position_.x -= nx * overlap / 2;
-			position_.z -= nz * overlap / 2;
+			/*position_.x -= nx * overlap / 2;
+			position_.z -= nz * overlap / 2;*/
 
-			otherChara->AdjustPositionAfterCollision(nx, ny, nz, overlap / 2);
+			//otherChara->AdjustPositionAfterCollision(nx, nz, overlap / 2);
 
 			PlaySoundMem(hitSound_, DX_PLAYTYPE_BACK, TRUE);
+
+			isHit_			= true;
+			//isKnockBack_	= true;
+		}
+		else
+		{
+			isHit_ = false;
 		}
 	}
 }
 
-void CharaBase::positionAdjustmentAfterHit(float nx, float nz, float overlap, float impulseX, float impulseZ)
+void CharaBase::AddImpulse(float impulseX, float impulseZ)
 {
-	moveVector_.x -= impulseX * mass_;
-	moveVector_.z -= impulseZ * mass_;
-	collisionCenterPosition_.x += nx * overlap / 2;
-	collisionCenterPosition_.z += nz * overlap / 2;
-	position_.x += nx * overlap / 2;
-	position_.z += nz * overlap / 2;
-}
-
-/// <summary>
-/// 吹っ飛ばされる
-/// </summary>
-void CharaBase::blownAway(float nx, float nz, float overlap, float impulseX, float impulseZ)
-{
-	moveVector_.x -= impulseX * mass_;
-	moveVector_.z -= impulseZ * mass_;
-
-	collisionCenterPosition_.x += nx * overlap * blow_away_percent;
-	collisionCenterPosition_.z += nz * overlap * blow_away_percent;
-	position_.x += nx * overlap * blow_away_percent;
-	position_.z += nz * overlap * blow_away_percent;
-}
-
-void CharaBase::AddImpulse(float impulseX, float impulseY, float impulseZ)
-{
-	moveVector_.x += impulseX;
-	moveVector_.z += impulseZ;
+	moveVector_.x	+= impulseX;
+	moveVector_.x    = 0.0f;
+	moveVector_.z	+= impulseZ;
 
 	position_ = VAdd(position_, moveVector_);
 }
 
-void CharaBase::AdjustPositionAfterCollision(float nx, float ny, float nz, float amount)
+void CharaBase::AdjustPositionAfterCollision(float nx, float nz, float amount)
 {
 	collisionCenterPosition_.x += nx * amount;
 	collisionCenterPosition_.z += nz * amount;
@@ -628,4 +574,12 @@ void CharaBase::collisionRotation()
 	MATRIX tempMatrix = MGetRotY(rotationAngleY_);
 	VECTOR tempVector = VTransform(collision_adjust_position, rotaionMatrix_);
 	collisionCenterPosition_ = VAdd(position_, tempVector);
+}
+
+void CharaBase::knockBackNow()
+{
+	if(isKnockBack_)
+	{
+
+	}
 }

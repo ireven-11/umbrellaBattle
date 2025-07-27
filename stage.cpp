@@ -105,17 +105,8 @@ void Stage::draw()
 				//デバッグ用
 				//DrawFormatString(100 * i, 40 * j, GetColor(255, 255, 255), "x:%f,y:%f,z:%f", position_[j][i].x, position_[j][i].y, position_[j][i].z);
 			}
-			else
-			{
-				//DrawSphere3D(position_[j][i], sphereRad, 32, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
-			}
 		}
 	}
-
-	////デバッグ用
-	//position_[1][1] = VGet(0, 0, 0);
-	//MV1SetPosition(modelHandle_[1][1], position_[1][1]);
-	//MV1DrawModel(modelHandle_[1][1]);
 
 	//デバッグ用
 	//DrawFormatString(100, 100, GetColor(255, 255, 255), "ステージカウント：%d", vanishingCount_);
@@ -315,10 +306,10 @@ void Stage::collisionWithPlayer(std::vector<std::shared_ptr<CharaBase>>player)
 					//デバッグ用
 					//DrawFormatString(i * 270, j * 20, GetColor(255, 255, 255), "%d&%d x:%f,z:%f", j, i, position_[j][i].x, position_[j][i].z);
 
+					//デバッグ用六角形描画
 					if (canExist_[j][i])
 					{
-						//デバッグ用六角形描画
-						//DrawHexagon3D(position_[j][i], shifting_numberX, shifting_numberZ, triangle_pointZ, GetColor(255, 255, 255), false);
+						DrawHexagon3D(position_[j][i], shifting_numberX, shifting_numberZ, triangle_pointZ, GetColor(255, 255, 255), false);
 					}
 				}
 			}

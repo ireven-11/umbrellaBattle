@@ -5,9 +5,9 @@
 
 Effect::Effect()
 {
-	hit_	= LoadEffekseerEffect("effect/hit.efkefc");
-	fall_	= LoadEffekseerEffect("effect/fall.efkefc");
-	charge_ = LoadEffekseerEffect("effect/charge.efkefc");
+	hit_	= LoadEffekseerEffect("effect/00_Basic/hit.efkefc");
+	fall_	= LoadEffekseerEffect("effect/00_Basic/fall.efkefc");
+	charge_ = LoadEffekseerEffect("effect/01_AndrewFM01/charge.efkefc");
 
 	playingHit_ = 0;
 	playingFall_ = 0;
@@ -27,20 +27,33 @@ Effect::~Effect()
 
 void Effect::updateHit(std::shared_ptr<CharaBase> chara)
 {
-	playingHit_ = PlayEffekseer3DEffect(hit_);
+	if (chara->GetisHit_())
+	{
+		playingHit_ = PlayEffekseer3DEffect(hit_);
 
-	hitPosition_ = chara->Getposition_();
+		SetScalePlayingEffekseer3DEffect(playingHit_, hit_scale, hit_scale, hit_scale);
+		SetSpeedPlayingEffekseer3DEffect(playingHit_, hit_speed);
 
-	SetPosPlayingEffekseer3DEffect(playingHit_, hitPosition_.x, hitPosition_.y, hitPosition_.z);
+		hitPosition_ = chara->GetcollisionCenterPosition_();
+
+		SetPosPlayingEffekseer3DEffect(playingHit_, hitPosition_.x, hitPosition_.y + 2.0f, hitPosition_.z);
+	}
 }
 
 void Effect::updateFall(std::shared_ptr<CharaBase> chara)
 {
-	playingFall_ = PlayEffekseer3DEffect(fall_);
+	if (chara->GetisFalling_() && chara->Getposition_().y < -5.0f)
+	{
+		playingFall_ = PlayEffekseer3DEffect(fall_);
 
-	fallPosition_ = chara->Getposition_();
+		SetScalePlayingEffekseer3DEffect(playingFall_, fall_scale, fall_scale, fall_scale);
+		SetSpeedPlayingEffekseer3DEffect(playingFall_, fall_speed);
+		SetRotationPlayingEffekseer3DEffect(playingFall_, DX_PI / 2, 0.0f, 0.0f);
 
-	SetPosPlayingEffekseer3DEffect(playingFall_, hitPosition_.x, hitPosition_.y, hitPosition_.z);
+		fallPosition_ = chara->Getposition_();
+
+		SetPosPlayingEffekseer3DEffect(playingFall_, fallPosition_.x, fallPosition_.y, fallPosition_.z);
+	}
 }
 
 void Effect::updateCharge(std::shared_ptr<CharaBase> chara)
