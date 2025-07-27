@@ -42,7 +42,7 @@ void Effect::updateHit(std::shared_ptr<CharaBase> chara)
 
 void Effect::updateFall(std::shared_ptr<CharaBase> chara)
 {
-	if (chara->GetisFalling_() && chara->Getposition_().y < -5.0f)
+	if (chara->GetisFalling_() && chara->Getposition_().y < -7.5f)
 	{
 		playingFall_ = PlayEffekseer3DEffect(fall_);
 

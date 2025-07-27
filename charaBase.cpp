@@ -44,7 +44,7 @@ CharaBase::CharaBase(const int join_number)
 	MV1SetScale(fan_, VGet(scale / 12, scale / 12, scale / 12));
 
 	chargeSound_ = LoadSoundMem("sound/charge.mp3");
-	ChangeVolumeSoundMem(255, chargeSound_);
+	ChangeVolumeSoundMem(charge_sound_volume, chargeSound_);
 
 	controlerNumber_ = join_number;
 
@@ -157,6 +157,7 @@ void CharaBase::reset()
 	state_			= openState_();
 	isKnockBack_	= false;
 	isFalling_		= false;
+	knockBackCount_ = 0;
 }
 
 /// <summary>
@@ -195,9 +196,9 @@ void CharaBase::move()
 	rotation();
 
 	//スティックを傾けてる向きに移動
-	rotaionMatrix_	= MGetRotY(rotationAngleY_ + agnle_shift_number);
-	moveVector_		= VTransform(moveVector_, rotaionMatrix_);
-	position_		= VAdd(position_, moveVector_);
+	rotaionMatrix_		= MGetRotY(rotationAngleY_ + agnle_shift_number);
+	moveVector_			= VTransform(moveVector_, rotaionMatrix_);
+	position_			= VAdd(position_, moveVector_);
 
 	//DrawFormatString(100,800,)
 	//DrawFormatString(100, 700, GetColor(255, 255, 255), "ムーブベクター x:%f y:%f z:%f", moveVector.x, moveVector.y, moveVector.z);
@@ -302,7 +303,7 @@ void CharaBase::tackleMoving()
 void CharaBase::stopTackle()
 {
 	//カウントが０なるかタックル中にBを押したらやめる
-	if (tackleCount_ == 0 && isMovingtackle_ || isMovingtackle_ && input.Buttons[0] > 0)
+	if (tackleCount_ == 0 && isMovingtackle_ || isMovingtackle_ && input.Buttons[0] > 0 || isHit_)
 	{
 		isTackle_		= false;
 		isMovingtackle_ = false;
@@ -403,6 +404,7 @@ void CharaBase::transformFan()
 		isChargeTackle_ = false;
 		isHit_			= false;
 		isFalling_		= false;
+		StopSoundMem(chargeSound_);
 	}
 }
 
@@ -480,8 +482,8 @@ void CharaBase::pushBackWithChara(std::shared_ptr<CharaBase> otherChara)
 			float nz = dz / distance;
 
 			// 両者の速度ベクトル
-			VECTOR myVelocity = moveVector_;
-			VECTOR otherVelocity = otherChara->GetmoveVector_();
+			VECTOR myVelocity		= moveVector_;
+			VECTOR otherVelocity	= otherChara->GetmoveVector_();
 
 			// 相対速度ベクトル
 			VECTOR relativeVelocity = {
@@ -499,7 +501,7 @@ void CharaBase::pushBackWithChara(std::shared_ptr<CharaBase> otherChara)
 			if (velocityAlongNormal > 0) return;
 
 			// 弾性係数（1.0 = 完全弾性）
-			const float restitution = 5.0f;
+			const float restitution = 1.0f;
 
 			// 質量取得
 			float m1 = mass_;
@@ -524,27 +526,31 @@ void CharaBase::pushBackWithChara(std::shared_ptr<CharaBase> otherChara)
 			float overlap = collision_radius * 2 - distance;
 
 			// 相手キャラへの反発速度適用
-			//otherChara->AddImpulse(impulseX / m2, impulseZ / m2);
+			otherChara->AddImpulse(impulseX / m2, impulseZ / m2);
 
 			// 重なり解消のための位置補正
-			/*collisionCenterPosition_.x -= nx * overlap / 2;
-			collisionCenterPosition_.z -= nz * overlap / 2;*/
+			collisionCenterPosition_.x -= nx * overlap / 2;
+			collisionCenterPosition_.z -= nz * overlap / 2;
 
-			/*position_.x -= nx * overlap / 2;
-			position_.z -= nz * overlap / 2;*/
+			position_.x -= nx * overlap / 2;
+			position_.z -= nz * overlap / 2;
 
-			//otherChara->AdjustPositionAfterCollision(nx, nz, overlap / 2);
+			otherChara->AdjustPositionAfterCollision(nx, nz, overlap / 2);
 
 			PlaySoundMem(hitSound_, DX_PLAYTYPE_BACK, TRUE);
 
 			isHit_			= true;
-			//isKnockBack_	= true;
+			isKnockBack_	= true;
+
+			//stopTackle();
 		}
 		else
 		{
 			isHit_ = false;
 		}
 	}
+
+	knockBackNow();
 }
 
 void CharaBase::AddImpulse(float impulseX, float impulseZ)
@@ -580,6 +586,14 @@ void CharaBase::knockBackNow()
 {
 	if(isKnockBack_)
 	{
+		//カウントが一定になるまでノックバックする
+		++knockBackCount_;
+		if (knockBackCount_ > knock_back_max_count)
+		{
+			knockBackCount_ = 0;
+			isKnockBack_	= false;
+		}
 
+		position_ = VAdd(position_, VGet(moveVector_.x, 0.0f, moveVector_.z));
 	}
 }

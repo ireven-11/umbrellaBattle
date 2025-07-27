@@ -27,8 +27,8 @@ private:
 
 	const short charge_speed	= 50;
 	const float charge_scale	= 0.5f;
-	const short hit_speed		= 2;
-	const float hit_scale		= 0.25f;
+	const short hit_speed		= 4;
+	const float hit_scale		= 0.5f;
 	const short fall_speed		= 10;
 	const float fall_scale		= 5.0f;
 };

@@ -47,5 +47,5 @@ private:
 	bool	isjoiningPlayer[max_player_number];	//プレイヤー参加フラグ
 	int		bgm_;
 
-	const short bgm_volume = 170;
+	const short bgm_volume = 140;
 };

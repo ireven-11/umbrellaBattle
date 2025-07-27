@@ -77,7 +77,9 @@ private:
 	const short		init_mass				= 1;
 	const short		tackle_mass				= 5;
 	const short		blow_away_percent		= 10;
-	const short		hit_sound_volume		= 255;
+	const short		hit_sound_volume		= 225;
+	const short		knock_back_max_count	= 20;
+	const short		charge_sound_volume		= 255;
 
 protected:
 	void draw()const;
@@ -115,6 +117,7 @@ protected:
 	bool	isHit_;				//当たったどうか
 	bool	isKnockBack_;		//ノックバック中か
 	bool	isFalling_;			//落下中か
+	short	knockBackCount_;	//ノックバックカウント
 
 	//状態
 	std::shared_ptr<StateMachine::IState>	state_;
