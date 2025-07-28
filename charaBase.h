@@ -53,6 +53,7 @@ public:
 	bool								GetisChargeTackle_()const { return isChargeTackle_; }
 	bool								GetisHit_()const { return isHit_; }
 	bool								GetisFalling_()const { return isFalling_; }
+	void knockBackNow();
 
 private:
 	const float		fall_speed				= 0.005f;
@@ -78,7 +79,7 @@ private:
 	const short		tackle_mass				= 5;
 	const short		blow_away_percent		= 10;
 	const short		hit_sound_volume		= 225;
-	const short		knock_back_max_count	= 20;
+	const short		knock_back_max_count	= 5;
 	const short		charge_sound_volume		= 255;
 
 protected:
@@ -86,7 +87,8 @@ protected:
 	void tackleMoving();
 	virtual void stopTackle();
 	virtual void rotation();
-	void knockBackNow();
+	void repulsion1(int otherMass, float e);
+	void repulsion2(int otherMass, float e);
 
 	VECTOR	position_;			//座標
 	int		openingUmbrella_;	//モデルハンドル(開いた状態)
