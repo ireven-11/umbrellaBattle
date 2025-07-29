@@ -132,16 +132,16 @@ void Routine::play()
             }
         }
 
-        //i->knockBackNow();
+        i->knockBackNow();
 
         DrawSphere3D(i->GetcollisionCenterPosition_(), collision_radius, 32, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
 
         effect->updateCharge(i);
         effect->updateFall(i);
         effect->updateHit(i);
-    }
 
-    effect->draw();
+        effect->draw();
+    }
 
     //‹­§ƒŠƒZƒbƒg
     if (CheckHitKey(KEY_INPUT_R) == true)

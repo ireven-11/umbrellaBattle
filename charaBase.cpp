@@ -243,7 +243,6 @@ void CharaBase::tackle()
 	{
 		isChargeTackle_ = false;
 	}
-	
 
 	//ボタンを押してはなしたら
 	if (tackleCount_ > 0 && input.Buttons[0] == 0)
@@ -321,7 +320,7 @@ void CharaBase::wind()
 	moveFan();
 
 	//デバッグ用
-	DrawFormatString(100, 500, GetColor(255, 255, 255), "%f", fanMoveAngle_);
+	//DrawFormatString(100, 500, GetColor(255, 255, 255), "%f", fanMoveAngle_);
 }
 
 /// <summary>
@@ -474,130 +473,93 @@ void CharaBase::pushBackWithChara(std::shared_ptr<CharaBase> otherChara)
 		float dz = otherChara->GetcollisionCenterPosition_().z - collisionCenterPosition_.z;
 		float distance = CalculateDistance<float>(collisionCenterPosition_, otherChara->GetcollisionCenterPosition_());
 
+		//距離が直径未満だったら
 		if (distance < collision_radius * 2)
 		{
-			//// 衝突の法線ベクトル
-			//float nx = dx / distance;
-			//float ny = dy / distance;
-			//float nz = dz / distance;
+			// 衝突の法線ベクトル
+			float nx = dx / distance;
+			float ny = dy / distance;
+			float nz = dz / distance;
 
-			//// 両者の速度ベクトル
-			//VECTOR myVelocity		= moveVector_;
-			//VECTOR otherVelocity	= otherChara->GetmoveVector_();
+			// 両者の速度ベクトル
+			VECTOR myVelocity		= moveVector_;
+			VECTOR otherVelocity	= otherChara->GetmoveVector_();
 
-			//// 相対速度ベクトル
-			//VECTOR relativeVelocity = {
-			//	otherVelocity.x - myVelocity.x,
-			//	otherVelocity.y - myVelocity.y,
-			//	otherVelocity.z - myVelocity.z
-			//};
+			// 相対速度ベクトル
+			VECTOR relativeVelocity = {
+				otherVelocity.x - myVelocity.x,
+				otherVelocity.y - myVelocity.y,
+				otherVelocity.z - myVelocity.z
+			};
 
-			//// 法線方向の相対速度
-			//float velocityAlongNormal = relativeVelocity.x * nx +
-			//	relativeVelocity.y * ny +
-			//	relativeVelocity.z * nz;
+			// 法線方向の相対速度
+			float velocityAlongNormal = relativeVelocity.x * nx +
+				relativeVelocity.y * ny +
+				relativeVelocity.z * nz;
 
-			//// すでに離れようとしているなら何もしない
-			////if (velocityAlongNormal > 0) return;
+			// 弾性係数（1.0 = 完全弾性）
+			const float restitution = 0.5f;
 
-			//// 弾性係数（1.0 = 完全弾性）
-			//const float restitution = 2.0f;
+			// 質量取得
+			float m1 = mass_;
+			float m2 = otherChara->Getmass_();
 
-			//// 質量取得
-			//float m1 = mass_;
-			//float m2 = otherChara->Getmass_();
+			// インパルススカラー
+			float impulseScalar = -(1.0f + restitution) * velocityAlongNormal / (1.0f / m1 + 1.0f / m2);
 
-			//// インパルススカラー
-			//float impulseScalar = -(1.0f + restitution) * velocityAlongNormal / (1.0f / m1 + 1.0f / m2);
+			// インパルスベクトル
+			float impulseX = impulseScalar * nx;
+			float impulseY = impulseScalar * ny;
+			float impulseZ = impulseScalar * nz;
 
-			//// インパルスベクトル
-			//float impulseX = impulseScalar * nx;
-			//float impulseY = impulseScalar * ny;
-			//float impulseZ = impulseScalar * nz;
+			//めり込み量
+			float overlap = collision_radius * 2 - distance;
 
-			//// 自キャラへの反発速度適用
-			//moveVector_.x -= (impulseX / m1);
-			//moveVector_.y -= (impulseY / m1);
-			//moveVector_.z -= (impulseZ / m1);
+			// 重なり解消のための位置補正
+			collisionCenterPosition_.x -= nx * overlap / 2;
+			collisionCenterPosition_.z -= nz * overlap / 2;
 
-			////反発した分を座標に足す
-			////position_ = VAdd(position_, VGet(moveVector_.x, 0.0f, moveVector_.z));
+			// 自キャラへの反発速度適用
+			moveVector_.x -= nx * overlap / 2;
+			moveVector_.z -= nz * overlap / 2;
+		
+			//相手キャラの座標を押し戻す
+			otherChara->AdjustPositionAfterCollision(nx, nz, overlap / 2);
+			// 相手キャラへの反発速度適用
+			otherChara->AddImpulse(nx * overlap / 2, nz * overlap / 2);
 
-			//float overlap = collision_radius * 2 - distance;
+			//ヒット音
+			PlaySoundMem(hitSound_, DX_PLAYTYPE_BACK, TRUE);
 
-			//// 相手キャラへの反発速度適用
-			//otherChara->AddImpulse(impulseX / m2, impulseZ / m2);
-
-			//// 重なり解消のための位置補正
-			//collisionCenterPosition_.x -= nx * overlap / 2;
-			//collisionCenterPosition_.z -= nz * overlap / 2;
-
-			//position_.x -= nx * overlap / 2;
-			//position_.z -= nz * overlap / 2;
-
-			//otherChara->AdjustPositionAfterCollision(nx, nz, overlap / 2);
-
-			//PlaySoundMem(hitSound_, DX_PLAYTYPE_BACK, TRUE);
-
-			//isHit_			= true;
-			//isKnockBack_	= true;
-
-			const float e = 1.0f;	//反発係数
-			repulsion1(otherChara->Getmass_(), e);
-			otherChara->repulsion2(mass_, -e);
-			
-			isHit_ = true;
-			//isKnockBack_	= true;
+			//フラグをtrueに
+			isHit_			= true;
+			isKnockBack_	= true;
 		}
 		else
 		{
 			isHit_ = false;
 		}
 	}
-
-	//knockBackNow();
-}
-
-void CharaBase::repulsion1(int otherMass, float e)
-{
-	VECTOR repulsionVector = VScale(moveVector_, mass_ * (1.0f + e));
-	repulsionVector.x = repulsionVector.x / (mass_ + otherMass);
-	repulsionVector.y = repulsionVector.y / (mass_ + otherMass);
-	repulsionVector.z = repulsionVector.z / (mass_ + otherMass);
-	position_ = VAdd(position_, repulsionVector);
-}
-
-void CharaBase::repulsion2(int otherMass, float e)
-{
-	VECTOR repulsionVector = VSub(VScale(moveVector_, mass_), VScale(moveVector_, e * otherMass));
-	repulsionVector.x = repulsionVector.x / (mass_ + otherMass);
-	repulsionVector.y = repulsionVector.y / (mass_ + otherMass);
-	repulsionVector.z = repulsionVector.z / (mass_ + otherMass);
-	position_ = VAdd(position_, repulsionVector);
 }
 
 void CharaBase::AddImpulse(float impulseX, float impulseZ)
 {
 	moveVector_.x	+= impulseX;
-	moveVector_.x    = 0.0f;
 	moveVector_.z	+= impulseZ;
-
-	position_ = VAdd(position_, moveVector_);
 }
 
 void CharaBase::AdjustPositionAfterCollision(float nx, float nz, float amount)
 {
 	collisionCenterPosition_.x += nx * amount;
 	collisionCenterPosition_.z += nz * amount;
-
-	position_.x += nx * amount;
-	position_.z += nz * amount;
 }
 
 void CharaBase::knockBackNow()
 {
 	if(isKnockBack_)
 	{
+		position_ = VAdd(position_, VGet(moveVector_.x, 0.0f, moveVector_.z));
+
 		//カウントが一定になるまでノックバックする
 		++knockBackCount_;
 		if (knockBackCount_ > knock_back_max_count)
@@ -605,8 +567,6 @@ void CharaBase::knockBackNow()
 			knockBackCount_ = 0;
 			isKnockBack_	= false;
 		}
-
-		position_ = VAdd(position_, VGet(moveVector_.x, 0.0f, moveVector_.z));
 	}
 }
 
