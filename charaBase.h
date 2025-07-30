@@ -58,7 +58,7 @@ public:
 	bool								GetisFalling_()const { return isFalling_; }
 
 private:
-	const float		fall_speed				= 0.3f;
+	const float		fall_speed				= 0.005f;
 	const float		scale					= 0.15f;
 	const float		move_speed				= 0.3f;
 	const float		max_tackle_count		= 50.0f;

@@ -168,7 +168,7 @@ void CharaBase::move()
 	auto isNoneAction = !isTackle_ && !isSwing_;
 
 	//‘ŠúƒŠƒ^[ƒ“
-	if (input.X == 0 && input.Y == 0 || isKnockBack_ /*|| position_.y < 0.0f*/)
+	if (input.X == 0 && input.Y == 0 || isKnockBack_/* || position_.y < 0.0f*/)
 	{
 		return;
 	}
