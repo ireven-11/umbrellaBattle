@@ -3,12 +3,15 @@
 #include"setting.h"
 
 /// <summary>
-/// スクリーン設定
+/// dxlib設定
 /// </summary>
-void ScreenSetting()
+void DxlibSetting()
 {
+    SetGraphMode(screenWIDTH, screenHEIGHT, 32);//ウィンドウのサイズとカラーモードを決める
     ChangeWindowMode(TRUE);				   //ウィンドウモードにする
     SetWindowStyleMode(7);				   //最大化ボタンが存在するウインドウモードに変更
+
+	if (DxLib_Init() == -1)return;
 
     // サイズ変更を可能にする
     SetWindowSizeChangeEnableFlag(TRUE, FALSE);
@@ -18,7 +21,6 @@ void ScreenSetting()
 
     SetMainWindowText("gamename");              //ウィンドウ（白いところ）にゲーム名を書く
     SetDrawScreen(DX_SCREEN_BACK);		        //背景をセットする
-    SetGraphMode(screenWIDTH, screenHEIGHT, 32);//ウィンドウのサイズとカラーモードを決める
 }
 
 /// <summary>
@@ -27,7 +29,7 @@ void ScreenSetting()
 void SetFPS()
 {
     //waitの部分の数値を増やすほどｆｐｓがさがっていく
-    const int wait = 20;
+    const int wait = 30;
     int term;
     static int t = 0;
     term = GetNowCount() - t;

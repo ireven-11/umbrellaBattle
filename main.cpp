@@ -6,13 +6,7 @@
 int WINAPI WinMain(winmainSetting)
 {
     //画面設定
-    ScreenSetting();
-
-    //dxlibを初期化
-    if (DxLib_Init() == -1)
-    {
-        return -1;
-    }
+    DxlibSetting();
 
     //エフェクシア設定
     setEffekseer();

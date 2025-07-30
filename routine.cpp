@@ -113,7 +113,11 @@ void Routine::stanby()
 /// </summary>
 void Routine::play()
 {
+    //すてーじこうしん
     stage->update(players);
+
+    //デバッグ用
+    int testCount = 0;
 
     for (const auto& i:players)
     {
@@ -128,18 +132,30 @@ void Routine::play()
             }
             else
             {
-                i->pushBackWithChara(j);
+                //ノックバック量（反発量）を決める
+                i->decideKnockWithChara(j);
             }
         }
 
+        //判定が終わった後にノックバック（反発）をする
         i->knockBackNow();
 
         DrawSphere3D(i->GetcollisionCenterPosition_(), collision_radius, 32, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
 
+        //デバッグ用
+        ++testCount;
+        if (i->Getposition_().y < 0.0f)
+        {
+            DrawFormatString(100, 100 * testCount, GetColor(255, 0, 0), "player%d, x:%f, y:%f, z:%f", testCount, i->Getposition_().x, i->Getposition_().y, i->Getposition_().z);
+            //WaitTimer(50);
+        }
+
+        //エフェクトを更新
         effect->updateCharge(i);
         effect->updateFall(i);
         effect->updateHit(i);
 
+        //エフェクト描画
         effect->draw();
     }
 

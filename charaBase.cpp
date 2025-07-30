@@ -168,7 +168,7 @@ void CharaBase::move()
 	auto isNoneAction = !isTackle_ && !isSwing_;
 
 	//早期リターン
-	if (input.X == 0 && input.Y == 0 || isKnockBack_)
+	if (input.X == 0 && input.Y == 0 || isKnockBack_ /*|| position_.y < 0.0f*/)
 	{
 		return;
 	}
@@ -464,12 +464,12 @@ void CharaBase::SetonTilePositionY_(short tileNumberY)
 	onTileNumberY_ = tileNumberY;
 }
 
-void CharaBase::pushBackWithChara(std::shared_ptr<CharaBase> otherChara)
+void CharaBase::decideKnockWithChara(std::shared_ptr<CharaBase> otherChara)
 {
 	if (state_ != fanState_())
 	{
+		//2点間の距離を出す
 		float dx = otherChara->GetcollisionCenterPosition_().x - collisionCenterPosition_.x;
-		float dy = otherChara->GetcollisionCenterPosition_().y - collisionCenterPosition_.y;
 		float dz = otherChara->GetcollisionCenterPosition_().z - collisionCenterPosition_.z;
 		float distance = CalculateDistance<float>(collisionCenterPosition_, otherChara->GetcollisionCenterPosition_());
 
@@ -478,55 +478,23 @@ void CharaBase::pushBackWithChara(std::shared_ptr<CharaBase> otherChara)
 		{
 			// 衝突の法線ベクトル
 			float nx = dx / distance;
-			float ny = dy / distance;
 			float nz = dz / distance;
-
-			// 両者の速度ベクトル
-			VECTOR myVelocity		= moveVector_;
-			VECTOR otherVelocity	= otherChara->GetmoveVector_();
-
-			// 相対速度ベクトル
-			VECTOR relativeVelocity = {
-				otherVelocity.x - myVelocity.x,
-				otherVelocity.y - myVelocity.y,
-				otherVelocity.z - myVelocity.z
-			};
-
-			// 法線方向の相対速度
-			float velocityAlongNormal = relativeVelocity.x * nx +
-				relativeVelocity.y * ny +
-				relativeVelocity.z * nz;
-
-			// 弾性係数（1.0 = 完全弾性）
-			const float restitution = 0.5f;
-
-			// 質量取得
-			float m1 = mass_;
-			float m2 = otherChara->Getmass_();
-
-			// インパルススカラー
-			float impulseScalar = -(1.0f + restitution) * velocityAlongNormal / (1.0f / m1 + 1.0f / m2);
-
-			// インパルスベクトル
-			float impulseX = impulseScalar * nx;
-			float impulseY = impulseScalar * ny;
-			float impulseZ = impulseScalar * nz;
 
 			//めり込み量
 			float overlap = collision_radius * 2 - distance;
 
 			// 重なり解消のための位置補正
-			collisionCenterPosition_.x -= nx * overlap / 2;
-			collisionCenterPosition_.z -= nz * overlap / 2;
+			collisionCenterPosition_.x -= nx * overlap / blow_away_percent;
+			collisionCenterPosition_.z -= nz * overlap / blow_away_percent;
 
 			// 自キャラへの反発速度適用
-			moveVector_.x -= nx * overlap / 2;
-			moveVector_.z -= nz * overlap / 2;
+			moveVector_.x -= nx * overlap / blow_away_percent;
+			moveVector_.z -= nz * overlap / blow_away_percent;
 		
 			//相手キャラの座標を押し戻す
-			otherChara->AdjustPositionAfterCollision(nx, nz, overlap / 2);
+			otherChara->AdjustPositionAfterCollision(nx, nz, overlap / blow_away_percent);
 			// 相手キャラへの反発速度適用
-			otherChara->AddImpulse(nx * overlap / 2, nz * overlap / 2);
+			otherChara->AddImpulse(nx * overlap / blow_away_percent, nz * overlap / blow_away_percent);
 
 			//ヒット音
 			PlaySoundMem(hitSound_, DX_PLAYTYPE_BACK, TRUE);

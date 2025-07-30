@@ -185,13 +185,13 @@ bool HitTriangleAndPixel(VECTOR trianglePos0, VECTOR trianglePos1, VECTOR triang
 	float radian1 = innerProduct1 / length0 / cursorLength0;
 	float degree1 = acos(radian1) / 3.14159f * 180.0f;
 
-	if (degree1 > degree0) return false;
+	if (degree1 >= degree0) return false;
 
 	float innerProduct2 = vec1.x * boxVerTex0AndCursorVec.x + vec1.z * boxVerTex0AndCursorVec.z; //ACとAPのなす角を求める
 	float radian2 = innerProduct2 / length1 / cursorLength0;
 	float degree2 = acos(radian2) / 3.14159f * 180.0f;
 
-	if (degree2 > degree0) return false;
+	if (degree2 >= degree0) return false;
 
 	VECTOR vec2;
 	vec2.x = trianglePos2.x - trianglePos1.x;
@@ -216,13 +216,13 @@ bool HitTriangleAndPixel(VECTOR trianglePos0, VECTOR trianglePos1, VECTOR triang
 	float radian4 = innerProduct4 / length2 / cursorLength1;
 	float degree4 = acos(radian4) / 3.14159f * 180.0f;
 
-	if (degree4 > degree3) return false;
+	if (degree4 >= degree3) return false;
 
 	float innerProduct5 = vec3.x * boxVerTex1AndCursorVec.x + vec3.z * boxVerTex1AndCursorVec.z; //BAとBPのなす角を求める
 	float radian5 = innerProduct5 / length3 / cursorLength1;
 	float degree5 = acos(radian5) / 3.14159f * 180.0f;
 
-	if (degree5 > degree3) return false;
+	if (degree5 >= degree3) return false;
 
 	return true;
 }
@@ -271,18 +271,18 @@ void Stage::collisionWithPlayer(std::vector<std::shared_ptr<CharaBase>>player)
 				for (int j = 0; j < tile_number; j++)
 				{
 					//六角形の中にいるかどうか
-					if (HitTriangleAndPixel(VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f),
-						VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f),
-						VGet(position_[j][i].x, 0.0f, position_[j][i].z + shifting_numberZ / 1.5f), p->Getposition_()) ||
-						HitTriangleAndPixel(VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f),
-							VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f),
-							VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z - triangle_pointZ / 1.5f), p->Getposition_()) ||
-						HitTriangleAndPixel(VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f),
-							VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z - triangle_pointZ / 1.5f),
-							VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z - triangle_pointZ / 1.5f), p->Getposition_()) ||
-						HitTriangleAndPixel(VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z - triangle_pointZ / 1.5f),
-							VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z - triangle_pointZ / 1.5f),
-							VGet(position_[j][i].x, 0.0f, position_[j][i].z - shifting_numberZ / 1.5f), p->Getposition_()))
+					if (HitTriangleAndPixel(VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.3f),
+						VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.3f),
+						VGet(position_[j][i].x, 0.0f, position_[j][i].z + shifting_numberZ / 1.3f), p->Getposition_()) ||
+						HitTriangleAndPixel(VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.3f),
+							VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.3f),
+							VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z - triangle_pointZ / 1.3f), p->Getposition_()) ||
+						HitTriangleAndPixel(VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.3f),
+							VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z - triangle_pointZ / 1.3f),
+							VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z - triangle_pointZ / 1.3f), p->Getposition_()) ||
+						HitTriangleAndPixel(VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z - triangle_pointZ / 1.3f),
+							VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z - triangle_pointZ / 1.3f),
+							VGet(position_[j][i].x, 0.0f, position_[j][i].z - shifting_numberZ / 1.3f), p->Getposition_()))
 					{
 						//タイルがなかったら落ちる
 						if (!canExist_[j][i] || i == 0 || i == tile_number - 1 || j == 0 || j == tile_number - 1)
@@ -291,17 +291,17 @@ void Stage::collisionWithPlayer(std::vector<std::shared_ptr<CharaBase>>player)
 						}
 						else
 						{
-							//キャラがどのタイル上にいるかを座標を保存して記録しておく
+							//キャラがどのタイル上にいるかを座標を保存しておく
 							p->SetonTilePosition(position_[j][i]);
 							p->SetonTilePositionX_(i);
 							p->SetonTilePositionY_(j);
 						}
 					}
 					//プレイヤーが一度落下すると落ちる
-					if (p->Getposition_().y < player_init_positionY)
+					/*if (p->Getposition_().y < player_init_positionY)
 					{
 						p->fall();
-					}
+					}*/
 
 					//デバッグ用
 					//DrawFormatString(i * 270, j * 20, GetColor(255, 255, 255), "%d&%d x:%f,z:%f", j, i, position_[j][i].x, position_[j][i].z);
