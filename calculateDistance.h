@@ -2,7 +2,7 @@
 #include<math.h>
 
 template<typename T>
-T CalculateDistance(VECTOR position1, VECTOR position2)
+T CalculateDistance(VECTOR position1, VECTOR position2 = VGet(0.0f,0.0f,0.0f))
 {
 	VECTOR tempVector = VGet(position1.x, position1.y, position1.z);
 	tempVector = VSub(tempVector, position2);

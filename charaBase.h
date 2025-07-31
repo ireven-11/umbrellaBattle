@@ -10,6 +10,7 @@ constexpr float	player_init_positionX	= 0.0f;
 constexpr float	player_init_positionY	= 0.0f;
 constexpr float	player_init_positionZ	= 0.0f;
 constexpr float collision_radius		= 2.0;
+constexpr float collision_radius_stage	= 1.0;
 
 class Routine;
 class Stage;

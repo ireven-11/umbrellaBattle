@@ -4,6 +4,7 @@
 #include<math.h>
 #include"fanState.h"
 #include"AStar.h"
+#include"calculateDistance.h"
 
 /// <summary>
 /// コンストラクタ
@@ -155,78 +156,164 @@ void Stage::vanishTile()
 /// <summary>
 /// 一点が三角形の中にあるか確認する
 /// </summary>
-/// <param name="trianglePos0"></param>
-/// <param name="trianglePos1"></param>
-/// <param name="trianglePos2"></param>
+/// <param name="trianglePos0">三角形の頂点1</param>
+/// <param name="trianglePos1">三角形の頂点2</param>
+/// <param name="trianglePos2">三角形の頂点3</param>
 /// <param name="pixelPos"></param>
 /// <returns></returns>
-bool HitTriangleAndPixel(VECTOR trianglePos0, VECTOR trianglePos1, VECTOR trianglePos2, VECTOR pixelPos)
-{
-	VECTOR vec0;
-	vec0.x = trianglePos1.x - trianglePos0.x;
-	vec0.z = trianglePos1.z - trianglePos0.z;
-	float length0 = sqrt(vec0.x * vec0.x + vec0.z * vec0.z);
+//bool HitTriangleAndPixel(VECTOR trianglePos0, VECTOR trianglePos1, VECTOR trianglePos2, VECTOR pixelPos)
+//{
+//	VECTOR vec0;
+//	vec0.x = trianglePos1.x - trianglePos0.x;
+//	vec0.z = trianglePos1.z - trianglePos0.z;
+//	float length0 = sqrt(vec0.x * vec0.x + vec0.z * vec0.z);
+//
+//	VECTOR vec1;
+//	vec1.x = trianglePos2.x - trianglePos0.x;
+//	vec1.z = trianglePos2.z - trianglePos0.z;
+//	float length1 = sqrt(vec1.x * vec1.x + vec1.z * vec1.z);
+//
+//	VECTOR boxVerTex0AndCursorVec;
+//	boxVerTex0AndCursorVec.x = pixelPos.x - trianglePos0.x;
+//	boxVerTex0AndCursorVec.z = pixelPos.z - trianglePos0.z;
+//	float cursorLength0 = sqrt(boxVerTex0AndCursorVec.x * boxVerTex0AndCursorVec.x + boxVerTex0AndCursorVec.z * boxVerTex0AndCursorVec.z);
+//
+//	float innerProduct0 = vec0.x * vec1.x + vec0.z * vec1.z; //ABとACのなす角を求める
+//	float radian0 = innerProduct0 / length0 / length1;
+//	float degree0 = acos(radian0) / 3.14159f * 180.0f;
+//
+//	float innerProduct1 = vec0.x * boxVerTex0AndCursorVec.x + vec0.z * boxVerTex0AndCursorVec.z; //ABとAPのなす角を求める
+//	float radian1 = innerProduct1 / length0 / cursorLength0;
+//	float degree1 = acos(radian1) / 3.14159f * 180.0f;
+//
+//	if (degree1 >= degree0) return false;
+//
+//	float innerProduct2 = vec1.x * boxVerTex0AndCursorVec.x + vec1.z * boxVerTex0AndCursorVec.z; //ACとAPのなす角を求める
+//	float radian2 = innerProduct2 / length1 / cursorLength0;
+//	float degree2 = acos(radian2) / 3.14159f * 180.0f;
+//
+//	if (degree2 >= degree0) return false;
+//
+//	VECTOR vec2;
+//	vec2.x = trianglePos2.x - trianglePos1.x;
+//	vec2.z = trianglePos2.z - trianglePos1.z;
+//	float length2 = sqrt(vec2.x * vec2.x + vec2.z * vec2.z);
+//
+//	VECTOR vec3;
+//	vec3.x = trianglePos0.x - trianglePos1.x;
+//	vec3.z = trianglePos0.z - trianglePos1.z;
+//	float length3 = sqrt(vec3.x * vec3.x + vec3.z * vec3.z);
+//
+//	VECTOR boxVerTex1AndCursorVec;
+//	boxVerTex1AndCursorVec.x = pixelPos.x - trianglePos1.x;
+//	boxVerTex1AndCursorVec.z = pixelPos.z - trianglePos1.z;
+//	float cursorLength1 = sqrt(boxVerTex1AndCursorVec.x * boxVerTex1AndCursorVec.x + boxVerTex1AndCursorVec.z * boxVerTex1AndCursorVec.z);
+//
+//	float innerProduct3 = vec2.x * vec3.x + vec2.z * vec3.z;  //BCとBAのなす角を求める
+//	float radian3 = innerProduct3 / length2 / length3;
+//	float degree3 = acos(radian3) / 3.14159f * 180.0f;
+//
+//	float innerProduct4 = vec2.x * boxVerTex1AndCursorVec.x + vec2.z * boxVerTex1AndCursorVec.z; //BCとBPのなす角を求める
+//	float radian4 = innerProduct4 / length2 / cursorLength1;
+//	float degree4 = acos(radian4) / 3.14159f * 180.0f;
+//
+//	if (degree4 >= degree3) return false;
+//
+//	float innerProduct5 = vec3.x * boxVerTex1AndCursorVec.x + vec3.z * boxVerTex1AndCursorVec.z; //BAとBPのなす角を求める
+//	float radian5 = innerProduct5 / length3 / cursorLength1;
+//	float degree5 = acos(radian5) / 3.14159f * 180.0f;
+//
+//	if (degree5 >= degree3) return false;
+//
+//	return true;
+//}
 
-	VECTOR vec1;
-	vec1.x = trianglePos2.x - trianglePos0.x;
-	vec1.z = trianglePos2.z - trianglePos0.z;
-	float length1 = sqrt(vec1.x * vec1.x + vec1.z * vec1.z);
-
-	VECTOR boxVerTex0AndCursorVec;
-	boxVerTex0AndCursorVec.x = pixelPos.x - trianglePos0.x;
-	boxVerTex0AndCursorVec.z = pixelPos.z - trianglePos0.z;
-	float cursorLength0 = sqrt(boxVerTex0AndCursorVec.x * boxVerTex0AndCursorVec.x + boxVerTex0AndCursorVec.z * boxVerTex0AndCursorVec.z);
-
-	float innerProduct0 = vec0.x * vec1.x + vec0.z * vec1.z; //ABとACのなす角を求める
-	float radian0 = innerProduct0 / length0 / length1;
-	float degree0 = acos(radian0) / 3.14159f * 180.0f;
-
-	float innerProduct1 = vec0.x * boxVerTex0AndCursorVec.x + vec0.z * boxVerTex0AndCursorVec.z; //ABとAPのなす角を求める
-	float radian1 = innerProduct1 / length0 / cursorLength0;
-	float degree1 = acos(radian1) / 3.14159f * 180.0f;
-
-	if (degree1 >= degree0) return false;
-
-	float innerProduct2 = vec1.x * boxVerTex0AndCursorVec.x + vec1.z * boxVerTex0AndCursorVec.z; //ACとAPのなす角を求める
-	float radian2 = innerProduct2 / length1 / cursorLength0;
-	float degree2 = acos(radian2) / 3.14159f * 180.0f;
-
-	if (degree2 >= degree0) return false;
-
-	VECTOR vec2;
-	vec2.x = trianglePos2.x - trianglePos1.x;
-	vec2.z = trianglePos2.z - trianglePos1.z;
-	float length2 = sqrt(vec2.x * vec2.x + vec2.z * vec2.z);
-
-	VECTOR vec3;
-	vec3.x = trianglePos0.x - trianglePos1.x;
-	vec3.z = trianglePos0.z - trianglePos1.z;
-	float length3 = sqrt(vec3.x * vec3.x + vec3.z * vec3.z);
-
-	VECTOR boxVerTex1AndCursorVec;
-	boxVerTex1AndCursorVec.x = pixelPos.x - trianglePos1.x;
-	boxVerTex1AndCursorVec.z = pixelPos.z - trianglePos1.z;
-	float cursorLength1 = sqrt(boxVerTex1AndCursorVec.x * boxVerTex1AndCursorVec.x + boxVerTex1AndCursorVec.z * boxVerTex1AndCursorVec.z);
-
-	float innerProduct3 = vec2.x * vec3.x + vec2.z * vec3.z;  //BCとBAのなす角を求める
-	float radian3 = innerProduct3 / length2 / length3;
-	float degree3 = acos(radian3) / 3.14159f * 180.0f;
-
-	float innerProduct4 = vec2.x * boxVerTex1AndCursorVec.x + vec2.z * boxVerTex1AndCursorVec.z; //BCとBPのなす角を求める
-	float radian4 = innerProduct4 / length2 / cursorLength1;
-	float degree4 = acos(radian4) / 3.14159f * 180.0f;
-
-	if (degree4 >= degree3) return false;
-
-	float innerProduct5 = vec3.x * boxVerTex1AndCursorVec.x + vec3.z * boxVerTex1AndCursorVec.z; //BAとBPのなす角を求める
-	float radian5 = innerProduct5 / length3 / cursorLength1;
-	float degree5 = acos(radian5) / 3.14159f * 180.0f;
-
-	if (degree5 >= degree3) return false;
-
-	return true;
+// 2D用の外積（z軸方向のみ）
+float Cross2D(VECTOR a, VECTOR b) {
+	return a.x * b.z - a.z * b.x;
 }
 
+ //点が三角形ABCの内部にあるか（辺上も含む）
+bool HitTriangleAndPixel(VECTOR A, VECTOR B, VECTOR C, VECTOR P) {
+	VECTOR AB = { B.x - A.x, 0, B.z - A.z };
+	VECTOR BC = { C.x - B.x, 0, C.z - B.z };
+	VECTOR CA = { A.x - C.x, 0, A.z - C.z };
+
+	VECTOR AP = { P.x - A.x, 0, P.z - A.z };
+	VECTOR BP = { P.x - B.x, 0, P.z - B.z };
+	VECTOR CP = { P.x - C.x, 0, P.z - C.z };
+
+	float c1 = Cross2D(AB, AP);
+	float c2 = Cross2D(BC, BP);
+	float c3 = Cross2D(CA, CP);
+
+	// すべて同じ符号なら内部（0は辺上）
+	if ((c1 >= 0 && c2 >= 0 && c3 >= 0) || (c1 <= 0 && c2 <= 0 && c3 <= 0)) {
+		return true;
+	}
+
+	return false;
+}
+
+bool CheckHitCircleWithTriangle(VECTOR trianglePos1, VECTOR trianglePos2, VECTOR trianglePos3, VECTOR circlePos, float radius)
+{
+	VECTOR edge;				//線分
+	VECTOR edgeStartToCirclePos;//線分の始点から円の座標まで伸びるベクトル
+	VECTOR edgeEndToCirclePos;	//線分の終点から円の座標まで伸びるベクトル
+	VECTOR crossProduct;		//外積
+	float shortestDistance;		//線分との最短距離
+	for (auto i = 0; i < 3; i++)
+	{
+		switch (i)
+		{
+		case 0:
+			edge = VSub(trianglePos2, trianglePos1);
+			edgeStartToCirclePos = VSub(circlePos, trianglePos1);
+			edgeEndToCirclePos = VSub(circlePos, trianglePos2);
+			crossProduct = VCross(edge, edgeStartToCirclePos);
+			shortestDistance = CalculateDistance<float>(crossProduct) / CalculateDistance<float>(edge);
+			break;
+		case 1:
+			edge = VSub(trianglePos3, trianglePos2);
+			edgeStartToCirclePos = VSub(circlePos, trianglePos2);
+			edgeEndToCirclePos = VSub(circlePos, trianglePos3);
+			crossProduct = VCross(edge, edgeStartToCirclePos);
+			shortestDistance = CalculateDistance<float>(crossProduct) / CalculateDistance<float>(edge);
+			break;
+		case 2:
+			edge = VSub(trianglePos1, trianglePos3);
+			edgeStartToCirclePos = VSub(circlePos, trianglePos3);
+			edgeEndToCirclePos = VSub(circlePos, trianglePos1);
+			crossProduct = VCross(edge, edgeStartToCirclePos);
+			shortestDistance = CalculateDistance<float>(crossProduct) / CalculateDistance<float>(edge);
+			break;
+		}
+
+		//最短距離が半径より小さかったら当たってる可能性がある
+		if (shortestDistance <= radius)
+		{
+			//線分の外に円の中心があるときは角度が両方鈍角だったら当たってる
+			if (VDot(edge, edgeStartToCirclePos) * VDot(edge, edgeEndToCirclePos) <= 0)
+			{
+				return true;
+			}
+
+			//半径が円へのベクトルの距離より大きかったら当たってる
+			if (radius > CalculateDistance<float>(edgeStartToCirclePos) || radius > CalculateDistance<float>(edgeEndToCirclePos))
+			{
+				return true;
+			}
+		}
+
+		//三角形の中に円の中心点があるか
+		if (HitTriangleAndPixel(trianglePos1, trianglePos2, trianglePos3, circlePos))
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
 
 /// <summary>
 /// 3d上に六角形を平面描画する関数
@@ -271,18 +358,16 @@ void Stage::collisionWithPlayer(std::vector<std::shared_ptr<CharaBase>>player)
 				for (int j = 0; j < tile_number; j++)
 				{
 					//六角形の中にいるかどうか
-					if (HitTriangleAndPixel(VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.3f),
-						VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.3f),
-						VGet(position_[j][i].x, 0.0f, position_[j][i].z + shifting_numberZ / 1.3f), p->Getposition_()) ||
-						HitTriangleAndPixel(VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.3f),
-							VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.3f),
-							VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z - triangle_pointZ / 1.3f), p->Getposition_()) ||
-						HitTriangleAndPixel(VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.3f),
-							VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z - triangle_pointZ / 1.3f),
-							VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z - triangle_pointZ / 1.3f), p->Getposition_()) ||
-						HitTriangleAndPixel(VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z - triangle_pointZ / 1.3f),
-							VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z - triangle_pointZ / 1.3f),
-							VGet(position_[j][i].x, 0.0f, position_[j][i].z - shifting_numberZ / 1.3f), p->Getposition_()))
+					VECTOR trianglePos1 = VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f);
+					VECTOR trianglePos2 = VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f);
+					VECTOR trianglePos3 = VGet(position_[j][i].x, 0.0f, position_[j][i].z + shifting_numberZ / 1.5f);
+					VECTOR trianglePos4 = VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z - triangle_pointZ / 1.5f);
+					VECTOR trianglePos5 = VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z - triangle_pointZ / 1.5f);
+					VECTOR trianglePos6 = VGet(position_[j][i].x, 0.0f, position_[j][i].z - shifting_numberZ / 1.5f);
+					if (CheckHitCircleWithTriangle(trianglePos1, trianglePos2, trianglePos3, p->Getposition_(), collision_radius_stage) ||
+						CheckHitCircleWithTriangle(trianglePos1, trianglePos2, trianglePos4, p->Getposition_(), collision_radius_stage) ||
+						CheckHitCircleWithTriangle(trianglePos1, trianglePos5, trianglePos4, p->Getposition_(), collision_radius_stage) ||
+						CheckHitCircleWithTriangle(trianglePos5, trianglePos4, trianglePos6, p->Getposition_(), collision_radius_stage))
 					{
 						//タイルがなかったら落ちる
 						if (!canExist_[j][i] || i == 0 || i == tile_number - 1 || j == 0 || j == tile_number - 1)
@@ -297,20 +382,24 @@ void Stage::collisionWithPlayer(std::vector<std::shared_ptr<CharaBase>>player)
 							p->SetonTilePositionY_(j);
 						}
 					}
+					else
+					{
+						auto test = 0;
+					}
 					//プレイヤーが一度落下すると落ちる
-					/*if (p->Getposition_().y < player_init_positionY)
+					if (p->Getposition_().y < player_init_positionY)
 					{
 						p->fall();
-					}*/
+					}
 
 					//デバッグ用
 					//DrawFormatString(i * 270, j * 20, GetColor(255, 255, 255), "%d&%d x:%f,z:%f", j, i, position_[j][i].x, position_[j][i].z);
 
 					//デバッグ用六角形描画
-					if (canExist_[j][i])
+					/*if (canExist_[j][i])
 					{
 						DrawHexagon3D(position_[j][i], shifting_numberX, shifting_numberZ, triangle_pointZ, GetColor(255, 255, 255), false);
-					}
+					}*/
 				}
 			}
 

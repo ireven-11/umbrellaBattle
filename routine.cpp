@@ -141,6 +141,7 @@ void Routine::play()
         i->knockBackNow();
 
         DrawSphere3D(i->GetcollisionCenterPosition_(), collision_radius, 32, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
+        DrawSphere3D(i->Getposition_(), collision_radius_stage, 32, GetColor(255, 255, 255), GetColor(255, 255, 255), FALSE);
 
         //デバッグ用
         ++testCount;
