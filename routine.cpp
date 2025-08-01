@@ -147,9 +147,11 @@ void Routine::play()
         ++testCount;
         if (i->Getposition_().y < 0.0f)
         {
-            DrawFormatString(100, 100 * testCount, GetColor(255, 0, 0), "player%d, x:%f, y:%f, z:%f", testCount, i->Getposition_().x, i->Getposition_().y, i->Getposition_().z);
+            //DrawFormatString(100, 100 * testCount, GetColor(255, 0, 0), "player%d, x:%f, y:%f, z:%f", testCount, i->Getposition_().x, i->Getposition_().y, i->Getposition_().z);
             //WaitTimer(50);
         }
+
+        DrawFormatString(100, 100 * testCount, GetColor(255, 0, 0), "player%d, moveVector(%f, %f, %f)", testCount, i->GetmoveVector_().x, i->GetmoveVector_().y, i->GetmoveVector_().z);
 
         //エフェクトを更新
         effect->updateCharge(i);

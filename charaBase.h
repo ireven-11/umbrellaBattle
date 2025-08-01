@@ -37,7 +37,7 @@ public:
 	void SetonTilePositionY_(short tileNumberY);
 	void decideKnockWithChara(std::shared_ptr<CharaBase> otherChara);
 	void collisionRotation();
-	void AdjustPositionAfterCollision(float nx, float nz, float amount);
+	void AdjustPositionAfterCollision(float amountX, float amountZ);
 	void AddImpulse(float impulseX, float impulseZ);
 	void knockBackNow();
 
@@ -57,9 +57,10 @@ public:
 	bool								GetisChargeTackle_()const { return isChargeTackle_; }
 	bool								GetisHit_()const { return isHit_; }
 	bool								GetisFalling_()const { return isFalling_; }
+	bool								GetisMovingTackle_()const { return isMovingTackle_; }
 
 private:
-	const float		fall_speed				= 0.005f;
+	const float		fall_speed				= 0.25f;
 	const float		scale					= 0.15f;
 	const float		move_speed				= 0.3f;
 	const float		max_tackle_count		= 50.0f;
@@ -79,10 +80,10 @@ private:
 	const VECTOR	player4_init_position	= VGet(0.0f, 0.0f, 0.0f);
 	const VECTOR	collision_adjust_position = VGet(1.5f, 0.0f, 1.0f);
 	const short		init_mass				= 1;
-	const short		tackle_mass				= 5;
-	const float		blow_away_percent		= 5.0f;
+	const short		tackle_mass				= 2;
+	const float		blow_away_percent		= 1.4f;
 	const short		hit_sound_volume		= 225;
-	const short		knock_back_max_count	= 7;
+	const short		knock_back_max_count	= 4;
 	const short		charge_sound_volume		= 255;
 
 protected:
@@ -121,6 +122,7 @@ protected:
 	bool	isKnockBack_;		//ノックバック中か
 	bool	isFalling_;			//落下中か
 	short	knockBackCount_;	//ノックバックカウント
+	bool	isMovingTackle_;	//タックル移動中
 
 	//状態
 	std::shared_ptr<StateMachine::IState>	state_;

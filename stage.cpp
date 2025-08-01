@@ -326,18 +326,20 @@ bool CheckHitCircleWithTriangle(VECTOR trianglePos1, VECTOR trianglePos2, VECTOR
 /// <param name="fill"></param>
 void DrawHexagon3D(VECTOR standardPosition, float sideX, float sideZ, float sideZ2, int color, bool fill)
 {
-	DrawTriangle3D(VGet(standardPosition.x - sideX / 2, 0.0f, standardPosition.z + sideZ2 / 1.5f),
-		VGet(standardPosition.x + sideX / 2, 0.0f, standardPosition.z + sideZ2 / 1.5f),
-		VGet(standardPosition.x, 0.0f, standardPosition.z + sideZ / 1.5f), color, fill);
-	DrawTriangle3D(VGet(standardPosition.x - sideX / 2, 0.0f, standardPosition.z + sideZ2 / 1.5f),
-		VGet(standardPosition.x + sideX / 2, 0.0f, standardPosition.z + sideZ2 / 1.5f),
-		VGet(standardPosition.x + sideX / 2, 0.0f, standardPosition.z - sideZ2 / 1.5f), color, fill);
-	DrawTriangle3D(VGet(standardPosition.x - sideX / 2, 0.0f, standardPosition.z + sideZ2 / 1.5f),
-		VGet(standardPosition.x - sideX / 2, 0.0f, standardPosition.z - sideZ2 / 1.5f),
-		VGet(standardPosition.x + sideX / 2, 0.0f, standardPosition.z - sideZ2 / 1.5f), color, fill);
-	DrawTriangle3D(VGet(standardPosition.x - sideX / 2, 0.0f, standardPosition.z - sideZ2 / 1.5f),
-		VGet(standardPosition.x + sideX / 2, 0.0f, standardPosition.z - sideZ2 / 1.5f),
-		VGet(standardPosition.x, 0.0f, standardPosition.z - sideZ / 1.5f), color, fill);
+	const float width_adjust	= 2.0f;
+	const float height_adjust	= 1.5f;
+	DrawTriangle3D(VGet(standardPosition.x - sideX / width_adjust, 0.0f, standardPosition.z + sideZ2 / height_adjust),
+		VGet(standardPosition.x + sideX / width_adjust, 0.0f, standardPosition.z + sideZ2 / height_adjust),
+		VGet(standardPosition.x, 0.0f, standardPosition.z + sideZ / height_adjust), color, fill);
+	DrawTriangle3D(VGet(standardPosition.x - sideX / width_adjust, 0.0f, standardPosition.z + sideZ2 / height_adjust),
+		VGet(standardPosition.x + sideX / width_adjust, 0.0f, standardPosition.z + sideZ2 / height_adjust),
+		VGet(standardPosition.x + sideX / width_adjust, 0.0f, standardPosition.z - sideZ2 / height_adjust), color, fill);
+	DrawTriangle3D(VGet(standardPosition.x - sideX / width_adjust, 0.0f, standardPosition.z + sideZ2 / height_adjust),
+		VGet(standardPosition.x - sideX / width_adjust, 0.0f, standardPosition.z - sideZ2 / height_adjust),
+		VGet(standardPosition.x + sideX / width_adjust, 0.0f, standardPosition.z - sideZ2 / height_adjust), color, fill);
+	DrawTriangle3D(VGet(standardPosition.x - sideX / width_adjust, 0.0f, standardPosition.z - sideZ2 / height_adjust),
+		VGet(standardPosition.x + sideX / width_adjust, 0.0f, standardPosition.z - sideZ2 / height_adjust),
+		VGet(standardPosition.x, 0.0f, standardPosition.z - sideZ / height_adjust), color, fill);
 }
 
 /// <summary>
@@ -358,12 +360,14 @@ void Stage::collisionWithPlayer(std::vector<std::shared_ptr<CharaBase>>player)
 				for (int j = 0; j < tile_number; j++)
 				{
 					//六角形の中にいるかどうか
-					VECTOR trianglePos1 = VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f);
-					VECTOR trianglePos2 = VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z + triangle_pointZ / 1.5f);
-					VECTOR trianglePos3 = VGet(position_[j][i].x, 0.0f, position_[j][i].z + shifting_numberZ / 1.5f);
-					VECTOR trianglePos4 = VGet(position_[j][i].x + shifting_numberX / 2, 0.0f, position_[j][i].z - triangle_pointZ / 1.5f);
-					VECTOR trianglePos5 = VGet(position_[j][i].x - shifting_numberX / 2, 0.0f, position_[j][i].z - triangle_pointZ / 1.5f);
-					VECTOR trianglePos6 = VGet(position_[j][i].x, 0.0f, position_[j][i].z - shifting_numberZ / 1.5f);
+					const float width_adjust	= 2.0f;
+					const float height_adjust	= 1.5f;
+					VECTOR trianglePos1 = VGet(position_[j][i].x - shifting_numberX / width_adjust, 0.0f, position_[j][i].z + triangle_pointZ / height_adjust);
+					VECTOR trianglePos2 = VGet(position_[j][i].x + shifting_numberX / width_adjust, 0.0f, position_[j][i].z + triangle_pointZ / height_adjust);
+					VECTOR trianglePos3 = VGet(position_[j][i].x, 0.0f, position_[j][i].z + shifting_numberZ / height_adjust);
+					VECTOR trianglePos4 = VGet(position_[j][i].x + shifting_numberX / width_adjust, 0.0f, position_[j][i].z - triangle_pointZ / height_adjust);
+					VECTOR trianglePos5 = VGet(position_[j][i].x - shifting_numberX / width_adjust, 0.0f, position_[j][i].z - triangle_pointZ / height_adjust);
+					VECTOR trianglePos6 = VGet(position_[j][i].x, 0.0f, position_[j][i].z - shifting_numberZ / height_adjust);
 					if (CheckHitCircleWithTriangle(trianglePos1, trianglePos2, trianglePos3, p->Getposition_(), collision_radius_stage) ||
 						CheckHitCircleWithTriangle(trianglePos1, trianglePos2, trianglePos4, p->Getposition_(), collision_radius_stage) ||
 						CheckHitCircleWithTriangle(trianglePos1, trianglePos5, trianglePos4, p->Getposition_(), collision_radius_stage) ||
@@ -372,7 +376,10 @@ void Stage::collisionWithPlayer(std::vector<std::shared_ptr<CharaBase>>player)
 						//タイルがなかったら落ちる
 						if (!canExist_[j][i] || i == 0 || i == tile_number - 1 || j == 0 || j == tile_number - 1)
 						{
-							p->fall();
+							if (p->Getposition_().y >= player_init_positionY && !p->GetisMovingTackle_())
+							{
+								p->fall();
+							}
 						}
 						else
 						{
@@ -382,16 +389,7 @@ void Stage::collisionWithPlayer(std::vector<std::shared_ptr<CharaBase>>player)
 							p->SetonTilePositionY_(j);
 						}
 					}
-					else
-					{
-						auto test = 0;
-					}
-					//プレイヤーが一度落下すると落ちる
-					if (p->Getposition_().y < player_init_positionY)
-					{
-						p->fall();
-					}
-
+				
 					//デバッグ用
 					//DrawFormatString(i * 270, j * 20, GetColor(255, 255, 255), "%d&%d x:%f,z:%f", j, i, position_[j][i].x, position_[j][i].z);
 
@@ -403,11 +401,14 @@ void Stage::collisionWithPlayer(std::vector<std::shared_ptr<CharaBase>>player)
 				}
 			}
 
-			//プレイヤーがステージ外出たら落下する
+			//プレイヤーがステージ外出たら落下するまたは一度落下すると
 			if (p->Getposition_().x < position_[0][0].x || p->Getposition_().x > position_[tile_number - 1][tile_number - 1].x - shifting_numberX / 2
-				|| p->Getposition_().z < position_[0][0].z || p->Getposition_().z > position_[tile_number - 1][tile_number - 1].z)
+				|| p->Getposition_().z < position_[0][0].z || p->Getposition_().z > position_[tile_number - 1][tile_number - 1].z || p->Getposition_().y < player_init_positionY)
 			{
-				p->fall();
+				if (!p->GetisMovingTackle_())
+				{
+					p->fall();
+				}
 			}
 
 			if (p->Getposition_().y < -5.0f)

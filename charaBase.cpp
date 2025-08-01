@@ -158,6 +158,7 @@ void CharaBase::reset()
 	isKnockBack_	= false;
 	isFalling_		= false;
 	knockBackCount_ = 0;
+	isMovingTackle_ = false;
 }
 
 /// <summary>
@@ -167,8 +168,8 @@ void CharaBase::move()
 {
 	auto isNoneAction = !isTackle_ && !isSwing_;
 
-	//早期リターン
-	if (input.X == 0 && input.Y == 0 || isKnockBack_/* || position_.y < 0.0f*/)
+	//早期リターン(バグあり：動いてないときに反発しなくなる)
+	if (input.X == 0 && input.Y == 0/* || isKnockBack_*/ || position_.y < 0.0f)
 	{
 		return;
 	}
@@ -199,9 +200,6 @@ void CharaBase::move()
 	rotaionMatrix_		= MGetRotY(rotationAngleY_ + agnle_shift_number);
 	moveVector_			= VTransform(moveVector_, rotaionMatrix_);
 	position_			= VAdd(position_, moveVector_);
-
-	//DrawFormatString(100,800,)
-	//DrawFormatString(100, 700, GetColor(255, 255, 255), "ムーブベクター x:%f y:%f z:%f", moveVector.x, moveVector.y, moveVector.z);
 }
 
 /// <summary>
@@ -285,15 +283,10 @@ void CharaBase::tackle()
 /// <param name="rotation">どの方向にタックルするか決める回転行列</param>
 void CharaBase::tackleMoving()
 {
-	moveVector_ = VTransform(VGet(tackleCount_ / adjust_tackle, 0.0f, tackleCount_ / adjust_tackle), rotaionMatrix_);
-	position_	= VAdd(position_, moveVector_);
-	mass_		= tackle_mass;
-
-	//移動中は落下しずらくするようにyに補正をかける
-	if (position_.y < 0.0f)
-	{
-		position_.y += adjust_position_y;
-	}
+	moveVector_		= VTransform(VGet(tackleCount_ / adjust_tackle, 0.0f, tackleCount_ / adjust_tackle), rotaionMatrix_);
+	position_		= VAdd(position_, moveVector_);
+	mass_			= tackle_mass;
+	isMovingTackle_ = true;
 }
 
 /// <summary>
@@ -308,6 +301,7 @@ void CharaBase::stopTackle()
 		isMovingtackle_ = false;
 		tackleCount_	= 0;
 		mass_			= init_mass;
+		isMovingTackle_ = false;
 	}
 }
 
@@ -477,24 +471,27 @@ void CharaBase::decideKnockWithChara(std::shared_ptr<CharaBase> otherChara)
 		if (distance < collision_radius * 2)
 		{
 			// 衝突の法線ベクトル
-			float nx = dx / distance;
-			float nz = dz / distance;
+			VECTOR normalLine = VGet(0.0f, 0.0f, 0.0f);
+			normalLine.x = dx / distance;
+			normalLine.z = dz / distance;
 
 			//めり込み量
 			float overlap = collision_radius * 2 - distance;
 
 			// 重なり解消のための位置補正
-			collisionCenterPosition_.x -= nx * overlap / blow_away_percent;
-			collisionCenterPosition_.z -= nz * overlap / blow_away_percent;
+			VECTOR knockBackVector	= VScale(normalLine, overlap);
+			knockBackVector			= VNorm(knockBackVector);
+			collisionCenterPosition_.x -= knockBackVector.x / 2 * otherChara->Getmass_() * blow_away_percent;
+			collisionCenterPosition_.z -= knockBackVector.z / 2 * otherChara->Getmass_() * blow_away_percent;
 
 			// 自キャラへの反発速度適用
-			moveVector_.x -= nx * overlap / blow_away_percent;
-			moveVector_.z -= nz * overlap / blow_away_percent;
-		
-			//相手キャラの座標を押し戻す
-			otherChara->AdjustPositionAfterCollision(nx, nz, overlap / blow_away_percent);
+			moveVector_.x = -(knockBackVector.x / 2 * otherChara->Getmass_() * blow_away_percent);
+			moveVector_.z = -(knockBackVector.z / 2 * otherChara->Getmass_() * blow_away_percent);
+			
+			//相手キャラの当たり判定の座標を押し戻す
+			otherChara->AdjustPositionAfterCollision(knockBackVector.x / 2 * otherChara->Getmass_() * blow_away_percent, knockBackVector.z / 2 * otherChara->Getmass_() * blow_away_percent);
 			// 相手キャラへの反発速度適用
-			otherChara->AddImpulse(nx * overlap / blow_away_percent, nz * overlap / blow_away_percent);
+			otherChara->AddImpulse(knockBackVector.x / 2 * otherChara->Getmass_() * blow_away_percent, knockBackVector.z / 2 * otherChara->Getmass_() * blow_away_percent);
 
 			//ヒット音
 			PlaySoundMem(hitSound_, DX_PLAYTYPE_BACK, TRUE);
@@ -512,29 +509,30 @@ void CharaBase::decideKnockWithChara(std::shared_ptr<CharaBase> otherChara)
 
 void CharaBase::AddImpulse(float impulseX, float impulseZ)
 {
-	moveVector_.x	+= impulseX;
-	moveVector_.z	+= impulseZ;
+	moveVector_.x = impulseX;
+	moveVector_.z = impulseZ;
 }
 
-void CharaBase::AdjustPositionAfterCollision(float nx, float nz, float amount)
+void CharaBase::AdjustPositionAfterCollision(float amountX, float amountZ)
 {
-	collisionCenterPosition_.x += nx * amount;
-	collisionCenterPosition_.z += nz * amount;
+	collisionCenterPosition_.x += amountX;
+	collisionCenterPosition_.z += amountZ;
 }
 
 void CharaBase::knockBackNow()
 {
 	if(isKnockBack_)
 	{
-		position_ = VAdd(position_, VGet(moveVector_.x, 0.0f, moveVector_.z));
-
-		//カウントが一定になるまでノックバックする
+		//カウントが一定になるかタックル移動中だったらノックバックをやめる
 		++knockBackCount_;
-		if (knockBackCount_ > knock_back_max_count)
+		if (knockBackCount_ > knock_back_max_count || isMovingTackle_)
 		{
 			knockBackCount_ = 0;
 			isKnockBack_	= false;
+			return;
 		}
+
+		position_ = VAdd(position_, moveVector_);
 	}
 }
 
