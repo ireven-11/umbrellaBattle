@@ -168,8 +168,8 @@ void CharaBase::move()
 {
 	auto isNoneAction = !isTackle_ && !isSwing_;
 
-	//早期リターン(バグあり：動いてないときに反発しなくなる)
-	if (input.X == 0 && input.Y == 0/* || isKnockBack_*/ || position_.y < 0.0f)
+	//早期リターン(バグあり：動いてないときに高確率で反発しなくなる)
+	if (input.X == 0 && input.Y == 0 || isKnockBack_ || position_.y < 0.0f)
 	{
 		return;
 	}
@@ -448,18 +448,31 @@ void CharaBase::SetonTilePosition(VECTOR tilePosition)
 	onTilePosition_ = VGet(tilePosition.x, tilePosition.y, tilePosition.z);
 }
 
+/// <summary>
+/// 何番目のタイルにいるかセット（Ｘ）
+/// </summary>
+/// <param name="tileNumberX">タイルが何番目かｘ</param>
 void CharaBase::SetonTilePositionX_(short tileNumberX)
 {
 	onTileNumberX_ = tileNumberX;
 }
 
+/// <summary>
+/// 何番目のタイルにいるかをセット（Ｙ）
+/// </summary>
+/// <param name="tileNumberY">タイルが何番目かｙ</param>
 void CharaBase::SetonTilePositionY_(short tileNumberY)
 {
 	onTileNumberY_ = tileNumberY;
 }
 
+/// <summary>
+/// ノックバックを決定する
+/// </summary>
+/// <param name="otherChara">判定するほかのキャラ</param>
 void CharaBase::decideKnockWithChara(std::shared_ptr<CharaBase> otherChara)
 {
+	//扇風機以外のときに判定をする
 	if (state_ != fanState_())
 	{
 		//2点間の距離を出す
@@ -507,18 +520,31 @@ void CharaBase::decideKnockWithChara(std::shared_ptr<CharaBase> otherChara)
 	}
 }
 
+/// <summary>
+/// 移動量にふっとばし量をいれる
+/// </summary>
+/// <param name="impulseX">ふっとばし量ｘ</param>
+/// <param name="impulseZ">ふっとばし量ｚ</param>
 void CharaBase::AddImpulse(float impulseX, float impulseZ)
 {
 	moveVector_.x = impulseX;
 	moveVector_.z = impulseZ;
 }
 
+/// <summary>
+/// コリジョンの座標を調整
+/// </summary>
+/// <param name="amountX">調整量ｘ</param>
+/// <param name="amountZ">調整量ｚ</param>
 void CharaBase::AdjustPositionAfterCollision(float amountX, float amountZ)
 {
 	collisionCenterPosition_.x += amountX;
 	collisionCenterPosition_.z += amountZ;
 }
 
+/// <summary>
+/// ノックバックする
+/// </summary>
 void CharaBase::knockBackNow()
 {
 	if(isKnockBack_)

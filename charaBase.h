@@ -80,7 +80,7 @@ private:
 	const VECTOR	player4_init_position	= VGet(0.0f, 0.0f, 0.0f);
 	const VECTOR	collision_adjust_position = VGet(1.5f, 0.0f, 1.0f);
 	const short		init_mass				= 1;
-	const short		tackle_mass				= 2;
+	const short		tackle_mass				= 3;
 	const float		blow_away_percent		= 1.4f;
 	const short		hit_sound_volume		= 225;
 	const short		knock_back_max_count	= 4;
