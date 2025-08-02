@@ -116,9 +116,8 @@ void Routine::play()
     //すてーじこうしん
     stage->update(players);
 
-    //デバッグ用
-    int testCount = 0;
-
+    //だれっとあたってるかのカウント
+    short collisionCount = 0;
     for (const auto& i:players)
     {
         i->update(this, stage);
@@ -126,40 +125,32 @@ void Routine::play()
         //二重範囲forにして当たり判定をチェック
         for (const auto& j : players)
         {
-            if (i == j)
-            {
-                continue;
-            }
-            else
+            //この条件分がなかったらバグるので注意
+            if (i != j)
             {
                 //ノックバック量（反発量）を決める
-                i->decideKnockWithChara(j);
+                i->decideKnockBackWithChara(j);
             }
         }
 
         //判定が終わった後にノックバック（反発）をする
-        i->knockBackNow();
-
-        DrawSphere3D(i->GetcollisionCenterPosition_(), collision_radius, 32, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
-        DrawSphere3D(i->Getposition_(), collision_radius_stage, 32, GetColor(255, 255, 255), GetColor(255, 255, 255), FALSE);
+        i->knockBackNow(collisionCount);
 
         //デバッグ用
-        ++testCount;
-        if (i->Getposition_().y < 0.0f)
-        {
-            //DrawFormatString(100, 100 * testCount, GetColor(255, 0, 0), "player%d, x:%f, y:%f, z:%f", testCount, i->Getposition_().x, i->Getposition_().y, i->Getposition_().z);
-            //WaitTimer(50);
-        }
-
-        DrawFormatString(100, 100 * testCount, GetColor(255, 0, 0), "player%d, moveVector(%f, %f, %f)", testCount, i->GetmoveVector_().x, i->GetmoveVector_().y, i->GetmoveVector_().z);
+        DrawSphere3D(i->GetcollisionCenterPosition_(), collision_radius, 32, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
+        DrawSphere3D(i->Getposition_(), collision_radius_stage, 32, GetColor(255, 255, 255), GetColor(255, 255, 255), FALSE);
+        ++collisionCount;
+        DrawFormatString(100, 100 * collisionCount, GetColor(255, 0, 0), "player%d, x:%f, y:%f, z:%f", collisionCount, i->Getposition_().x, i->Getposition_().y, i->Getposition_().z);
+        DrawFormatString(100, 100 * collisionCount + 15 * collisionCount, GetColor(255, 0, 0), "player%d, moveVector(%f, %f, %f)", collisionCount, i->GetmoveVector_().x, i->GetmoveVector_().y, i->GetmoveVector_().z);
 
         //エフェクトを更新
         effect->updateCharge(i);
         effect->updateFall(i);
         effect->updateHit(i);
 
-        //エフェクト描画
+        //エフェクトとプレイヤー描画
         effect->draw();
+        i->draw();
     }
 
     //強制リセット

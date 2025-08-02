@@ -35,11 +35,13 @@ public:
 	void SetonTilePosition(VECTOR tilePosition);
 	void SetonTilePositionX_(short tileNumberX);
 	void SetonTilePositionY_(short tileNumberY);
-	void decideKnockWithChara(std::shared_ptr<CharaBase> otherChara);
+	void decideKnockBackWithChara(std::shared_ptr<CharaBase> otherChara);
 	void collisionRotation();
 	void AdjustPositionAfterCollision(float amountX, float amountZ);
 	void AddImpulse(float impulseX, float impulseZ);
-	void knockBackNow();
+	void knockBackNow(int testCount);
+	void draw()const;
+	void changeHitNowFlag();
 
 	DINPUT_JOYSTATE input;		//コントローラー(D)用構造体変数
 
@@ -87,7 +89,6 @@ private:
 	const short		charge_sound_volume		= 255;
 
 protected:
-	void draw()const;
 	void tackleMoving();
 	virtual void stopTackle();
 	virtual void rotation();

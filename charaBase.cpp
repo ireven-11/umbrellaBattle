@@ -90,7 +90,7 @@ void CharaBase::update(Routine* routine, std::shared_ptr<Stage> stage)
 	MV1SetPosition(openingUmbrella_, position_);
 	MV1SetPosition(closingUmbrella_, position_);
 	MV1SetPosition(fan_, position_);
-	draw();
+	//draw();
 }
 
 /// <summary>
@@ -155,10 +155,10 @@ void CharaBase::reset()
 	canLoopSound_	= false;
 	isHit_			= false;
 	state_			= openState_();
-	isKnockBack_	= false;
 	isFalling_		= false;
 	knockBackCount_ = 0;
 	isMovingTackle_ = false;
+	isKnockBack_	= false;
 }
 
 /// <summary>
@@ -168,7 +168,7 @@ void CharaBase::move()
 {
 	auto isNoneAction = !isTackle_ && !isSwing_;
 
-	//早期リターン(バグあり：動いてないときに高確率で反発しなくなる)
+	//早期リターン
 	if (input.X == 0 && input.Y == 0 || isKnockBack_ || position_.y < 0.0f)
 	{
 		return;
@@ -470,15 +470,15 @@ void CharaBase::SetonTilePositionY_(short tileNumberY)
 /// ノックバックを決定する
 /// </summary>
 /// <param name="otherChara">判定するほかのキャラ</param>
-void CharaBase::decideKnockWithChara(std::shared_ptr<CharaBase> otherChara)
+void CharaBase::decideKnockBackWithChara(std::shared_ptr<CharaBase> otherChara)
 {
 	//扇風機以外のときに判定をする
 	if (state_ != fanState_())
 	{
 		//2点間の距離を出す
-		float dx = otherChara->GetcollisionCenterPosition_().x - collisionCenterPosition_.x;
-		float dz = otherChara->GetcollisionCenterPosition_().z - collisionCenterPosition_.z;
-		float distance = CalculateDistance<float>(collisionCenterPosition_, otherChara->GetcollisionCenterPosition_());
+		float dx		= otherChara->GetcollisionCenterPosition_().x - collisionCenterPosition_.x;
+		float dz		= otherChara->GetcollisionCenterPosition_().z - collisionCenterPosition_.z;
+		float distance	= CalculateDistance<float>(collisionCenterPosition_, otherChara->GetcollisionCenterPosition_());
 
 		//距離が直径未満だったら
 		if (distance < collision_radius * 2)
@@ -510,8 +510,8 @@ void CharaBase::decideKnockWithChara(std::shared_ptr<CharaBase> otherChara)
 			PlaySoundMem(hitSound_, DX_PLAYTYPE_BACK, TRUE);
 
 			//フラグをtrueに
-			isHit_			= true;
-			isKnockBack_	= true;
+			changeHitNowFlag();
+			otherChara->changeHitNowFlag();
 		}
 		else
 		{
@@ -545,16 +545,18 @@ void CharaBase::AdjustPositionAfterCollision(float amountX, float amountZ)
 /// <summary>
 /// ノックバックする
 /// </summary>
-void CharaBase::knockBackNow()
+void CharaBase::knockBackNow(int testCount)
 {
 	if(isKnockBack_)
 	{
 		//カウントが一定になるかタックル移動中だったらノックバックをやめる
+		int test = testCount;
+
 		++knockBackCount_;
 		if (knockBackCount_ > knock_back_max_count || isMovingTackle_)
 		{
-			knockBackCount_ = 0;
-			isKnockBack_	= false;
+			knockBackCount_			= 0;
+			isKnockBack_ = false;
 			return;
 		}
 
@@ -570,4 +572,10 @@ void CharaBase::collisionRotation()
 	MATRIX tempMatrix = MGetRotY(rotationAngleY_);
 	VECTOR tempVector = VTransform(collision_adjust_position, rotaionMatrix_);
 	collisionCenterPosition_ = VAdd(position_, tempVector);
+}
+
+void CharaBase::changeHitNowFlag()
+{
+	isKnockBack_	= true;
+	isHit_			= true;
 }
