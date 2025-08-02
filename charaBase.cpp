@@ -257,7 +257,7 @@ void CharaBase::tackle()
 		isTackle_ = true;
 		if (max_tackle_count > tackleCount_)
 		{
-			++tackleCount_;
+			tackleCount_++;
 		}
 
 		//どの方向にタックルするかY軸の回転行列で決める
@@ -295,7 +295,7 @@ void CharaBase::tackleMoving()
 void CharaBase::stopTackle()
 {
 	//カウントが０なるかタックル中にBを押したらやめる
-	if (tackleCount_ == 0 && isMovingtackle_ || isMovingtackle_ && input.Buttons[0] > 0 || isHit_)
+	if (tackleCount_ == 0 && isMovingtackle_ || isMovingtackle_ && input.Buttons[0] > 0)
 	{
 		isTackle_		= false;
 		isMovingtackle_ = false;
@@ -555,8 +555,8 @@ void CharaBase::knockBackNow(int testCount)
 		++knockBackCount_;
 		if (knockBackCount_ > knock_back_max_count || isMovingTackle_)
 		{
-			knockBackCount_			= 0;
-			isKnockBack_ = false;
+			knockBackCount_	= 0;
+			isKnockBack_	= false;
 			return;
 		}
 
