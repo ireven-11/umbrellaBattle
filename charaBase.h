@@ -10,7 +10,8 @@ constexpr float	player_init_positionX	= 0.0f;
 constexpr float	player_init_positionY	= 0.0f;
 constexpr float	player_init_positionZ	= 0.0f;
 constexpr float collision_radius		= 2.0f;
-constexpr float collision_radius_stage	= 0.1f;
+constexpr float collision_radius_stage	= 0.2f;
+constexpr float	collision_radius_wind	= 4.0f;
 
 class Routine;
 class Stage;
@@ -39,9 +40,10 @@ public:
 	void collisionRotation();
 	void AdjustPositionAfterCollision(float amountX, float amountZ);
 	void AddImpulse(float impulseX, float impulseZ);
-	void knockBackNow(int testCount);
+	void knockBackNow();
 	void draw()const;
 	void changeHitNowFlag();
+	void collisionWindWithChara(std::shared_ptr<CharaBase> otherChara);
 
 	DINPUT_JOYSTATE input;		//コントローラー(D)用構造体変数
 
@@ -60,6 +62,9 @@ public:
 	bool								GetisHit_()const { return isHit_; }
 	bool								GetisFalling_()const { return isFalling_; }
 	bool								GetisMovingTackle_()const { return isMovingTackle_; }
+	VECTOR								GetwindPosition_()const { return windPosition_; }
+	double								GetwindAngle_()const { return windAngle_; }
+	bool								GetcanSpawnWind_()const { return canSpawnWind_; }
 
 private:
 	const float		fall_speed				= 0.25f;
@@ -87,11 +92,13 @@ private:
 	const short		hit_sound_volume		= 225;
 	const short		knock_back_max_count	= 4;
 	const short		charge_sound_volume		= 255;
+	const short		max_wind_count			= 120;
 
 protected:
 	void tackleMoving();
 	virtual void stopTackle();
 	virtual void rotation();
+	void hitWind(VECTOR windVector);
 	
 	VECTOR	position_;			//座標
 	int		openingUmbrella_;	//モデルハンドル(開いた状態)
@@ -124,6 +131,12 @@ protected:
 	bool	isFalling_;			//落下中か
 	short	knockBackCount_;	//ノックバックカウント
 	bool	isMovingTackle_;	//タックル移動中
+	VECTOR	windPosition_;		//風の座標
+	bool	canSpawnWind_;		//風を発生させれるか
+	VECTOR  windMoveVector_;	//風の移動量
+	double	fanAngle_;			//扇風機の回転
+	double	windAngle_;			//風の角度
+	short	windCount_;			//風カウント
 
 	//状態
 	std::shared_ptr<StateMachine::IState>	state_;

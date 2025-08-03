@@ -12,18 +12,22 @@ public:
 	void updateHit(std::shared_ptr<CharaBase> chara);
 	void updateFall(std::shared_ptr<CharaBase> chara);
 	void updateCharge(std::shared_ptr<CharaBase> chara);
+	void updateWind(std::shared_ptr<CharaBase> chara);
 	void draw();
 
 private:
-	int hit_;
-	int fall_;
-	int charge_;
-	int playingHit_;
-	int playingFall_;
-	int playingCharge_;
-	VECTOR hitPosition_;
-	VECTOR fallPosition_;
-	VECTOR chargePosition_;
+	int		hit_;
+	int		fall_;
+	int		charge_;
+	int		playingHit_;
+	int		playingFall_;
+	int		playingCharge_;
+	VECTOR	hitPosition_;
+	VECTOR	fallPosition_;
+	VECTOR	chargePosition_;
+	int		wind_;
+	int		playingWind_;
+	VECTOR	windPosition_;
 
 	const short charge_speed	= 50;
 	const float charge_scale	= 0.5f;

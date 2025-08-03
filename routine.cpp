@@ -130,15 +130,20 @@ void Routine::play()
             {
                 //ノックバック量（反発量）を決める
                 i->decideKnockBackWithChara(j);
+
+                //風の当たり判定
+                i->collisionWindWithChara(j);
             }
         }
 
         //判定が終わった後にノックバック（反発）をする
-        i->knockBackNow(collisionCount);
+        i->knockBackNow();
 
         //デバッグ用
         DrawSphere3D(i->GetcollisionCenterPosition_(), collision_radius, 32, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
         DrawSphere3D(i->Getposition_(), collision_radius_stage, 32, GetColor(255, 255, 255), GetColor(255, 255, 255), FALSE);
+        DrawSphere3D(i->GetwindPosition_(), collision_radius_wind, 32, GetColor(0, 255, 0), GetColor(255, 255, 255), FALSE);
+        DrawSphere3D(stage_center, collision_radius_wind, 32, GetColor(0, 0, 255), GetColor(255, 255, 255), FALSE);
         ++collisionCount;
         DrawFormatString(100, 100 * collisionCount, GetColor(255, 0, 0), "player%d, x:%f, y:%f, z:%f", collisionCount, i->Getposition_().x, i->Getposition_().y, i->Getposition_().z);
         DrawFormatString(100, 100 * collisionCount + 15 * collisionCount, GetColor(255, 0, 0), "player%d, moveVector(%f, %f, %f)", collisionCount, i->GetmoveVector_().x, i->GetmoveVector_().y, i->GetmoveVector_().z);
@@ -147,6 +152,7 @@ void Routine::play()
         effect->updateCharge(i);
         effect->updateFall(i);
         effect->updateHit(i);
+        effect->updateWind(i);
 
         //エフェクトとプレイヤー描画
         effect->draw();

@@ -90,7 +90,6 @@ void CharaBase::update(Routine* routine, std::shared_ptr<Stage> stage)
 	MV1SetPosition(openingUmbrella_, position_);
 	MV1SetPosition(closingUmbrella_, position_);
 	MV1SetPosition(fan_, position_);
-	//draw();
 }
 
 /// <summary>
@@ -159,6 +158,12 @@ void CharaBase::reset()
 	knockBackCount_ = 0;
 	isMovingTackle_ = false;
 	isKnockBack_	= false;
+	windPosition_	= VGet(0.0f, 0.0f, 0.0f);
+	canSpawnWind_	= true;
+	windMoveVector_ = VGet(0.0f, 0.0f, 0.0f);
+	fanAngle_		= 0.0;
+	windAngle_		= 0.0;
+	windCount_		= 0;
 }
 
 /// <summary>
@@ -310,11 +315,28 @@ void CharaBase::stopTackle()
 /// </summary>
 void CharaBase::wind()
 {
-	//ZRとZLで移動
-	moveFan();
+	//風を発生させる
+	if (input.Buttons[1] > 0 && canSpawnWind_)
+	{
+		canSpawnWind_	= false;
+		windPosition_	= position_;
+		windMoveVector_ = VSub(stage_center, position_);
+		windAngle_		= fanAngle_;
+		windCount_		= 0;
+	}
 
-	//デバッグ用
-	//DrawFormatString(100, 500, GetColor(255, 255, 255), "%f", fanMoveAngle_);
+	//移動
+	if (!canSpawnWind_)
+	{
+		++windCount_;
+		windPosition_ = VAdd(windPosition_, VGet(windMoveVector_.x / 40, windMoveVector_.y / 40, windMoveVector_.z / 40));
+
+		//風を消す
+		if (max_wind_count < windCount_)
+		{
+			canSpawnWind_ = true;
+		}
+	}
 }
 
 /// <summary>
@@ -322,6 +344,7 @@ void CharaBase::wind()
 /// </summary>
 void CharaBase::moveFan()
 {
+	//円運動する
 	double radiun = fanMoveAngle_ * DX_PI / 180.0;
 	if (input.Buttons[6] > 0)
 	{
@@ -340,9 +363,9 @@ void CharaBase::moveFan()
 		position_.z = stage_center.z + addAngleZ;
 	}
 
-	double tempRotation = atan2(position_.x, position_.z);
+	fanAngle_ = atan2(position_.x - stage_center.x, position_.z - stage_center.z);
 	//ステージの中心を向くようにモデルを回転
-	MV1SetRotationXYZ(fan_, VGet(0.0f, tempRotation + DX_PI, 0.0f));
+	MV1SetRotationXYZ(fan_, VGet(0.0f, fanAngle_ + DX_PI, 0.0f));
 
 	//オーバーフロー対策
 	if (fanMoveAngle_ > 452.5 || fanMoveAngle_ < -270.5)
@@ -545,13 +568,11 @@ void CharaBase::AdjustPositionAfterCollision(float amountX, float amountZ)
 /// <summary>
 /// ノックバックする
 /// </summary>
-void CharaBase::knockBackNow(int testCount)
+void CharaBase::knockBackNow()
 {
 	if(isKnockBack_)
 	{
 		//カウントが一定になるかタックル移動中だったらノックバックをやめる
-		int test = testCount;
-
 		++knockBackCount_;
 		if (knockBackCount_ > knock_back_max_count || isMovingTackle_)
 		{
@@ -578,4 +599,24 @@ void CharaBase::changeHitNowFlag()
 {
 	isKnockBack_	= true;
 	isHit_			= true;
+}
+
+void CharaBase::collisionWindWithChara(std::shared_ptr<CharaBase> otherChara)
+{
+	//風が発生しているときで相手が開いている状態のときだけ
+	if (!canSpawnWind_ && otherChara->Getstate_() == openState_())
+	{
+		float distance = CalculateDistance<float>(windPosition_, otherChara->GetcollisionCenterPosition_());
+
+		//距離が2つの半径を足した数値未満だったら
+		if (distance < collision_radius + collision_radius_wind)
+		{
+			otherChara->hitWind(windMoveVector_);
+		}
+	}
+}
+
+void CharaBase::hitWind(VECTOR windVector)
+{
+	position_ = VAdd(position_, VScale(windVector, 0.015f));
 }
