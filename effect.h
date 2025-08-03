@@ -16,6 +16,8 @@ public:
 	void draw();
 
 private:
+	void reset();
+
 	int		hit_;
 	int		fall_;
 	int		charge_;
@@ -28,6 +30,8 @@ private:
 	int		wind_;
 	int		playingWind_;
 	VECTOR	windPosition_;
+	int		windCount_;
+	bool	isAddWindCount_;
 
 	const short charge_speed	= 50;
 	const float charge_scale	= 0.5f;
@@ -35,4 +39,5 @@ private:
 	const float hit_scale		= 0.5f;
 	const short fall_speed		= 10;
 	const float fall_scale		= 5.0f;
+	const int	max_wind_count	= 50;
 };

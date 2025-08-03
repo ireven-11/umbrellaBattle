@@ -47,7 +47,7 @@ int setEffekseer()
 
 	// Effekseerを初期化する。
 	// 引数には画面に表示する最大パーティクル数を設定する。
-	if (Effekseer_Init(1000) == -1)
+	if (Effekseer_Init(max_effekseer_particles) == -1)
 	{
 		return -1;
 	}
@@ -55,6 +55,10 @@ int setEffekseer()
 	// フルスクリーンウインドウの切り替えでリソースが消えるのを防ぐ。
 	// Effekseerを使用する場合は必ず設定する。
 	SetChangeScreenModeGraphicsSystemResetFlag(FALSE);
+	
+	// DXライブラリのデバイスロストした時のコールバックを設定する。
+	// ウインドウとフルスクリーンの切り替えが発生する場合は必ず実行する。
+	Effekseer_SetGraphicsDeviceLostCallbackFunctions();
 
 	// Zバッファを有効にする。
 	// Effekseerを使用する場合、2DゲームでもZバッファを使用する。

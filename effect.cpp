@@ -10,15 +10,7 @@ Effect::Effect()
 	charge_ = LoadEffekseerEffect("effect/01_AndrewFM01/charge.efkefc");
 	wind_	= LoadEffekseerEffect("effect/01_NextSoft01/wind.efkefc");
 
-	playingHit_		= 0;
-	playingFall_	= 0;
-	playingCharge_	= 0;
-	playingWind_	= 0;
-
-	hitPosition_	= VGet(0.0f, 0.0f, 0.0f);
-	fallPosition_	= VGet(0.0f, 0.0f, 0.0f);
-	chargePosition_ = VGet(0.0f, 0.0f, 0.0f);
-	windPosition_	= VGet(0.0f, 0.0f, 0.0f);
+	reset();
 }
 
 Effect::~Effect()
@@ -27,6 +19,23 @@ Effect::~Effect()
 	DeleteEffekseerEffect(fall_);
 	DeleteEffekseerEffect(charge_);
 	DeleteEffekseerEffect(wind_);
+}
+
+void Effect::reset()
+{
+	playingHit_		= 0;
+	playingFall_	= 0;
+	playingCharge_	= 0;
+	playingWind_	= 0;
+
+	windCount_		= 0;
+
+	isAddWindCount_ = false;
+
+	hitPosition_	= VGet(0.0f, 0.0f, 0.0f);
+	fallPosition_	= VGet(0.0f, 0.0f, 0.0f);
+	chargePosition_ = VGet(0.0f, 0.0f, 0.0f);
+	windPosition_	= VGet(0.0f, 0.0f, 0.0f);
 }
 
 void Effect::updateHit(std::shared_ptr<CharaBase> chara)
@@ -42,6 +51,9 @@ void Effect::updateHit(std::shared_ptr<CharaBase> chara)
 
 		SetPosPlayingEffekseer3DEffect(playingHit_, hitPosition_.x, hitPosition_.y + 2.0f, hitPosition_.z);
 	}
+
+	//エフェクトを更新
+	//UpdateEffekseer3D();
 }
 
 void Effect::updateFall(std::shared_ptr<CharaBase> chara)
@@ -58,6 +70,9 @@ void Effect::updateFall(std::shared_ptr<CharaBase> chara)
 
 		SetPosPlayingEffekseer3DEffect(playingFall_, fallPosition_.x, fallPosition_.y, fallPosition_.z);
 	}
+
+	//エフェクトを更新
+	//UpdateEffekseer3D();
 }
 
 void Effect::updateCharge(std::shared_ptr<CharaBase> chara)
@@ -73,22 +88,33 @@ void Effect::updateCharge(std::shared_ptr<CharaBase> chara)
 
 		SetPosPlayingEffekseer3DEffect(playingCharge_, chargePosition_.x, chargePosition_.y + 2.0f, chargePosition_.z);
 	}
+
+	//エフェクトを更新
+	//UpdateEffekseer3D();
 }
 
 void Effect::updateWind(std::shared_ptr<CharaBase> chara)
 {
-	if (!chara->GetcanSpawnWind_())
+	if (!chara->GetcanSpawnWind_() && IsEffekseer3DEffectPlaying(playingWind_) != 0)
 	{
 		playingWind_ = PlayEffekseer3DEffect(wind_);
+		//isAddWindCount_ = true;
 
 		SetScalePlayingEffekseer3DEffect(playingWind_, 1.0f, 1.0f, 1.0f);
-		SetSpeedPlayingEffekseer3DEffect(playingWind_, 3.0f);
-		SetRotationPlayingEffekseer3DEffect(playingWind_, 1.0f, chara->GetwindAngle_() + DX_PI / 2, 1.0f);
+		SetSpeedPlayingEffekseer3DEffect(playingWind_, 1.0f);
+		SetRotationPlayingEffekseer3DEffect(playingWind_, 1.0f, chara->GetwindAngle_(), 1.0f);
 
+		
+	}
+
+	if (IsEffekseer3DEffectPlaying(playingWind_) == 0)
+	{
 		windPosition_ = chara->GetwindPosition_();
-
 		SetPosPlayingEffekseer3DEffect(playingWind_, windPosition_.x, windPosition_.y, windPosition_.z);
 	}
+
+	//エフェクトを更新
+	//UpdateEffekseer3D();
 }
 
 void Effect::draw()

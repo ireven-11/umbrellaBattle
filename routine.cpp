@@ -155,8 +155,8 @@ void Routine::play()
         effect->updateWind(i);
 
         //エフェクトとプレイヤー描画
-        effect->draw();
         i->draw();
+        effect->draw();
     }
 
     //強制リセット

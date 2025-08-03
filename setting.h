@@ -1,7 +1,8 @@
 #pragma once
 
-const int screenWIDTH	= 1920;//画面幅(学校のｐｃにあわせてる)
-const int screenHEIGHT	= 1080;//画面高さ(学校のｐｃにあわせてる)
+const int screenWIDTH				= 1920;//画面幅(学校のｐｃにあわせてる)
+const int screenHEIGHT				= 1080;//画面高さ(学校のｐｃにあわせてる)
+const int max_effekseer_particles	= 8000;//エフェクシアの最大パーティクル数
 
 //#defineで長い名前を短くすむようにする
 #define winmainSetting HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow                                //winmainの引数

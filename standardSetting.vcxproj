@@ -150,12 +150,16 @@
     <ClCompile Include="AStar.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="charaBase.cpp" />
+    <ClCompile Include="chargeEffect.cpp" />
     <ClCompile Include="chaseState.cpp" />
     <ClCompile Include="closeState.cpp" />
     <ClCompile Include="cpu.cpp" />
     <ClCompile Include="cpuBrain.cpp" />
     <ClCompile Include="effect.cpp" />
+    <ClCompile Include="effectManager.cpp" />
     <ClCompile Include="escapeState.cpp" />
+    <ClCompile Include="fallEffect.cpp" />
+    <ClCompile Include="hitEffect.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="openState.cpp" />
     <ClCompile Include="player.cpp" />
@@ -169,6 +173,7 @@
     <ClCompile Include="tackleState.cpp" />
     <ClCompile Include="thinkState.cpp" />
     <ClCompile Include="waitState.cpp" />
+    <ClCompile Include="windEffect.cpp" />
     <ClCompile Include="windState.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -176,13 +181,18 @@
     <ClInclude Include="calculateDistance.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="charaBase.h" />
+    <ClInclude Include="chargeEffect.h" />
     <ClInclude Include="chaseState.h" />
     <ClInclude Include="closeState.h" />
     <ClInclude Include="cpu.h" />
     <ClInclude Include="cpuBrain.h" />
     <ClInclude Include="effect.h" />
+    <ClInclude Include="effectManager.h" />
     <ClInclude Include="escapeState.h" />
+    <ClInclude Include="fallEffect.h" />
     <ClInclude Include="fanState.h" />
+    <ClInclude Include="hitEffect.h" />
+    <ClInclude Include="IEffect.h" />
     <ClInclude Include="IState.h" />
     <ClInclude Include="openState.h" />
     <ClInclude Include="player.h" />
@@ -195,6 +205,7 @@
     <ClInclude Include="tackleState.h" />
     <ClInclude Include="thinkState.h" />
     <ClInclude Include="trumpetState.h" />
+    <ClInclude Include="windEffect.h" />
     <ClInclude Include="windState.h" />
     <ClInclude Include="waitState.h" />
   </ItemGroup>
