@@ -6,8 +6,9 @@
 #include"stage.h"
 #include"standbyUI.h"
 #include"cpu.h"
-#include"effect.h"
 #include"routine.h"
+#include"EffekseerForDXLib.h"
+#include"effectManager.h"
 
 /// <summary>
 /// コンストラクタ
@@ -17,6 +18,11 @@ Routine::Routine()
     bgm_ = LoadSoundMem("sound/bgm.mp3");
     ChangeVolumeSoundMem(bgm_volume, bgm_);
     reset();
+
+    for (auto i = 0; i < max_player_number / 4; i++)
+    {
+        effectManager.emplace_back(std::make_shared<EffectManager>());
+    }
 }
 
 /// <summary>
@@ -35,12 +41,13 @@ void Routine::game()
     //ゲームループ呼び出し
     gameRoop();
 
-    //デリート
+    //ゲームループが終わったらデリート
     sceneManager    = nullptr;
     camera          = nullptr;
     players.clear();
     stage           = nullptr;
     standbyUI       = nullptr;
+    effectManager.clear();
 }
 
 /// <summary>
@@ -148,15 +155,15 @@ void Routine::play()
         DrawFormatString(100, 100 * collisionCount, GetColor(255, 0, 0), "player%d, x:%f, y:%f, z:%f", collisionCount, i->Getposition_().x, i->Getposition_().y, i->Getposition_().z);
         DrawFormatString(100, 100 * collisionCount + 15 * collisionCount, GetColor(255, 0, 0), "player%d, moveVector(%f, %f, %f)", collisionCount, i->GetmoveVector_().x, i->GetmoveVector_().y, i->GetmoveVector_().z);
 
-        //エフェクトを更新
-        effect->updateCharge(i);
-        effect->updateFall(i);
-        effect->updateHit(i);
-        effect->updateWind(i);
-
-        //エフェクトとプレイヤー描画
+        //プレイヤー描画
         i->draw();
-        effect->draw();
+
+        //エフェクトマネージャー
+        for (const auto& e : effectManager)
+        {
+            e->update(i);
+            e->draw();
+        }
     }
 
     //強制リセット
@@ -169,7 +176,7 @@ void Routine::play()
         standbyUI = nullptr;
 
         sceneManager = std::make_shared<SceneManager>();
-        camera = std::make_shared<Camera>();
+        camera  = std::make_shared<Camera>();
         stage = std::make_shared<Stage>();
         standbyUI = std::make_shared<StandbyUI>();
         reset();

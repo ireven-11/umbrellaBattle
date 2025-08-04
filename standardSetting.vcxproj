@@ -155,7 +155,6 @@
     <ClCompile Include="closeState.cpp" />
     <ClCompile Include="cpu.cpp" />
     <ClCompile Include="cpuBrain.cpp" />
-    <ClCompile Include="effect.cpp" />
     <ClCompile Include="effectManager.cpp" />
     <ClCompile Include="escapeState.cpp" />
     <ClCompile Include="fallEffect.cpp" />
@@ -175,6 +174,7 @@
     <ClCompile Include="waitState.cpp" />
     <ClCompile Include="windEffect.cpp" />
     <ClCompile Include="windState.cpp" />
+    <ClCompile Include="WrapIsEffekseer3DEffectPlaying.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AStar.h" />
@@ -186,7 +186,6 @@
     <ClInclude Include="closeState.h" />
     <ClInclude Include="cpu.h" />
     <ClInclude Include="cpuBrain.h" />
-    <ClInclude Include="effect.h" />
     <ClInclude Include="effectManager.h" />
     <ClInclude Include="escapeState.h" />
     <ClInclude Include="fallEffect.h" />
@@ -208,6 +207,10 @@
     <ClInclude Include="windEffect.h" />
     <ClInclude Include="windState.h" />
     <ClInclude Include="waitState.h" />
+    <ClInclude Include="WrapIsEffekseer3DEffectPlaying.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClInclude>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

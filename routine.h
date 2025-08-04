@@ -10,12 +10,7 @@ class Camera;
 class Stage;
 class StandbyUI;
 class CharaBase;
-class Effect;
-
-//namespace YuiLib 
-//{
-//	class Physics;
-//}
+class EffectManager;
 
 class Routine
 {
@@ -33,7 +28,7 @@ private:
 	std::shared_ptr<Camera>camera				= std::make_shared<Camera>();
 	std::shared_ptr<Stage>stage					= std::make_shared<Stage>();
 	std::shared_ptr<StandbyUI>standbyUI			= std::make_shared<StandbyUI>();
-	std::shared_ptr<Effect>effect				= std::make_shared<Effect>();
+	std::vector<std::shared_ptr<EffectManager>> effectManager;
 	
 	void gameRoop();
 	void title();
