@@ -7,7 +7,7 @@
 
 WindEffect::WindEffect()
 {
-	effectHandle_ = LoadEffekseerEffect("effect/01_NextSoft01/wind.efkefc");
+	effectHandle_ = LoadEffekseerEffect("effect/00_Version16/Aura01.efkefc");
 
 	reset();
 }
@@ -30,8 +30,6 @@ void WindEffect::update(std::shared_ptr<CharaBase> chara)
 
 		SetScalePlayingEffekseer3DEffect(playingHandle_, scale, scale, scale);
 		SetSpeedPlayingEffekseer3DEffect(playingHandle_, play_speed);
-
-		//DrawEffekseer3D_Begin();
 	}
 
 	//エフェクトが再生中は座標を更新する
@@ -41,19 +39,18 @@ void WindEffect::update(std::shared_ptr<CharaBase> chara)
 
 		SetPosPlayingEffekseer3DEffect(playingHandle_, position_.x, position_.y, position_.z);
 	}
-	else
+	
+	//Effectを止める
+	if (chara->GetcanSpawnWind_())
 	{
-		//DrawEffekseer3D_End();
+		StopEffekseer3DEffect(playingHandle_);
 	}
-
-	//エフェクトを更新
-	UpdateEffekseer3D();
 }
 
 void WindEffect::draw()
 {
 	//Effekseerにより再生中のエフェクト全てを描画する。
-	DrawEffekseer3D();
+	//DrawEffekseer3D();
 
 	//引数に渡したハンドルだけ描画する
 	//DrawEffekseer3D_Draw(playingHandle_);

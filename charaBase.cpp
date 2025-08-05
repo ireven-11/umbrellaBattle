@@ -164,6 +164,8 @@ void CharaBase::reset()
 	fanAngle_		= 0.0;
 	windAngle_		= 0.0;
 	windCount_		= 0;
+	canRespawn_		= false;
+	spawnPosition_	= VGet(0.0f, 0.0f, 0.0f);
 }
 
 /// <summary>
@@ -601,7 +603,7 @@ void CharaBase::changeHitNowFlag()
 	isHit_			= true;
 }
 
-void CharaBase::collisionWindWithChara(std::shared_ptr<CharaBase> otherChara)
+void CharaBase::collisionWindWithChara(std::shared_ptr<CharaBase> otherChara, std::shared_ptr<Stage> stage)
 {
 	//•—‚ª”­¶‚µ‚Ä‚¢‚é‚Æ‚«‚Å‘ŠŽè‚ªŠJ‚¢‚Ä‚¢‚éó‘Ô‚Ì‚Æ‚«‚¾‚¯
 	if (!canSpawnWind_ && otherChara->Getstate_() == openState_())
@@ -612,6 +614,10 @@ void CharaBase::collisionWindWithChara(std::shared_ptr<CharaBase> otherChara)
 		if (distance < collision_radius + collision_radius_wind)
 		{
 			otherChara->hitWind(windMoveVector_);
+
+			spawnPosition_ = decideRespawnPosition(stage);
+
+			onBeatedChara(otherChara, stage);
 		}
 	}
 }
@@ -619,4 +625,43 @@ void CharaBase::collisionWindWithChara(std::shared_ptr<CharaBase> otherChara)
 void CharaBase::hitWind(VECTOR windVector)
 {
 	position_ = VAdd(position_, VScale(windVector, 0.015f));
+}
+
+VECTOR CharaBase::decideRespawnPosition(std::shared_ptr<Stage> stage)
+{
+	VECTOR spawnPosition = VGet(0.0f, 0.0f, 0.0f);
+
+	while (true)
+	{
+		short randomTileX = GetRand(tile_number - 1) + 1;
+		short randomTileY = GetRand(tile_number - 1) + 1;
+
+		if (stage->GetcanExist_()[randomTileY][randomTileX])
+		{
+			spawnPosition = stage->Getposition_()[randomTileY][randomTileX];
+			break;
+		}
+	}
+
+	return spawnPosition;
+}
+
+void CharaBase::respawn()
+{
+	//•œŠˆƒtƒ‰ƒO‚ªtrue‚¾‚Á‚½‚ç•œŠˆ
+	if (canRespawn_)
+	{
+		canRespawn_ = false;
+
+		position_	= spawnPosition_;
+		state_		= openState_();
+	}
+}
+
+void CharaBase::onBeatedChara(std::shared_ptr<CharaBase> otherChara, std::shared_ptr<Stage> stage)
+{
+	if (!stage->GetcanExist_()[otherChara->GetonTileNumberY_()][otherChara->GetonTileNumberX_()])
+	{
+		canRespawn_ = true;
+	}
 }

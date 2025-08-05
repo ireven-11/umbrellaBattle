@@ -24,14 +24,12 @@ void HitEffect::reset()
 
 void HitEffect::update(std::shared_ptr<CharaBase> chara)
 {
-	if (chara->GetisHit_() && !WrapIsEffekseer3DEffectPlaying(playingHandle_))
+	if (chara->GetisHit_() && !WrapIsEffekseer3DEffectPlaying(playingHandle_) && chara->Getstate_() != std::dynamic_pointer_cast<CharaState::FanState>(chara->Getstate_()))
 	{
 		playingHandle_ = PlayEffekseer3DEffect(effectHandle_);
 
 		SetScalePlayingEffekseer3DEffect(playingHandle_, scale, scale, scale);
 		SetSpeedPlayingEffekseer3DEffect(playingHandle_, play_speed);
-
-		//DrawEffekseer3D_Begin();
 	}
 
 	//エフェクトが再生中は座標を更新する
@@ -41,13 +39,6 @@ void HitEffect::update(std::shared_ptr<CharaBase> chara)
 
 		SetPosPlayingEffekseer3DEffect(playingHandle_, position_.x, position_.y + 2.0f, position_.z);
 	}
-	else
-	{
-		//DrawEffekseer3D_End();
-	}
-
-	//エフェクトを更新
-	UpdateEffekseer3D();
 }
 
 void HitEffect::draw()
@@ -56,5 +47,5 @@ void HitEffect::draw()
 	//DrawEffekseer3D();
 
 	//引数に渡したハンドルだけ描画する
-	DrawEffekseer3D_Draw(playingHandle_);
+	//DrawEffekseer3D_Draw(playingHandle_);
 }

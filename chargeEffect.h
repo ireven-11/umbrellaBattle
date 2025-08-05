@@ -19,7 +19,7 @@ private:
 	int		playingHandle_;
 	VECTOR	position_;
 
-	const float scale		= 0.5f;
-	const float play_speed	= 1.0f;
+	const float scale		= 0.75f;
+	const float play_speed	= 5.0f;
 	const float angle		= 1.0f;
 };

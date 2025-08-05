@@ -14,7 +14,7 @@ constexpr	int		vanishing_timing	= 200;
 constexpr	int		change_color_timing = 150;
 constexpr	float	stage_radius		= 37.5f;
 const		VECTOR	stage_center		= VGet(-2.5f, 0.0f, 14.0f);
-const		float	sphereRad			= 185.0f * scale / 1.6f;
+constexpr	float	sphereRad			= 185.0f * scale / 1.6f;
 
 class CharaBase;
 
@@ -29,6 +29,7 @@ public:
 	void reset();
 	void collisionWithPlayer(std::vector<std::shared_ptr<CharaBase>>player);
 	const VECTOR (&Getposition_()const) [tile_number][tile_number]{ return position_; }
+	const bool (&GetcanExist_()const)[tile_number][tile_number]{ return canExist_; }
 
 private:
 	void vanishTile();

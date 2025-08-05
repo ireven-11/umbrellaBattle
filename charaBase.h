@@ -43,7 +43,8 @@ public:
 	void knockBackNow();
 	void draw()const;
 	void changeHitNowFlag();
-	void collisionWindWithChara(std::shared_ptr<CharaBase> otherChara);
+	void collisionWindWithChara(std::shared_ptr<CharaBase> otherChara, std::shared_ptr<Stage> stage);
+	void respawn();
 
 	DINPUT_JOYSTATE input;		//コントローラー(D)用構造体変数
 
@@ -65,7 +66,7 @@ public:
 	VECTOR								GetwindPosition_()const { return windPosition_; }
 	double								GetwindAngle_()const { return windAngle_; }
 	bool								GetcanSpawnWind_()const { return canSpawnWind_; }
-
+	
 private:
 	const float		fall_speed				= 0.25f;
 	const float		scale					= 0.15f;
@@ -87,7 +88,7 @@ private:
 	const VECTOR	player4_init_position	= VGet(0.0f, 0.0f, 0.0f);
 	const VECTOR	collision_adjust_position = VGet(1.5f, 0.0f, 1.0f);
 	const short		init_mass				= 1;
-	const short		tackle_mass				= 2;
+	const short		tackle_mass				= 3;
 	const float		blow_away_percent		= 1.4f;
 	const short		hit_sound_volume		= 225;
 	const short		knock_back_max_count	= 4;
@@ -99,6 +100,8 @@ protected:
 	virtual void stopTackle();
 	virtual void rotation();
 	void hitWind(VECTOR windVector);
+	VECTOR decideRespawnPosition(std::shared_ptr<Stage> stage);
+	void onBeatedChara(std::shared_ptr<CharaBase> otherChara, std::shared_ptr<Stage> stage);
 	
 	VECTOR	position_;			//座標
 	int		openingUmbrella_;	//モデルハンドル(開いた状態)
@@ -137,6 +140,8 @@ protected:
 	double	fanAngle_;			//扇風機の回転
 	double	windAngle_;			//風の角度
 	short	windCount_;			//風カウント
+	bool	canRespawn_;		//リスポーンできるか
+	VECTOR	spawnPosition_;		//スポーン座標
 
 	//状態
 	std::shared_ptr<StateMachine::IState>	state_;

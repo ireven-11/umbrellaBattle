@@ -47,13 +47,13 @@ void ChargeEffect::update(std::shared_ptr<CharaBase> chara)
 	}
 
 	//エフェクトを更新
-	UpdateEffekseer3D();
+	//UpdateEffekseer3D();
 }
 
 void ChargeEffect::draw()
 {
 	//Effekseerにより再生中のエフェクト全てを描画する。
-	DrawEffekseer3D();
+	//DrawEffekseer3D();
 
 	//引数に渡したハンドルだけ描画する
 	//DrawEffekseer3D_Draw(playingHandle_);

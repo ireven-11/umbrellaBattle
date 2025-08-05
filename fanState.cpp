@@ -36,6 +36,7 @@ namespace CharaState
 	{
 		charaBase->wind();
 		charaBase->moveFan();
+		charaBase->respawn();
 		changeState(charaBase);
 	}
 }

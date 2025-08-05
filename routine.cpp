@@ -19,7 +19,7 @@ Routine::Routine()
     ChangeVolumeSoundMem(bgm_volume, bgm_);
     reset();
 
-    for (auto i = 0; i < max_player_number / 4; i++)
+    for (auto i = 0; i < max_player_number; i++)
     {
         effectManager.emplace_back(std::make_shared<EffectManager>());
     }
@@ -139,7 +139,7 @@ void Routine::play()
                 i->decideKnockBackWithChara(j);
 
                 //風の当たり判定
-                i->collisionWindWithChara(j);
+                i->collisionWindWithChara(j, stage);
             }
         }
 
@@ -150,21 +150,25 @@ void Routine::play()
         DrawSphere3D(i->GetcollisionCenterPosition_(), collision_radius, 32, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
         DrawSphere3D(i->Getposition_(), collision_radius_stage, 32, GetColor(255, 255, 255), GetColor(255, 255, 255), FALSE);
         DrawSphere3D(i->GetwindPosition_(), collision_radius_wind, 32, GetColor(0, 255, 0), GetColor(255, 255, 255), FALSE);
-        DrawSphere3D(stage_center, collision_radius_wind, 32, GetColor(0, 0, 255), GetColor(255, 255, 255), FALSE);
+        //DrawSphere3D(stage_center, collision_radius_wind, 32, GetColor(0, 0, 255), GetColor(255, 255, 255), FALSE);
         ++collisionCount;
         DrawFormatString(100, 100 * collisionCount, GetColor(255, 0, 0), "player%d, x:%f, y:%f, z:%f", collisionCount, i->Getposition_().x, i->Getposition_().y, i->Getposition_().z);
         DrawFormatString(100, 100 * collisionCount + 15 * collisionCount, GetColor(255, 0, 0), "player%d, moveVector(%f, %f, %f)", collisionCount, i->GetmoveVector_().x, i->GetmoveVector_().y, i->GetmoveVector_().z);
 
         //プレイヤー描画
         i->draw();
-
-        //エフェクトマネージャー
-        for (const auto& e : effectManager)
-        {
-            e->update(i);
-            e->draw();
-        }
     }
+
+    //エフェクトマネージャー
+    auto playerIt = players.begin();//プレイヤーイテレーター
+    for (const auto& e : effectManager)
+    {
+        e->update(*playerIt);
+        ++playerIt;
+    }
+
+    DrawEffekseer3D();
+    UpdateEffekseer3D();
 
     //強制リセット
     if (CheckHitKey(KEY_INPUT_R) == true)

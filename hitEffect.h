@@ -20,6 +20,6 @@ private:
 	VECTOR	position_;
 
 	const float scale			= 0.5f;
-	const float play_speed		= 1.0f;
+	const float play_speed		= 2.0f;
 	const float angle			= 1.0f;
 };
