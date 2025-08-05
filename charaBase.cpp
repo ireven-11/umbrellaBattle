@@ -629,7 +629,7 @@ void CharaBase::hitWind(VECTOR windVector)
 
 VECTOR CharaBase::decideRespawnPosition(std::shared_ptr<Stage> stage)
 {
-	VECTOR spawnPosition = VGet(0.0f, 0.0f, 0.0f);
+	VECTOR tempPosition = VGet(0.0f, 0.0f, 0.0f);
 
 	while (true)
 	{
@@ -638,12 +638,12 @@ VECTOR CharaBase::decideRespawnPosition(std::shared_ptr<Stage> stage)
 
 		if (stage->GetcanExist_()[randomTileY][randomTileX])
 		{
-			spawnPosition = stage->Getposition_()[randomTileY][randomTileX];
+			tempPosition = stage->Getposition_()[randomTileY][randomTileX];
 			break;
 		}
 	}
 
-	return spawnPosition;
+	return tempPosition;
 }
 
 void CharaBase::respawn()

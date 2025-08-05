@@ -14,6 +14,7 @@ FallEffect::FallEffect()
 
 FallEffect::~FallEffect()
 {
+	DeleteEffekseerEffect(effectHandle_);
 }
 
 void FallEffect::reset()

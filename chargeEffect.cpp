@@ -14,6 +14,7 @@ ChargeEffect::ChargeEffect()
 
 ChargeEffect::~ChargeEffect()
 {
+	DeleteEffekseerEffect(effectHandle_);
 }
 
 void ChargeEffect::reset()

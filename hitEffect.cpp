@@ -14,6 +14,7 @@ HitEffect::HitEffect()
 
 HitEffect::~HitEffect()
 {
+	DeleteEffekseerEffect(effectHandle_);
 }
 
 void HitEffect::reset()

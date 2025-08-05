@@ -14,6 +14,7 @@ WindEffect::WindEffect()
 
 WindEffect::~WindEffect()
 {
+	DeleteEffekseerEffect(effectHandle_);
 }
 
 void WindEffect::reset()

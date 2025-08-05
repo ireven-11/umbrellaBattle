@@ -381,13 +381,11 @@ void Stage::collisionWithPlayer(std::vector<std::shared_ptr<CharaBase>>player)
 								p->fall();
 							}
 						}
-						else
-						{
-							//キャラがどのタイル上にいるかを座標を保存しておく
-							p->SetonTilePosition(position_[j][i]);
-							p->SetonTilePositionX_(i);
-							p->SetonTilePositionY_(j);
-						}
+
+						//キャラがどのタイル上にいるかを座標を保存しておく
+						p->SetonTilePosition(position_[j][i]);
+						p->SetonTilePositionX_(i);
+						p->SetonTilePositionY_(j);
 					}
 				
 					//デバッグ用

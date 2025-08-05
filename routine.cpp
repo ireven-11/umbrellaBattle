@@ -178,11 +178,16 @@ void Routine::play()
         players.clear();
         stage = nullptr;
         standbyUI = nullptr;
+        effectManager.clear();
 
         sceneManager = std::make_shared<SceneManager>();
         camera  = std::make_shared<Camera>();
         stage = std::make_shared<Stage>();
         standbyUI = std::make_shared<StandbyUI>();
+        for (auto i = 0; i < max_player_number; i++)
+        {
+            effectManager.emplace_back(std::make_shared<EffectManager>());
+        }
         reset();
     }
 }
