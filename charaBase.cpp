@@ -17,40 +17,45 @@ CharaBase::CharaBase(const int join_number)
 	case 1:
 		openingUmbrella_ = MV1LoadModel("3dmodel/umbrella/umblleraopen.mv1");
 		closingUmbrella_ = MV1LoadModel("3dmodel/umbrella/umblleraclose.mv1");
+		inverseUmbrella_ = MV1LoadModel("3dmodel/umbrella/inverseUmbllera.mv1");
 		fan_ = MV1LoadModel("3dmodel/fan/fanWithTile.mv1");
 		break;
 
 	case 2:
 		openingUmbrella_ = MV1LoadModel("3dmodel/umbrella/umblleraopen2.mv1");
 		closingUmbrella_ = MV1LoadModel("3dmodel/umbrella/umblleraclose2.mv1");
+		inverseUmbrella_ = MV1LoadModel("3dmodel/umbrella/inverseUmbllera2.mv1");
 		fan_ = MV1LoadModel("3dmodel/fan/fanWithTile.mv1");
 		break;
 
 	case 3:
 		openingUmbrella_ = MV1LoadModel("3dmodel/umbrella/umblleraopen3.mv1");
 		closingUmbrella_ = MV1LoadModel("3dmodel/umbrella/umblleraclose3.mv1");
+		inverseUmbrella_ = MV1LoadModel("3dmodel/umbrella/inverseUmbllera3.mv1");
 		fan_ = MV1LoadModel("3dmodel/fan/fanWithTile.mv1");
 		break;
 
 	case 4:
 		openingUmbrella_ = MV1LoadModel("3dmodel/umbrella/umblleraopen4.mv1");
 		closingUmbrella_ = MV1LoadModel("3dmodel/umbrella/umblleraclose4.mv1");
+		inverseUmbrella_ = MV1LoadModel("3dmodel/umbrella/inverseUmbllera4.mv1");
 		fan_ = MV1LoadModel("3dmodel/fan/fanWithTile.mv1");
 		break;
 	}
 	
 	MV1SetScale(openingUmbrella_, VGet(scale, scale, scale));
 	MV1SetScale(closingUmbrella_, VGet(scale, scale, scale));
+	MV1SetScale(inverseUmbrella_, VGet(scale, scale, scale));
 	MV1SetScale(fan_, VGet(scale / 12, scale / 12, scale / 12));
-
-	chargeSound_ = LoadSoundMem("sound/charge.mp3");
-	ChangeVolumeSoundMem(charge_sound_volume, chargeSound_);
 
 	controlerNumber_ = join_number;
 
 	//数値初期化
 	reset();
 
+	//音初期化
+	chargeSound_ = LoadSoundMem("sound/charge.mp3");
+	ChangeVolumeSoundMem(charge_sound_volume, chargeSound_);
 	hitSound_ = LoadSoundMem("sound/hit.mp3");
 	ChangeVolumeSoundMem(hit_sound_volume, hitSound_);
 
@@ -65,6 +70,7 @@ CharaBase::~CharaBase()
 {
 	MV1DeleteModel(openingUmbrella_);
 	MV1DeleteModel(closingUmbrella_);
+	MV1DeleteModel(inverseUmbrella_);
 	MV1DeleteModel(fan_);
 	DeleteSoundMem(hitSound_);
 	DeleteSoundMem(chargeSound_);
@@ -89,6 +95,7 @@ void CharaBase::update(Routine* routine, std::shared_ptr<Stage> stage)
 
 	MV1SetPosition(openingUmbrella_, position_);
 	MV1SetPosition(closingUmbrella_, position_);
+	MV1SetPosition(inverseUmbrella_, position_);
 	MV1SetPosition(fan_, position_);
 }
 
@@ -111,6 +118,10 @@ void CharaBase::draw()const
 	else if (state_ == std::dynamic_pointer_cast<CharaState::CloseState>(state_))
 	{
 		MV1DrawModel(closingUmbrella_);
+	}
+	else
+	{
+		MV1DrawModel(inverseUmbrella_);
 	}
 }
 
@@ -167,6 +178,7 @@ void CharaBase::reset()
 	canRespawn_		= false;
 	spawnPosition_	= VGet(0.0f, 0.0f, 0.0f);
 	wasTrumpet_		= false;
+	rad_			= 0.0f;
 }
 
 /// <summary>
@@ -400,7 +412,7 @@ void CharaBase::rotation()
 		//スティックの倒れてる数値から角度を求める
 		rotationAngleY_ = atan2(static_cast<double>(input.Y), static_cast<double>(input.X));
 
-		MV1SetRotationXYZ(closingUmbrella_, VGet(rotation_angle_x * DX_PI_F / 180.0f, rotationAngleY_ + adjust_rotation_angle_y, 0.0f));
+		MV1SetRotationXYZ(closingUmbrella_, VGet(0.0f, rotationAngleY_ + adjust_rotation_angle_y, 0.0f));
 		MV1SetRotationXYZ(openingUmbrella_, VGet(rotation_angle_x * DX_PI_F / 180.0f, rotationAngleY_ + adjust_rotation_angle_y, 0.0f));
 	}
 
@@ -719,4 +731,15 @@ void CharaBase::changeTrumpet()
 		state_		= TrumpetState_();
 		wasTrumpet_ = true;
 	}
+}
+
+/// <summary>
+/// プレイヤーが振動する
+/// </summary>
+void CharaBase::vibration()
+{
+	rad_ += static_cast<float>((DX_PI / 180) * 100);
+
+	position_.x = position_.x + sinf(rad_);
+	position_.z = position_.z + sinf(rad_);
 }

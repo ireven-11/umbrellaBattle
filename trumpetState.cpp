@@ -27,6 +27,7 @@ namespace CharaState
 	void TrumpetState::update(CharaBase* charaBase)
 	{
 		++directionCount_;
+		charaBase->vibration();
 		if (directionCount_ > max_direction_count)
 		{
 			changeState(charaBase);

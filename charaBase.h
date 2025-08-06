@@ -47,6 +47,7 @@ public:
 	void respawn();
 	void changeTrumpet();
 	void changeFan();
+	void vibration();
 	
 	DINPUT_JOYSTATE input;		//コントローラー(D)用構造体変数
 
@@ -110,6 +111,7 @@ protected:
 	VECTOR	position_;			//座標
 	int		openingUmbrella_;	//モデルハンドル(開いた状態)
 	int		closingUmbrella_;	//モデルハンドル(閉じた状態)
+	int		inverseUmbrella_;	//モデルハンドル(ラッパ状態)
 	int		hp_;				//hp
 	bool	isPrevButton_;		//前フレームにボタンを押したかフラグ
 	bool	isTackle_;			//タックルしてるかフラグ
@@ -147,6 +149,7 @@ protected:
 	bool	canRespawn_;		//リスポーンできるか
 	VECTOR	spawnPosition_;		//スポーン座標
 	bool	wasTrumpet_;		//トランペットになったかどうか
+	float   rad_;				//振動用
 
 	//状態
 	std::shared_ptr<StateMachine::IState>	state_;
