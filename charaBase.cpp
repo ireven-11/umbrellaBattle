@@ -335,7 +335,7 @@ void CharaBase::wind()
 	if (!canSpawnWind_)
 	{
 		++windCount_;
-		windPosition_ = VAdd(windPosition_, VGet(windMoveVector_.x / 40, windMoveVector_.y / 40, windMoveVector_.z / 40));
+		windPosition_ = VAdd(windPosition_, VGet(windMoveVector_.x / 35, windMoveVector_.y / 35, windMoveVector_.z / 35));
 
 		//ïóÇè¡Ç∑
 		if (max_wind_count < windCount_)
@@ -414,7 +414,7 @@ void CharaBase::rotation()
 void CharaBase::transformFan()
 {
 	//àÍíËÇÃçÇÇ≥Ç‹Ç≈óéÇøÇΩÇÁ
-	if (position_.y < transform_position_y || hp_ <= 0)
+	if (position_.y < transform_position_y)
 	{
 		state_ = fanState_();
 		position_.y = player_init_positionY;
@@ -429,6 +429,22 @@ void CharaBase::transformFan()
 		canSpawnWind_	= true;
 		StopSoundMem(chargeSound_);
 	}
+}
+
+void CharaBase::changeFan()
+{
+	state_ = fanState_();
+	position_.y = player_init_positionY;
+
+	//óéÇøÇΩèuä‘Ç…êÓïóã@ÇÃà⁄ìÆÇÇµÇƒêÓïóã@ÇÃà íuÇê›íËÇ∑ÇÈ
+	input.Buttons[6] = 1;
+	moveFan();
+
+	isChargeTackle_ = false;
+	isHit_ = false;
+	isFalling_ = false;
+	canSpawnWind_ = true;
+	StopSoundMem(chargeSound_);
 }
 
 /// <summary>
@@ -636,7 +652,7 @@ void CharaBase::collisionWindWithChara(std::shared_ptr<CharaBase> otherChara, st
 
 void CharaBase::hitWind(VECTOR windVector)
 {
-	position_ = VAdd(position_, VScale(windVector, 0.016f));
+	position_ = VAdd(position_, VScale(windVector, 0.017f));
 }
 
 VECTOR CharaBase::decideRespawnPosition(std::shared_ptr<Stage> stage)

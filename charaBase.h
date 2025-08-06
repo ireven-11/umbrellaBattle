@@ -46,6 +46,7 @@ public:
 	void collisionWindWithChara(std::shared_ptr<CharaBase> otherChara, std::shared_ptr<Stage> stage);
 	void respawn();
 	void changeTrumpet();
+	void changeFan();
 	
 	DINPUT_JOYSTATE input;		//コントローラー(D)用構造体変数
 
@@ -82,7 +83,7 @@ private:
 	const int		max_hp					= 300;
 	const double	swing_speed				= 0.40;
 	const double	max_swing_angle			= 3.0;
-	const double	fan_move_speed			= 2.5;
+	const double	fan_move_speed			= 3.5;
 	const float		transform_position_y	= -10.0f;
 	const VECTOR	player1_init_position	= VGet(-10.0f, 0.0f, 20.0f);
 	const VECTOR	player2_init_position	= VGet(-10.0f, 0.0f, 0.0f);

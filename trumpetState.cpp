@@ -21,7 +21,7 @@ namespace CharaState
 
 	void TrumpetState::changeState(CharaBase* charaBase)
 	{
-		charaBase->transformFan();
+		charaBase->changeFan();
 	}
 
 	void TrumpetState::update(CharaBase* charaBase)
