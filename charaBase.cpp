@@ -625,6 +625,9 @@ void CharaBase::collisionWindWithChara(std::shared_ptr<CharaBase> otherChara, st
 			otherChara->subHp();
 			otherChara->subHp();
 
+			//復活座標をセット
+			spawnPosition_ = decideRespawnPosition(stage);
+
 			//敵を倒した時の処理
 			onBeatedChara(otherChara, stage);
 		}
@@ -677,7 +680,6 @@ void CharaBase::onBeatedChara(std::shared_ptr<CharaBase> otherChara, std::shared
 			otherChara->Gethp_() <= 0)
 		{
 			canRespawn_ = true;
-			spawnPosition_ = decideRespawnPosition(stage);
 		}
 	}
 }

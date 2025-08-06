@@ -79,7 +79,7 @@ private:
 	const float		rotation_angle_x		= -45.0f;
 	const double	adjust_rotation_angle_y = agnle_shift_number * -2;
 	const float		adjust_position_y		= 0.2f;
-	const int		max_hp					= 100;
+	const int		max_hp					= 300;
 	const double	swing_speed				= 0.40;
 	const double	max_swing_angle			= 3.0;
 	const double	fan_move_speed			= 2.5;

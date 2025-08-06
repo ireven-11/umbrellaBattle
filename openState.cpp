@@ -19,7 +19,7 @@ namespace CharaState
 	}
 
 	/// <summary>
-	/// 状態変化/// 
+	/// 状態変化
 	/// </summary>
 	/// <param name="charaBase">キャラの親クラス</param>
 	void OpenState::changeState(CharaBase* charaBase)
