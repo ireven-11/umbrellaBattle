@@ -166,6 +166,7 @@ void CharaBase::reset()
 	windCount_		= 0;
 	canRespawn_		= false;
 	spawnPosition_	= VGet(0.0f, 0.0f, 0.0f);
+	wasTrumpet_		= false;
 }
 
 /// <summary>
@@ -257,6 +258,9 @@ void CharaBase::tackle()
 		canLoopSound_	= false;
 		--tackleCount_;
 		tackleMoving();
+
+		//アクションするとhpが減る
+		subHp();
 	}
 	//Bボタンを押したら
 	else if (isChargeTackle_)
@@ -410,7 +414,7 @@ void CharaBase::rotation()
 void CharaBase::transformFan()
 {
 	//一定の高さまで落ちたら
-	if (position_.y < transform_position_y)
+	if (position_.y < transform_position_y || hp_ <= 0)
 	{
 		state_ = fanState_();
 		position_.y = player_init_positionY;
@@ -422,6 +426,7 @@ void CharaBase::transformFan()
 		isChargeTackle_ = false;
 		isHit_			= false;
 		isFalling_		= false;
+		canSpawnWind_	= true;
 		StopSoundMem(chargeSound_);
 	}
 }
@@ -606,17 +611,21 @@ void CharaBase::changeHitNowFlag()
 void CharaBase::collisionWindWithChara(std::shared_ptr<CharaBase> otherChara, std::shared_ptr<Stage> stage)
 {
 	//風が発生しているときで相手が開いている状態のときだけ
-	if (!canSpawnWind_ && otherChara->Getstate_() == openState_())
+	if (!canSpawnWind_ && otherChara->Getstate_() == openState_() && state_ == fanState_())
 	{
 		float distance = CalculateDistance<float>(windPosition_, otherChara->GetcollisionCenterPosition_());
 
 		//距離が2つの半径を足した数値未満だったら
 		if (distance < collision_radius + collision_radius_wind)
 		{
+			//風で押し出す
 			otherChara->hitWind(windMoveVector_);
+			
+			//敵のhpを減らす
+			otherChara->subHp();
+			otherChara->subHp();
 
-			spawnPosition_ = decideRespawnPosition(stage);
-
+			//敵を倒した時の処理
 			onBeatedChara(otherChara, stage);
 		}
 	}
@@ -624,7 +633,7 @@ void CharaBase::collisionWindWithChara(std::shared_ptr<CharaBase> otherChara, st
 
 void CharaBase::hitWind(VECTOR windVector)
 {
-	position_ = VAdd(position_, VScale(windVector, 0.015f));
+	position_ = VAdd(position_, VScale(windVector, 0.016f));
 }
 
 VECTOR CharaBase::decideRespawnPosition(std::shared_ptr<Stage> stage)
@@ -660,8 +669,36 @@ void CharaBase::respawn()
 
 void CharaBase::onBeatedChara(std::shared_ptr<CharaBase> otherChara, std::shared_ptr<Stage> stage)
 {
-	if (!stage->GetcanExist_()[otherChara->GetonTileNumberY_()][otherChara->GetonTileNumberX_()])
+	//トランペットになったことなかったら
+	if (!wasTrumpet_)
 	{
-		canRespawn_ = true;
+		//相手をステージ外に押し出すかhpを０にする
+		if (!stage->GetcanExist_()[otherChara->GetonTileNumberY_()][otherChara->GetonTileNumberX_()] ||
+			otherChara->Gethp_() <= 0)
+		{
+			canRespawn_ = true;
+			spawnPosition_ = decideRespawnPosition(stage);
+		}
+	}
+}
+
+/// <summary>
+/// hpが減る
+/// </summary>
+void CharaBase::subHp()
+{
+	--hp_;
+}
+
+/// <summary>
+/// ラッパがさになる
+/// </summary>
+void CharaBase::changeTrumpet()
+{
+	//hpが0以下になったラッパになる
+	if (hp_ <= 0)
+	{
+		state_		= TrumpetState_();
+		wasTrumpet_ = true;
 	}
 }

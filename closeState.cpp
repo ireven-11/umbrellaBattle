@@ -27,6 +27,7 @@ namespace CharaState
 	void CloseState::changeState(CharaBase* charaBase)
 	{
 		charaBase->changeCloseToOpen();
+		charaBase->changeTrumpet();
 		charaBase->transformFan();
 	}
 

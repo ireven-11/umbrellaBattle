@@ -120,6 +120,9 @@
     <ClCompile Include="WrapIsEffekseer3DEffectPlaying.cpp">
       <Filter>ソース ファイル\effect</Filter>
     </ClCompile>
+    <ClCompile Include="trumpetState.cpp">
+      <Filter>ソース ファイル\chara\state</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="setting.h">

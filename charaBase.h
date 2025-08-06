@@ -45,7 +45,8 @@ public:
 	void changeHitNowFlag();
 	void collisionWindWithChara(std::shared_ptr<CharaBase> otherChara, std::shared_ptr<Stage> stage);
 	void respawn();
-
+	void changeTrumpet();
+	
 	DINPUT_JOYSTATE input;		//コントローラー(D)用構造体変数
 
 	VECTOR								Getposition_()const { return  position_; }
@@ -66,6 +67,7 @@ public:
 	VECTOR								GetwindPosition_()const { return windPosition_; }
 	double								GetwindAngle_()const { return windAngle_; }
 	bool								GetcanSpawnWind_()const { return canSpawnWind_; }
+	int									Gethp_()const { return hp_; }
 	
 private:
 	const float		fall_speed				= 0.25f;
@@ -102,6 +104,7 @@ protected:
 	void hitWind(VECTOR windVector);
 	VECTOR decideRespawnPosition(std::shared_ptr<Stage> stage);
 	void onBeatedChara(std::shared_ptr<CharaBase> otherChara, std::shared_ptr<Stage> stage);
+	void subHp();
 	
 	VECTOR	position_;			//座標
 	int		openingUmbrella_;	//モデルハンドル(開いた状態)
@@ -142,6 +145,7 @@ protected:
 	short	windCount_;			//風カウント
 	bool	canRespawn_;		//リスポーンできるか
 	VECTOR	spawnPosition_;		//スポーン座標
+	bool	wasTrumpet_;		//トランペットになったかどうか
 
 	//状態
 	std::shared_ptr<StateMachine::IState>	state_;
@@ -158,6 +162,11 @@ protected:
 	static std::shared_ptr<CharaState::FanState> fanState_()
 	{
 		static std::shared_ptr<CharaState::FanState> state = std::make_shared<CharaState::FanState>();
+		return state;
+	}
+	static std::shared_ptr<CharaState::TrumpetState> TrumpetState_()
+	{
+		static std::shared_ptr<CharaState::TrumpetState> state = std::make_shared<CharaState::TrumpetState>();
 		return state;
 	}
 };

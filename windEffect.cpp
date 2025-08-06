@@ -42,7 +42,7 @@ void WindEffect::update(std::shared_ptr<CharaBase> chara)
 	}
 	
 	//Effect‚ðŽ~‚ß‚é
-	if (chara->GetcanSpawnWind_())
+	if (chara->GetcanSpawnWind_() || chara->Getstate_() != std::dynamic_pointer_cast<CharaState::FanState>(chara->Getstate_()))
 	{
 		StopEffekseer3DEffect(playingHandle_);
 	}

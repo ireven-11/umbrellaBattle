@@ -171,6 +171,7 @@
     <ClCompile Include="swingState.cpp" />
     <ClCompile Include="tackleState.cpp" />
     <ClCompile Include="thinkState.cpp" />
+    <ClCompile Include="trumpetState.cpp" />
     <ClCompile Include="waitState.cpp" />
     <ClCompile Include="windEffect.cpp" />
     <ClCompile Include="windState.cpp" />
