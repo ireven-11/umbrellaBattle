@@ -54,10 +54,16 @@ CharaBase::CharaBase(const int join_number)
 	reset();
 
 	//音初期化
-	chargeSound_ = LoadSoundMem("sound/charge.mp3");
+	chargeSound_	= LoadSoundMem("sound/charge.mp3");
 	ChangeVolumeSoundMem(charge_sound_volume, chargeSound_);
-	hitSound_ = LoadSoundMem("sound/hit.mp3");
+	hitSound_		= LoadSoundMem("sound/hit.mp3");
 	ChangeVolumeSoundMem(hit_sound_volume, hitSound_);
+	windSound_		= LoadSoundMem("sound/wind.mp3");
+	ChangeVolumeSoundMem(wind_sound_volume, windSound_);
+	respawnSound_	= LoadSoundMem("sound/respawn.mp3");
+	ChangeVolumeSoundMem(respawn_sound_volume, respawnSound_);
+	inverseSound_	= LoadSoundMem("sound/inverseUmbrella.mp3");
+	ChangeVolumeSoundMem(inverse_sound_volume, inverseSound_);
 
 	//コントローラーのデッドゾーンを設定
 	SetJoypadDeadZone(controlerNumber_, 0.1);
@@ -74,55 +80,9 @@ CharaBase::~CharaBase()
 	MV1DeleteModel(fan_);
 	DeleteSoundMem(hitSound_);
 	DeleteSoundMem(chargeSound_);
-}
-
-/// <summary>
-/// 更新
-/// </summary>
-void CharaBase::update(Routine* routine, std::shared_ptr<Stage> stage)
-{
-	//コントローラーの入力状態を取得する
-	GetJoypadDirectInputState(controlerNumber_, &input);
-
-	//状態によって行動を変える
-	state_->update(this);
-
-	//でばっぐリセット
-	if (CheckHitKey(KEY_INPUT_D) == true)
-	{
-		position_.y = 0.0f;
-	}
-
-	MV1SetPosition(openingUmbrella_, position_);
-	MV1SetPosition(closingUmbrella_, position_);
-	MV1SetPosition(inverseUmbrella_, position_);
-	MV1SetPosition(fan_, position_);
-}
-
-/// <summary>
-/// 描画
-/// </summary>
-void CharaBase::draw()const
-{
-	//デバッグ用
-	//DrawFormatString(0, 300, GetColor(255, 0, 0), "px:%f,py:%f,pz:%f", position_.x, position_.y, position_.z);
-
-	if (state_ == std::dynamic_pointer_cast<CharaState::FanState>(state_))
-	{
-		MV1DrawModel(fan_);
-	}
-	else if (state_ == std::dynamic_pointer_cast<CharaState::OpenState>(state_))
-	{
-		MV1DrawModel(openingUmbrella_);
-	}
-	else if (state_ == std::dynamic_pointer_cast<CharaState::CloseState>(state_))
-	{
-		MV1DrawModel(closingUmbrella_);
-	}
-	else
-	{
-		MV1DrawModel(inverseUmbrella_);
-	}
+	DeleteSoundMem(windSound_);
+	DeleteSoundMem(respawnSound_);
+	DeleteSoundMem(inverseSound_);
 }
 
 /// <summary>
@@ -176,10 +136,61 @@ void CharaBase::reset()
 	windAngle_		= 0.0;
 	windCount_		= 0;
 	canRespawn_		= false;
-	spawnPosition_	= VGet(0.0f, 0.0f, 0.0f);
+	respawnPosition_= VGet(0.0f, 0.0f, 0.0f);
 	wasTrumpet_		= false;
 	rad_			= 0.0f;
+	canChangeFan_	= false;
 }
+
+/// <summary>
+/// 更新
+/// </summary>
+void CharaBase::update(Routine* routine, std::shared_ptr<Stage> stage)
+{
+	//コントローラーの入力状態を取得する
+	GetJoypadDirectInputState(controlerNumber_, &input);
+
+	//状態によって行動を変える
+	state_->update(this);
+
+	//でばっぐリセット
+	if (CheckHitKey(KEY_INPUT_D) == true)
+	{
+		position_.y = 0.0f;
+	}
+
+	MV1SetPosition(openingUmbrella_, position_);
+	MV1SetPosition(closingUmbrella_, position_);
+	MV1SetPosition(inverseUmbrella_, position_);
+	MV1SetPosition(fan_, position_);
+}
+
+/// <summary>
+/// 描画
+/// </summary>
+void CharaBase::draw()const
+{
+	//デバッグ用
+	//DrawFormatString(0, 300, GetColor(255, 0, 0), "px:%f,py:%f,pz:%f", position_.x, position_.y, position_.z);
+
+	if (state_ == std::dynamic_pointer_cast<CharaState::FanState>(state_))
+	{
+		MV1DrawModel(fan_);
+	}
+	else if (state_ == std::dynamic_pointer_cast<CharaState::OpenState>(state_))
+	{
+		MV1DrawModel(openingUmbrella_);
+	}
+	else if (state_ == std::dynamic_pointer_cast<CharaState::CloseState>(state_))
+	{
+		MV1DrawModel(closingUmbrella_);
+	}
+	else
+	{
+		MV1DrawModel(inverseUmbrella_);
+	}
+}
+
 
 /// <summary>
 /// 移動
@@ -341,6 +352,7 @@ void CharaBase::wind()
 		windMoveVector_ = VSub(stage_center, position_);
 		windAngle_		= fanAngle_;
 		windCount_		= 0;
+		PlaySoundMem(windSound_, DX_PLAYTYPE_BACK, TRUE);
 	}
 
 	//移動
@@ -353,6 +365,7 @@ void CharaBase::wind()
 		if (max_wind_count < windCount_)
 		{
 			canSpawnWind_ = true;
+			StopSoundMem(windSound_);
 		}
 	}
 }
@@ -428,18 +441,7 @@ void CharaBase::transformFan()
 	//一定の高さまで落ちたら
 	if (position_.y < transform_position_y)
 	{
-		state_ = fanState_();
-		position_.y = player_init_positionY;
-
-		//落ちた瞬間に扇風機の移動をして扇風機の位置を設定する
-		input.Buttons[6] = 1;
-		moveFan();
-
-		isChargeTackle_ = false;
-		isHit_			= false;
-		isFalling_		= false;
-		canSpawnWind_	= true;
-		StopSoundMem(chargeSound_);
+		changeFan();
 	}
 }
 
@@ -453,10 +455,16 @@ void CharaBase::changeFan()
 	moveFan();
 
 	isChargeTackle_ = false;
-	isHit_ = false;
-	isFalling_ = false;
-	canSpawnWind_ = true;
+	isHit_			= false;
+	isFalling_		= false;
+	canSpawnWind_	= true;
+	canChangeFan_	= true;
 	StopSoundMem(chargeSound_);
+}
+
+void CharaBase::cannotChangeFan()
+{
+	canChangeFan_ = false;
 }
 
 /// <summary>
@@ -654,7 +662,7 @@ void CharaBase::collisionWindWithChara(std::shared_ptr<CharaBase> otherChara, st
 			otherChara->subHp();
 
 			//復活座標をセット
-			spawnPosition_ = decideRespawnPosition(stage);
+			respawnPosition_ = decideRespawnPosition(stage);
 
 			//敵を倒した時の処理
 			onBeatedChara(otherChara, stage);
@@ -693,8 +701,10 @@ void CharaBase::respawn()
 	{
 		canRespawn_ = false;
 
-		position_	= spawnPosition_;
+		position_	= respawnPosition_;
 		state_		= openState_();
+
+		PlaySoundMem(respawnSound_, DX_PLAYTYPE_BACK, TRUE);
 	}
 }
 
@@ -730,7 +740,13 @@ void CharaBase::changeTrumpet()
 	{
 		state_		= TrumpetState_();
 		wasTrumpet_ = true;
+		PlaySoundMem(inverseSound_, DX_PLAYTYPE_BACK, TRUE);
 	}
+}
+
+void CharaBase::stopSound()
+{
+	StopSoundMem(inverseSound_);
 }
 
 /// <summary>

@@ -46,7 +46,7 @@ private:
 	int		tileCount_;								//タイルを何個消したかのカウント
 	int		fallSound_;								//落下音
 
-	const short fall_sound_volume = 170;
+	const short fall_sound_volume = 120;
 };
 
 bool HitTriangleAndPixel(VECTOR trianglePos0, VECTOR trianglePos1, VECTOR trianglePos2, VECTOR pixelPos);

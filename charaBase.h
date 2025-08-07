@@ -48,7 +48,9 @@ public:
 	void changeTrumpet();
 	void changeFan();
 	void vibration();
-	
+	void stopSound();
+	void cannotChangeFan();
+
 	DINPUT_JOYSTATE input;		//コントローラー(D)用構造体変数
 
 	VECTOR								Getposition_()const { return  position_; }
@@ -70,6 +72,9 @@ public:
 	double								GetwindAngle_()const { return windAngle_; }
 	bool								GetcanSpawnWind_()const { return canSpawnWind_; }
 	int									Gethp_()const { return hp_; }
+	bool								GetcanRespawn_()const { return canRespawn_; }
+	VECTOR								GetrespawnPosition_()const { return respawnPosition_; }
+	bool								GetcanChangeFan_()const { return canChangeFan_; }
 	
 private:
 	const float		fall_speed				= 0.25f;
@@ -94,10 +99,13 @@ private:
 	const short		init_mass				= 1;
 	const short		tackle_mass				= 3;
 	const float		blow_away_percent		= 1.4f;
-	const short		hit_sound_volume		= 225;
+	const short		hit_sound_volume		= 185;
 	const short		knock_back_max_count	= 4;
-	const short		charge_sound_volume		= 255;
+	const short		charge_sound_volume		= 215;
 	const short		max_wind_count			= 120;
+	const short		wind_sound_volume		= 150;
+	const short		respawn_sound_volume	= 255;
+	const short		inverse_sound_volume	= 250;
 
 protected:
 	void tackleMoving();
@@ -147,9 +155,13 @@ protected:
 	double	windAngle_;			//風の角度
 	short	windCount_;			//風カウント
 	bool	canRespawn_;		//リスポーンできるか
-	VECTOR	spawnPosition_;		//スポーン座標
+	VECTOR	respawnPosition_;	//スポーン座標
 	bool	wasTrumpet_;		//トランペットになったかどうか
 	float   rad_;				//振動用
+	int		windSound_;			//風の音
+	int		respawnSound_;		//リスポーン音
+	int		inverseSound_;		//ひっくり返る音
+	bool	canChangeFan_;		//変身フラグ
 
 	//状態
 	std::shared_ptr<StateMachine::IState>	state_;

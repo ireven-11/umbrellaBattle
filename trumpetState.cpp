@@ -31,6 +31,7 @@ namespace CharaState
 		if (directionCount_ > max_direction_count)
 		{
 			changeState(charaBase);
+			charaBase->stopSound();
 		}
 	}
 }

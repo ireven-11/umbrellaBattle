@@ -7,7 +7,7 @@
 
 WindEffect::WindEffect()
 {
-	effectHandle_ = LoadEffekseerEffect("effect/00_Version16/Aura01.efkefc");
+	effectHandle_ = LoadEffekseerEffect("effect/00_Version16/wind.efkefc");
 
 	reset();
 }

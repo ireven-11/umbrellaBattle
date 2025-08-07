@@ -3,11 +3,11 @@
 
 class CharaBase;
 
-class WindEffect : public IEffect<CharaBase>
+class ChangeFanEffect : public IEffect<CharaBase>
 {
 public:
-	WindEffect();
-	~WindEffect();
+	ChangeFanEffect();
+	~ChangeFanEffect();
 
 	void update(std::shared_ptr<CharaBase> chara);
 	void draw();
@@ -19,6 +19,6 @@ private:
 	int		playingHandle_;
 	VECTOR	position_;
 
-	const float scale		= 1.8f;
-	const float play_speed	= 2.0f;
+	const float scale		= 3.0f;
+	const float play_speed	= 5.0f;
 };
