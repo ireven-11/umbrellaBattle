@@ -11,6 +11,7 @@ class Stage;
 class StandbyUI;
 class CharaBase;
 class EffectManager;
+class TitleUI;
 
 class Routine
 {
@@ -29,6 +30,7 @@ private:
 	std::shared_ptr<Stage>stage					= std::make_shared<Stage>();
 	std::shared_ptr<StandbyUI>standbyUI			= std::make_shared<StandbyUI>();
 	std::vector<std::shared_ptr<EffectManager>> effectManager;
+	std::shared_ptr<TitleUI>titleUI				= std::make_shared<TitleUI>();
 	
 	void gameRoop();
 	void title();

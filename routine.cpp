@@ -9,6 +9,7 @@
 #include"routine.h"
 #include"EffekseerForDXLib.h"
 #include"effectManager.h"
+#include"titleUI.h"
 
 /// <summary>
 /// コンストラクタ
@@ -44,9 +45,10 @@ void Routine::game()
     //ゲームループが終わったらデリート
     sceneManager    = nullptr;
     camera          = nullptr;
-    players.clear();
     stage           = nullptr;
     standbyUI       = nullptr;
+    titleUI         = nullptr;
+    players.clear();
     effectManager.clear();
 }
 
@@ -94,7 +96,11 @@ void Routine::gameRoop()
 /// </summary>
 void Routine::title()
 {
+    //ui
+    titleUI->update();
 
+    //シーン遷移
+    sceneManager->proceedStandby();
 }
 
 /// <summary>
@@ -171,6 +177,11 @@ void Routine::play()
     DrawEffekseer3D();
     UpdateEffekseer3D();
 
+    //if ()
+    {
+        //sceneManager->proceedResult();
+    }
+    
     //強制リセット
     if (CheckHitKey(KEY_INPUT_R) == true)
     {
@@ -198,7 +209,7 @@ void Routine::play()
 /// </summary>
 void Routine::result()
 {
-
+    sceneManager->proceedTitle();
 }
 
 /// <summary>

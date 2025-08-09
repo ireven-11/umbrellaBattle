@@ -21,7 +21,8 @@ SceneManager::~SceneManager()
 /// </summary>
 void SceneManager::reset()
 {
-	sceneType_ = STANDBY;
+	sceneType_		= TITLE;
+	isPrevButton_	= false;
 }
 
 /// <summary>
@@ -29,7 +30,18 @@ void SceneManager::reset()
 /// </summary>
 void SceneManager::proceedStandby()
 {
-	sceneType_ = STANDBY;
+	if (CheckHitKey(KEY_INPUT_RETURN) == TRUE)
+	{
+		if (!isPrevButton_)
+		{
+			sceneType_ = STANDBY;
+		}
+		isPrevButton_ = true;
+	}
+	else
+	{
+		isPrevButton_	= false;
+	}
 }
 
 /// <summary>
@@ -37,10 +49,18 @@ void SceneManager::proceedStandby()
 /// </summary>
 bool SceneManager::proceedPlay()
 {
-	if (CheckHitKey(KEY_INPUT_RETURN) == true)
+	if (CheckHitKey(KEY_INPUT_RETURN) == TRUE)
 	{
-		sceneType_ = PLAY;
-		return true;
+		if (!isPrevButton_)
+		{
+			sceneType_ = PLAY;
+			return true;
+		}
+		isPrevButton_ = true;
+	}
+	else
+	{
+		isPrevButton_ = false;
 	}
 
 	return false;

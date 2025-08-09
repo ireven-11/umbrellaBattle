@@ -25,5 +25,6 @@ public:
 
 private:
 
-	int sceneType_;	//シーンタイプ
+	int		sceneType_;	//シーンタイプ
+	bool	isPrevButton_;
 };

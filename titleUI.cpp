@@ -13,5 +13,5 @@ TitleUI::~TitleUI()
 
 void TitleUI::update()
 {
-
+    DrawString(200, 200, "‚½‚¢‚Æ‚é", GetColor(255, 255, 255));
 }
