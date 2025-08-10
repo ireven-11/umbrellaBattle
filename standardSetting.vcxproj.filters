@@ -37,6 +37,12 @@
     <Filter Include="ソース ファイル\UI">
       <UniqueIdentifier>{2d6b7233-8bef-4f06-9589-befeb9cb9175}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\graph">
+      <UniqueIdentifier>{22fdca61-6021-414e-bf18-265fe4758596}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\graph">
+      <UniqueIdentifier>{4ebe87ce-0364-4800-812c-46e733017752}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -143,6 +149,9 @@
     </ClCompile>
     <ClCompile Include="resultUI.cpp">
       <Filter>ソース ファイル\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="titleGraph.cpp">
+      <Filter>ソース ファイル\graph</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -253,6 +262,9 @@
     </ClInclude>
     <ClInclude Include="resultUI.h">
       <Filter>ヘッダー ファイル\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="titleGraph.h">
+      <Filter>ヘッダー ファイル\graph</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

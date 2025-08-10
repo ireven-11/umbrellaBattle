@@ -10,6 +10,7 @@
 #include"EffekseerForDXLib.h"
 #include"effectManager.h"
 #include"titleUI.h"
+#include"titleGraph.h"
 
 /// <summary>
 /// コンストラクタ
@@ -18,12 +19,13 @@ Routine::Routine()
 {
     bgm_ = LoadSoundMem("sound/bgm.mp3");
     ChangeVolumeSoundMem(bgm_volume, bgm_);
-    reset();
 
     for (auto i = 0; i < max_player_number; i++)
     {
         effectManager.emplace_back(std::make_shared<EffectManager>());
     }
+
+    reset();
 }
 
 /// <summary>
@@ -50,6 +52,8 @@ void Routine::game()
     titleUI         = nullptr;
     players.clear();
     effectManager.clear();
+    titleUI         = nullptr;
+    titleGraph      = nullptr;
 }
 
 /// <summary>
@@ -87,22 +91,7 @@ void Routine::gameRoop()
         //強制リセット
         if (CheckHitKey(KEY_INPUT_R) == true)
         {
-            sceneManager = nullptr;
-            camera = nullptr;
-            players.clear();
-            stage = nullptr;
-            standbyUI = nullptr;
-            effectManager.clear();
-
-            sceneManager = std::make_shared<SceneManager>();
-            camera = std::make_shared<Camera>();
-            stage = std::make_shared<Stage>();
-            standbyUI = std::make_shared<StandbyUI>();
-            for (auto i = 0; i < max_player_number; i++)
-            {
-                effectManager.emplace_back(std::make_shared<EffectManager>());
-            }
-            reset();
+            allReset();
         }
 
         SetFPS();
@@ -117,6 +106,9 @@ void Routine::gameRoop()
 /// </summary>
 void Routine::title()
 {
+    //画像
+    titleGraph->update();
+
     //ui
     titleUI->update();
 
@@ -226,7 +218,11 @@ void Routine::play()
 /// </summary>
 void Routine::result()
 {
-    sceneManager->proceedTitle();
+    if (sceneManager->proceedTitle())
+    {
+        allReset();
+    }
+    
 }
 
 /// <summary>
@@ -292,4 +288,28 @@ void Routine::joinCPU()
             players.emplace_back(std::make_shared<CPU>(i + 1));
         }
     }
+}
+
+void Routine::allReset()
+{
+    sceneManager = nullptr;
+    camera = nullptr;
+    players.clear();
+    stage = nullptr;
+    standbyUI = nullptr;
+    effectManager.clear();
+    titleUI = nullptr;
+    titleGraph = nullptr;
+
+    sceneManager = std::make_shared<SceneManager>();
+    camera = std::make_shared<Camera>();
+    stage = std::make_shared<Stage>();
+    standbyUI = std::make_shared<StandbyUI>();
+    for (auto i = 0; i < max_player_number; i++)
+    {
+        effectManager.emplace_back(std::make_shared<EffectManager>());
+    }
+    titleUI     = std::make_shared<TitleUI>();
+    titleGraph  = std::make_shared<TitleGraph>();
+    reset();
 }

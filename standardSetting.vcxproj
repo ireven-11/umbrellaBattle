@@ -175,6 +175,7 @@
     <ClCompile Include="swingState.cpp" />
     <ClCompile Include="tackleState.cpp" />
     <ClCompile Include="thinkState.cpp" />
+    <ClCompile Include="titleGraph.cpp" />
     <ClCompile Include="titleUI.cpp" />
     <ClCompile Include="trumpetState.cpp" />
     <ClCompile Include="waitState.cpp" />
@@ -213,6 +214,7 @@
     <ClInclude Include="swingState.h" />
     <ClInclude Include="tackleState.h" />
     <ClInclude Include="thinkState.h" />
+    <ClInclude Include="titleGraph.h" />
     <ClInclude Include="titleUI.h" />
     <ClInclude Include="trumpetState.h" />
     <ClInclude Include="windEffect.h" />

@@ -79,7 +79,21 @@ bool SceneManager::proceedResult()
 /// <summary>
 /// ƒ^ƒCƒgƒ‹‰æ–Ê‚Ö
 /// </summary>
-void SceneManager::proceedTitle()
+bool SceneManager::proceedTitle()
 {
-	sceneType_ = TITLE;
+	if (CheckHitKey(KEY_INPUT_RETURN) == TRUE)
+	{
+		if (!isPrevButton_)
+		{
+			sceneType_ = TITLE;
+			return true;
+		}
+		isPrevButton_ = true;
+	}
+	else
+	{
+		isPrevButton_ = false;
+	}
+
+	return false;
 }

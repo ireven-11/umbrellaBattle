@@ -19,7 +19,7 @@ public:
 	void proceedStandby();
 	bool proceedPlay();
 	bool proceedResult();
-	void proceedTitle();
+	bool proceedTitle();
 
 	int GetsceneType_()const { return sceneType_; }
 

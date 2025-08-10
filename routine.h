@@ -12,6 +12,7 @@ class StandbyUI;
 class CharaBase;
 class EffectManager;
 class TitleUI;
+class TitleGraph;
 
 class Routine
 {
@@ -31,7 +32,7 @@ private:
 	std::shared_ptr<StandbyUI>standbyUI			= std::make_shared<StandbyUI>();
 	std::vector<std::shared_ptr<EffectManager>> effectManager;
 	std::shared_ptr<TitleUI>titleUI				= std::make_shared<TitleUI>();
-	
+	std::shared_ptr<TitleGraph>titleGraph		= std::make_shared<TitleGraph>();
 	void gameRoop();
 	void title();
 	void play();
@@ -40,6 +41,7 @@ private:
 	void reset();
 	void joinPlayer();
 	void joinCPU();
+	void allReset();
 
 	bool	isjoiningPlayer[max_player_number];	//プレイヤー参加フラグ
 	int		bgm_;
