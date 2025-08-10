@@ -165,6 +165,7 @@ protected:
 
 	//ó‘Ô
 	std::shared_ptr<StateMachine::IState>	state_;
+	//‚Ç‚Ìó‘Ô‚ğ•\‚·‚©•Ô‚·staticŠÖ”
 	static std::shared_ptr<CharaState::OpenState> openState_()
 	{
 		static std::shared_ptr<CharaState::OpenState> state = std::make_shared<CharaState::OpenState>();

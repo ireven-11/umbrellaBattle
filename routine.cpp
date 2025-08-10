@@ -84,6 +84,27 @@ void Routine::gameRoop()
 
         }
 
+        //強制リセット
+        if (CheckHitKey(KEY_INPUT_R) == true)
+        {
+            sceneManager = nullptr;
+            camera = nullptr;
+            players.clear();
+            stage = nullptr;
+            standbyUI = nullptr;
+            effectManager.clear();
+
+            sceneManager = std::make_shared<SceneManager>();
+            camera = std::make_shared<Camera>();
+            stage = std::make_shared<Stage>();
+            standbyUI = std::make_shared<StandbyUI>();
+            for (auto i = 0; i < max_player_number; i++)
+            {
+                effectManager.emplace_back(std::make_shared<EffectManager>());
+            }
+            reset();
+        }
+
         SetFPS();
 
         // 裏画面の内容を表画面に反映(ゲームループの最後に呼ぶ)
@@ -177,30 +198,26 @@ void Routine::play()
     DrawEffekseer3D();
     UpdateEffekseer3D();
 
-    //if ()
+    //勝利判定
+    auto winPlayer1 = players.at(0)->Getstate_() != std::dynamic_pointer_cast<CharaState::FanState>(players.at(0)->Getstate_())
+        && players.at(1)->Getstate_() == std::dynamic_pointer_cast<CharaState::FanState>(players.at(1)->Getstate_())
+        && players.at(2)->Getstate_() == std::dynamic_pointer_cast<CharaState::FanState>(players.at(2)->Getstate_())
+        && players.at(3)->Getstate_() == std::dynamic_pointer_cast<CharaState::FanState>(players.at(3)->Getstate_());
+    auto winPlayer2 = players.at(0)->Getstate_() == std::dynamic_pointer_cast<CharaState::FanState>(players.at(0)->Getstate_())
+        && players.at(1)->Getstate_() != std::dynamic_pointer_cast<CharaState::FanState>(players.at(1)->Getstate_())
+        && players.at(2)->Getstate_() == std::dynamic_pointer_cast<CharaState::FanState>(players.at(2)->Getstate_())
+        && players.at(3)->Getstate_() == std::dynamic_pointer_cast<CharaState::FanState>(players.at(3)->Getstate_());
+    auto winPlayer3 = players.at(0)->Getstate_() == std::dynamic_pointer_cast<CharaState::FanState>(players.at(0)->Getstate_())
+        && players.at(1)->Getstate_() == std::dynamic_pointer_cast<CharaState::FanState>(players.at(1)->Getstate_())
+        && players.at(2)->Getstate_() != std::dynamic_pointer_cast<CharaState::FanState>(players.at(2)->Getstate_())
+        && players.at(3)->Getstate_() == std::dynamic_pointer_cast<CharaState::FanState>(players.at(3)->Getstate_());
+    auto winPlayer4 = players.at(0)->Getstate_() == std::dynamic_pointer_cast<CharaState::FanState>(players.at(0)->Getstate_())
+        && players.at(1)->Getstate_() == std::dynamic_pointer_cast<CharaState::FanState>(players.at(1)->Getstate_())
+        && players.at(2)->Getstate_() == std::dynamic_pointer_cast<CharaState::FanState>(players.at(2)->Getstate_())
+        && players.at(3)->Getstate_() != std::dynamic_pointer_cast<CharaState::FanState>(players.at(3)->Getstate_());
+    if (winPlayer1 || winPlayer2 || winPlayer3 || winPlayer4)
     {
-        //sceneManager->proceedResult();
-    }
-    
-    //強制リセット
-    if (CheckHitKey(KEY_INPUT_R) == true)
-    {
-        sceneManager = nullptr;
-        camera = nullptr;
-        players.clear();
-        stage = nullptr;
-        standbyUI = nullptr;
-        effectManager.clear();
-
-        sceneManager = std::make_shared<SceneManager>();
-        camera  = std::make_shared<Camera>();
-        stage = std::make_shared<Stage>();
-        standbyUI = std::make_shared<StandbyUI>();
-        for (auto i = 0; i < max_player_number; i++)
-        {
-            effectManager.emplace_back(std::make_shared<EffectManager>());
-        }
-        reset();
+        sceneManager->proceedResult();
     }
 }
 
