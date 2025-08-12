@@ -32,8 +32,6 @@ void ChargeEffect::update(std::shared_ptr<CharaBase> chara)
 
 		SetScalePlayingEffekseer3DEffect(playingHandle_, scale, scale, scale);
 		SetSpeedPlayingEffekseer3DEffect(playingHandle_, play_speed);
-
-		//DrawEffekseer3D_Begin();
 	}
 
 	//エフェクトが再生中は座標を更新する
@@ -43,13 +41,6 @@ void ChargeEffect::update(std::shared_ptr<CharaBase> chara)
 
 		SetPosPlayingEffekseer3DEffect(playingHandle_, position_.x, position_.y + 2.0f, position_.z);
 	}
-	else
-	{
-		//DrawEffekseer3D_End();
-	}
-
-	//エフェクトを更新
-	//UpdateEffekseer3D();
 }
 
 void ChargeEffect::draw()

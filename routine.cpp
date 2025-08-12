@@ -12,6 +12,7 @@
 #include"titleUI.h"
 #include"titleGraph.h"
 #include"playUI.h"
+#include"resultUI.h"
 
 /// <summary>
 /// コンストラクタ
@@ -60,6 +61,7 @@ void Routine::game()
     titleUI         = nullptr;
     titleGraph      = nullptr;
     playUI          = nullptr;
+    resultUI        = nullptr;
 }
 
 /// <summary>
@@ -195,15 +197,6 @@ void Routine::play()
         e->update(*playerIt);
         ++playerIt;
     }
-    ////ui
-    //auto playerIt2 = players.begin();
-    //short uiCount = 0;
-    //for (const auto& u : playUI)
-    //{
-    //    u->update(*playerIt2, uiCount);
-    //    ++uiCount;
-    //    ++playerIt2;
-    //}
 
     DrawEffekseer3D();
     UpdateEffekseer3D();
@@ -229,9 +222,21 @@ void Routine::play()
     {
         sceneManager->proceedResult();
 
-        for (const auto& e : effectManager)
+        if (winPlayer1)
         {
-            e->stop();
+            winPlayer_ = 1;
+        }
+        else if (winPlayer2)
+        {
+            winPlayer_ = 2;
+        }
+        else if (winPlayer3)
+        {
+            winPlayer_ = 3;
+        }
+        else
+        {
+            winPlayer_ = 4;
         }
     }
 }
@@ -241,6 +246,8 @@ void Routine::play()
 /// </summary>
 void Routine::result()
 {
+    resultUI->update(winPlayer_);
+    
     if (sceneManager->proceedTitle())
     {
         allReset();
@@ -257,6 +264,7 @@ void Routine::reset()
     {
         isjoiningPlayer[i] = false;
     }
+    winPlayer_ = 0;
 }
 
 /// <summary>
@@ -315,27 +323,29 @@ void Routine::joinCPU()
 
 void Routine::allReset()
 {
-    sceneManager = nullptr;
-    camera = nullptr;
+    sceneManager    = nullptr;
+    camera          = nullptr;
     players.clear();
-    stage = nullptr;
-    standbyUI = nullptr;
+    stage           = nullptr;
+    standbyUI       = nullptr;
     effectManager.clear();
-    titleUI = nullptr;
-    titleGraph = nullptr;
-    playUI = nullptr;
+    titleUI         = nullptr;
+    titleGraph      = nullptr;
+    playUI          = nullptr;
+    resultUI        = nullptr;
 
-    sceneManager = std::make_shared<SceneManager>();
-    camera = std::make_shared<Camera>();
-    stage = std::make_shared<Stage>();
-    standbyUI = std::make_shared<StandbyUI>();
+    sceneManager    = std::make_shared<SceneManager>();
+    camera          = std::make_shared<Camera>();
+    stage           = std::make_shared<Stage>();
+    standbyUI       = std::make_shared<StandbyUI>("April Gothic one Regular");
     for (auto i = 0; i < max_player_number; i++)
     {
         effectManager.emplace_back(std::make_shared<EffectManager>());
     }
-    titleUI     = std::make_shared<TitleUI>();
+    titleUI     = std::make_shared<TitleUI>("April Gothic one Regular");
     titleGraph  = std::make_shared<TitleGraph>();
-    playUI = std::make_shared<PlayUI>("April Gothic one Regular");
+    playUI      = std::make_shared<PlayUI>("April Gothic one Regular");
+    resultUI    = std::make_shared<ResultUI>("April Gothic one Regular");
 
     reset();
 }

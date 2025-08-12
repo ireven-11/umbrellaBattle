@@ -3,11 +3,11 @@
 class TitleUI
 {
 public:
-	TitleUI();
+	TitleUI(const char* fontName);
 	~TitleUI();
 
 	void update();
 
 private:
-
+	int	fontHandle_;		//フォントハンドル
 };

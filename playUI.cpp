@@ -1,6 +1,6 @@
 #include"DxLib.h"
-#include"playUI.h"
 #include"charaBase.h"
+#include"playUI.h"
 
 PlayUI::PlayUI(const char* fontName)
 {
@@ -58,11 +58,16 @@ void PlayUI::update(std::shared_ptr<CharaBase> chara, int playerNumber)
 	DrawExtendGraph(hpEmptyPosition_.x + (adjust_hp_empty_x * (playerNumber + 1)), hpEmptyPosition_.y,
 		hpEmptyPosition_.x+ hp_empty_width + (adjust_hp_empty_x * (playerNumber + 1)), hpEmptyPosition_.y + hp_empty_height, hpEmpty_, TRUE);
 	DrawExtendGraphF(hpPosition_.x + (adjust_hp__x * (playerNumber + 1)), hpPosition_.y,
-		hpPosition_.x + chara->Gethp_() / 2 + (adjust_hp__x * (playerNumber + 1)), hpPosition_.y + hp__height, hp_, TRUE);
+		hpPosition_.x + (chara->Gethp_() * hp__width) / max_hp + (adjust_hp__x * (playerNumber + 1)), hpPosition_.y + hp__height, hp_, TRUE);
 
 	//ラッパ
 	if (chara->Gethp_() <= 0)
 	{
 		DrawStringToHandle(umbrellaPosition_.x + (adjust_umbrella_x * (playerNumber + 1)), umbrellaPosition_.y, "ラッパ!!", GetColor(255, 50, 0), fontHandle_);
+	}
+	else
+	{
+		//～P表示
+		DrawFormatStringToHandle(umbrellaPosition_.x + (adjust_umbrella_x * (playerNumber + 1)), umbrellaPosition_.y, GetColor(255, 255, 255), fontHandle_, "%dP", playerNumber + 1);
 	}
 }

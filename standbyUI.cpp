@@ -4,8 +4,10 @@
 /// <summary>
 /// コンストラクタ
 /// </summary>
-StandbyUI::StandbyUI()
+StandbyUI::StandbyUI(const char* fontName)
 {
+	fontHandle_			= CreateFontToHandle(fontName, 50, 0, DX_FONTTYPE_ANTIALIASING_EDGE_4X4);
+	fontHandleSize100_	= CreateFontToHandle(fontName, 90, 0, DX_FONTTYPE_ANTIALIASING_EDGE_4X4);
 }
 
 /// <summary>
@@ -18,6 +20,15 @@ StandbyUI::~StandbyUI()
 void StandbyUI::update(bool isjoiningPlayer[], const int max_player_number)
 {
 	playerJoin(isjoiningPlayer, max_player_number);
+
+
+	DrawStringToHandle(900, 800, "EnterKeyでゲームスタート", GetColor(255, 255, 255), fontHandle_);
+}
+
+
+void DrawBrinkStringToHandle(VECTOR position, const char* text, int color, int fontHandle)
+{
+
 }
 
 /// <summary>
@@ -29,17 +40,16 @@ void StandbyUI::playerJoin(bool isjoiningPlayer[], const int max_player_number)
 {
 	for (int i = 0; i < max_player_number; i++)
 	{
-		DrawFormatString(100 + 200 * i, 200, GetColor(255, 255, 255), "%dP", i + 1);
+		DrawFormatStringToHandle(player_number_position.x + player_number_gap * i, player_number_position.y, GetColor(255, 255, 255), fontHandle_, "%dP", i + 1);
 		if (isjoiningPlayer[i])
 		{
-			DrawString(100 + 200 * i, 300, "参加！", GetColor(255, 255, 255));
+			DrawStringToHandle(wait_or_join_position.x + player_number_gap * i, wait_or_join_position.y, "参加！", GetColor(255, 255, 255), fontHandle_);
 		}
 		else
 		{
-			DrawString(100 + 200 * i, 300, "待機中...", GetColor(255, 255, 255));
+			DrawStringToHandle(wait_or_join_position.x + player_number_gap * i, wait_or_join_position.y, "待機中...", GetColor(255, 255, 255), fontHandle_);
 		}
 	}
 
-	DrawString(900, 800, "EnterKeyでゲームスタート", GetColor(255, 255, 255));
-	DrawString(900, 700, "Aボタンで参加！", GetColor(255, 255, 255));
+	DrawStringToHandle(join_player_position.x, join_player_position.y, "Aボタンで参加！", GetColor(255, 50, 0), fontHandleSize100_);
 }

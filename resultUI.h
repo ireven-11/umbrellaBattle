@@ -3,9 +3,13 @@
 class ResultUI
 {
 public:
-	ResultUI();
+	ResultUI(const char* fontName);
 	~ResultUI();
 
-private:
+	void update(short winPlayer);
 
+private:
+	int	fontHandle_;		//フォントハンドル
+	
+	const VECTOR winner_text_position_ = VGet(450.0f, 150.0f, 0.0f);
 };
