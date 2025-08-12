@@ -4,8 +4,7 @@
 
 PlayUI::PlayUI(const char* fontName)
 {
-	//AddFontResourceExA("font/AprilGothicOne-R.ttf", FR_PRIVATE, NULL);
-	//fontHandle_ = CreateFontToHandle("April Gothic one", 100, 0, DX_FONTTYPE_ANTIALIASING_EDGE_4X4);
+	fontHandle_ = CreateFontToHandle(fontName, 100, 0, DX_FONTTYPE_ANTIALIASING_EDGE_4X4);
 	umbrella1_	= LoadGraph("graph/black.png");
 	umbrella2_	= LoadGraph("graph/skyblue.png");
 	umbrella3_	= LoadGraph("graph/orange.png");
@@ -62,7 +61,7 @@ void PlayUI::update(std::shared_ptr<CharaBase> chara, int playerNumber)
 		hpPosition_.x + chara->Gethp_() / 2 + (adjust_hp__x * (playerNumber + 1)), hpPosition_.y + hp__height, hp_, TRUE);
 
 	//ラッパ
-	//if (chara->Gethp_() <= 0)
+	if (chara->Gethp_() <= 0)
 	{
 		DrawStringToHandle(umbrellaPosition_.x + (adjust_umbrella_x * (playerNumber + 1)), umbrellaPosition_.y, "ラッパ!!", GetColor(255, 50, 0), fontHandle_);
 	}

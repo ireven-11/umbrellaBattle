@@ -39,3 +39,11 @@ void EffectManager::draw()
 		effect->draw();
 	}
 }
+
+void EffectManager::stop()
+{
+	for (const auto& effect : effects)
+	{
+		effect->stop();
+	}
+}

@@ -14,6 +14,7 @@ FallEffect::FallEffect()
 
 FallEffect::~FallEffect()
 {
+	int test = StopEffekseer3DEffect(playingHandle_);
 	DeleteEffekseerEffect(effectHandle_);
 }
 
@@ -51,4 +52,10 @@ void FallEffect::draw()
 
 	//ˆø”‚É“n‚µ‚½ƒnƒ“ƒhƒ‹‚¾‚¯•`‰æ‚·‚é
 	//DrawEffekseer3D_Draw(playingHandle_);
+}
+
+
+void FallEffect::stop()
+{
+	StopEffekseer3DEffect(playingHandle_);
 }

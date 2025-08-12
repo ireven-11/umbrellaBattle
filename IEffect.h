@@ -9,4 +9,5 @@ public:
 
 	virtual void update(std::shared_ptr<T> data) = 0;
 	virtual void draw()	= 0;
+	virtual void stop() = 0;
 };

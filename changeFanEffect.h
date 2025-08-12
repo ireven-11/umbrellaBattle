@@ -11,6 +11,7 @@ public:
 
 	void update(std::shared_ptr<CharaBase> chara);
 	void draw();
+	void stop();
 
 private:
 	void reset();

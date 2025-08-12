@@ -14,6 +14,7 @@ WindEffect::WindEffect()
 
 WindEffect::~WindEffect()
 {
+	StopEffekseer3DEffect(playingHandle_);
 	DeleteEffekseerEffect(effectHandle_);
 }
 
@@ -55,4 +56,9 @@ void WindEffect::draw()
 
 	//ˆø”‚É“n‚µ‚½ƒnƒ“ƒhƒ‹‚¾‚¯•`‰æ‚·‚é
 	//DrawEffekseer3D_Draw(playingHandle_);
+}
+
+void WindEffect::stop()
+{
+	StopEffekseer3DEffect(playingHandle_);
 }

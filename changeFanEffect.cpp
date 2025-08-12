@@ -14,6 +14,7 @@ ChangeFanEffect::ChangeFanEffect()
 
 ChangeFanEffect::~ChangeFanEffect()
 {
+	StopEffekseer3DEffect(playingHandle_);
 	DeleteEffekseerEffect(effectHandle_);
 }
 
@@ -46,4 +47,9 @@ void ChangeFanEffect::update(std::shared_ptr<CharaBase> chara)
 void ChangeFanEffect::draw()
 {
 
+}
+
+void ChangeFanEffect::stop()
+{
+	StopEffekseer3DEffect(playingHandle_);
 }

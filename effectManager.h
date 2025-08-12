@@ -14,6 +14,7 @@ public:
 
 	void update(std::shared_ptr<CharaBase> charaBase);
 	void draw();
+	void stop();
 
 	std::vector<std::shared_ptr<IEffect<CharaBase>>> effects;
 

@@ -14,6 +14,7 @@ RespawnEffect::RespawnEffect()
 
 RespawnEffect::~RespawnEffect()
 {
+	StopEffekseer3DEffect(playingHandle_);
 	DeleteEffekseerEffect(effectHandle_);
 }
 
@@ -45,4 +46,10 @@ void RespawnEffect::update(std::shared_ptr<CharaBase> chara)
 void RespawnEffect::draw()
 {
 
+}
+
+
+void RespawnEffect::stop()
+{
+	StopEffekseer3DEffect(playingHandle_);
 }

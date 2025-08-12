@@ -27,7 +27,7 @@ Routine::Routine()
     }
 
     //フォントを使えるようにする
-    AddFontResourceExA("font/AprilGothicOne-R.ttf", FR_PRIVATE, NULL);
+    AddFontResourceEx("font/AprilGothicOne-R.ttf", FR_PRIVATE, NULL);
 
     reset();
 }
@@ -38,7 +38,7 @@ Routine::Routine()
 Routine::~Routine()
 {
     DeleteSoundMem(bgm_);
-    RemoveFontResourceExA("font/AprilGothicOne-R.ttf", FR_PRIVATE, NULL);
+    RemoveFontResourceEx("font/AprilGothicOne-R.ttf", FR_PRIVATE, NULL);
 }
 
 /// <summary>
@@ -228,6 +228,11 @@ void Routine::play()
     if (winPlayer1 || winPlayer2 || winPlayer3 || winPlayer4)
     {
         sceneManager->proceedResult();
+
+        for (const auto& e : effectManager)
+        {
+            e->stop();
+        }
     }
 }
 
@@ -330,11 +335,7 @@ void Routine::allReset()
     }
     titleUI     = std::make_shared<TitleUI>();
     titleGraph  = std::make_shared<TitleGraph>();
-    for (auto i = 0; i < max_player_number; i++)
-    {
-        effectManager.emplace_back(std::make_shared<EffectManager>());
-    }
-    playUI = std::make_shared<PlayUI>("April Gothic one");
+    playUI = std::make_shared<PlayUI>("April Gothic one Regular");
 
     reset();
 }

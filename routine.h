@@ -34,9 +34,8 @@ private:
 	std::vector<std::shared_ptr<EffectManager>>effectManager;
 	std::shared_ptr<TitleUI>titleUI				= std::make_shared<TitleUI>();
 	std::shared_ptr<TitleGraph>titleGraph		= std::make_shared<TitleGraph>();
-	//std::vector<std::shared_ptr<PlayUI>>playUI;
-	std::shared_ptr<PlayUI>playUI = std::make_shared<PlayUI>("April Gothic one");
-
+	std::shared_ptr<PlayUI>playUI = std::make_shared<PlayUI>("April Gothic one Regular");
+	
 	void gameRoop();
 	void title();
 	void play();
