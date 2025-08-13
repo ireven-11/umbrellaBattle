@@ -156,6 +156,7 @@
     <ClCompile Include="closeState.cpp" />
     <ClCompile Include="cpu.cpp" />
     <ClCompile Include="cpuBrain.cpp" />
+    <ClCompile Include="DrawBrinkStringToHandle.cpp" />
     <ClCompile Include="effectManager.cpp" />
     <ClCompile Include="escapeState.cpp" />
     <ClCompile Include="fallEffect.cpp" />
@@ -194,6 +195,7 @@
     <ClInclude Include="closeState.h" />
     <ClInclude Include="cpu.h" />
     <ClInclude Include="cpuBrain.h" />
+    <ClInclude Include="DrawBrinkStringToHandle.h" />
     <ClInclude Include="effectManager.h" />
     <ClInclude Include="escapeState.h" />
     <ClInclude Include="fallEffect.h" />

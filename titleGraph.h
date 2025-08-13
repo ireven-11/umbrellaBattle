@@ -27,4 +27,9 @@ private:
 	const int	hit_width		= 100;	//ヒットの幅
 	const int	hit_height		= 100;	//ヒットのt高さ
 	const int	hit_switch_time = 2;	//ヒット変わる時間
-};
+
+	const int		umbrella_width	= 700;	//傘幅
+	const int		umbrella_height	= 600;	//高さ
+	const VECTOR	umbrella1_init_position = VGet(400, 60, 0);	//かさしょきざひょう
+	const VECTOR	umbrella2_init_position = VGet(800, 60, 0);	//かさしょきざひょう
+}; 

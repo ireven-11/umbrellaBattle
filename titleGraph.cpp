@@ -66,5 +66,10 @@ void DrawAnimationGraph(VECTOR position, int graphHandle[], int graphWidth, int 
 
 void TitleGraph::update()
 {
-	DrawAnimationGraph(hitPosition_, hitHandle_, hit_width, hit_height, hit_switch_time, hit_div_number);
+	DrawExtendGraph(umbrella1_init_position.x, umbrella1_init_position.y,
+		umbrella1_init_position.x + umbrella_width, umbrella1_init_position.y + umbrella_height, umbrella1Handle_, TRUE);
+	DrawExtendGraph(umbrella2_init_position.x + umbrella_width, umbrella2_init_position.y,
+		umbrella2_init_position.x, umbrella2_init_position.y + umbrella_height, umbrella2Handle_, TRUE);
+
+	//DrawAnimationGraph(hitPosition_, hitHandle_, hit_width, hit_height, hit_switch_time, hit_div_number);
 }

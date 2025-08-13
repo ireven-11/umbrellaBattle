@@ -153,6 +153,9 @@
     <ClCompile Include="titleGraph.cpp">
       <Filter>ソース ファイル\graph</Filter>
     </ClCompile>
+    <ClCompile Include="DrawBrinkStringToHandle.cpp">
+      <Filter>ソース ファイル\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="setting.h">
@@ -265,6 +268,9 @@
     </ClInclude>
     <ClInclude Include="titleGraph.h">
       <Filter>ヘッダー ファイル\graph</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawBrinkStringToHandle.h">
+      <Filter>ヘッダー ファイル\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
