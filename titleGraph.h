@@ -18,9 +18,7 @@ private:
 	int		hitHandle_[18];			//ヒット
 	VECTOR	umbrellaPosition_[4];	//傘座標
 	VECTOR	hitPosition_;			//ヒット座標
-	int		hitAnimationCount_;		//ヒットアニメーションカウント
-	int		hitWaitCount_;			//ヒットアニメーション待ちカウント
-
+	
 	const short hit_div_number	= 18;	//ヒット分割数
 	const short hit_div_X		= 9;	//ヒット分割数x
 	const short hit_div_y		= 2;	//ヒット分割数y

@@ -31,34 +31,40 @@ void TitleGraph::reset()
 		umbrellaPosition_[i] = VGet(0.0f, 0.0f, 0.0f);
 	}
 	hitPosition_		= VGet(1000.0f, 0.0f, 0.0f);
-	hitAnimationCount_	= 0;
-	hitWaitCount_		= 0;
 }
 
-void DrawAnimationGraph(int graphHandle[], int divNumber, VECTOR position, int width, int height, int& animationCount, int swichTiming, int& waitCount)
+/// <summary>
+/// 画像アニメーション描画
+/// </summary>
+/// <param name="position">描画座標</param>
+/// <param name="graphHandle">画像ハンドル(分割読み込みしたもの)</param>
+/// <param name="graphWidth">画像の幅(1分割分)</param>
+/// <param name="graphHeight">画像の高さ(1分割分)</param>
+/// <param name="tilSwitchTime">画像が切り替わるまでの時間</param>
+/// <param name="finishGraphNumber">最後のアニメーション画像が何枚目かを表す数字</param>
+/// <param name="startGraphNumber">最初のアニメーション画像が何枚目かを表す数字</param>
+void DrawAnimationGraph(VECTOR position, int graphHandle[], int graphWidth, int graphHeight, unsigned int tilSwitchTime, unsigned int finishGraphNumber, unsigned int startGraphNumber = 0)
 {
 	//切り替えまでカウントを増やして待つ
+	static int waitCount;
+	static int animationCount = startGraphNumber;
 	++waitCount;
-	if (waitCount >= swichTiming)
+	if (waitCount >= tilSwitchTime)
 	{
 		//アニメーションカウントを増やす
 		++animationCount;
 		waitCount = 0;
 
 		//アニメーションが最後までいったら最初に戻す
-		if (animationCount >= divNumber)
+		if (animationCount >= finishGraphNumber)
 		{
-			animationCount = 0;
+			animationCount = startGraphNumber;
 		}
 	}
-	DrawExtendGraph(position.x, position.y, position.x + width, position.y + height, graphHandle[animationCount], TRUE);
+	DrawExtendGraph(position.x, position.y, position.x + graphWidth, position.y + graphHeight, graphHandle[animationCount], TRUE);
 }
 
 void TitleGraph::update()
 {
-	DrawAnimationGraph(hitHandle_, hit_div_number, hitPosition_, hit_width, hit_height, hitAnimationCount_, hit_switch_time, hitWaitCount_);
-	/*for (auto i = 0; i < 4; i++)
-	{
-		DrawRotaGraph(umbrellaPosition_[i])
-	}*/
+	DrawAnimationGraph(hitPosition_, hitHandle_, hit_width, hit_height, hit_switch_time, hit_div_number);
 }
