@@ -78,17 +78,9 @@ void Camera::virtualUpdate(VECTOR upPosition)
 			position_.x -= move_speed;
 		}
 	}
-	if (position_.y - upPosition.y + zoom_out_position.y > error||
-		position_.y - upPosition.y + zoom_out_position.y < -error)//Œë·‚ðÝ’è
+	if (position_.y > upPosition.y + zoom_out_position.y)
 	{
-		if (position_.y < upPosition.y + zoom_out_position.y)
-		{
-			position_.y += move_speed / 2;
-		}
-		else if (position_.y > upPosition.y + zoom_out_position.y)
-		{
-			position_.y -= move_speed / 2;
-		}
+		position_.y -= move_speed;
 	}
 	if (position_.z - upPosition.z + zoom_out_position.z > error ||
 		position_.z - upPosition.z + zoom_out_position.z < -error)//Œë·‚ðÝ’è
