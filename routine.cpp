@@ -74,8 +74,6 @@ void Routine::gameRoop()
         //画面に描かれた物を消す(ゲームループの最初に呼ぶ)
         ClearDrawScreen();
         
-        camera->update();
-
         switch (sceneManager->GetsceneType_())
         {
         case TITLE:
@@ -147,8 +145,12 @@ void Routine::stanby()
 /// </summary>
 void Routine::play()
 {
+    //カメラ更新
+    camera->update();
+
     //すてーじこうしん
     stage->update(players);
+    stage->draw();
 
     //だれっとあたってるかのカウント
     short playerCount = 0;
@@ -201,44 +203,7 @@ void Routine::play()
     DrawEffekseer3D();
     UpdateEffekseer3D();
 
-    //勝利判定
-    auto winPlayer1 = players.at(0)->Getstate_() != std::dynamic_pointer_cast<CharaState::FanState>(players.at(0)->Getstate_())
-        && players.at(1)->Getstate_() == std::dynamic_pointer_cast<CharaState::FanState>(players.at(1)->Getstate_())
-        && players.at(2)->Getstate_() == std::dynamic_pointer_cast<CharaState::FanState>(players.at(2)->Getstate_())
-        && players.at(3)->Getstate_() == std::dynamic_pointer_cast<CharaState::FanState>(players.at(3)->Getstate_());
-    auto winPlayer2 = players.at(0)->Getstate_() == std::dynamic_pointer_cast<CharaState::FanState>(players.at(0)->Getstate_())
-        && players.at(1)->Getstate_() != std::dynamic_pointer_cast<CharaState::FanState>(players.at(1)->Getstate_())
-        && players.at(2)->Getstate_() == std::dynamic_pointer_cast<CharaState::FanState>(players.at(2)->Getstate_())
-        && players.at(3)->Getstate_() == std::dynamic_pointer_cast<CharaState::FanState>(players.at(3)->Getstate_());
-    auto winPlayer3 = players.at(0)->Getstate_() == std::dynamic_pointer_cast<CharaState::FanState>(players.at(0)->Getstate_())
-        && players.at(1)->Getstate_() == std::dynamic_pointer_cast<CharaState::FanState>(players.at(1)->Getstate_())
-        && players.at(2)->Getstate_() != std::dynamic_pointer_cast<CharaState::FanState>(players.at(2)->Getstate_())
-        && players.at(3)->Getstate_() == std::dynamic_pointer_cast<CharaState::FanState>(players.at(3)->Getstate_());
-    auto winPlayer4 = players.at(0)->Getstate_() == std::dynamic_pointer_cast<CharaState::FanState>(players.at(0)->Getstate_())
-        && players.at(1)->Getstate_() == std::dynamic_pointer_cast<CharaState::FanState>(players.at(1)->Getstate_())
-        && players.at(2)->Getstate_() == std::dynamic_pointer_cast<CharaState::FanState>(players.at(2)->Getstate_())
-        && players.at(3)->Getstate_() != std::dynamic_pointer_cast<CharaState::FanState>(players.at(3)->Getstate_());
-    if (winPlayer1 || winPlayer2 || winPlayer3 || winPlayer4)
-    {
-        sceneManager->proceedResult();
-
-        if (winPlayer1)
-        {
-            winPlayer_ = 1;
-        }
-        else if (winPlayer2)
-        {
-            winPlayer_ = 2;
-        }
-        else if (winPlayer3)
-        {
-            winPlayer_ = 3;
-        }
-        else
-        {
-            winPlayer_ = 4;
-        }
-    }
+    judgeWinner();
 }
 
 /// <summary>
@@ -246,6 +211,15 @@ void Routine::play()
 /// </summary>
 void Routine::result()
 {
+    //バーチャルカメラ更新
+    camera->virtualUpdate(cameraUpPosition_);
+
+    stage->draw();
+    for (const auto& p : players)
+    {
+        p->draw();
+    }
+
     resultUI->update(winPlayer_);
     
     if (sceneManager->proceedTitle())
@@ -264,7 +238,8 @@ void Routine::reset()
     {
         isjoiningPlayer[i] = false;
     }
-    winPlayer_ = 0;
+    winPlayer_          = 0;
+    cameraUpPosition_   = VGet(0.0f, 0.0f, 0.0f);
 }
 
 /// <summary>
@@ -348,4 +323,50 @@ void Routine::allReset()
     resultUI    = std::make_shared<ResultUI>("April Gothic one Regular");
 
     reset();
+}
+
+void Routine::judgeWinner()
+{
+    //勝利判定
+    auto winPlayer1 = players.at(0)->Getstate_() != std::dynamic_pointer_cast<CharaState::FanState>(players.at(0)->Getstate_())
+        && players.at(1)->Getstate_() == std::dynamic_pointer_cast<CharaState::FanState>(players.at(1)->Getstate_())
+        && players.at(2)->Getstate_() == std::dynamic_pointer_cast<CharaState::FanState>(players.at(2)->Getstate_())
+        && players.at(3)->Getstate_() == std::dynamic_pointer_cast<CharaState::FanState>(players.at(3)->Getstate_());
+    auto winPlayer2 = players.at(0)->Getstate_() == std::dynamic_pointer_cast<CharaState::FanState>(players.at(0)->Getstate_())
+        && players.at(1)->Getstate_() != std::dynamic_pointer_cast<CharaState::FanState>(players.at(1)->Getstate_())
+        && players.at(2)->Getstate_() == std::dynamic_pointer_cast<CharaState::FanState>(players.at(2)->Getstate_())
+        && players.at(3)->Getstate_() == std::dynamic_pointer_cast<CharaState::FanState>(players.at(3)->Getstate_());
+    auto winPlayer3 = players.at(0)->Getstate_() == std::dynamic_pointer_cast<CharaState::FanState>(players.at(0)->Getstate_())
+        && players.at(1)->Getstate_() == std::dynamic_pointer_cast<CharaState::FanState>(players.at(1)->Getstate_())
+        && players.at(2)->Getstate_() != std::dynamic_pointer_cast<CharaState::FanState>(players.at(2)->Getstate_())
+        && players.at(3)->Getstate_() == std::dynamic_pointer_cast<CharaState::FanState>(players.at(3)->Getstate_());
+    auto winPlayer4 = players.at(0)->Getstate_() == std::dynamic_pointer_cast<CharaState::FanState>(players.at(0)->Getstate_())
+        && players.at(1)->Getstate_() == std::dynamic_pointer_cast<CharaState::FanState>(players.at(1)->Getstate_())
+        && players.at(2)->Getstate_() == std::dynamic_pointer_cast<CharaState::FanState>(players.at(2)->Getstate_())
+        && players.at(3)->Getstate_() != std::dynamic_pointer_cast<CharaState::FanState>(players.at(3)->Getstate_());
+    if (winPlayer1 || winPlayer2 || winPlayer3 || winPlayer4)
+    {
+        sceneManager->proceedResult();
+
+        if (winPlayer1)
+        {
+            winPlayer_          = 1;
+            cameraUpPosition_   = players.at(0)->Getposition_();
+        }
+        else if (winPlayer2)
+        {
+            winPlayer_          = 2;
+            cameraUpPosition_   = players.at(1)->Getposition_();
+        }
+        else if (winPlayer3)
+        {
+            winPlayer_          = 3;
+            cameraUpPosition_   = players.at(2)->Getposition_();
+        }
+        else
+        {
+            winPlayer_          = 4;
+            cameraUpPosition_   = players.at(3)->Getposition_();
+        }
+    }
 }

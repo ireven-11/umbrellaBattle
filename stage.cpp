@@ -83,7 +83,6 @@ void Stage::update(std::vector<std::shared_ptr<CharaBase>>player)
 			mapChipUpdate(canExist_[j][i], j, i);
 		}
 	}
-	draw();
 	addvanishingCount();
 	change3dModelColor();
 	vanishTile();
@@ -152,81 +151,6 @@ void Stage::vanishTile()
 		tileCount_++;
 	}
 }
-
-/// <summary>
-/// 一点が三角形の中にあるか確認する
-/// </summary>
-/// <param name="trianglePos0">三角形の頂点1</param>
-/// <param name="trianglePos1">三角形の頂点2</param>
-/// <param name="trianglePos2">三角形の頂点3</param>
-/// <param name="pixelPos"></param>
-/// <returns></returns>
-//bool HitTriangleAndPixel(VECTOR trianglePos0, VECTOR trianglePos1, VECTOR trianglePos2, VECTOR pixelPos)
-//{
-//	VECTOR vec0;
-//	vec0.x = trianglePos1.x - trianglePos0.x;
-//	vec0.z = trianglePos1.z - trianglePos0.z;
-//	float length0 = sqrt(vec0.x * vec0.x + vec0.z * vec0.z);
-//
-//	VECTOR vec1;
-//	vec1.x = trianglePos2.x - trianglePos0.x;
-//	vec1.z = trianglePos2.z - trianglePos0.z;
-//	float length1 = sqrt(vec1.x * vec1.x + vec1.z * vec1.z);
-//
-//	VECTOR boxVerTex0AndCursorVec;
-//	boxVerTex0AndCursorVec.x = pixelPos.x - trianglePos0.x;
-//	boxVerTex0AndCursorVec.z = pixelPos.z - trianglePos0.z;
-//	float cursorLength0 = sqrt(boxVerTex0AndCursorVec.x * boxVerTex0AndCursorVec.x + boxVerTex0AndCursorVec.z * boxVerTex0AndCursorVec.z);
-//
-//	float innerProduct0 = vec0.x * vec1.x + vec0.z * vec1.z; //ABとACのなす角を求める
-//	float radian0 = innerProduct0 / length0 / length1;
-//	float degree0 = acos(radian0) / 3.14159f * 180.0f;
-//
-//	float innerProduct1 = vec0.x * boxVerTex0AndCursorVec.x + vec0.z * boxVerTex0AndCursorVec.z; //ABとAPのなす角を求める
-//	float radian1 = innerProduct1 / length0 / cursorLength0;
-//	float degree1 = acos(radian1) / 3.14159f * 180.0f;
-//
-//	if (degree1 >= degree0) return false;
-//
-//	float innerProduct2 = vec1.x * boxVerTex0AndCursorVec.x + vec1.z * boxVerTex0AndCursorVec.z; //ACとAPのなす角を求める
-//	float radian2 = innerProduct2 / length1 / cursorLength0;
-//	float degree2 = acos(radian2) / 3.14159f * 180.0f;
-//
-//	if (degree2 >= degree0) return false;
-//
-//	VECTOR vec2;
-//	vec2.x = trianglePos2.x - trianglePos1.x;
-//	vec2.z = trianglePos2.z - trianglePos1.z;
-//	float length2 = sqrt(vec2.x * vec2.x + vec2.z * vec2.z);
-//
-//	VECTOR vec3;
-//	vec3.x = trianglePos0.x - trianglePos1.x;
-//	vec3.z = trianglePos0.z - trianglePos1.z;
-//	float length3 = sqrt(vec3.x * vec3.x + vec3.z * vec3.z);
-//
-//	VECTOR boxVerTex1AndCursorVec;
-//	boxVerTex1AndCursorVec.x = pixelPos.x - trianglePos1.x;
-//	boxVerTex1AndCursorVec.z = pixelPos.z - trianglePos1.z;
-//	float cursorLength1 = sqrt(boxVerTex1AndCursorVec.x * boxVerTex1AndCursorVec.x + boxVerTex1AndCursorVec.z * boxVerTex1AndCursorVec.z);
-//
-//	float innerProduct3 = vec2.x * vec3.x + vec2.z * vec3.z;  //BCとBAのなす角を求める
-//	float radian3 = innerProduct3 / length2 / length3;
-//	float degree3 = acos(radian3) / 3.14159f * 180.0f;
-//
-//	float innerProduct4 = vec2.x * boxVerTex1AndCursorVec.x + vec2.z * boxVerTex1AndCursorVec.z; //BCとBPのなす角を求める
-//	float radian4 = innerProduct4 / length2 / cursorLength1;
-//	float degree4 = acos(radian4) / 3.14159f * 180.0f;
-//
-//	if (degree4 >= degree3) return false;
-//
-//	float innerProduct5 = vec3.x * boxVerTex1AndCursorVec.x + vec3.z * boxVerTex1AndCursorVec.z; //BAとBPのなす角を求める
-//	float radian5 = innerProduct5 / length3 / cursorLength1;
-//	float degree5 = acos(radian5) / 3.14159f * 180.0f;
-//
-//	if (degree5 >= degree3) return false;
-//
-//	return true;
-//}
 
 // 2D用の外積（z軸方向のみ）
 float Cross2D(VECTOR a, VECTOR b) {

@@ -47,10 +47,12 @@ private:
 	void joinPlayer();
 	void joinCPU();
 	void allReset();
+	void judgeWinner();
 
 	bool	isjoiningPlayer[max_player_number];	//プレイヤー参加フラグ
 	int		bgm_;								//bgm
 	short	winPlayer_;							//勝ったプレイヤー
+	VECTOR	cameraUpPosition_;					//カメラアップ座標
 
 	const short bgm_volume = 100;
 };
