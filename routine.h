@@ -53,6 +53,6 @@ private:
 	int		bgm_;								//bgm
 	short	winPlayer_;							//勝ったプレイヤー
 	VECTOR	cameraUpPosition_;					//カメラアップ座標
-
+	
 	const short bgm_volume = 100;
 };

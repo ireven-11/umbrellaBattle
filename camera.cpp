@@ -9,6 +9,11 @@ Camera::Camera()
 {
 	position_				= VGet(0.0f, init_Y, init_z);
 	targetPosition_			= VGet(0.0f, 0.0f, 0.0f);
+	wasZoomUp_				= false;
+	for (auto i = 0; i < 3; i++)
+	{
+		wasZoomUPXYZ_[i] = false;
+	}
 }
 
 /// <summary>
@@ -78,9 +83,17 @@ void Camera::virtualUpdate(VECTOR upPosition)
 			position_.x -= move_speed;
 		}
 	}
+	else
+	{
+		wasZoomUPXYZ_[0] = true;
+	}
 	if (position_.y > upPosition.y + zoom_out_position.y)
 	{
 		position_.y -= move_speed;
+	}
+	else
+	{
+		wasZoomUPXYZ_[1] = true;
 	}
 	if (position_.z - upPosition.z + zoom_out_position.z > error ||
 		position_.z - upPosition.z + zoom_out_position.z < -error)//誤差を設定
@@ -93,6 +106,16 @@ void Camera::virtualUpdate(VECTOR upPosition)
 		{
 			position_.z -= move_speed;
 		}
+	}
+	else
+	{
+		wasZoomUPXYZ_[2] = true;
+	}
+
+	//ズーム終わりを表す
+	if (wasZoomUPXYZ_[0] && wasZoomUPXYZ_[1] && wasZoomUPXYZ_[2])
+	{
+		wasZoomUp_ = true;
 	}
 
 	// DXライブラリのカメラとEffekseerのカメラを同期する。

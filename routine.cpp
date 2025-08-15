@@ -220,13 +220,15 @@ void Routine::result()
         p->draw();
     }
 
-    resultUI->update(winPlayer_);
-    
-    if (sceneManager->proceedTitle())
+    //ズームアップが終わり
+    if (camera->GetwasZoomUP_())
     {
-        allReset();
+        resultUI->update(winPlayer_);
+        if (sceneManager->proceedTitle())
+        {
+            allReset();
+        }
     }
-    
 }
 
 /// <summary>
