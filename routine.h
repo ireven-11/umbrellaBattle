@@ -15,6 +15,7 @@ class TitleUI;
 class TitleGraph;
 class PlayUI;
 class ResultUI;
+class ResultGraph;
 
 class Routine
 {
@@ -37,6 +38,7 @@ private:
 	std::shared_ptr<TitleGraph>titleGraph		= std::make_shared<TitleGraph>();
 	std::shared_ptr<PlayUI>playUI				= std::make_shared<PlayUI>("April Gothic one Regular");
 	std::shared_ptr<ResultUI>resultUI			= std::make_shared<ResultUI>("April Gothic one Regular");
+	std::shared_ptr<ResultGraph>resultGraph		= std::make_shared<ResultGraph>();
 
 	void gameRoop();
 	void title();

@@ -13,6 +13,7 @@
 #include"titleGraph.h"
 #include"playUI.h"
 #include"resultUI.h"
+#include"resultGraph.h"
 
 /// <summary>
 /// コンストラクタ
@@ -62,6 +63,7 @@ void Routine::game()
     titleGraph      = nullptr;
     playUI          = nullptr;
     resultUI        = nullptr;
+    resultGraph     = nullptr;
 }
 
 /// <summary>
@@ -224,6 +226,7 @@ void Routine::result()
     if (camera->GetwasZoomUP_())
     {
         resultUI->update(winPlayer_);
+        resultGraph->update();
         if (sceneManager->proceedTitle())
         {
             allReset();
@@ -310,6 +313,7 @@ void Routine::allReset()
     titleGraph      = nullptr;
     playUI          = nullptr;
     resultUI        = nullptr;
+    resultGraph     = nullptr;
 
     sceneManager    = std::make_shared<SceneManager>();
     camera          = std::make_shared<Camera>();
@@ -323,6 +327,7 @@ void Routine::allReset()
     titleGraph  = std::make_shared<TitleGraph>();
     playUI      = std::make_shared<PlayUI>("April Gothic one Regular");
     resultUI    = std::make_shared<ResultUI>("April Gothic one Regular");
+    resultGraph = std::make_shared<ResultGraph>();
 
     reset();
 }

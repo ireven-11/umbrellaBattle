@@ -156,6 +156,9 @@
     <ClCompile Include="DrawBrinkStringToHandle.cpp">
       <Filter>ソース ファイル\UI</Filter>
     </ClCompile>
+    <ClCompile Include="resultGraph.cpp">
+      <Filter>ソース ファイル\graph</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="setting.h">
@@ -271,6 +274,9 @@
     </ClInclude>
     <ClInclude Include="DrawBrinkStringToHandle.h">
       <Filter>ヘッダー ファイル\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="resultGraph.h">
+      <Filter>ヘッダー ファイル\graph</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
