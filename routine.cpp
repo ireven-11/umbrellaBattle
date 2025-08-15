@@ -20,8 +20,12 @@
 /// </summary>
 Routine::Routine()
 {
-    bgm_ = LoadSoundMem("sound/bgm.mp3");
+    bgm_        = LoadSoundMem("sound/bgm.mp3");
+    crap_       = LoadSoundMem("sound/crap.mp3");
+    fanfare_    = LoadSoundMem("sound/win.mp3");
     ChangeVolumeSoundMem(bgm_volume, bgm_);
+    ChangeVolumeSoundMem(crap_volume, bgm_);
+    ChangeVolumeSoundMem(fanfare_volume, bgm_);
 
     for (auto i = 0; i < max_player_number; i++)
     {
@@ -225,11 +229,21 @@ void Routine::result()
     //ズームアップが終わり
     if (camera->GetwasZoomUP_())
     {
+        //一回効果音を流す
+        if (!wasPlayingSE_)
+        {
+            wasPlayingSE_ = true;
+            PlaySoundMem(fanfare_, DX_PLAYTYPE_BACK, TRUE);
+            PlaySoundMem(crap_, DX_PLAYTYPE_LOOP, TRUE);
+        }
+
         resultUI->update(winPlayer_);
         resultGraph->update();
         if (sceneManager->proceedTitle())
         {
             allReset();
+            StopSoundMem(crap_);
+            StopSoundMem(fanfare_);
         }
     }
 }
@@ -245,6 +259,7 @@ void Routine::reset()
     }
     winPlayer_          = 0;
     cameraUpPosition_   = VGet(0.0f, 0.0f, 0.0f);
+    wasPlayingSE_       = false;
 }
 
 /// <summary>
@@ -354,6 +369,7 @@ void Routine::judgeWinner()
     if (winPlayer1 || winPlayer2 || winPlayer3 || winPlayer4)
     {
         sceneManager->proceedResult();
+        StopSoundMem(bgm_);
 
         if (winPlayer1)
         {

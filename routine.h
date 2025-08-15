@@ -55,6 +55,11 @@ private:
 	int		bgm_;								//bgm
 	short	winPlayer_;							//勝ったプレイヤー
 	VECTOR	cameraUpPosition_;					//カメラアップ座標
+	bool	wasPlayingSE_;						//効果音を流したか
+	int		crap_;								//拍手
+	int		fanfare_;							//ファンファーレ
 	
-	const short bgm_volume = 100;
+	const short bgm_volume		= 100;
+	const short crap_volume		= 100;
+	const short fanfare_volume	= 200;
 };
