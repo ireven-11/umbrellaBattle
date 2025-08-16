@@ -673,6 +673,7 @@ void CharaBase::collisionWindWithChara(std::shared_ptr<CharaBase> otherChara, st
 void CharaBase::hitWind(VECTOR windVector)
 {
 	position_ = VAdd(position_, VScale(windVector, 0.017f));
+	collisionCenterPosition_ = VAdd(collisionCenterPosition_, VScale(windVector, 0.017f));
 }
 
 VECTOR CharaBase::decideRespawnPosition(std::shared_ptr<Stage> stage)
