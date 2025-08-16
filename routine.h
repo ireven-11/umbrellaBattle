@@ -16,6 +16,7 @@ class TitleGraph;
 class PlayUI;
 class ResultUI;
 class ResultGraph;
+class SandBag;
 
 class Routine
 {
@@ -39,6 +40,7 @@ private:
 	std::shared_ptr<PlayUI>playUI				= std::make_shared<PlayUI>("April Gothic one Regular");
 	std::shared_ptr<ResultUI>resultUI			= std::make_shared<ResultUI>("April Gothic one Regular");
 	std::shared_ptr<ResultGraph>resultGraph		= std::make_shared<ResultGraph>();
+	std::shared_ptr<CharaBase>sandBag;
 
 	void gameRoop();
 	void title();
@@ -59,7 +61,7 @@ private:
 	int		crap_;								//拍手
 	int		fanfare_;							//ファンファーレ
 	
-	const short bgm_volume		= 100;
+	const short bgm_volume		= 90;
 	const short crap_volume		= 100;
 	const short fanfare_volume	= 200;
 };

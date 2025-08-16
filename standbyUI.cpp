@@ -35,17 +35,12 @@ void StandbyUI::playerJoin(bool isjoiningPlayer[], const int max_player_number)
 {
 	for (int i = 0; i < max_player_number; i++)
 	{
-		DrawFormatStringToHandle(player_number_position.x + player_number_gap * i, player_number_position.y, GetColor(255, 255, 255), fontHandle_, "%dP", i + 1);
-		if (isjoiningPlayer[i])
-		{
-			DrawStringToHandle(wait_or_join_position.x + player_number_gap * i, wait_or_join_position.y, "参加！", GetColor(255, 255, 255), fontHandle_);
-		}
-		else
+		if (!isjoiningPlayer[i])
 		{
 			DrawStringToHandle(wait_or_join_position.x + player_number_gap * i, wait_or_join_position.y, "待機中...", GetColor(255, 255, 255), fontHandle_);
+			DrawFormatStringToHandle(player_number_position.x + player_number_gap * i, player_number_position.y, GetColor(255, 255, 255), fontHandle_, "%dP", i + 1);
 		}
 	}
 
 	DrawBrinkStringToHandle(join_player_position, "Aボタンで参加！", GetColor(255, 50, 0), fontHandleSize100_);
-	//DrawStringToHandle(join_player_position.x, join_player_position.y, "Aボタンで参加！", GetColor(255, 50, 0), fontHandleSize100_);
 }

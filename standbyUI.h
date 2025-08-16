@@ -14,8 +14,8 @@ private:
 	int	fontHandle_;		//フォントハンドル
 	int	fontHandleSize100_;	//フォントハンドル
 
-	const VECTOR	player_number_position	= VGet(290, 200, 0);
+	const VECTOR	player_number_position	= VGet(270, 870, 0);
 	const int		player_number_gap		= 400;
-	const VECTOR	wait_or_join_position	= VGet(265, 300, 0);
+	const VECTOR	wait_or_join_position	= VGet(245, 940, 0);
 	const VECTOR	join_player_position	= VGet(700, 70, 0);
 };

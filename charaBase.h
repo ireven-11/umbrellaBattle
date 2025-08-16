@@ -42,7 +42,7 @@ public:
 	void AdjustPositionAfterCollision(float amountX, float amountZ);
 	void AddImpulse(float impulseX, float impulseZ);
 	void knockBackNow();
-	void draw()const;
+	virtual void draw()const;
 	void changeHitNowFlag();
 	void collisionWindWithChara(std::shared_ptr<CharaBase> otherChara, std::shared_ptr<Stage> stage);
 	void respawn();
@@ -56,7 +56,7 @@ public:
 
 	VECTOR								Getposition_()const { return  position_; }
 	std::shared_ptr<StateMachine::IState>	Getstate_()const { return state_; }
-	int									GetcontrolerNumber_()const { return controlerNumber_; }
+	short								GetcontrolerNumber_()const { return controlerNumber_; }
 	float								GettackleCount_()const { return tackleCount_; }
 	float								Getmax_tackle_count()const { return max_tackle_count; }
 	VECTOR								GetonTilePosition_()const { return onTilePosition_; }
@@ -103,9 +103,9 @@ private:
 	const short		knock_back_max_count	= 4;
 	const short		charge_sound_volume		= 215;
 	const short		max_wind_count			= 120;
-	const short		wind_sound_volume		= 150;
+	const short		wind_sound_volume		= 200;
 	const short		respawn_sound_volume	= 255;
-	const short		inverse_sound_volume	= 250;
+	const short		inverse_sound_volume	= 255;
 
 protected:
 	void tackleMoving();
@@ -128,7 +128,7 @@ protected:
 	double	rotationAngleY_;	//回転角度
 	MATRIX	rotaionMatrix_;		//回転行列を保存する変数
 	bool	isMovingtackle_;	//タックル移動中かどうか
-	int		controlerNumber_;	//どのコントローラかを表す数字
+	short	controlerNumber_;	//どのコントローラかを表す数字
 	bool	isSwing_;			//スイング中かどうか
 	double	angleSwing_;		//スイングの角度
 	int		fan_;				//扇風機

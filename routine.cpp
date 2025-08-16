@@ -14,6 +14,7 @@
 #include"playUI.h"
 #include"resultUI.h"
 #include"resultGraph.h"
+#include"sandBag.h"
 
 /// <summary>
 /// コンストラクタ
@@ -27,10 +28,8 @@ Routine::Routine()
     ChangeVolumeSoundMem(crap_volume, bgm_);
     ChangeVolumeSoundMem(fanfare_volume, bgm_);
 
-    for (auto i = 0; i < max_player_number; i++)
-    {
-        effectManager.emplace_back(std::make_shared<EffectManager>());
-    }
+    //サンドバッグインスタンス化
+    sandBag = std::make_shared<SandBag>(0);
 
     //フォントを使えるようにする
     AddFontResourceEx("font/AprilGothicOne-R.ttf", FR_PRIVATE, NULL);
@@ -68,6 +67,7 @@ void Routine::game()
     playUI          = nullptr;
     resultUI        = nullptr;
     resultGraph     = nullptr;
+    sandBag         = nullptr;
 }
 
 /// <summary>
@@ -106,6 +106,7 @@ void Routine::gameRoop()
             allReset();
         }
 
+        //fpsを設定
         SetFPS();
 
         // 裏画面の内容を表画面に反映(ゲームループの最後に呼ぶ)
@@ -133,14 +134,82 @@ void Routine::title()
 /// </summary>
 void Routine::stanby()
 {
+    //カメラ更新
+    camera->update();
+
+    //ステージ更新
+    stage->update();
+    stage->draw();
+
+    //プレイヤー参加
     joinPlayer();
 
+    //プレイヤーが参加している時だけ
+    if (isjoiningPlayer[0] || isjoiningPlayer[1] || isjoiningPlayer[2] || isjoiningPlayer[3])
+    {
+        //サンドバッグ更新
+        sandBag->update(this, stage);
+
+        for (const auto& i : players)
+        {
+            i->update(this, stage);
+
+            //二重範囲forにして当たり判定をチェック
+            for (const auto& j : players)
+            {
+                //この条件分がなかったらバグるので注意
+                if (i != j)
+                {
+                    //ノックバック量（反発量）を決める
+                    i->decideKnockBackWithChara(j);
+
+                    //風の当たり判定
+                    i->collisionWindWithChara(j, stage);
+                }
+            }
+
+            //サンドバッグとの当たり判定
+            i->decideKnockBackWithChara(sandBag);
+            i->collisionWindWithChara(sandBag, stage);
+            DrawSphere3D(sandBag->GetcollisionCenterPosition_(), collision_radius, 32, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
+
+            //判定が終わった後にノックバック（反発）をする
+            i->knockBackNow();
+            sandBag->knockBackNow();
+
+            //プレイヤー描画
+            i->draw();
+
+            //ui
+            playUI->update(i, i->GetcontrolerNumber_());
+        }
+
+        //エフェクトマネージャー
+        auto playerIt = players.begin();
+        for (const auto& e : effectManager)
+        {
+            e->update(*playerIt);
+            ++playerIt;
+        }
+
+        DrawEffekseer3D();
+        UpdateEffekseer3D();
+
+        //サンドバッグ描画
+        sandBag->draw();
+    }
+    
     if (sceneManager->proceedPlay())
     {
         //プレイ画面へ行くときにcpuを参加
         joinCPU();
 
         PlaySoundMem(bgm_, DX_PLAYTYPE_LOOP, TRUE);
+
+        for (const auto& p : players)
+        {
+            p->reset();
+        }
     }
 
     standbyUI->update(isjoiningPlayer, max_player_number);
@@ -155,11 +224,11 @@ void Routine::play()
     camera->update();
 
     //すてーじこうしん
-    stage->update(players);
+    stage->updateGimmick(players);
+    stage->update();
     stage->draw();
 
     //だれっとあたってるかのカウント
-    short playerCount = 0;
     for (const auto& i:players)
     {
         i->update(this, stage);
@@ -193,9 +262,7 @@ void Routine::play()
         i->draw();
 
         //ui
-        playUI->update(i, playerCount);
-
-        ++playerCount;
+        playUI->update(i, i->GetcontrolerNumber_());
     }
 
     //エフェクトマネージャー
@@ -283,21 +350,25 @@ void Routine::joinPlayer()
     {
         players.emplace_back(std::make_shared<Player>(DX_INPUT_PAD1));
         isjoiningPlayer[0] = true;
+        effectManager.emplace_back(std::make_shared<EffectManager>());
     }
     if (input2.Buttons[1] > 0 && !isjoiningPlayer[1])
     {
         players.emplace_back(std::make_shared<Player>(DX_INPUT_PAD2));
         isjoiningPlayer[1] = true;
+        effectManager.emplace_back(std::make_shared<EffectManager>());
     }
     if (input3.Buttons[1] > 0 && !isjoiningPlayer[2])
     {
         players.emplace_back(std::make_shared<Player>(DX_INPUT_PAD3));
         isjoiningPlayer[2] = true;
+        effectManager.emplace_back(std::make_shared<EffectManager>());
     }
     if (input4.Buttons[1] > 0 && !isjoiningPlayer[3])
     {
         players.emplace_back(std::make_shared<Player>(DX_INPUT_PAD4));
         isjoiningPlayer[3] = true;
+        effectManager.emplace_back(std::make_shared<EffectManager>());
     }
 }
 
@@ -312,13 +383,14 @@ void Routine::joinCPU()
         if (!isjoiningPlayer[i])
         {
             players.emplace_back(std::make_shared<CPU>(i + 1));
+            effectManager.emplace_back(std::make_shared<EffectManager>());
         }
     }
 }
 
 void Routine::allReset()
 {
-    sceneManager    = nullptr;
+    //sceneManager    = nullptr;
     camera          = nullptr;
     players.clear();
     stage           = nullptr;
@@ -329,20 +401,18 @@ void Routine::allReset()
     playUI          = nullptr;
     resultUI        = nullptr;
     resultGraph     = nullptr;
+    sandBag         = nullptr;
 
-    sceneManager    = std::make_shared<SceneManager>();
+    //sceneManager    = std::make_shared<SceneManager>();
     camera          = std::make_shared<Camera>();
     stage           = std::make_shared<Stage>();
     standbyUI       = std::make_shared<StandbyUI>("April Gothic one Regular");
-    for (auto i = 0; i < max_player_number; i++)
-    {
-        effectManager.emplace_back(std::make_shared<EffectManager>());
-    }
-    titleUI     = std::make_shared<TitleUI>("April Gothic one Regular");
-    titleGraph  = std::make_shared<TitleGraph>();
-    playUI      = std::make_shared<PlayUI>("April Gothic one Regular");
-    resultUI    = std::make_shared<ResultUI>("April Gothic one Regular");
-    resultGraph = std::make_shared<ResultGraph>();
+    titleUI         = std::make_shared<TitleUI>("April Gothic one Regular");
+    titleGraph      = std::make_shared<TitleGraph>();
+    playUI          = std::make_shared<PlayUI>("April Gothic one Regular");
+    resultUI        = std::make_shared<ResultUI>("April Gothic one Regular");
+    resultGraph     = std::make_shared<ResultGraph>();
+    sandBag         = std::make_shared<SandBag>(0);
 
     reset();
 }
@@ -373,22 +443,22 @@ void Routine::judgeWinner()
 
         if (winPlayer1)
         {
-            winPlayer_          = 1;
+            winPlayer_          = players.at(0)->GetcontrolerNumber_();
             cameraUpPosition_   = players.at(0)->Getposition_();
         }
         else if (winPlayer2)
         {
-            winPlayer_          = 2;
+            winPlayer_          = players.at(1)->GetcontrolerNumber_();
             cameraUpPosition_   = players.at(1)->Getposition_();
         }
         else if (winPlayer3)
         {
-            winPlayer_          = 3;
+            winPlayer_          = players.at(2)->GetcontrolerNumber_();
             cameraUpPosition_   = players.at(2)->Getposition_();
         }
         else
         {
-            winPlayer_          = 4;
+            winPlayer_          = players.at(3)->GetcontrolerNumber_();
             cameraUpPosition_   = players.at(3)->Getposition_();
         }
     }

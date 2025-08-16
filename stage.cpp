@@ -72,7 +72,7 @@ Stage::~Stage()
 /// <summary>
 /// çXêV
 /// </summary>
-void Stage::update(std::vector<std::shared_ptr<CharaBase>>player)
+void Stage::update()
 {
 	MV1SetPosition(skydomeHandle_, VGet(0, 0, 0));
 	for (int i = 0; i < tile_number; i++)
@@ -83,6 +83,10 @@ void Stage::update(std::vector<std::shared_ptr<CharaBase>>player)
 			mapChipUpdate(canExist_[j][i], j, i);
 		}
 	}
+}
+
+void Stage::updateGimmick(std::vector<std::shared_ptr<CharaBase>>player)
+{
 	addvanishingCount();
 	change3dModelColor();
 	vanishTile();

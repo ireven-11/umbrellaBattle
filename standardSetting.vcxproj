@@ -169,6 +169,7 @@
     <ClCompile Include="resultGraph.cpp" />
     <ClCompile Include="resultUI.cpp" />
     <ClCompile Include="routine.cpp" />
+    <ClCompile Include="sandBag.cpp" />
     <ClCompile Include="sceneManager.cpp" />
     <ClCompile Include="setting.cpp" />
     <ClCompile Include="stage.cpp" />
@@ -211,6 +212,7 @@
     <ClInclude Include="resultGraph.h" />
     <ClInclude Include="resultUI.h" />
     <ClInclude Include="routine.h" />
+    <ClInclude Include="sandBag.h" />
     <ClInclude Include="sceneManager.h" />
     <ClInclude Include="setting.h" />
     <ClInclude Include="stage.h" />

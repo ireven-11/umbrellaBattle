@@ -24,7 +24,8 @@ public:
 	Stage();
 	~Stage();
 
-	void update(std::vector<std::shared_ptr<CharaBase>>player);
+	void update();
+	void updateGimmick(std::vector<std::shared_ptr<CharaBase>>player);
 	void draw();
 	void reset();
 	void collisionWithPlayer(std::vector<std::shared_ptr<CharaBase>>player);

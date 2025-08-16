@@ -159,6 +159,9 @@
     <ClCompile Include="resultGraph.cpp">
       <Filter>ソース ファイル\graph</Filter>
     </ClCompile>
+    <ClCompile Include="sandBag.cpp">
+      <Filter>ソース ファイル\chara</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="setting.h">
@@ -277,6 +280,9 @@
     </ClInclude>
     <ClInclude Include="resultGraph.h">
       <Filter>ヘッダー ファイル\graph</Filter>
+    </ClInclude>
+    <ClInclude Include="sandBag.h">
+      <Filter>ヘッダー ファイル\chara</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
