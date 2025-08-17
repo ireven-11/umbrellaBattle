@@ -106,6 +106,7 @@ private:
 	const short		wind_sound_volume		= 200;
 	const short		respawn_sound_volume	= 255;
 	const short		inverse_sound_volume	= 255;
+	const short		change_fan_sound_volume = 200;
 
 protected:
 	void tackleMoving();
@@ -162,6 +163,7 @@ protected:
 	int		respawnSound_;		//リスポーン音
 	int		inverseSound_;		//ひっくり返る音
 	bool	canChangeFan_;		//変身フラグ
+	int		changeFanSound_;	//変身音
 
 	//状態
 	std::shared_ptr<StateMachine::IState>	state_;

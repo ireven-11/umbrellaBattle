@@ -17,5 +17,5 @@ void TitleUI::update()
 {
     DrawStringToHandle(350, 450, "UmbreRumble", GetColor(255, 255, 255), fontHandleSize200_);
 
-    DrawBrinkStringToHandle(start_text_position, "Enterでスタート", GetColor(255, 50, 0), fontHandle_);
+    DrawBrinkStringToHandle(start_text_position, "Enterでプレイスタート", GetColor(255, 50, 0), fontHandle_);
 }

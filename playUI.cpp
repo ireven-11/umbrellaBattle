@@ -11,6 +11,10 @@ PlayUI::PlayUI(const char* fontName)
 	umbrella4_	= LoadGraph("graph/pink.png");
 	hpEmpty_	= LoadGraph("graph/hpEmpty.png");
 	hp_			= LoadGraph("graph/hp.png");
+	AbuttonUI_	= LoadGraph("graph/A.png");
+	LstickUI_	= LoadGraph("graph/Lstick.png");
+	LTbuttonUI_ = LoadGraph("graph/LT.png");
+	RTbuttonUI_ = LoadGraph("graph/RT.png");
 
 	hpPosition_			= hp__init_position;
 	hpEmptyPosition_	= hp_empty_init_position;
@@ -26,26 +30,45 @@ PlayUI::~PlayUI()
 	DeleteGraph(umbrella4_);
 	DeleteGraph(hpEmpty_);
 	DeleteGraph(hp_);
+	DeleteGraph(AbuttonUI_);
+	DeleteGraph(LstickUI_);
+	DeleteGraph(LTbuttonUI_);
+	DeleteGraph(RTbuttonUI_);
 }
 
 void PlayUI::update(std::shared_ptr<CharaBase> chara, int playerNumber)
+{
+	playerUI(chara, playerNumber);
+
+	buttonUI();
+}
+
+void PlayUI::buttonUI()
+{
+	DrawExtendGraph(A_ui_position.x, A_ui_position.y, A_ui_position.x + button_ui_width, A_ui_position.y + button_ui_height, AbuttonUI_, TRUE);
+	DrawExtendGraph(Lstick_ui_position.x, Lstick_ui_position.y, Lstick_ui_position.x + button_ui_width, Lstick_ui_position.y + button_ui_height, LstickUI_, TRUE);
+	DrawExtendGraph(LT_ui_position.x, LT_ui_position.y, LT_ui_position.x + button_ui_width, LT_ui_position.y + button_ui_height / 2, LTbuttonUI_, TRUE);
+	DrawExtendGraph(RT_ui_position.x, RT_ui_position.y, RT_ui_position.x + button_ui_width, RT_ui_position.y + button_ui_height / 2, RTbuttonUI_, TRUE);
+}
+
+void PlayUI::playerUI(std::shared_ptr<CharaBase> chara, int playerNumber)
 {
 	//ŽP•\Ž¦
 	switch (playerNumber)
 	{
 	case 1:
-		DrawExtendGraph(umbrellaPosition_.x  + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y,
+		DrawExtendGraph(umbrellaPosition_.x + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y,
 			umbrellaPosition_.x + umbrella_width + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y + umbrella_height, umbrella1_, TRUE);
 		break;
 
 	case 2:
 		DrawExtendGraph(umbrellaPosition_.x + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y,
-			umbrellaPosition_.x  + umbrella_width + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y + umbrella_height, umbrella2_, TRUE);
+			umbrellaPosition_.x + umbrella_width + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y + umbrella_height, umbrella2_, TRUE);
 		break;
 
 	case 3:
 		DrawExtendGraph(umbrellaPosition_.x + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y,
-			umbrellaPosition_.x  + umbrella_width + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y + umbrella_height, umbrella3_, TRUE);
+			umbrellaPosition_.x + umbrella_width + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y + umbrella_height, umbrella3_, TRUE);
 		break;
 
 	case 4:
@@ -53,10 +76,10 @@ void PlayUI::update(std::shared_ptr<CharaBase> chara, int playerNumber)
 			umbrellaPosition_.x + umbrella_width + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y + umbrella_height, umbrella4_, TRUE);
 		break;
 	}
-	
+
 	//ƒQ[ƒW•\Ž¦
 	DrawExtendGraph(hpEmptyPosition_.x + (adjust_hp_empty_x * playerNumber), hpEmptyPosition_.y,
-		hpEmptyPosition_.x+ hp_empty_width + (adjust_hp_empty_x * playerNumber), hpEmptyPosition_.y + hp_empty_height, hpEmpty_, TRUE);
+		hpEmptyPosition_.x + hp_empty_width + (adjust_hp_empty_x * playerNumber), hpEmptyPosition_.y + hp_empty_height, hpEmpty_, TRUE);
 	DrawExtendGraphF(hpPosition_.x + (adjust_hp__x * playerNumber), hpPosition_.y,
 		hpPosition_.x + (chara->Gethp_() * hp__width) / max_hp + (adjust_hp__x * playerNumber), hpPosition_.y + hp__height, hp_, TRUE);
 

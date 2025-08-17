@@ -32,6 +32,7 @@ namespace CharaState
 		{
 			changeState(charaBase);
 			charaBase->stopSound();
+			reset();
 		}
 	}
 }

@@ -171,8 +171,7 @@ void Routine::stanby()
             //サンドバッグとの当たり判定
             i->decideKnockBackWithChara(sandBag);
             i->collisionWindWithChara(sandBag, stage);
-            DrawSphere3D(sandBag->GetcollisionCenterPosition_(), collision_radius, 32, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
-
+            
             //判定が終わった後にノックバック（反発）をする
             i->knockBackNow();
             sandBag->knockBackNow();

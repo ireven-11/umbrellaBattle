@@ -22,8 +22,7 @@ void StandbyUI::update(bool isjoiningPlayer[], const int max_player_number)
 {
 	playerJoin(isjoiningPlayer, max_player_number);
 
-
-	DrawStringToHandle(900, 800, "EnterKeyでゲームスタート", GetColor(255, 255, 255), fontHandle_);
+	DrawStringToHandle(game_start_position.x, game_start_position.y, "Enterでゲームスタート", GetColor(255, 255, 255), fontHandle_);
 }
 
 /// <summary>

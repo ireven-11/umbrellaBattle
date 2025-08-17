@@ -64,6 +64,8 @@ CharaBase::CharaBase(const int join_number)
 	ChangeVolumeSoundMem(respawn_sound_volume, respawnSound_);
 	inverseSound_	= LoadSoundMem("sound/inverseUmbrella.mp3");
 	ChangeVolumeSoundMem(inverse_sound_volume, inverseSound_);
+	changeFanSound_ = LoadSoundMem("sound/changeFan.mp3");
+	ChangeVolumeSoundMem(change_fan_sound_volume, changeFanSound_);
 
 	//コントローラーのデッドゾーンを設定
 	SetJoypadDeadZone(controlerNumber_, 0.1);
@@ -83,6 +85,8 @@ CharaBase::~CharaBase()
 	DeleteSoundMem(windSound_);
 	DeleteSoundMem(respawnSound_);
 	DeleteSoundMem(inverseSound_);
+	DeleteSoundMem(changeFanSound_);
+	state_ = nullptr;
 }
 
 /// <summary>
@@ -460,6 +464,7 @@ void CharaBase::changeFan()
 	canSpawnWind_	= true;
 	canChangeFan_	= true;
 	StopSoundMem(chargeSound_);
+	PlaySoundMem(changeFanSound_, DX_PLAYTYPE_BACK, TRUE);
 }
 
 void CharaBase::cannotChangeFan()

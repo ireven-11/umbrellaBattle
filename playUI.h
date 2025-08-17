@@ -11,6 +11,9 @@ public:
 	void update(std::shared_ptr<CharaBase> chara, int playerNumber);
 
 private:
+	void playerUI(std::shared_ptr<CharaBase> chara, int playerNumber);
+	void buttonUI();
+
 	int		fontHandle_;		//フォントハンドル
 	int		umbrella1_;			//傘1
 	int		umbrella2_;			//傘2
@@ -21,6 +24,10 @@ private:
 	VECTOR	hpPosition_;		//hp座標
 	VECTOR	umbrellaPosition_;	//傘座標
 	VECTOR	hpEmptyPosition_;	//hp空座標
+	int		AbuttonUI_;			//Aボタンui
+	int		LstickUI_;			//LスティックUI
+	int		LTbuttonUI_;		//LTボタンUI
+	int		RTbuttonUI_;		//RTボタンUI
 
 	const int		umbrella_width			= 150;
 	const int		umbrella_height			= 150;
@@ -34,4 +41,10 @@ private:
 	const int		hp__width				= 150;
 	const int		hp__height				= 25;
 	const int		adjust_hp__x			= 400;
+	const VECTOR	A_ui_position			= VGet(20, 20, 0);
+	const VECTOR	Lstick_ui_position		= VGet(20, 120, 0);
+	const VECTOR	LT_ui_position			= VGet(20, 220, 0);
+	const VECTOR	RT_ui_position			= VGet(20, 320, 0);
+	const float		button_ui_width			= 100;
+	const float		button_ui_height		= 100;
 };
