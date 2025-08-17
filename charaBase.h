@@ -51,6 +51,7 @@ public:
 	void vibration();
 	void stopSound();
 	void cannotChangeFan();
+	void constructFrameEnd();
 
 	DINPUT_JOYSTATE input;		//コントローラー(D)用構造体変数
 
@@ -76,6 +77,7 @@ public:
 	bool								GetcanRespawn_()const { return canRespawn_; }
 	VECTOR								GetrespawnPosition_()const { return respawnPosition_; }
 	bool								GetcanChangeFan_()const { return canChangeFan_; }
+	bool								GetonConstructFrame_()const { return onConstructFrame_; }
 	
 private:
 	const float		fall_speed				= 0.25f;
@@ -164,6 +166,7 @@ protected:
 	int		inverseSound_;		//ひっくり返る音
 	bool	canChangeFan_;		//変身フラグ
 	int		changeFanSound_;	//変身音
+	bool	onConstructFrame_;	//コンストラクタしたフレームかどうか
 
 	//状態
 	std::shared_ptr<StateMachine::IState>	state_;

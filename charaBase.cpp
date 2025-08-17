@@ -69,6 +69,8 @@ CharaBase::CharaBase(const int join_number)
 
 	//コントローラーのデッドゾーンを設定
 	SetJoypadDeadZone(controlerNumber_, 0.1);
+
+	onConstructFrame_ = true;
 }
 
 /// <summary>
@@ -144,6 +146,7 @@ void CharaBase::reset()
 	wasTrumpet_		= false;
 	rad_			= 0.0f;
 	canChangeFan_	= false;
+	onConstructFrame_ = false;
 }
 
 /// <summary>
@@ -764,4 +767,12 @@ void CharaBase::vibration()
 
 	position_.x = position_.x + sinf(rad_);
 	position_.z = position_.z + sinf(rad_);
+}
+
+/// <summary>
+/// コンストラクタしたフレームが終わる時を表す関数
+/// </summary>
+void CharaBase::constructFrameEnd()
+{
+	onConstructFrame_ = false;
 }

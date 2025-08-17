@@ -8,7 +8,7 @@
 /// </summary>
 Player::Player(const int join_number) : CharaBase(join_number)
 {
-	
+	PlaySoundMem(changeFanSound_, DX_PLAYTYPE_BACK, TRUE);
 }
 
 /// <summary>

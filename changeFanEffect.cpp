@@ -26,7 +26,7 @@ void ChangeFanEffect::reset()
 
 void ChangeFanEffect::update(std::shared_ptr<CharaBase> chara)
 {
-	if (chara->GetcanChangeFan_() && !WrapIsEffekseer3DEffectPlaying(playingHandle_))
+	if (chara->GetcanChangeFan_() && !WrapIsEffekseer3DEffectPlaying(playingHandle_) || chara->GetonConstructFrame_())
 	{
 		playingHandle_ = PlayEffekseer3DEffect(effectHandle_);
 

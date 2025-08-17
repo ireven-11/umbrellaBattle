@@ -61,8 +61,10 @@ private:
 	int		crap_;								//拍手
 	int		fanfare_;							//ファンファーレ
 	int		bgmPractice_;						//練習bgm
+	int		decideSound_;						//決定音
 	
 	const short bgm_volume		= 90;
-	const short crap_volume		= 100;
+	const short crap_volume		= 180;
 	const short fanfare_volume	= 200;
+	const short decide_volume	= 150;
 };

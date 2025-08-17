@@ -22,18 +22,18 @@
 Routine::Routine()
 {
     //効果音を読み込み
-    crap_       = LoadSoundMem("sound/crap.mp3");
-    fanfare_    = LoadSoundMem("sound/win.mp3");
-    ChangeVolumeSoundMem(crap_volume, bgm_);
-    ChangeVolumeSoundMem(fanfare_volume, bgm_);
+    crap_           = LoadSoundMem("sound/crap.mp3");
+    fanfare_        = LoadSoundMem("sound/win.mp3");
+    decideSound_    = LoadSoundMem("sound/decide.mp3");
+    ChangeVolumeSoundMem(crap_volume, crap_);
+    ChangeVolumeSoundMem(fanfare_volume, fanfare_);
+    ChangeVolumeSoundMem(decide_volume, decideSound_);
 
     //bgmを読み込み
     bgm_ = LoadSoundMem("sound/bgm.mp3");
     ChangeVolumeSoundMem(bgm_volume, bgm_);
-    /*SetCreateSoundPitchRate(50.0f);
-    SetCreateSoundTimeStretchRate(1.3f);
-    bgmPractice_ = LoadSoundMem("sound/bgm.mp3");
-    ChangeVolumeSoundMem(bgm_volume, bgmPractice_);*/
+    bgmPractice_ = LoadSoundMem("sound/bgm2.mp3");
+    ChangeVolumeSoundMem(bgm_volume * 2, bgmPractice_);
 
     //サンドバッグインスタンス化
     sandBag = std::make_shared<SandBag>(0);
@@ -50,6 +50,10 @@ Routine::Routine()
 Routine::~Routine()
 {
     DeleteSoundMem(bgm_);
+    DeleteSoundMem(bgmPractice_);
+    DeleteSoundMem(crap_);
+    DeleteSoundMem(fanfare_);
+    DeleteSoundMem(decideSound_);
     RemoveFontResourceEx("font/AprilGothicOne-R.ttf", FR_PRIVATE, NULL);
 }
 
@@ -135,6 +139,7 @@ void Routine::title()
     //シーン遷移
     if (sceneManager->proceedStandby())
     {
+        PlaySoundMem(decideSound_, DX_PLAYTYPE_BACK, TRUE);
         PlayMovie("movie/umbrella.mp4", 1, DX_MOVIEPLAYTYPE_NORMAL);
         PlaySoundMem(bgmPractice_, DX_PLAYTYPE_LOOP, TRUE);
     }
@@ -211,12 +216,14 @@ void Routine::stanby()
     
     if (sceneManager->proceedPlay())
     {
+        PlaySoundMem(decideSound_, DX_PLAYTYPE_BACK, TRUE);
+
         //プレイ画面へ行くときにcpuを参加
         joinCPU();
 
         StopSoundMem(bgmPractice_, 0);
-        PlaySoundMem(bgm_, DX_PLAYTYPE_LOOP, TRUE);
         PlayMovie("movie/umbrella.mp4", 1, DX_MOVIEPLAYTYPE_NORMAL);
+        PlaySoundMem(bgm_, DX_PLAYTYPE_LOOP, TRUE);
 
         for (const auto& p : players)
         {
@@ -225,6 +232,18 @@ void Routine::stanby()
     }
 
     standbyUI->update(isjoiningPlayer, max_player_number);
+
+    //コンストラクタをしたフレームの最後にそのフレームが終わることを通知する
+    if (isjoiningPlayer[0] || isjoiningPlayer[1] || isjoiningPlayer[2] || isjoiningPlayer[3])
+    {
+        for (const auto& p : players)
+        {
+            if (p->GetonConstructFrame_())
+            {
+                p->constructFrameEnd();
+            }
+        }
+    }
 }
 
 /// <summary>
@@ -320,6 +339,7 @@ void Routine::result()
         resultGraph->update();
         if (sceneManager->proceedTitle())
         {
+            PlaySoundMem(decideSound_, DX_PLAYTYPE_BACK, TRUE);
             allReset();
             StopSoundMem(crap_);
             StopSoundMem(fanfare_);
