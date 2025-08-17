@@ -60,6 +60,7 @@ private:
 	bool	wasPlayingSE_;						//効果音を流したか
 	int		crap_;								//拍手
 	int		fanfare_;							//ファンファーレ
+	int		bgmPractice_;						//練習bgm
 	
 	const short bgm_volume		= 90;
 	const short crap_volume		= 100;

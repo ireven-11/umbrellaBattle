@@ -21,12 +21,19 @@
 /// </summary>
 Routine::Routine()
 {
-    bgm_        = LoadSoundMem("sound/bgm.mp3");
+    //効果音を読み込み
     crap_       = LoadSoundMem("sound/crap.mp3");
     fanfare_    = LoadSoundMem("sound/win.mp3");
-    ChangeVolumeSoundMem(bgm_volume, bgm_);
     ChangeVolumeSoundMem(crap_volume, bgm_);
     ChangeVolumeSoundMem(fanfare_volume, bgm_);
+
+    //bgmを読み込み
+    bgm_ = LoadSoundMem("sound/bgm.mp3");
+    ChangeVolumeSoundMem(bgm_volume, bgm_);
+    /*SetCreateSoundPitchRate(50.0f);
+    SetCreateSoundTimeStretchRate(1.3f);
+    bgmPractice_ = LoadSoundMem("sound/bgm.mp3");
+    ChangeVolumeSoundMem(bgm_volume, bgmPractice_);*/
 
     //サンドバッグインスタンス化
     sandBag = std::make_shared<SandBag>(0);
@@ -129,6 +136,7 @@ void Routine::title()
     if (sceneManager->proceedStandby())
     {
         PlayMovie("movie/umbrella.mp4", 1, DX_MOVIEPLAYTYPE_NORMAL);
+        PlaySoundMem(bgmPractice_, DX_PLAYTYPE_LOOP, TRUE);
     }
 }
 
@@ -206,6 +214,7 @@ void Routine::stanby()
         //プレイ画面へ行くときにcpuを参加
         joinCPU();
 
+        StopSoundMem(bgmPractice_, 0);
         PlaySoundMem(bgm_, DX_PLAYTYPE_LOOP, TRUE);
         PlayMovie("movie/umbrella.mp4", 1, DX_MOVIEPLAYTYPE_NORMAL);
 
