@@ -394,7 +394,7 @@ void Routine::joinCPU()
 
 void Routine::allReset()
 {
-    //sceneManager    = nullptr;
+    sceneManager    = nullptr;
     camera          = nullptr;
     players.clear();
     stage           = nullptr;
@@ -407,7 +407,7 @@ void Routine::allReset()
     resultGraph     = nullptr;
     sandBag         = nullptr;
 
-    //sceneManager    = std::make_shared<SceneManager>();
+    sceneManager    = std::make_shared<SceneManager>();
     camera          = std::make_shared<Camera>();
     stage           = std::make_shared<Stage>();
     standbyUI       = std::make_shared<StandbyUI>("April Gothic one Regular");
