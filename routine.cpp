@@ -126,7 +126,10 @@ void Routine::title()
     titleUI->update();
 
     //ƒV[ƒ“‘JˆÚ
-    sceneManager->proceedStandby();
+    if (sceneManager->proceedStandby())
+    {
+        PlayMovie("movie/umbrella.mp4", 1, DX_MOVIEPLAYTYPE_NORMAL);
+    }
 }
 
 /// <summary>
@@ -204,6 +207,7 @@ void Routine::stanby()
         joinCPU();
 
         PlaySoundMem(bgm_, DX_PLAYTYPE_LOOP, TRUE);
+        PlayMovie("movie/umbrella.mp4", 1, DX_MOVIEPLAYTYPE_NORMAL);
 
         for (const auto& p : players)
         {
@@ -310,6 +314,7 @@ void Routine::result()
             allReset();
             StopSoundMem(crap_);
             StopSoundMem(fanfare_);
+            PlayMovie("movie/umbrella.mp4", 1, DX_MOVIEPLAYTYPE_NORMAL);
         }
     }
 }

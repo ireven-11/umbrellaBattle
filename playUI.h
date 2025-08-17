@@ -28,6 +28,8 @@ private:
 	int		LstickUI_;			//LスティックUI
 	int		LTbuttonUI_;		//LTボタンUI
 	int		RTbuttonUI_;		//RTボタンUI
+	int		fontHandleSize60_;	//60サイズのフォント
+	int		transition_;		//トランジション
 
 	const int		umbrella_width			= 150;
 	const int		umbrella_height			= 150;
@@ -41,10 +43,14 @@ private:
 	const int		hp__width				= 150;
 	const int		hp__height				= 25;
 	const int		adjust_hp__x			= 400;
-	const VECTOR	A_ui_position			= VGet(20, 20, 0);
-	const VECTOR	Lstick_ui_position		= VGet(20, 120, 0);
-	const VECTOR	LT_ui_position			= VGet(20, 220, 0);
-	const VECTOR	RT_ui_position			= VGet(20, 320, 0);
-	const float		button_ui_width			= 100;
-	const float		button_ui_height		= 100;
+	const VECTOR	A_ui_position			= VGet(30, 30, 0);
+	const VECTOR	Lstick_ui_position		= VGet(30, 110, 0);
+	const VECTOR	LT_ui_position			= VGet(30, 180, 0);
+	const VECTOR	RT_ui_position			= VGet(35, 260, 0);
+	const float		button_ui_width			= 60;
+	const float		button_ui_height		= 60;
+	const VECTOR	action_text_position	= VGet(105, 25, 0);
+	const VECTOR	move_text_position		= VGet(105, 105, 0);
+	const VECTOR	left_turn_text_position	= VGet(105, 175, 0);
+	const VECTOR	right_turn_text_position= VGet(105, 255, 0);
 };

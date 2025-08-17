@@ -28,13 +28,14 @@ void SceneManager::reset()
 /// <summary>
 /// スタンバイ画面へ
 /// </summary>
-void SceneManager::proceedStandby()
+bool SceneManager::proceedStandby()
 {
 	if (CheckHitKey(KEY_INPUT_RETURN) == TRUE)
 	{
 		if (!isPrevButton_)
 		{
 			sceneType_ = STANDBY;
+			return true;
 		}
 		isPrevButton_ = true;
 	}
@@ -42,6 +43,8 @@ void SceneManager::proceedStandby()
 	{
 		isPrevButton_	= false;
 	}
+
+	return false;
 }
 
 /// <summary>

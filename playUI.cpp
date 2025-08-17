@@ -4,7 +4,8 @@
 
 PlayUI::PlayUI(const char* fontName)
 {
-	fontHandle_ = CreateFontToHandle(fontName, 100, 0, DX_FONTTYPE_ANTIALIASING_EDGE_4X4);
+	fontHandle_			= CreateFontToHandle(fontName, 100, 0, DX_FONTTYPE_ANTIALIASING_EDGE_4X4);
+	fontHandleSize60_	= CreateFontToHandle(fontName, 60, 0, DX_FONTTYPE_ANTIALIASING_EDGE_4X4);
 	umbrella1_	= LoadGraph("graph/black.png");
 	umbrella2_	= LoadGraph("graph/skyblue.png");
 	umbrella3_	= LoadGraph("graph/orange.png");
@@ -47,8 +48,13 @@ void PlayUI::buttonUI()
 {
 	DrawExtendGraph(A_ui_position.x, A_ui_position.y, A_ui_position.x + button_ui_width, A_ui_position.y + button_ui_height, AbuttonUI_, TRUE);
 	DrawExtendGraph(Lstick_ui_position.x, Lstick_ui_position.y, Lstick_ui_position.x + button_ui_width, Lstick_ui_position.y + button_ui_height, LstickUI_, TRUE);
-	DrawExtendGraph(LT_ui_position.x, LT_ui_position.y, LT_ui_position.x + button_ui_width, LT_ui_position.y + button_ui_height / 2, LTbuttonUI_, TRUE);
-	DrawExtendGraph(RT_ui_position.x, RT_ui_position.y, RT_ui_position.x + button_ui_width, RT_ui_position.y + button_ui_height / 2, RTbuttonUI_, TRUE);
+	DrawExtendGraph(LT_ui_position.x, LT_ui_position.y, LT_ui_position.x + button_ui_width, LT_ui_position.y + button_ui_height, LTbuttonUI_, TRUE);
+	DrawExtendGraph(RT_ui_position.x, RT_ui_position.y, RT_ui_position.x + button_ui_width, RT_ui_position.y + button_ui_height, RTbuttonUI_, TRUE);
+
+	DrawStringToHandle(action_text_position.x, action_text_position.y, ":アクション", GetColor(255, 255, 255), fontHandleSize60_);
+	DrawStringToHandle(move_text_position.x, move_text_position.y, ":移動", GetColor(255, 255, 255), fontHandleSize60_);
+	DrawStringToHandle(left_turn_text_position.x, left_turn_text_position.y, ":左回転", GetColor(255, 255, 255), fontHandleSize60_);
+	DrawStringToHandle(right_turn_text_position.x, right_turn_text_position.y, ":右回転", GetColor(255, 255, 255), fontHandleSize60_);
 }
 
 void PlayUI::playerUI(std::shared_ptr<CharaBase> chara, int playerNumber)

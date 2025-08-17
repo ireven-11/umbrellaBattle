@@ -16,7 +16,7 @@ public:
 	~SceneManager();
 
 	void reset();			//ƒŠƒZƒbƒgˆ—
-	void proceedStandby();
+	bool proceedStandby();
 	bool proceedPlay();
 	bool proceedResult();
 	bool proceedTitle();
