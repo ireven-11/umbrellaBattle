@@ -2,8 +2,9 @@
 #include"playGraph.h"
 #include"PlayTransparentMovie.h"
 
-PlayGraph::PlayGraph()
+PlayGraph::PlayGraph(const char* fontName)
 {
+	fontHandle_			= CreateFontToHandle(fontName, 180, 0, DX_FONTTYPE_ANTIALIASING_EDGE_4X4);
 	countDownMovie_		= LoadGraph("movie/countdown.mp4");
 	screenHandle_		= MakeScreen(1920, 1080, TRUE);
 	movieWidht_			= init_movie_width;
@@ -11,11 +12,15 @@ PlayGraph::PlayGraph()
 	moviePosition_		= init_movie_position;
 	onCountDown_		= true;
 	expandMovieCount_	= 0;
+	startSound_			= LoadSoundMem("sound/startBattle.mp3");
+	ChangeVolumeSoundMem(start_sound_volume, startSound_);
 }
 
 PlayGraph::~PlayGraph()
 {
 	DeleteGraph(countDownMovie_);
+	DeleteFontToHandle(fontHandle_);
+	DeleteSoundMem(startSound_);
 }
 
 void PlayGraph::update()
@@ -27,6 +32,11 @@ void PlayGraph::update()
 
 		//カウントが一定になるとカウントダウン動画を拡大させる
 		++expandMovieCount_;
+		if (CheckHitKey(KEY_INPUT_RETURN) && expandMovieCount_ < max_expand_count)//カウントスキップ
+		{
+			expandMovieCount_ += max_expand_count;
+			SeekMovieToGraph(countDownMovie_, 7500);
+		}
 		if (expandMovieCount_ > max_expand_count)
 		{
 			moviePosition_.x	-= expand_speed_x;
@@ -50,13 +60,14 @@ void PlayGraph::update()
 		else
 		{
 			//簡単なゲーム説明
-
+			DrawStringToHandle(explane_rule_position.x, explane_rule_position.y, "ラッパにならずに相手を\n    落として生き残れ!!", GetColor(255, 50, 50), fontHandle_);
 		}
 
 		//カウントダウン終了
 		if (!GetMovieStateToGraph(countDownMovie_))
 		{
 			onCountDown_ = false;
+			PlaySoundMem(startSound_, DX_PLAYTYPE_BACK, TRUE);
 		}
 	}
 }

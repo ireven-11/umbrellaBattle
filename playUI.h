@@ -29,8 +29,7 @@ private:
 	int		LTbuttonUI_;		//LTボタンUI
 	int		RTbuttonUI_;		//RTボタンUI
 	int		fontHandleSize60_;	//60サイズのフォント
-	int		transition_;		//トランジション
-
+	
 	const int		umbrella_width			= 150;
 	const int		umbrella_height			= 150;
 	const VECTOR	umbrella_init_position	= VGet(-160.0f, 850.0f, 0.0f);

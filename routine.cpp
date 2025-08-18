@@ -477,7 +477,7 @@ void Routine::allReset()
     playUI          = std::make_shared<PlayUI>("April Gothic one Regular");
     resultUI        = std::make_shared<ResultUI>("April Gothic one Regular");
     resultGraph     = std::make_shared<ResultGraph>();
-    playGraph       = std::make_shared<PlayGraph>();
+    playGraph       = std::make_shared<PlayGraph>("April Gothic one Regular");
     
     reset();
 }
