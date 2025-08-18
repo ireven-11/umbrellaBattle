@@ -40,7 +40,7 @@ private:
 	std::shared_ptr<PlayUI>playUI				= std::make_shared<PlayUI>("April Gothic one Regular");
 	std::shared_ptr<ResultUI>resultUI			= std::make_shared<ResultUI>("April Gothic one Regular");
 	std::shared_ptr<ResultGraph>resultGraph		= std::make_shared<ResultGraph>();
-	std::shared_ptr<CharaBase>sandBag;
+	std::vector<std::shared_ptr<CharaBase>>sandBag;
 
 	void gameRoop();
 	void title();

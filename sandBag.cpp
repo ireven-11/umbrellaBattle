@@ -18,28 +18,13 @@ SandBag::~SandBag()
 
 void SandBag::update(Routine* routine, std::shared_ptr<Stage> stage)
 {
-	position_ = collisionCenterPosition_;
+	position_ = VGet(collisionCenterPosition_.x,position_.y,collisionCenterPosition_.z);
 
 	//ステージの外に出たら元に戻す
-	if (stage->Getposition_()[0][0].x > position_.x)
+	if (position_.y < -10.0f)
 	{
-		position_					= VGet(0.0f, 0.0f, 0.0f);
-		collisionCenterPosition_	= VGet(0.0f, 0.0f, 0.0f);
-	}
-	if (stage->Getposition_()[tile_number - 1][tile_number - 1].x < position_.x) 
-	{
-		position_					= VGet(0.0f, 0.0f, 0.0f);
-		collisionCenterPosition_	= VGet(0.0f, 0.0f, 0.0f);
-	}
-	if (stage->Getposition_()[0][0].z > position_.z)
-	{
-		position_					= VGet(0.0f, 0.0f, 0.0f);
-		collisionCenterPosition_	= VGet(0.0f, 0.0f, 0.0f);
-	}
-	if (stage->Getposition_()[tile_number - 1][tile_number - 1].z < position_.z)
-	{
-		position_					= VGet(0.0f, 0.0f, 0.0f);
-		collisionCenterPosition_	= VGet(0.0f, 0.0f, 0.0f);
+		position_ = VGet(0.0f, 0.0f, 0.0f);
+		collisionCenterPosition_ = VGet(0.0f, 0.0f, 0.0f);
 	}
 
 	MV1SetPosition(modelHandle_, position_);

@@ -36,7 +36,7 @@ Routine::Routine()
     ChangeVolumeSoundMem(bgm_volume * 2, bgmPractice_);
 
     //サンドバッグインスタンス化
-    sandBag = std::make_shared<SandBag>(0);
+    sandBag.emplace_back(std::make_shared<SandBag>(0));
 
     //フォントを使えるようにする
     AddFontResourceEx("font/AprilGothicOne-R.ttf", FR_PRIVATE, NULL);
@@ -78,7 +78,7 @@ void Routine::game()
     playUI          = nullptr;
     resultUI        = nullptr;
     resultGraph     = nullptr;
-    sandBag         = nullptr;
+    sandBag.clear();
 }
 
 /// <summary>
@@ -163,9 +163,6 @@ void Routine::stanby()
     //プレイヤーが参加している時だけ
     if (isjoiningPlayer[0] || isjoiningPlayer[1] || isjoiningPlayer[2] || isjoiningPlayer[3])
     {
-        //サンドバッグ更新
-        sandBag->update(this, stage);
-
         for (const auto& i : players)
         {
             i->update(this, stage);
@@ -184,13 +181,22 @@ void Routine::stanby()
                 }
             }
 
-            //サンドバッグとの当たり判定
-            i->decideKnockBackWithChara(sandBag);
-            i->collisionWindWithChara(sandBag, stage);
-            
+            //サンドバッグ更新
+            for (const auto& s : sandBag)
+            {
+                s->update(this, stage);
+
+                //サンドバッグとの当たり判定
+                i->decideKnockBackWithChara(s);
+                i->collisionWindWithChara(s, stage);
+            }
+
             //判定が終わった後にノックバック（反発）をする
             i->knockBackNow();
-            sandBag->knockBackNow();
+            for (const auto& s : sandBag)
+            {
+                s->knockBackNow();
+            }
 
             //プレイヤー描画
             i->draw();
@@ -210,8 +216,15 @@ void Routine::stanby()
         UpdateEffekseer3D();
         DrawEffekseer3D();
 
+        //ステージとの当たり判定
+        stage->collisionWithPlayer(players);
+        stage->collisionWithPlayer(sandBag);
+
         //サンドバッグ描画
-        sandBag->draw();
+        for (const auto& s : sandBag)
+        {
+            s->draw();
+        }
     }
     
     if (sceneManager->proceedPlay())
@@ -434,7 +447,7 @@ void Routine::allReset()
     playUI          = nullptr;
     resultUI        = nullptr;
     resultGraph     = nullptr;
-    sandBag         = nullptr;
+    //sandBag.clear();
 
     sceneManager    = std::make_shared<SceneManager>();
     camera          = std::make_shared<Camera>();
@@ -445,8 +458,7 @@ void Routine::allReset()
     playUI          = std::make_shared<PlayUI>("April Gothic one Regular");
     resultUI        = std::make_shared<ResultUI>("April Gothic one Regular");
     resultGraph     = std::make_shared<ResultGraph>();
-    sandBag         = std::make_shared<SandBag>(0);
-
+    
     reset();
 }
 
