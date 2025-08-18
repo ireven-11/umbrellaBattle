@@ -22,5 +22,5 @@ private:
 
 	const float scale			= 2.5f;
 	const float play_speed		= 10.0f;
-	const float play_position_y = -7.5f;
+	const float play_position_y = -5.0f;
 };

@@ -207,8 +207,8 @@ void Routine::stanby()
             ++playerIt;
         }
 
-        DrawEffekseer3D();
         UpdateEffekseer3D();
+        DrawEffekseer3D();
 
         //サンドバッグ描画
         sandBag->draw();
@@ -304,8 +304,8 @@ void Routine::play()
         ++playerIt;
     }
 
-    DrawEffekseer3D();
     UpdateEffekseer3D();
+    DrawEffekseer3D();
 
     judgeWinner();
 }
