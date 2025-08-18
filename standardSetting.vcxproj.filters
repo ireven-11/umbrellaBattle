@@ -162,6 +162,12 @@
     <ClCompile Include="sandBag.cpp">
       <Filter>ソース ファイル\chara</Filter>
     </ClCompile>
+    <ClCompile Include="playGraph.cpp">
+      <Filter>ソース ファイル\graph</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayTransparentMovie.cpp">
+      <Filter>ソース ファイル\graph</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="setting.h">
@@ -283,6 +289,12 @@
     </ClInclude>
     <ClInclude Include="sandBag.h">
       <Filter>ヘッダー ファイル\chara</Filter>
+    </ClInclude>
+    <ClInclude Include="playGraph.h">
+      <Filter>ヘッダー ファイル\graph</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayTransparentMovie.h">
+      <Filter>ヘッダー ファイル\graph</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

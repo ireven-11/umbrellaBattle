@@ -161,9 +161,16 @@
     <ClCompile Include="escapeState.cpp" />
     <ClCompile Include="fallEffect.cpp" />
     <ClCompile Include="hitEffect.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="main.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="openState.cpp" />
     <ClCompile Include="player.cpp" />
+    <ClCompile Include="playGraph.cpp" />
+    <ClCompile Include="PlayTransparentMovie.cpp" />
     <ClCompile Include="playUI.cpp" />
     <ClCompile Include="respawnEffect.cpp" />
     <ClCompile Include="resultGraph.cpp" />
@@ -207,6 +214,8 @@
     <ClInclude Include="IState.h" />
     <ClInclude Include="openState.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="playGraph.h" />
+    <ClInclude Include="PlayTransparentMovie.h" />
     <ClInclude Include="playUI.h" />
     <ClInclude Include="respawnEffect.h" />
     <ClInclude Include="resultGraph.h" />
