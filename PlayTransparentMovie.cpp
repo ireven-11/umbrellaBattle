@@ -9,12 +9,12 @@
 /// <param name="movieHeght">動画高さ</param>
 /// <param name="isLoop">動画をループするか</param>
 /// <param name="screenType">最終的に描画するとこのスクリーンハンドル</param>
-void PlayTransparentMovie(int movieHandle, int screenHandle, int movieWidht, int movieHeight, bool isLoop, int screenType)
+void PlayTransparentMovie(int movieHandle, int screenHandle, int movieWidht, int movieHeight, VECTOR position, bool isLoop, int screenType)
 {
     //スクリーンハンドルに動画を描画する
     SetDrawScreen(screenHandle);
     PlayMovieToGraph(movieHandle);
-    DrawExtendGraph(0, 0, movieWidht, movieHeight, movieHandle, TRUE);
+    DrawExtendGraph(position.x, position.y, position.x + movieWidht, position.y + movieHeight, movieHandle, TRUE);
 
     //動画をループさせる
     if (!GetMovieStateToGraph(movieHandle) && isLoop)
@@ -27,5 +27,5 @@ void PlayTransparentMovie(int movieHandle, int screenHandle, int movieWidht, int
 
     //スクリーンハンドルを画像として透過してから描画
     GraphFilter(screenHandle, DX_GRAPH_FILTER_BRIGHT_CLIP, DX_CMP_LESS, 128, TRUE, GetColor(0, 255, 0), 0);
-    DrawExtendGraph(0, 0, movieWidht, movieHeight, screenHandle, TRUE);
+    DrawExtendGraph(position.x, position.y, position.x + movieWidht, position.y + movieHeight, screenHandle, TRUE);
 }

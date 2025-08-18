@@ -15,6 +15,7 @@
 #include"resultUI.h"
 #include"resultGraph.h"
 #include"sandBag.h"
+#include"playGraph.h"
 
 /// <summary>
 /// コンストラクタ
@@ -79,6 +80,7 @@ void Routine::game()
     resultUI        = nullptr;
     resultGraph     = nullptr;
     sandBag.clear();
+    playGraph       = nullptr;
 }
 
 /// <summary>
@@ -267,46 +269,43 @@ void Routine::play()
     //カメラ更新
     camera->update();
 
-    //すてーじこうしん
-    stage->updateGimmick(players);
-    stage->update();
-    stage->draw();
-
-    //だれっとあたってるかのカウント
-    for (const auto& i:players)
+    //カウントダウンが終わってから
+    if (!playGraph->GetonCountDown_())
     {
-        i->update(this, stage);
+        //すてーじこうしん
+        stage->updateGimmick(players);
+        stage->update();
 
-        //二重範囲forにして当たり判定をチェック
-        for (const auto& j : players)
+        //プレイヤー更新
+        for (const auto& i : players)
         {
-            //この条件分がなかったらバグるので注意
-            if (i != j)
+            i->update(this, stage);
+
+            //二重範囲forにして当たり判定をチェック
+            for (const auto& j : players)
             {
-                //ノックバック量（反発量）を決める
-                i->decideKnockBackWithChara(j);
+                //この条件分がなかったらバグるので注意
+                if (i != j)
+                {
+                    //ノックバック量（反発量）を決める
+                    i->decideKnockBackWithChara(j);
 
-                //風の当たり判定
-                i->collisionWindWithChara(j, stage);
+                    //風の当たり判定
+                    i->collisionWindWithChara(j, stage);
+                }
             }
+
+            //判定が終わった後にノックバック（反発）をする
+            i->knockBackNow();
+
+            //デバッグ用
+            //DrawSphere3D(i->GetcollisionCenterPosition_(), collision_radius, 32, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
+            //DrawSphere3D(i->Getposition_(), collision_radius_stage, 32, GetColor(255, 255, 255), GetColor(255, 255, 255), FALSE);
+            //DrawSphere3D(i->GetwindPosition_(), collision_radius_wind, 32, GetColor(0, 255, 0), GetColor(255, 255, 255), FALSE);
+            //DrawSphere3D(stage_center, collision_radius_wind, 32, GetColor(0, 0, 255), GetColor(255, 255, 255), FALSE);
+            //DrawFormatString(100, 100 * collisionCount, GetColor(255, 0, 0), "player%d, x:%f, y:%f, z:%f", collisionCount, i->Getposition_().x, i->Getposition_().y, i->Getposition_().z);
+            //DrawFormatString(100, 100 * collisionCount + 15 * collisionCount, GetColor(255, 0, 0), "player%d, moveVector(%f, %f, %f)", collisionCount, i->GetmoveVector_().x, i->GetmoveVector_().y, i->GetmoveVector_().z);
         }
-
-        //判定が終わった後にノックバック（反発）をする
-        i->knockBackNow();
-
-        //デバッグ用
-        //DrawSphere3D(i->GetcollisionCenterPosition_(), collision_radius, 32, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
-        //DrawSphere3D(i->Getposition_(), collision_radius_stage, 32, GetColor(255, 255, 255), GetColor(255, 255, 255), FALSE);
-        //DrawSphere3D(i->GetwindPosition_(), collision_radius_wind, 32, GetColor(0, 255, 0), GetColor(255, 255, 255), FALSE);
-        //DrawSphere3D(stage_center, collision_radius_wind, 32, GetColor(0, 0, 255), GetColor(255, 255, 255), FALSE);
-        //DrawFormatString(100, 100 * collisionCount, GetColor(255, 0, 0), "player%d, x:%f, y:%f, z:%f", collisionCount, i->Getposition_().x, i->Getposition_().y, i->Getposition_().z);
-        //DrawFormatString(100, 100 * collisionCount + 15 * collisionCount, GetColor(255, 0, 0), "player%d, moveVector(%f, %f, %f)", collisionCount, i->GetmoveVector_().x, i->GetmoveVector_().y, i->GetmoveVector_().z);
-        
-        //プレイヤー描画
-        i->draw();
-
-        //ui
-        playUI->update(i, i->GetcontrolerNumber_());
     }
 
     //エフェクトマネージャー
@@ -316,10 +315,24 @@ void Routine::play()
         e->update(*playerIt);
         ++playerIt;
     }
-
     UpdateEffekseer3D();
+
+    //描画
+    stage->draw();
+    for (const auto& i : players)
+    {
+        //プレイヤー描画
+        i->draw();
+
+        //ui
+        playUI->update(i, i->GetcontrolerNumber_());
+    }
     DrawEffekseer3D();
 
+    //カウントダウン
+    playGraph->update();
+
+    //勝者判定
     judgeWinner();
 }
 
@@ -447,8 +460,8 @@ void Routine::allReset()
     playUI          = nullptr;
     resultUI        = nullptr;
     resultGraph     = nullptr;
-    //sandBag.clear();
-
+    playGraph       = nullptr;
+    
     sceneManager    = std::make_shared<SceneManager>();
     camera          = std::make_shared<Camera>();
     stage           = std::make_shared<Stage>();
@@ -458,6 +471,7 @@ void Routine::allReset()
     playUI          = std::make_shared<PlayUI>("April Gothic one Regular");
     resultUI        = std::make_shared<ResultUI>("April Gothic one Regular");
     resultGraph     = std::make_shared<ResultGraph>();
+    playGraph       = std::make_shared<PlayGraph>();
     
     reset();
 }

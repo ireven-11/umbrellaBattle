@@ -53,6 +53,8 @@ CharaBase::CharaBase(const int join_number)
 	//”’l‰Šú‰»
 	reset();
 
+	MV1SetPosition(openingUmbrella_, position_);
+
 	//‰¹‰Šú‰»
 	chargeSound_	= LoadSoundMem("sound/charge.mp3");
 	ChangeVolumeSoundMem(charge_sound_volume, chargeSound_);

@@ -95,8 +95,8 @@ private:
 	const float		transform_position_y	= -10.0f;
 	const VECTOR	player1_init_position	= VGet(-10.0f, 0.0f, 20.0f);
 	const VECTOR	player2_init_position	= VGet(-10.0f, 0.0f, 0.0f);
-	const VECTOR	player3_init_position	= VGet(0.0f, 0.0f, 20.0f);
-	const VECTOR	player4_init_position	= VGet(0.0f, 0.0f, 0.0f);
+	const VECTOR	player3_init_position	= VGet(10.0f, 0.0f, 20.0f);
+	const VECTOR	player4_init_position	= VGet(10.0f, 0.0f, 0.0f);
 	const VECTOR	collision_adjust_position = VGet(1.5f, 0.0f, 1.0f);
 	const short		init_mass				= 1;
 	const short		tackle_mass				= 3;
