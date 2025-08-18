@@ -308,6 +308,12 @@ void Routine::play()
         }
     }
 
+    //プレイヤーの座標セット
+    for (const auto& i : players)
+    {
+        i->setPosition();
+    }
+
     //エフェクトマネージャー
     auto playerIt = players.begin();
     for (const auto& e : effectManager)
@@ -329,7 +335,7 @@ void Routine::play()
     }
     DrawEffekseer3D();
 
-    //カウントダウン
+    //プレイ画像描画
     playGraph->update();
 
     //勝者判定

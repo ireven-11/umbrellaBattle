@@ -52,6 +52,7 @@ public:
 	void stopSound();
 	void cannotChangeFan();
 	void constructFrameEnd();
+	void setPosition();
 
 	DINPUT_JOYSTATE input;		//コントローラー(D)用構造体変数
 

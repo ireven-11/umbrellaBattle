@@ -53,8 +53,6 @@ CharaBase::CharaBase(const int join_number)
 	//”’l‰Šú‰»
 	reset();
 
-	MV1SetPosition(openingUmbrella_, position_);
-
 	//‰¹‰Šú‰»
 	chargeSound_	= LoadSoundMem("sound/charge.mp3");
 	ChangeVolumeSoundMem(charge_sound_volume, chargeSound_);
@@ -168,6 +166,11 @@ void CharaBase::update(Routine* routine, std::shared_ptr<Stage> stage)
 		position_.y = 0.0f;
 	}
 
+	setPosition();
+}
+
+void CharaBase::setPosition()
+{
 	MV1SetPosition(openingUmbrella_, position_);
 	MV1SetPosition(closingUmbrella_, position_);
 	MV1SetPosition(inverseUmbrella_, position_);

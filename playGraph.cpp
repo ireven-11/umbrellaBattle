@@ -47,7 +47,13 @@ void PlayGraph::update()
 				moviePosition_.x = 0;
 			}
 		}
+		else
+		{
+			//簡単なゲーム説明
 
+		}
+
+		//カウントダウン終了
 		if (!GetMovieStateToGraph(countDownMovie_))
 		{
 			onCountDown_ = false;
