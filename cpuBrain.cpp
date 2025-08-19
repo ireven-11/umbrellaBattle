@@ -8,21 +8,21 @@
 
 CPUBrain::CPUBrain()
 {
-	isTarget_ = true;
-	randomTarget_ = 0;
-	distance_ = 0.0f;
-	canCharge_ = true;
-	doActionRandom_ = 0;
-	dicideActionCount_ = 0;
-	actionState_ = chaseState_();
-	dicideTargetCount_ = 0;
-	aStarStartPosition_.x = 0;
-	aStarStartPosition_.y = 0;
-	aStarGoalPosition_.x = 0;
-	aStarGoalPosition_.y = 0;
-	chaseCount_ = 0;
-	nextTilePosition_.x = 0;
-	nextTilePosition_.y = 0;
+	isTarget_				= true;
+	randomTarget_			= 0;
+	distance_				= 0.0f;
+	canCharge_				= true;
+	doActionRandom_			= 0;
+	dicideActionCount_		= 0;
+	actionState_			= chaseState_();
+	dicideTargetCount_		= 0;
+	aStarStartPosition_.x	= 0;
+	aStarStartPosition_.y	= 0;
+	aStarGoalPosition_.x	= 0;
+	aStarGoalPosition_.y	= 0;
+	chaseCount_				= 0;
+	nextTilePosition_.x		= 0;
+	nextTilePosition_.y		= 0;
 }
 
 CPUBrain::~CPUBrain()
