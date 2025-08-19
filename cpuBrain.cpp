@@ -140,8 +140,10 @@ void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, std::sha
 	}
 	else
 	{
-		charaBase->input.Buttons[6] = 100;
-		charaBase->input.Buttons[1] = 100;
+		charaBase->input.Buttons[6] = 2025;
+		charaBase->input.Z			= 2025;
+		charaBase->input.Buttons[1] = 2025;
+		charaBase->input.Buttons[0] = 2025;
 	}
 }
 

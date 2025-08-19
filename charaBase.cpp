@@ -160,12 +160,6 @@ void CharaBase::update(Routine* routine, std::shared_ptr<Stage> stage)
 	//状態によって行動を変える
 	state_->update(this);
 
-	//でばっぐリセット
-	if (CheckHitKey(KEY_INPUT_D) == true)
-	{
-		position_.y = 0.0f;
-	}
-
 	setPosition();
 }
 
@@ -250,25 +244,25 @@ void CharaBase::move()
 /// </summary>
 void CharaBase::swing()
 {
-	//他アクションしてない時だけ
-	if (!isSwing_ && input.Buttons[1] > 0 && !isTackle_)
-	{
-		isSwing_ = true;
-		angleSwing_ = rotationAngleY_;
-	}
-	//スイングしてるときはy軸回転する
-	else if (isSwing_)
-	{
-		angleSwing_ += swing_speed;
-		MV1SetRotationXYZ(openingUmbrella_, VGet(rotation_angle_x * DX_PI_F / 180.0f, angleSwing_ + adjust_rotation_angle_y, 0.0f));
+	////他アクションしてない時だけ
+	//if (!isSwing_ && input.Buttons[1] > 0 && !isTackle_)
+	//{
+	//	isSwing_ = true;
+	//	angleSwing_ = rotationAngleY_;
+	//}
+	////スイングしてるときはy軸回転する
+	//else if (isSwing_)
+	//{
+	//	angleSwing_ += swing_speed;
+	//	MV1SetRotationXYZ(openingUmbrella_, VGet(rotation_angle_x * DX_PI_F / 180.0f, angleSwing_ + adjust_rotation_angle_y, 0.0f));
 
-		//最大までスイングしたら元の角度に戻る
-		if (angleSwing_ >= max_swing_angle + rotationAngleY_)
-		{
-			MV1SetRotationXYZ(openingUmbrella_, VGet(rotation_angle_x * DX_PI_F / 180.0f, rotationAngleY_ + adjust_rotation_angle_y, 0.0f));
-			isSwing_ = false;
-		}
-	}
+	//	//最大までスイングしたら元の角度に戻る
+	//	if (angleSwing_ >= max_swing_angle + rotationAngleY_)
+	//	{
+	//		MV1SetRotationXYZ(openingUmbrella_, VGet(rotation_angle_x * DX_PI_F / 180.0f, rotationAngleY_ + adjust_rotation_angle_y, 0.0f));
+	//		isSwing_ = false;
+	//	}
+	//}
 }
 
 /// <summary>
@@ -276,7 +270,9 @@ void CharaBase::swing()
 /// </summary>
 void CharaBase::tackle()
 {
-	if (input.Buttons[0] > 0 && !isMovingtackle_)
+	if (input.Buttons[1] > 0 && !isMovingtackle_ && GetJoypadType(controlerNumber_) == DX_PADTYPE_SWITCH_PRO_CTRL ||
+		input.Buttons[0] > 0 && !isMovingtackle_ && GetJoypadType(controlerNumber_) == DX_PADTYPE_XBOX_360 ||
+		input.Buttons[0] > 0 && !isMovingtackle_ && GetJoypadType(controlerNumber_) == DX_PADTYPE_XBOX_ONE)
 	{
 		isChargeTackle_ = true;
 	}
@@ -286,7 +282,9 @@ void CharaBase::tackle()
 	}
 
 	//ボタンを押してはなしたら
-	if (tackleCount_ > 0 && input.Buttons[0] == 0)
+	if (tackleCount_ > 0 && input.Buttons[1] == 0 && GetJoypadType(controlerNumber_) == DX_PADTYPE_SWITCH_PRO_CTRL ||
+		tackleCount_ > 0 && input.Buttons[0] == 0 && GetJoypadType(controlerNumber_) == DX_PADTYPE_XBOX_360 ||
+		tackleCount_ > 0 && input.Buttons[0] == 0 && GetJoypadType(controlerNumber_) == DX_PADTYPE_XBOX_ONE)
 	{
 		isMovingtackle_ = true;
 		StopSoundMem(chargeSound_);
@@ -341,7 +339,9 @@ void CharaBase::tackleMoving()
 void CharaBase::stopTackle()
 {
 	//カウントが０なるかタックル中にBを押したらやめる
-	if (tackleCount_ == 0 && isMovingtackle_ || isMovingtackle_ && input.Buttons[0] > 0)
+	if (tackleCount_ == 0 && isMovingtackle_ || isMovingtackle_ && input.Buttons[1] > 0 && GetJoypadType(controlerNumber_) == DX_PADTYPE_SWITCH_PRO_CTRL ||
+		tackleCount_ == 0 && isMovingtackle_ || isMovingtackle_ && input.Buttons[0] > 0 && GetJoypadType(controlerNumber_) == DX_PADTYPE_XBOX_360 ||
+		tackleCount_ == 0 && isMovingtackle_ || isMovingtackle_ && input.Buttons[0] > 0 && GetJoypadType(controlerNumber_) == DX_PADTYPE_XBOX_ONE)
 	{
 		isTackle_		= false;
 		isMovingtackle_ = false;
@@ -357,7 +357,11 @@ void CharaBase::stopTackle()
 void CharaBase::wind()
 {
 	//風を発生させる
-	if (input.Buttons[1] > 0 && canSpawnWind_)
+	if (input.Buttons[1] > 0 && canSpawnWind_ && GetJoypadType(controlerNumber_) == DX_PADTYPE_SWITCH_PRO_CTRL ||
+		input.Buttons[0] > 0 && canSpawnWind_ && GetJoypadType(controlerNumber_) == DX_PADTYPE_XBOX_360 ||
+		input.Buttons[0] > 0 && canSpawnWind_ && GetJoypadType(controlerNumber_) == DX_PADTYPE_XBOX_ONE ||
+		input.Buttons[0] > 2000 && canSpawnWind_ ||
+		input.Buttons[1] > 2000 && canSpawnWind_)
 	{
 		canSpawnWind_	= false;
 		windPosition_	= position_;
@@ -389,7 +393,11 @@ void CharaBase::moveFan()
 {
 	//円運動する
 	double radiun = fanMoveAngle_ * DX_PI / 180.0;
-	if (input.Buttons[6] > 0)
+	if (input.Buttons[6] > 0 && GetJoypadType(controlerNumber_) == DX_PADTYPE_SWITCH_PRO_CTRL ||
+		input.Z > 0 && GetJoypadType(controlerNumber_) == DX_PADTYPE_XBOX_360 ||
+		input.Z > 0 && GetJoypadType(controlerNumber_) == DX_PADTYPE_XBOX_ONE ||
+		input.Z > 2000 ||
+		input.Buttons[6] > 2000)
 	{
 		double addAngleX = cos(radiun) * stage_radius;
 		double addAngleZ = sin(radiun) * stage_radius;
@@ -397,7 +405,9 @@ void CharaBase::moveFan()
 		position_.x = stage_center.x + addAngleX;
 		position_.z = stage_center.z + addAngleZ;
 	}
-	if (input.Buttons[7] > 0)
+	if (input.Buttons[7] > 0 && GetJoypadType(controlerNumber_) == DX_PADTYPE_SWITCH_PRO_CTRL ||
+		input.Z < 0 && GetJoypadType(controlerNumber_) == DX_PADTYPE_XBOX_360 ||
+		input.Z < 0 && GetJoypadType(controlerNumber_) == DX_PADTYPE_XBOX_ONE)
 	{
 		double addAngleX = cos(radiun) * stage_radius;
 		double addAngleZ = sin(radiun) * stage_radius;
@@ -463,7 +473,8 @@ void CharaBase::changeFan()
 	position_.y = player_init_positionY;
 
 	//落ちた瞬間に扇風機の移動をして扇風機の位置を設定する
-	input.Buttons[6] = 1;
+	input.Buttons[6]	= 2025;
+	input.Z				= 2025;
 	moveFan();
 
 	isChargeTackle_ = false;
@@ -485,7 +496,7 @@ void CharaBase::cannotChangeFan()
 /// </summary>
 void CharaBase::changeOpenToClose()
 {
-	if (input.Buttons[2] > 0)
+	/*if (input.Buttons[2] > 0)
 	{
 		if (!isPrevButton_ && !isTackle_)
 		{
@@ -496,7 +507,7 @@ void CharaBase::changeOpenToClose()
 	else
 	{
 		isPrevButton_ = false;
-	}
+	}*/
 }
 
 /// <summary>
@@ -504,7 +515,7 @@ void CharaBase::changeOpenToClose()
 /// </summary>
 void CharaBase::changeCloseToOpen()
 {
-	if (input.Buttons[2] > 0)
+	/*if (input.Buttons[2] > 0)
 	{
 		if (!isPrevButton_)
 		{
@@ -515,7 +526,7 @@ void CharaBase::changeCloseToOpen()
 	else
 	{
 		isPrevButton_ = false;
-	}
+	}*/
 }
 
 /// <summary>

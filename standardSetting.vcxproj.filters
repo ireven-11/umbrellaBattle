@@ -168,6 +168,9 @@
     <ClCompile Include="PlayTransparentMovie.cpp">
       <Filter>ソース ファイル\graph</Filter>
     </ClCompile>
+    <ClCompile Include="ソース.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="setting.h">

@@ -421,25 +421,33 @@ void Routine::joinPlayer()
     GetJoypadDirectInputState(DX_INPUT_PAD3, &input3);
     GetJoypadDirectInputState(DX_INPUT_PAD4, &input4);
     //プレイヤーはコントローラのAボタンを押したら参加できる
-    if (input1.Buttons[1] > 0 && !isjoiningPlayer[0])
+    if (input1.Buttons[1] > 0 && !isjoiningPlayer[0] && GetJoypadType(DX_INPUT_PAD1) == DX_PADTYPE_SWITCH_PRO_CTRL ||
+        input1.Buttons[0] > 0 && !isjoiningPlayer[0] && GetJoypadType(DX_INPUT_PAD1) == DX_PADTYPE_XBOX_360 ||
+        input1.Buttons[0] > 0 && !isjoiningPlayer[0] && GetJoypadType(DX_INPUT_PAD1) == DX_PADTYPE_XBOX_ONE)
     {
         players.emplace_back(std::make_shared<Player>(DX_INPUT_PAD1));
         isjoiningPlayer[0] = true;
         effectManager.emplace_back(std::make_shared<EffectManager>());
     }
-    if (input2.Buttons[1] > 0 && !isjoiningPlayer[1])
+    if (input2.Buttons[1] > 0 && !isjoiningPlayer[1] && GetJoypadType(DX_INPUT_PAD2) == DX_PADTYPE_SWITCH_PRO_CTRL ||
+        input2.Buttons[0] > 0 && !isjoiningPlayer[1] && GetJoypadType(DX_INPUT_PAD2) == DX_PADTYPE_XBOX_360 ||
+        input2.Buttons[0] > 0 && !isjoiningPlayer[1] && GetJoypadType(DX_INPUT_PAD2) == DX_PADTYPE_XBOX_ONE)
     {
         players.emplace_back(std::make_shared<Player>(DX_INPUT_PAD2));
         isjoiningPlayer[1] = true;
         effectManager.emplace_back(std::make_shared<EffectManager>());
     }
-    if (input3.Buttons[1] > 0 && !isjoiningPlayer[2])
+    if (input3.Buttons[1] > 0 && !isjoiningPlayer[2] && GetJoypadType(DX_INPUT_PAD3) == DX_PADTYPE_SWITCH_PRO_CTRL ||
+        input3.Buttons[0] > 0 && !isjoiningPlayer[2] && GetJoypadType(DX_INPUT_PAD3) == DX_PADTYPE_XBOX_360 ||
+        input3.Buttons[0] > 0 && !isjoiningPlayer[2] && GetJoypadType(DX_INPUT_PAD3) == DX_PADTYPE_XBOX_ONE)
     {
         players.emplace_back(std::make_shared<Player>(DX_INPUT_PAD3));
         isjoiningPlayer[2] = true;
         effectManager.emplace_back(std::make_shared<EffectManager>());
     }
-    if (input4.Buttons[1] > 0 && !isjoiningPlayer[3])
+    if (input4.Buttons[1] > 0 && !isjoiningPlayer[3] && GetJoypadType(DX_INPUT_PAD4) == DX_PADTYPE_SWITCH_PRO_CTRL ||
+        input4.Buttons[0] > 0 && !isjoiningPlayer[3] && GetJoypadType(DX_INPUT_PAD4) == DX_PADTYPE_XBOX_360 ||
+        input4.Buttons[0] > 0 && !isjoiningPlayer[3] && GetJoypadType(DX_INPUT_PAD4) == DX_PADTYPE_XBOX_ONE)
     {
         players.emplace_back(std::make_shared<Player>(DX_INPUT_PAD4));
         isjoiningPlayer[3] = true;
