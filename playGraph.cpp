@@ -4,7 +4,8 @@
 
 PlayGraph::PlayGraph(const char* fontName)
 {
-	fontHandle_			= CreateFontToHandle(fontName, 180, 0, DX_FONTTYPE_ANTIALIASING_EDGE_4X4);
+	SetFontUseAdjustSizeFlag(FALSE);//CreateFontToHandleのフォントの自動補正の設定をする関数(補正のせいでフォントの大きさがバグる可能性あり)。TRUE:補正する,FALSE:補正しない
+	fontHandle_			= CreateFontToHandle(fontName, 180, 0, DX_FONTTYPE_ANTIALIASING_EDGE_8X8);
 	countDownMovie_		= LoadGraph("movie/countdown.mp4");
 	screenHandle_		= MakeScreen(1920, 1080, TRUE);
 	movieWidht_			= init_movie_width;
@@ -35,7 +36,7 @@ void PlayGraph::update()
 		if (CheckHitKey(KEY_INPUT_RETURN) && expandMovieCount_ < max_expand_count)//カウントスキップ
 		{
 			expandMovieCount_ += max_expand_count;
-			SeekMovieToGraph(countDownMovie_, 7500);
+			SeekMovieToGraph(countDownMovie_, 7250);
 		}
 		if (expandMovieCount_ > max_expand_count)
 		{

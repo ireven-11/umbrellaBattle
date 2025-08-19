@@ -106,7 +106,7 @@ std::list<position> a_star(position start, position goal) {
 			if (neighborY < 0 || neighborY == MAP_HEIGHTMAX) {
 				continue;
 			}
-			// 壁だったらチェックしない
+			// 穴だったらチェックしない
 			char chip_type = map[neighborY][neighborX];
 			if (chip_type == HALL) {
 				continue;

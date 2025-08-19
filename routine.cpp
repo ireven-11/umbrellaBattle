@@ -36,8 +36,9 @@ Routine::Routine()
     bgmPractice_ = LoadSoundMem("sound/bgm2.mp3");
     ChangeVolumeSoundMem(bgm_volume * 2, bgmPractice_);
 
-    //サンドバッグインスタンス化
+    //一部をインスタンス化
     sandBag.emplace_back(std::make_shared<SandBag>(0));
+    playGraph = std::make_shared<PlayGraph>("April Gothic one Regular");
 
     //フォントを使えるようにする
     AddFontResourceEx("font/AprilGothicOne-R.ttf", FR_PRIVATE, NULL);
@@ -304,7 +305,7 @@ void Routine::play()
             //DrawSphere3D(i->GetwindPosition_(), collision_radius_wind, 32, GetColor(0, 255, 0), GetColor(255, 255, 255), FALSE);
             //DrawSphere3D(stage_center, collision_radius_wind, 32, GetColor(0, 0, 255), GetColor(255, 255, 255), FALSE);
             //DrawFormatString(100, 100 * collisionCount, GetColor(255, 0, 0), "player%d, x:%f, y:%f, z:%f", collisionCount, i->Getposition_().x, i->Getposition_().y, i->Getposition_().z);
-            //DrawFormatString(100, 100 * collisionCount + 15 * collisionCount, GetColor(255, 0, 0), "player%d, moveVector(%f, %f, %f)", collisionCount, i->GetmoveVector_().x, i->GetmoveVector_().y, i->GetmoveVector_().z);
+            //DrawFormatString(100, 100 * collisionCount + 15 * collisionCount, GetColor(255, 0, 0), "player%d, moveVector(%f, %f, %f)", collisionCount, i->GetmoveVector_().x, i->GetmoveVector_().y, i->GetmoveVector_().z);     
         }
     }
 
@@ -325,13 +326,20 @@ void Routine::play()
 
     //描画
     stage->draw();
+    auto testCount = 0;
     for (const auto& i : players)
     {
+        testCount++;
         //プレイヤー描画
         i->draw();
 
         //ui
         playUI->update(i, i->GetcontrolerNumber_());
+
+        if (i->Getstate_() != std::dynamic_pointer_cast<CharaState::FanState>(i->Getstate_()))
+        {
+            DrawFormatString(300, 200 * testCount, GetColor(255, 0, 0), "%dPはタイル[%d][%d]の上にいます", testCount, i->GetonTileNumberY_(), i->GetonTileNumberX_());
+        }
     }
     DrawEffekseer3D();
 
@@ -369,6 +377,8 @@ void Routine::result()
 
         resultUI->update(winPlayer_);
         resultGraph->update();
+
+        //タイトルへ戻る
         if (sceneManager->proceedTitle())
         {
             PlaySoundMem(decideSound_, DX_PLAYTYPE_BACK, TRUE);

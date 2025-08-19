@@ -24,7 +24,7 @@ private:
 	const int		init_movie_width		= 750;				//動画初期幅
 	const int		init_movie_height		= 460;				//動画初期高さ
 	const VECTOR	init_movie_position		= VGet(1220, 0, 0);	//初期座標
-	const int		max_expand_count		= 205;				//最大拡大カウント
+	const int		max_expand_count		= 170;				//最大拡大カウント
 	const short		expand_speed_x			= 20;				//拡大スピードx
 	const short		expand_speed_y			= 10;				//拡大スピードy
 	const VECTOR	explane_rule_position	= VGet(320, 350, 0);//ルール説明座標
