@@ -8,7 +8,8 @@ SandBag::SandBag(const int join_number) : CharaBase(join_number)
 {
 	modelHandle_	= MV1LoadModel("3dmodel/punchingBag/punchingBag.mv1");
 	MV1SetScale(modelHandle_, VGet(1.5f, 1.0f, 1.5f));
-	position_		= VGet(0.0f, 0.0f, 0.0f);
+	position_					= VGet(0.0f, 0.0f, 0.0f);
+	collisionCenterPosition_	= VGet(0.0f, 0.0f, -5.5f);
 }
 
 SandBag::~SandBag()

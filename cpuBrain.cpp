@@ -83,7 +83,7 @@ void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, std::sha
 	//探索したルートで追跡する
 	if (charaBase->Getstate_() != std::dynamic_pointer_cast<CharaState::FanState>(charaBase->Getstate_()))
 	{
-		switch (randomTarget_)
+		/*switch (randomTarget_)
 		{
 		default:
 		case 1:
@@ -99,7 +99,7 @@ void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, std::sha
 		case 4:
 			DrawSphere3D(stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x], 1.0f, 32, GetColor(0, 0, 255), GetColor(255, 255, 255), TRUE);
 			break;
-		}
+		}*/
 
 		//移動
 		//追跡ルート決定

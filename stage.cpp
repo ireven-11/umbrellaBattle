@@ -314,6 +314,7 @@ void Stage::collisionWithPlayer(std::vector<std::shared_ptr<CharaBase>>player)
 						p->SetonTilePosition(position_[j][i]);
 						p->SetonTilePositionX_(i);
 						p->SetonTilePositionY_(j);
+						//p->SetonTilePositionY_((j - 6) * -1);
 					}
 				
 					//デバッグ用
