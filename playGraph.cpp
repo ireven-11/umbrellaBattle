@@ -7,6 +7,7 @@ PlayGraph::PlayGraph(const char* fontName)
 	SetFontUseAdjustSizeFlag(FALSE);//CreateFontToHandleのフォントの自動補正の設定をする関数(補正のせいでフォントの大きさがバグる可能性あり)。TRUE:補正する,FALSE:補正しない
 	fontHandle_			= CreateFontToHandle(fontName, 180, 0, DX_FONTTYPE_ANTIALIASING_EDGE_8X8);
 	countDownMovie_		= LoadGraph("movie/countdown.mp4");
+	//countDownMovie_ = LoadGraph("movie/3tr165スワイプトランジション.mp4");
 	screenHandle_		= MakeScreen(1920, 1080, TRUE);
 	movieWidht_			= init_movie_width;
 	movieHeight_		= init_movie_height;
@@ -29,7 +30,7 @@ void PlayGraph::update()
 	//動画を流す
 	if (onCountDown_)
 	{
-		PlayTransparentMovie(countDownMovie_, screenHandle_, movieWidht_, movieHeight_, moviePosition_, false);
+		PlayTransparentMovie(countDownMovie_, screenHandle_, 1, movieWidht_, movieHeight_, moviePosition_, false);
 
 		//カウントが一定になるとカウントダウン動画を拡大させる
 		++expandMovieCount_;
