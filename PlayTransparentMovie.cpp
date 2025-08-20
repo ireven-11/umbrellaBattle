@@ -35,7 +35,7 @@ void PlayTransparentMovie(int movieHandle, int screenHandle, unsigned short movi
     }
     else if (movieBackColorType == 1)
     {
-        GraphFilter(screenHandle, DX_GRAPH_FILTER_BRIGHT_CLIP, DX_CMP_LESS, 28, TRUE, GetColor(0, 0, 0), 0);
+        GraphFilter(screenHandle, DX_GRAPH_FILTER_BRIGHT_CLIP, DX_CMP_LESS, 128, TRUE, GetColor(0, 0, 0), 0);
     }
     else
     {

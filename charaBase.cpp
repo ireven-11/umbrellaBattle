@@ -359,9 +359,9 @@ void CharaBase::wind()
 	//•—‚ð”­¶‚³‚¹‚é
 	if (input.Buttons[1] > 0 && canSpawnWind_ && GetJoypadType(controlerNumber_) == DX_PADTYPE_SWITCH_PRO_CTRL ||
 		input.Buttons[0] > 0 && canSpawnWind_ && GetJoypadType(controlerNumber_) == DX_PADTYPE_XBOX_360 ||
-		input.Buttons[0] > 0 && canSpawnWind_ && GetJoypadType(controlerNumber_) == DX_PADTYPE_XBOX_ONE ||
+		input.Buttons[0] > 0 && canSpawnWind_ && GetJoypadType(controlerNumber_) == DX_PADTYPE_XBOX_ONE/* ||
 		input.Buttons[0] > 2000 && canSpawnWind_ ||
-		input.Buttons[1] > 2000 && canSpawnWind_)
+		input.Buttons[1] > 2000 && canSpawnWind_*/)
 	{
 		canSpawnWind_	= false;
 		windPosition_	= position_;

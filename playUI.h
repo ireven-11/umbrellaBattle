@@ -29,6 +29,8 @@ private:
 	int		LTbuttonUI_;		//LTボタンUI
 	int		RTbuttonUI_;		//RTボタンUI
 	int		fontHandleSize60_;	//60サイズのフォント
+	int		trumpet_[4];		//ラッパがさ画像
+	int		fontHandleSize30_;	//フォントサイズ30
 	
 	const int		umbrella_width			= 150;
 	const int		umbrella_height			= 150;

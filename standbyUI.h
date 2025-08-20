@@ -13,10 +13,12 @@ private:
 
 	int	fontHandle_;		//フォントハンドル
 	int	fontHandleSize100_;	//フォントハンドル
+	int fontHandleSize150_;
 
 	const VECTOR	player_number_position	= VGet(270, 870, 0);
 	const int		player_number_gap		= 400;
 	const VECTOR	wait_or_join_position	= VGet(245, 940, 0);
-	const VECTOR	join_player_position	= VGet(700, 40, 0);
-	const VECTOR	game_start_position		= VGet(715, 150, 0);
+	const VECTOR	join_player_position	= VGet(700, 750, 0);
+	const VECTOR	game_start_position		= VGet(565, 150, 0);
+	const VECTOR	practice_position		= VGet(775, 15, 0);
 };

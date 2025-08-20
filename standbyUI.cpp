@@ -9,6 +9,7 @@ StandbyUI::StandbyUI(const char* fontName)
 {
 	fontHandle_			= CreateFontToHandle(fontName, 50, 0, DX_FONTTYPE_ANTIALIASING_EDGE_4X4);
 	fontHandleSize100_	= CreateFontToHandle(fontName, 90, 0, DX_FONTTYPE_ANTIALIASING_EDGE_4X4);
+	fontHandleSize150_ = CreateFontToHandle(fontName, 150, 0, DX_FONTTYPE_ANTIALIASING_EDGE_4X4);
 }
 
 /// <summary>
@@ -22,7 +23,8 @@ void StandbyUI::update(bool isjoiningPlayer[], const int max_player_number)
 {
 	playerJoin(isjoiningPlayer, max_player_number);
 
-	DrawStringToHandle(game_start_position.x, game_start_position.y, "Enterでゲームスタート", GetColor(255, 255, 255), fontHandle_);
+	DrawStringToHandle(practice_position.x, practice_position.y, "練習場", GetColor(255, 255, 50), fontHandleSize150_);
+	DrawStringToHandle(game_start_position.x, game_start_position.y, "Enterでゲームスタート", GetColor(225, 225, 255), fontHandleSize100_);
 }
 
 /// <summary>

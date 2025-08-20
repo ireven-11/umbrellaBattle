@@ -6,6 +6,7 @@ PlayGraph::PlayGraph(const char* fontName)
 {
 	SetFontUseAdjustSizeFlag(FALSE);//CreateFontToHandleのフォントの自動補正の設定をする関数(補正のせいでフォントの大きさがバグる可能性あり)。TRUE:補正する,FALSE:補正しない
 	fontHandle_			= CreateFontToHandle(fontName, 180, 0, DX_FONTTYPE_ANTIALIASING_EDGE_8X8);
+	fontHandleSize300_	= CreateFontToHandle(fontName, 300, 0, DX_FONTTYPE_ANTIALIASING_EDGE_8X8);
 	countDownMovie_		= LoadGraph("movie/countdown.mp4");
 	//countDownMovie_ = LoadGraph("movie/3tr165スワイプトランジション.mp4");
 	screenHandle_		= MakeScreen(1920, 1080, TRUE);
@@ -16,6 +17,8 @@ PlayGraph::PlayGraph(const char* fontName)
 	expandMovieCount_	= 0;
 	startSound_			= LoadSoundMem("sound/startBattle.mp3");
 	ChangeVolumeSoundMem(start_sound_volume, startSound_);
+	trumpet_			= LoadGraph("graph/trumpetBlack.png");
+	beat_				= LoadGraph("graph/beat.png");
 }
 
 PlayGraph::~PlayGraph()
@@ -59,10 +62,17 @@ void PlayGraph::update()
 				moviePosition_.x = 0;
 			}
 		}
-		else
+		else if (expandMovieCount_ < max_expand_count / 2 - 20)
 		{
 			//簡単なゲーム説明
-			DrawStringToHandle(explane_rule_position.x, explane_rule_position.y, "ラッパにならずに相手を\n    落として生き残れ!!", GetColor(255, 50, 50), fontHandle_);
+			DrawStringToHandle(explane_rule_position.x, explane_rule_position.y, "ラッパ傘にならずに", GetColor(255, 50, 50), fontHandle_);
+			DrawExtendGraph(trumpet_position.x, trumpet_position.y, trumpet_position.x + trumpet_width, trumpet_position.y + trumpet_height, trumpet_, TRUE);
+			DrawStringToHandle(batu_position.x, batu_position.y, "→ ×", GetColor(255, 50, 50), fontHandleSize300_);
+		}
+		else
+		{
+			DrawStringToHandle(explane_rule_position.x - 100, explane_rule_position.y, "相手を倒して生き残れ!", GetColor(255, 50, 50), fontHandle_);
+			DrawExtendGraph(beat_position.x, beat_position.y, beat_position.x + beat_width, beat_position.y + beat_height, beat_, TRUE);
 		}
 
 		//カウントダウン終了
