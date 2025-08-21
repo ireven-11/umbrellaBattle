@@ -24,7 +24,7 @@ void StandbyUI::update(bool isjoiningPlayer[], const int max_player_number)
 	playerJoin(isjoiningPlayer, max_player_number);
 
 	DrawStringToHandle(practice_position.x, practice_position.y, "練習場", GetColor(255, 255, 50), fontHandleSize150_);
-	DrawStringToHandle(game_start_position.x, game_start_position.y, "Enterでゲームスタート", GetColor(225, 225, 255), fontHandleSize100_);
+	DrawStringToHandle(game_start_position.x, game_start_position.y, "Enterでゲームスタート", GetColor(255, 255, 255), fontHandleSize100_);
 }
 
 /// <summary>

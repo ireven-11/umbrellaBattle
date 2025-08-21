@@ -1,11 +1,12 @@
 #include"DxLib.h"
 #include"charaBase.h"
 #include"playUI.h"
+#include"DrawExtendBrinkGraph.h"
 
 PlayUI::PlayUI(const char* fontName)
 {
 	fontHandle_			= CreateFontToHandle(fontName, 100, 0, DX_FONTTYPE_ANTIALIASING_EDGE_4X4);
-	fontHandleSize60_	= CreateFontToHandle(fontName, 60, 0, DX_FONTTYPE_ANTIALIASING_EDGE_4X4);
+	fontHandleSize60_	= CreateFontToHandle(fontName, 45, 0, DX_FONTTYPE_ANTIALIASING_EDGE_4X4);
 	fontHandleSize30_	= CreateFontToHandle(fontName, 300, 0, DX_FONTTYPE_ANTIALIASING_EDGE_4X4);
 	umbrella1_	= LoadGraph("graph/black.png");
 	umbrella2_	= LoadGraph("graph/skyblue.png");
@@ -21,6 +22,7 @@ PlayUI::PlayUI(const char* fontName)
 	trumpet_[1] = LoadGraph("graph/trumpetSkyBlue.png");
 	trumpet_[2] = LoadGraph("graph/trumpetOrange.png");
 	trumpet_[3] = LoadGraph("graph/trumpetPink.png");
+	fanGraph_	= LoadGraph("graph/fan.png");
 
 	hpPosition_			= hp__init_position;
 	hpEmptyPosition_	= hp_empty_init_position;
@@ -31,6 +33,7 @@ PlayUI::~PlayUI()
 {
 	DeleteFontToHandle(fontHandle_);
 	DeleteFontToHandle(fontHandleSize60_);
+	DeleteFontToHandle(fontHandleSize30_);
 	DeleteGraph(umbrella1_);
 	DeleteGraph(umbrella2_);
 	DeleteGraph(umbrella3_);
@@ -41,6 +44,11 @@ PlayUI::~PlayUI()
 	DeleteGraph(LstickUI_);
 	DeleteGraph(LTbuttonUI_);
 	DeleteGraph(RTbuttonUI_);
+	for (auto i = 0; i < 4; i++)
+	{
+		DeleteGraph(trumpet_[i]);
+	}
+	DeleteGraph(fanGraph_);
 }
 
 void PlayUI::update(std::shared_ptr<CharaBase> chara, int playerNumber)
@@ -52,17 +60,22 @@ void PlayUI::update(std::shared_ptr<CharaBase> chara, int playerNumber)
 
 void PlayUI::buttonUI()
 {
+	DrawBox(frame_box_position.x, frame_box_position.y, frame_box_position.x + frame_box_width_height.x, frame_box_position.y + frame_box_width_height.y, GetColor(255, 255, 255), FALSE);
+	DrawBox(frame_box_position.x, frame_box_position.y * 3.3f, frame_box_position.x + frame_box_width_height.x, frame_box_position.y * 3.3f + frame_box_width_height.y * 1.5f, GetColor(255, 255, 255), FALSE);
 	DrawExtendGraph(A_ui_position.x, A_ui_position.y, A_ui_position.x + button_ui_width, A_ui_position.y + button_ui_height, AbuttonUI_, TRUE);
+	DrawExtendGraph(A_ui_wind_position.x, A_ui_wind_position.y, A_ui_wind_position.x + button_ui_width, A_ui_wind_position.y + button_ui_height, AbuttonUI_, TRUE);
 	DrawExtendGraph(Lstick_ui_position.x, Lstick_ui_position.y, Lstick_ui_position.x + button_ui_width, Lstick_ui_position.y + button_ui_height, LstickUI_, TRUE);
 	DrawExtendGraph(LT_ui_position.x, LT_ui_position.y, LT_ui_position.x + button_ui_width, LT_ui_position.y + button_ui_height, LTbuttonUI_, TRUE);
 	DrawExtendGraph(RT_ui_position.x, RT_ui_position.y, RT_ui_position.x + button_ui_width, RT_ui_position.y + button_ui_height, RTbuttonUI_, TRUE);
+	DrawExtendGraph(control_umbrella_position.x, control_umbrella_position.y, control_umbrella_position.x + button_ui_width * 1.75f, control_umbrella_position.y + button_ui_height * 1.75f, umbrella4_, TRUE);
+	DrawExtendGraph(fan_graph_position.x, fan_graph_position.y, fan_graph_position.x + fan_graph_widht_height.x, fan_graph_position.y + fan_graph_widht_height.y, fanGraph_, TRUE);
 
-	DrawStringToHandle(action_text_position.x, action_text_position.y, ":アクション", GetColor(255, 255, 255), fontHandleSize60_);
+	DrawStringToHandle(action_text_position.x, action_text_position.y, ":タックル", GetColor(255, 255, 255), fontHandleSize60_);
 	DrawStringToHandle(move_text_position.x, move_text_position.y, ":移動", GetColor(255, 255, 255), fontHandleSize60_);
 	DrawStringToHandle(left_turn_text_position.x, left_turn_text_position.y, ":左回転", GetColor(255, 255, 255), fontHandleSize60_);
 	DrawStringToHandle(right_turn_text_position.x, right_turn_text_position.y, ":右回転", GetColor(255, 255, 255), fontHandleSize60_);
+	DrawStringToHandle(wind_text_position.x, wind_text_position.y, ":風", GetColor(255, 255, 255), fontHandleSize60_);
 }
-
 
 /**
  * 3D空間に文字列をフォントハンドルを使用して描画します。
@@ -151,7 +164,7 @@ void PlayUI::playerUI(std::shared_ptr<CharaBase> chara, int playerNumber)
 				umbrellaPosition_.x + umbrella_width * 1.5f + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y + umbrella_height, trumpet_[3], TRUE);
 			break;
 		}
-		//DrawStringToHandle(umbrellaPosition_.x + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y, "ラッパ!!", GetColor(255, 50, 0), fontHandle_);
+		DrawStringToHandle(umbrellaPosition_.x + (adjust_umbrella_x * playerNumber) + 15.0f, umbrellaPosition_.y - 10.0f, "復活不可...", GetColor(0, 191, 255), fontHandleSize60_);
 	}
 	else
 	{
@@ -191,6 +204,15 @@ void PlayUI::playerUI(std::shared_ptr<CharaBase> chara, int playerNumber)
 	//ゲージ表示
 	DrawExtendGraph(hpEmptyPosition_.x + (adjust_hp_empty_x * playerNumber), hpEmptyPosition_.y,
 		hpEmptyPosition_.x + hp_empty_width + (adjust_hp_empty_x * playerNumber), hpEmptyPosition_.y + hp_empty_height, hpEmpty_, TRUE);
-	DrawExtendGraphF(hpPosition_.x + (adjust_hp__x * playerNumber), hpPosition_.y,
-		hpPosition_.x + (chara->Gethp_() * hp__width) / max_hp + (adjust_hp__x * playerNumber), hpPosition_.y + hp__height, hp_, TRUE);
+	if (chara->Gethp_() < max_hp / 3)
+	{
+
+		DrawExtendBrinkGraph(hpPosition_.x + (adjust_hp__x * playerNumber), hpPosition_.y,
+			hpPosition_.x + (chara->Gethp_() * hp__width) / max_hp + (adjust_hp__x * playerNumber), hpPosition_.y + hp__height, hp_);
+	}
+	else
+	{
+		DrawExtendGraphF(hpPosition_.x + (adjust_hp__x * playerNumber), hpPosition_.y,
+			hpPosition_.x + (chara->Gethp_() * hp__width) / max_hp + (adjust_hp__x * playerNumber), hpPosition_.y + hp__height, hp_, TRUE);
+	}
 }

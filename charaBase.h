@@ -32,7 +32,6 @@ public:
 	virtual void move();
 	virtual void swing();
 	virtual void tackle();
-	void wind();
 	virtual void moveFan();
 	void SetonTilePosition(VECTOR tilePosition);
 	void SetonTilePositionX_(short tileNumberX);
@@ -53,6 +52,7 @@ public:
 	void cannotChangeFan();
 	void constructFrameEnd();
 	void setPosition();
+	virtual void wind();
 
 	DINPUT_JOYSTATE input;		//コントローラー(D)用構造体変数
 
@@ -105,7 +105,6 @@ private:
 	const short		hit_sound_volume		= 185;
 	const short		knock_back_max_count	= 4;
 	const short		charge_sound_volume		= 215;
-	const short		max_wind_count			= 120;
 	const short		wind_sound_volume		= 200;
 	const short		respawn_sound_volume	= 255;
 	const short		inverse_sound_volume	= 255;
@@ -168,6 +167,8 @@ protected:
 	bool	canChangeFan_;		//変身フラグ
 	int		changeFanSound_;	//変身音
 	bool	onConstructFrame_;	//コンストラクタしたフレームかどうか
+
+	const short		max_wind_count			= 120;
 
 	//状態
 	std::shared_ptr<StateMachine::IState>	state_;

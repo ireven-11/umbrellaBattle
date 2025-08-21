@@ -12,6 +12,8 @@ public:
 	void update(Routine* routine, std::shared_ptr<Stage> stage)override;
 
 private:
+	void wind()override;
+
 	//ƒuƒŒƒCƒ“‚ğéŒ¾
 	std::shared_ptr<CPUBrain> brain_ = std::make_shared<CPUBrain>();
 };

@@ -40,3 +40,30 @@ void CPU::update(Routine* routine, std::shared_ptr<Stage> stage)
 	MV1SetPosition(fan_, position_);
 	draw();
 }
+
+void CPU::wind()
+{
+	//•—‚ğ”­¶‚³‚¹‚é
+	if (canSpawnWind_)
+	{
+		canSpawnWind_ = false;
+		windPosition_ = position_;
+		windMoveVector_ = VSub(stage_center, position_);
+		windAngle_ = fanAngle_;
+		windCount_ = 0;
+		PlaySoundMem(windSound_, DX_PLAYTYPE_BACK, TRUE);
+	}
+	//ˆÚ“®
+	if (!canSpawnWind_)
+	{
+		++windCount_;
+		windPosition_ = VAdd(windPosition_, VGet(windMoveVector_.x / 35, windMoveVector_.y / 35, windMoveVector_.z / 35));
+
+		//•—‚ğÁ‚·
+		if (max_wind_count < windCount_)
+		{
+			canSpawnWind_ = true;
+			StopSoundMem(windSound_);
+		}
+	}
+}
