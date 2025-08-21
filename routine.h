@@ -64,6 +64,8 @@ private:
 	int		fanfare_;							//ファンファーレ
 	int		bgmPractice_;						//練習bgm
 	int		decideSound_;						//決定音
+	int		screenHandle_;						//スクリーンハンドル
+	int		movieHandle_;						//動画ハンドル
 	
 	const short bgm_volume		= 90;
 	const short crap_volume		= 180;

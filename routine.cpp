@@ -34,7 +34,7 @@ Routine::Routine()
     bgm_ = LoadSoundMem("sound/bgm.mp3");
     ChangeVolumeSoundMem(bgm_volume, bgm_);
     bgmPractice_ = LoadSoundMem("sound/bgm2.mp3");
-    ChangeVolumeSoundMem(bgm_volume * 2, bgmPractice_);
+    ChangeVolumeSoundMem(200, bgmPractice_);
 
     //一部をインスタンス化
     sandBag.emplace_back(std::make_shared<SandBag>(0));
@@ -42,6 +42,10 @@ Routine::Routine()
 
     //フォントを使えるようにする
     AddFontResourceEx("font/AprilGothicOne-R.ttf", FR_PRIVATE, NULL);
+
+    //ムービー
+    screenHandle_   = MakeScreen(1920, 1080);
+    movieHandle_    = LoadGraph("movie/demo.mp4");
 
     reset();
 }
@@ -56,6 +60,8 @@ Routine::~Routine()
     DeleteSoundMem(crap_);
     DeleteSoundMem(fanfare_);
     DeleteSoundMem(decideSound_);
+    DeleteGraph(screenHandle_);
+    DeleteGraph(movieHandle_);
     RemoveFontResourceEx("font/AprilGothicOne-R.ttf", FR_PRIVATE, NULL);
 }
 
@@ -133,6 +139,14 @@ void Routine::gameRoop()
 /// </summary>
 void Routine::title()
 {
+    //スクリーンハンドルに動画を描画する
+    SetDrawScreen(screenHandle_);
+    PlayMovieToGraph(movieHandle_, DX_PLAYTYPE_LOOP);
+    DrawExtendGraph(0, 0, 1920, 1080, movieHandle_, TRUE);
+    //元のスクリーンハンドルに戻す
+    SetDrawScreen(DX_SCREEN_BACK);
+    DrawExtendGraph(0, 0, 1920, 1080, screenHandle_, TRUE);
+
     //画像
     titleGraph->update();
 
@@ -145,6 +159,7 @@ void Routine::title()
         PlaySoundMem(decideSound_, DX_PLAYTYPE_BACK, TRUE);
         PlayMovie("movie/umbrella.mp4", 1, DX_MOVIEPLAYTYPE_NORMAL);
         PlaySoundMem(bgmPractice_, DX_PLAYTYPE_LOOP, TRUE);
+        PauseMovieToGraph(movieHandle_);
     }
 }
 
@@ -271,7 +286,7 @@ void Routine::play()
     camera->update();
 
     //カウントダウンが終わってから
-    //if (!playGraph->GetonCountDown_())
+    if (!playGraph->GetonCountDown_())
     {
         //すてーじこうしん
         stage->updateGimmick(players);
@@ -298,6 +313,14 @@ void Routine::play()
 
             //判定が終わった後にノックバック（反発）をする
             i->knockBackNow();
+
+            //デバッグ用
+            //DrawSphere3D(i->GetcollisionCenterPosition_(), collision_radius, 32, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
+            //DrawSphere3D(i->Getposition_(), collision_radius_stage, 32, GetColor(255, 255, 255), GetColor(255, 255, 255), FALSE);
+            //DrawSphere3D(i->GetwindPosition_(), collision_radius_wind, 32, GetColor(0, 255, 0), GetColor(255, 255, 255), FALSE);
+            //DrawSphere3D(stage_center, collision_radius_wind, 32, GetColor(0, 0, 255), GetColor(255, 255, 255), FALSE);
+            //DrawFormatString(100, 100 * collisionCount, GetColor(255, 0, 0), "player%d, x:%f, y:%f, z:%f", collisionCount, i->Getposition_().x, i->Getposition_().y, i->Getposition_().z);
+            //DrawFormatString(100, 100 * collisionCount + 15 * collisionCount, GetColor(255, 0, 0), "player%d, moveVector(%f, %f, %f)", collisionCount, i->GetmoveVector_().x, i->GetmoveVector_().y, i->GetmoveVector_().z);     
         }
     }
 
@@ -326,7 +349,7 @@ void Routine::play()
         i->draw();
 
         //ui
-        //playUI->update(i, i->GetcontrolerNumber_());
+        playUI->update(i, i->GetcontrolerNumber_());
 
         /*if (i->Getstate_() != std::dynamic_pointer_cast<CharaState::FanState>(i->Getstate_()))
         {
@@ -336,7 +359,7 @@ void Routine::play()
     DrawEffekseer3D();
 
     //プレイ画像描画
-    //playGraph->update();
+    playGraph->update();
 
     //勝者判定
     judgeWinner();
@@ -515,6 +538,10 @@ void Routine::judgeWinner()
     {
         sceneManager->proceedResult();
         StopSoundMem(bgm_);
+        for (const auto& p : players)
+        {
+            StopSoundMem(p->GetchargeSound_());
+        }
 
         if (winPlayer1)
         {

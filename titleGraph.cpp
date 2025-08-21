@@ -5,9 +5,7 @@ TitleGraph::TitleGraph()
 {
 	umbrella1Handle_	= LoadGraph("graph/black.png");
 	umbrella2Handle_	= LoadGraph("graph/skyblue.png");
-	screenHandle_		= MakeScreen(1920, 1080);
-	movieHandle_		= LoadGraph("movie/demo.mp4");
-
+	
 	reset();
 }
 
@@ -15,8 +13,6 @@ TitleGraph::~TitleGraph()
 {
 	DeleteGraph(umbrella1Handle_);
 	DeleteGraph(umbrella2Handle_);
-	DeleteGraph(screenHandle_);
-	DeleteGraph(movieHandle_);
 }
 
 void TitleGraph::reset()
@@ -60,14 +56,6 @@ void DrawAnimationGraph(VECTOR position, int graphHandle[], int graphWidth, int 
 
 void TitleGraph::update()
 {
-	//スクリーンハンドルに動画を描画する
-	SetDrawScreen(screenHandle_);
-	PlayMovieToGraph(movieHandle_, DX_PLAYTYPE_LOOP);
-	DrawExtendGraph(0, 0, 1920, 1080, movieHandle_, TRUE);
-	//元のスクリーンハンドルに戻す
-	SetDrawScreen(DX_SCREEN_BACK);
-	DrawExtendGraph(0, 0, 1920, 1080, screenHandle_, TRUE);
-
 	//傘を描画
 	DrawExtendGraph(umbrella1_init_position.x, umbrella1_init_position.y,
 		umbrella1_init_position.x + umbrella_width, umbrella1_init_position.y + umbrella_height, umbrella1Handle_, TRUE);

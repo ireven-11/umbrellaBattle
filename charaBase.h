@@ -79,6 +79,7 @@ public:
 	VECTOR								GetrespawnPosition_()const { return respawnPosition_; }
 	bool								GetcanChangeFan_()const { return canChangeFan_; }
 	bool								GetonConstructFrame_()const { return onConstructFrame_; }
+	int									GetchargeSound_()const { return chargeSound_; }
 	
 private:
 	const float		fall_speed				= 0.25f;

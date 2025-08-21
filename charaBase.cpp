@@ -560,8 +560,8 @@ void CharaBase::SetonTilePositionY_(short tileNumberY)
 /// <param name="otherChara">判定するほかのキャラ</param>
 void CharaBase::decideKnockBackWithChara(std::shared_ptr<CharaBase> otherChara)
 {
-	//扇風機以外のときに判定をする
-	if (state_ != fanState_())
+	//開き状態のときに判定をする
+	if (state_== openState_())
 	{
 		//2点間の距離を出す
 		float dx		= otherChara->GetcollisionCenterPosition_().x - collisionCenterPosition_.x;
@@ -569,7 +569,7 @@ void CharaBase::decideKnockBackWithChara(std::shared_ptr<CharaBase> otherChara)
 		float distance	= CalculateDistance<float>(collisionCenterPosition_, otherChara->GetcollisionCenterPosition_());
 
 		//距離が直径未満だったら
-		if (distance < collision_radius * 2)
+		if (distance < collision_radius * 2 && otherChara->Getstate_() == openState_())
 		{
 			// 衝突の法線ベクトル
 			VECTOR normalLine = VGet(0.0f, 0.0f, 0.0f);

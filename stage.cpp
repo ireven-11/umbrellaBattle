@@ -338,7 +338,7 @@ void Stage::collisionWithPlayer(std::vector<std::shared_ptr<CharaBase>>player)
 				}
 			}
 
-			if (p->Getposition_().y < -5.0f)
+			if (p->Getposition_().y > -2.0f && p->Getposition_().y < 0.0f)
 			{
 				PlaySoundMem(fallSound_, DX_PLAYTYPE_BACK, TRUE);
 			}
