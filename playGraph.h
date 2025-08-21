@@ -7,6 +7,7 @@ public:
 	~PlayGraph();
 
 	void update();
+	void reset();
 
 	bool GetonCountDown_()const { return onCountDown_; }
 

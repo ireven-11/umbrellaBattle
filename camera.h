@@ -11,6 +11,7 @@ public:
 
 	void update();
 	void virtualUpdate(VECTOR upPosition);
+	void reset();
 
 	bool GetwasZoomUP_()const { return wasZoomUp_; }
 

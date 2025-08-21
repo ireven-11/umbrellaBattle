@@ -488,29 +488,14 @@ void Routine::joinCPU()
 
 void Routine::allReset()
 {
-    sceneManager    = nullptr;
-    camera          = nullptr;
     players.clear();
-    stage           = nullptr;
-    standbyUI       = nullptr;
     effectManager.clear();
-    titleUI         = nullptr;
-    titleGraph      = nullptr;
-    playUI          = nullptr;
-    resultUI        = nullptr;
-    resultGraph     = nullptr;
-    playGraph       = nullptr;
-    
-    sceneManager    = std::make_shared<SceneManager>();
-    camera          = std::make_shared<Camera>();
-    stage           = std::make_shared<Stage>();
-    standbyUI       = std::make_shared<StandbyUI>("April Gothic one Regular");
-    titleUI         = std::make_shared<TitleUI>("April Gothic one Regular");
-    titleGraph      = std::make_shared<TitleGraph>();
-    playUI          = std::make_shared<PlayUI>("April Gothic one Regular");
-    resultUI        = std::make_shared<ResultUI>("April Gothic one Regular");
-    resultGraph     = std::make_shared<ResultGraph>();
-    playGraph       = std::make_shared<PlayGraph>("April Gothic one Regular");
+
+    sceneManager->reset();
+    camera->reset();
+    stage->reset();
+    playUI->reset();
+    playGraph->reset();
     
     reset();
 }

@@ -9,6 +9,7 @@ public:
 	~PlayUI();
 
 	void update(std::shared_ptr<CharaBase> chara, int playerNumber);
+	void reset();
 
 private:
 	void playerUI(std::shared_ptr<CharaBase> chara, int playerNumber);

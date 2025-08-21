@@ -11,6 +11,7 @@ ResultGraph::ResultGraph()
 ResultGraph::~ResultGraph()
 {
     DeleteGraph(movieHandle_);
+    DeleteGraph(screenHandle_);
 }
 
 void ResultGraph::update()

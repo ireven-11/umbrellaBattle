@@ -23,6 +23,17 @@ Camera::~Camera()
 {
 }
 
+void Camera::reset()
+{
+	position_ = VGet(0.0f, init_Y, init_z);
+	targetPosition_ = VGet(0.0f, 0.0f, 0.0f);
+	wasZoomUp_ = false;
+	for (auto i = 0; i < 3; i++)
+	{
+		wasZoomUPXYZ_[i] = false;
+	}
+}
+
 /// <summary>
 /// çXêV
 /// </summary>

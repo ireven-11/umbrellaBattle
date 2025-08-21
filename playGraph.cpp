@@ -8,7 +8,6 @@ PlayGraph::PlayGraph(const char* fontName)
 	fontHandle_			= CreateFontToHandle(fontName, 180, 0, DX_FONTTYPE_ANTIALIASING_EDGE_8X8);
 	fontHandleSize300_	= CreateFontToHandle(fontName, 300, 0, DX_FONTTYPE_ANTIALIASING_EDGE_8X8);
 	countDownMovie_		= LoadGraph("movie/countdown.mp4");
-	//countDownMovie_ = LoadGraph("movie/3tr165スワイプトランジション.mp4");
 	screenHandle_		= MakeScreen(1920, 1080, TRUE);
 	movieWidht_			= init_movie_width;
 	movieHeight_		= init_movie_height;
@@ -26,6 +25,16 @@ PlayGraph::~PlayGraph()
 	DeleteGraph(countDownMovie_);
 	DeleteFontToHandle(fontHandle_);
 	DeleteSoundMem(startSound_);
+}
+
+void PlayGraph::reset()
+{
+	screenHandle_ = MakeScreen(1920, 1080, TRUE);
+	movieWidht_ = init_movie_width;
+	movieHeight_ = init_movie_height;
+	moviePosition_ = init_movie_position;
+	onCountDown_ = true;
+	expandMovieCount_ = 0;
 }
 
 void PlayGraph::update()
@@ -80,6 +89,8 @@ void PlayGraph::update()
 		{
 			onCountDown_ = false;
 			PlaySoundMem(startSound_, DX_PLAYTYPE_BACK, TRUE);
+			SeekMovieToGraph(countDownMovie_, 0);
+			DeleteGraph(screenHandle_);
 		}
 	}
 }

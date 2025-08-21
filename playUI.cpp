@@ -51,6 +51,13 @@ PlayUI::~PlayUI()
 	DeleteGraph(fanGraph_);
 }
 
+void PlayUI::reset()
+{
+	hpPosition_ = hp__init_position;
+	hpEmptyPosition_ = hp_empty_init_position;
+	umbrellaPosition_ = umbrella_init_position;
+}
+
 void PlayUI::update(std::shared_ptr<CharaBase> chara, int playerNumber)
 {
 	playerUI(chara, playerNumber);

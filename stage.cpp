@@ -140,6 +140,28 @@ void Stage::reset()
 			}
 		}
 	}
+	for (int i = 0; i < tile_number; i++)
+	{
+		for (int j = 0; j < tile_number; j++)
+		{
+			if (i == 0 || i == tile_number - 1 || j == 0 || j == tile_number - 1)
+			{
+				//ステージの端っこの方は何も読み込まないようにする
+				modelHandle_[j][i] = 0;
+			}
+			else if (i == 1 && j == 1)
+			{
+				//同じ3dモデルを使いまわせるようにする
+				modelHandle_[j][i] = MV1LoadModel("3dmodel/stage/hex_grass.mv1");
+				MV1SetScale(modelHandle_[j][i], VGet(scale, scale, scale));
+			}
+			else
+			{
+				modelHandle_[j][i] = MV1DuplicateModel(modelHandle_[1][1]);
+				MV1SetScale(modelHandle_[j][i], VGet(scale, scale, scale));
+			}
+		}
+	}
 }
 
 /// <summary>
