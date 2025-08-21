@@ -208,7 +208,7 @@ void PlayUI::playerUI(std::shared_ptr<CharaBase> chara, int playerNumber)
 	{
 
 		DrawExtendBrinkGraph(hpPosition_.x + (adjust_hp__x * playerNumber), hpPosition_.y,
-			hpPosition_.x + (chara->Gethp_() * hp__width) / max_hp + (adjust_hp__x * playerNumber), hpPosition_.y + hp__height, hp_);
+			(chara->Gethp_() * hp__width) / max_hp, hp__height, hp_, TRUE, 4);
 	}
 	else
 	{

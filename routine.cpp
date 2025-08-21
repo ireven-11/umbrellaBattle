@@ -271,7 +271,7 @@ void Routine::play()
     camera->update();
 
     //カウントダウンが終わってから
-    if (!playGraph->GetonCountDown_())
+    //if (!playGraph->GetonCountDown_())
     {
         //すてーじこうしん
         stage->updateGimmick(players);
@@ -298,14 +298,6 @@ void Routine::play()
 
             //判定が終わった後にノックバック（反発）をする
             i->knockBackNow();
-
-            //デバッグ用
-            //DrawSphere3D(i->GetcollisionCenterPosition_(), collision_radius, 32, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
-            //DrawSphere3D(i->Getposition_(), collision_radius_stage, 32, GetColor(255, 255, 255), GetColor(255, 255, 255), FALSE);
-            //DrawSphere3D(i->GetwindPosition_(), collision_radius_wind, 32, GetColor(0, 255, 0), GetColor(255, 255, 255), FALSE);
-            //DrawSphere3D(stage_center, collision_radius_wind, 32, GetColor(0, 0, 255), GetColor(255, 255, 255), FALSE);
-            //DrawFormatString(100, 100 * collisionCount, GetColor(255, 0, 0), "player%d, x:%f, y:%f, z:%f", collisionCount, i->Getposition_().x, i->Getposition_().y, i->Getposition_().z);
-            //DrawFormatString(100, 100 * collisionCount + 15 * collisionCount, GetColor(255, 0, 0), "player%d, moveVector(%f, %f, %f)", collisionCount, i->GetmoveVector_().x, i->GetmoveVector_().y, i->GetmoveVector_().z);     
         }
     }
 
@@ -334,7 +326,7 @@ void Routine::play()
         i->draw();
 
         //ui
-        playUI->update(i, i->GetcontrolerNumber_());
+        //playUI->update(i, i->GetcontrolerNumber_());
 
         /*if (i->Getstate_() != std::dynamic_pointer_cast<CharaState::FanState>(i->Getstate_()))
         {
@@ -344,7 +336,7 @@ void Routine::play()
     DrawEffekseer3D();
 
     //プレイ画像描画
-    playGraph->update();
+    //playGraph->update();
 
     //勝者判定
     judgeWinner();

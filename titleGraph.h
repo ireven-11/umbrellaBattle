@@ -13,23 +13,12 @@ private:
 
 	int		umbrella1Handle_;		//傘１
 	int		umbrella2Handle_;		//傘２
-	int		umbrella3Handle_;		//傘3
-	int		umbrella4Handle_;		//傘４
-	int		hitHandle_[18];			//ヒット
 	VECTOR	umbrellaPosition_[4];	//傘座標
-	VECTOR	hitPosition_;			//ヒット座標
-	
-	const short hit_div_number	= 18;	//ヒット分割数
-	const short hit_div_X		= 9;	//ヒット分割数x
-	const short hit_div_y		= 2;	//ヒット分割数y
-	const int	hit_size_x		= 516;	//画像の大きさx
-	const int	hit_size_y		= 528;	//画像の大きさy
-	const int	hit_width		= 100;	//ヒットの幅
-	const int	hit_height		= 100;	//ヒットのt高さ
-	const int	hit_switch_time = 2;	//ヒット変わる時間
+	int		screenHandle_;			//スクリーンハンドル
+	int		movieHandle_;			//動画ハンドル
 
-	const int		umbrella_width	= 700;	//傘幅
-	const int		umbrella_height	= 600;	//高さ
-	const VECTOR	umbrella1_init_position = VGet(400, 60, 0);	//かさしょきざひょう
-	const VECTOR	umbrella2_init_position = VGet(800, 60, 0);	//かさしょきざひょう
+	const int		umbrella_width	= 500;	//傘幅
+	const int		umbrella_height	= 400;	//高さ
+	const VECTOR	umbrella1_init_position = VGet(550, 60, 0);	//かさしょきざひょう
+	const VECTOR	umbrella2_init_position = VGet(850, 60, 0);	//かさしょきざひょう
 }; 

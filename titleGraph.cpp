@@ -5,9 +5,8 @@ TitleGraph::TitleGraph()
 {
 	umbrella1Handle_	= LoadGraph("graph/black.png");
 	umbrella2Handle_	= LoadGraph("graph/skyblue.png");
-	umbrella3Handle_	= LoadGraph("graph/orange.png");
-	umbrella4Handle_	= LoadGraph("graph/pink.png");
-	LoadDivGraph("graph/2dHit.png", hit_div_number, hit_div_X, hit_div_y, hit_size_x, hit_size_y, hitHandle_);
+	screenHandle_		= MakeScreen(1920, 1080);
+	movieHandle_		= LoadGraph("movie/demo.mp4");
 
 	reset();
 }
@@ -16,12 +15,8 @@ TitleGraph::~TitleGraph()
 {
 	DeleteGraph(umbrella1Handle_);
 	DeleteGraph(umbrella2Handle_);
-	DeleteGraph(umbrella3Handle_);
-	DeleteGraph(umbrella4Handle_);
-	for (auto i = 0; i < hit_div_number; i++)
-	{
-		DeleteGraph(hitHandle_[i]);
-	}
+	DeleteGraph(screenHandle_);
+	DeleteGraph(movieHandle_);
 }
 
 void TitleGraph::reset()
@@ -30,7 +25,6 @@ void TitleGraph::reset()
 	{
 		umbrellaPosition_[i] = VGet(0.0f, 0.0f, 0.0f);
 	}
-	hitPosition_		= VGet(1000.0f, 0.0f, 0.0f);
 }
 
 /// <summary>
@@ -66,10 +60,17 @@ void DrawAnimationGraph(VECTOR position, int graphHandle[], int graphWidth, int 
 
 void TitleGraph::update()
 {
+	//スクリーンハンドルに動画を描画する
+	SetDrawScreen(screenHandle_);
+	PlayMovieToGraph(movieHandle_, DX_PLAYTYPE_LOOP);
+	DrawExtendGraph(0, 0, 1920, 1080, movieHandle_, TRUE);
+	//元のスクリーンハンドルに戻す
+	SetDrawScreen(DX_SCREEN_BACK);
+	DrawExtendGraph(0, 0, 1920, 1080, screenHandle_, TRUE);
+
+	//傘を描画
 	DrawExtendGraph(umbrella1_init_position.x, umbrella1_init_position.y,
 		umbrella1_init_position.x + umbrella_width, umbrella1_init_position.y + umbrella_height, umbrella1Handle_, TRUE);
 	DrawExtendGraph(umbrella2_init_position.x + umbrella_width, umbrella2_init_position.y,
 		umbrella2_init_position.x, umbrella2_init_position.y + umbrella_height, umbrella2Handle_, TRUE);
-
-	//DrawAnimationGraph(hitPosition_, hitHandle_, hit_width, hit_height, hit_switch_time, hit_div_number);
 }
