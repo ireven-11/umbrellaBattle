@@ -13,6 +13,9 @@ constexpr float collision_radius		= 2.0f;
 constexpr float collision_radius_stage	= 0.2f;
 constexpr float	collision_radius_wind	= 4.0f;
 constexpr int	max_hp					= 200;
+constexpr int	vibration_power = 200;
+constexpr int	vibration_time = 200;
+
 
 class Routine;
 class Stage;
@@ -110,9 +113,7 @@ private:
 	const short		respawn_sound_volume	= 255;
 	const short		inverse_sound_volume	= 255;
 	const short		change_fan_sound_volume = 200;
-	const int		vibration_power			= 500;
-	const int		vibration_time			= 500;
-
+	
 protected:
 	void tackleMoving();
 	virtual void stopTackle();

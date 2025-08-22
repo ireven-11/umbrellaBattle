@@ -28,6 +28,10 @@ namespace CharaState
 	{
 		++directionCount_;
 		charaBase->vibration();
+
+		//コントローラーを振動させる
+		StartJoypadVibration(charaBase->GetcontrolerNumber_(), vibration_power * 2, vibration_time / 2);
+
 		if (directionCount_ > max_direction_count)
 		{
 			changeState(charaBase);

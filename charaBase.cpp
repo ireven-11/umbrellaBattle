@@ -682,6 +682,9 @@ void CharaBase::collisionWindWithChara(std::shared_ptr<CharaBase> otherChara, st
 		{
 			//風で押し出す
 			otherChara->hitWind(windMoveVector_);
+
+			//コントローラーを振動させる
+			StartJoypadVibration(otherChara->GetcontrolerNumber_(), vibration_power, vibration_time);
 			
 			//敵のhpを減らす
 			otherChara->subHp();
