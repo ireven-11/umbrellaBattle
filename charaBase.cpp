@@ -600,6 +600,10 @@ void CharaBase::decideKnockBackWithChara(std::shared_ptr<CharaBase> otherChara)
 			//フラグをtrueに
 			changeHitNowFlag();
 			otherChara->changeHitNowFlag();
+
+			//コントローラーを振動させる
+			StartJoypadVibration(controlerNumber_, vibration_power, vibration_time);
+			StartJoypadVibration(otherChara->GetcontrolerNumber_(), vibration_power, vibration_time);
 		}
 		else
 		{

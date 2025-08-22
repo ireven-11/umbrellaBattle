@@ -247,6 +247,12 @@ void Routine::stanby()
     
     if (sceneManager->proceedPlay())
     {
+        for (const auto& p : players)
+        {
+            p->reset();
+            StopSoundMem(p->GetchargeSound_());
+        }
+
         PlaySoundMem(decideSound_, DX_PLAYTYPE_BACK, TRUE);
 
         //プレイ画面へ行くときにcpuを参加
@@ -256,10 +262,6 @@ void Routine::stanby()
         PlayMovie("movie/umbrella.mp4", 1, DX_MOVIEPLAYTYPE_NORMAL);
         PlaySoundMem(bgm_, DX_PLAYTYPE_LOOP, TRUE);
 
-        for (const auto& p : players)
-        {
-            p->reset();
-        }
     }
 
     standbyUI->update(isjoiningPlayer, max_player_number);

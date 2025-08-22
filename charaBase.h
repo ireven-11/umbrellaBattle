@@ -110,6 +110,8 @@ private:
 	const short		respawn_sound_volume	= 255;
 	const short		inverse_sound_volume	= 255;
 	const short		change_fan_sound_volume = 200;
+	const int		vibration_power			= 500;
+	const int		vibration_time			= 500;
 
 protected:
 	void tackleMoving();
