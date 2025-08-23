@@ -37,6 +37,7 @@ private:
 	int		fontHandleSize30_;	//フォントサイズ30
 	int		fanGraph_;			//扇風機画像
 	int		coolTimeGage_;		//クールタイムゲージ画像
+	double	coolTime_;			//クールタイム
 
 	const int		umbrella_width				= 150;
 	const int		umbrella_height				= 150;

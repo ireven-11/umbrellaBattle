@@ -50,7 +50,6 @@ void CPU::wind()
 		windPosition_ = position_;
 		windMoveVector_ = VSub(stage_center, position_);
 		windAngle_ = fanAngle_;
-		windCount_ = 0;
 		PlaySoundMem(windSound_, DX_PLAYTYPE_BACK, TRUE);
 	}
 	//ˆÚ“®
@@ -62,7 +61,8 @@ void CPU::wind()
 		//•—‚ğÁ‚·
 		if (max_wind_count < windCount_)
 		{
-			canSpawnWind_ = true;
+			canSpawnWind_	= true;
+			windCount_		= 0;
 			StopSoundMem(windSound_);
 		}
 	}

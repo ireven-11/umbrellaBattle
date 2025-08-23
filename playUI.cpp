@@ -28,6 +28,7 @@ PlayUI::PlayUI(const char* fontName)
 	hpPosition_			= hp__init_position;
 	hpEmptyPosition_	= hp_empty_init_position;
 	umbrellaPosition_	= umbrella_init_position;
+	coolTime_			= 100.0;
 }
 
 PlayUI::~PlayUI()
@@ -55,9 +56,10 @@ PlayUI::~PlayUI()
 
 void PlayUI::reset()
 {
-	hpPosition_ = hp__init_position;
-	hpEmptyPosition_ = hp_empty_init_position;
-	umbrellaPosition_ = umbrella_init_position;
+	hpPosition_			= hp__init_position;
+	hpEmptyPosition_	= hp_empty_init_position;
+	umbrellaPosition_	= umbrella_init_position;
+	coolTime_			= 100.0;
 }
 
 void PlayUI::update(std::shared_ptr<CharaBase> chara, int playerNumber)
@@ -179,16 +181,16 @@ void PlayUI::fanUI(std::shared_ptr<CharaBase> chara, int playerNumber)
 		}
 
 		//風クールタイム
-		static double decrement = 100.0;
-		if (decrement > 0)
+		if (!chara->GetcanSpawnWind_())
 		{
-			decrement -= 1.0;
+			coolTime_ -= 100.0 / max_wind_count;
 		}
 		else
 		{
-			decrement = 100.0;
+			//coolTime_ = 0;
 		}
-		DrawCircleGauge(umbrellaPosition_.x + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y , 100.0 - decrement, coolTimeGage_, 0.0, 0.3);
+		
+		DrawCircleGauge(umbrellaPosition_.x + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y , 100.0 - coolTime_, coolTimeGage_, 0.0, 0.3);
 	}
 }
 

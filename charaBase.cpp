@@ -335,7 +335,6 @@ void CharaBase::wind()
 		windPosition_	= position_;
 		windMoveVector_ = VSub(stage_center, position_);
 		windAngle_		= fanAngle_;
-		windCount_		= 0;
 		PlaySoundMem(windSound_, DX_PLAYTYPE_BACK, TRUE);
 	}
 
@@ -348,7 +347,8 @@ void CharaBase::wind()
 		//ïóÇè¡Ç∑
 		if (max_wind_count < windCount_)
 		{
-			canSpawnWind_ = true;
+			canSpawnWind_	= true;
+			windCount_		= 0;
 			StopSoundMem(windSound_);
 		}
 	}
@@ -450,6 +450,7 @@ void CharaBase::changeFan()
 	isFalling_		= false;
 	canSpawnWind_	= true;
 	canChangeFan_	= true;
+	windCount_		= 0;
 	StopSoundMem(chargeSound_);
 	PlaySoundMem(changeFanSound_, DX_PLAYTYPE_BACK, TRUE);
 }

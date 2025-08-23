@@ -80,6 +80,7 @@ public:
 	bool								GetcanChangeFan_()const { return canChangeFan_; }
 	bool								GetonConstructFrame_()const { return onConstructFrame_; }
 	int									GetchargeSound_()const { return chargeSound_; }
+	short								GetwindCount_()const noexcept { return windCount_; }
 	
 private:
 	const float		fall_speed				= 0.25f;
