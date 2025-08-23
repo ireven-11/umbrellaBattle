@@ -14,6 +14,9 @@ public:
 private:
 	void playerUI(std::shared_ptr<CharaBase> chara, int playerNumber);
 	void buttonUI();
+	void fanUI(std::shared_ptr<CharaBase> chara, int playerNumber);
+	void trumpetUI(int playerNumber);
+	void umbrellaUI(std::shared_ptr<CharaBase> chara, int playerNumber);
 
 	int		fontHandle_;		//フォントハンドル
 	int		umbrella1_;			//傘1
@@ -33,7 +36,8 @@ private:
 	int		trumpet_[4];		//ラッパがさ画像
 	int		fontHandleSize30_;	//フォントサイズ30
 	int		fanGraph_;			//扇風機画像
-	
+	int		coolTimeGage_;		//クールタイムゲージ画像
+
 	const int		umbrella_width				= 150;
 	const int		umbrella_height				= 150;
 	const VECTOR	umbrella_init_position		= VGet(-160.0f, 850.0f, 0.0f);

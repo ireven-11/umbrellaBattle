@@ -236,32 +236,6 @@ void CharaBase::move()
 }
 
 /// <summary>
-/// アクション：スイング
-/// </summary>
-void CharaBase::swing()
-{
-	////他アクションしてない時だけ
-	//if (!isSwing_ && input.Buttons[1] > 0 && !isTackle_)
-	//{
-	//	isSwing_ = true;
-	//	angleSwing_ = rotationAngleY_;
-	//}
-	////スイングしてるときはy軸回転する
-	//else if (isSwing_)
-	//{
-	//	angleSwing_ += swing_speed;
-	//	MV1SetRotationXYZ(openingUmbrella_, VGet(rotation_angle_x * DX_PI_F / 180.0f, angleSwing_ + adjust_rotation_angle_y, 0.0f));
-
-	//	//最大までスイングしたら元の角度に戻る
-	//	if (angleSwing_ >= max_swing_angle + rotationAngleY_)
-	//	{
-	//		MV1SetRotationXYZ(openingUmbrella_, VGet(rotation_angle_x * DX_PI_F / 180.0f, rotationAngleY_ + adjust_rotation_angle_y, 0.0f));
-	//		isSwing_ = false;
-	//	}
-	//}
-}
-
-/// <summary>
 /// アクション：タックル
 /// </summary>
 void CharaBase::tackle()

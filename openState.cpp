@@ -35,7 +35,6 @@ namespace CharaState
 	void OpenState::update(CharaBase* charaBase)
 	{
 		charaBase->move();
-		charaBase->swing();
 		charaBase->tackle();
 		charaBase->collisionRotation();
 		changeState(charaBase);

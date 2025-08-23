@@ -8,21 +8,22 @@ PlayUI::PlayUI(const char* fontName)
 	fontHandle_			= CreateFontToHandle(fontName, 100, 0, DX_FONTTYPE_ANTIALIASING_EDGE_4X4);
 	fontHandleSize60_	= CreateFontToHandle(fontName, 45, 0, DX_FONTTYPE_ANTIALIASING_EDGE_4X4);
 	fontHandleSize30_	= CreateFontToHandle(fontName, 300, 0, DX_FONTTYPE_ANTIALIASING_EDGE_4X4);
-	umbrella1_	= LoadGraph("graph/black.png");
-	umbrella2_	= LoadGraph("graph/skyblue.png");
-	umbrella3_	= LoadGraph("graph/orange.png");
-	umbrella4_	= LoadGraph("graph/pink.png");
-	hpEmpty_	= LoadGraph("graph/hpEmpty.png");
-	hp_			= LoadGraph("graph/hp.png");
-	AbuttonUI_	= LoadGraph("graph/A.png");
-	LstickUI_	= LoadGraph("graph/Lstick.png");
-	LTbuttonUI_ = LoadGraph("graph/LT.png");
-	RTbuttonUI_ = LoadGraph("graph/RT.png");
-	trumpet_[0] = LoadGraph("graph/trumpetBlack.png");
-	trumpet_[1] = LoadGraph("graph/trumpetSkyBlue.png");
-	trumpet_[2] = LoadGraph("graph/trumpetOrange.png");
-	trumpet_[3] = LoadGraph("graph/trumpetPink.png");
-	fanGraph_	= LoadGraph("graph/fan.png");
+	umbrella1_			= LoadGraph("graph/black.png");
+	umbrella2_			= LoadGraph("graph/skyblue.png");
+	umbrella3_			= LoadGraph("graph/orange.png");
+	umbrella4_			= LoadGraph("graph/pink.png");
+	hpEmpty_			= LoadGraph("graph/hpEmpty.png");
+	hp_					= LoadGraph("graph/hp.png");
+	AbuttonUI_			= LoadGraph("graph/A.png");
+	LstickUI_			= LoadGraph("graph/Lstick.png");
+	LTbuttonUI_			= LoadGraph("graph/LT.png");
+	RTbuttonUI_			= LoadGraph("graph/RT.png");
+	trumpet_[0]			= LoadGraph("graph/trumpetBlack.png");
+	trumpet_[1]			= LoadGraph("graph/trumpetSkyBlue.png");
+	trumpet_[2]			= LoadGraph("graph/trumpetOrange.png");
+	trumpet_[3]			= LoadGraph("graph/trumpetPink.png");
+	fanGraph_			= LoadGraph("graph/fan.png");
+	coolTimeGage_		= LoadGraph("graph/coolTimeGage.png");
 
 	hpPosition_			= hp__init_position;
 	hpEmptyPosition_	= hp_empty_init_position;
@@ -49,6 +50,7 @@ PlayUI::~PlayUI()
 		DeleteGraph(trumpet_[i]);
 	}
 	DeleteGraph(fanGraph_);
+	DeleteGraph(coolTimeGage_);
 }
 
 void PlayUI::reset()
@@ -123,7 +125,38 @@ static void DrawString3DToHandle(const VECTOR& pos, const char* str, // NOLINT(c
 
 void PlayUI::playerUI(std::shared_ptr<CharaBase> chara, int playerNumber)
 {
-	//扇風機の時のP表示
+	//扇風機の時
+	fanUI(chara, playerNumber);
+
+	//ラッパ
+	if (chara->Gethp_() <= 0)
+	{
+		trumpetUI(playerNumber);
+	}
+	else
+	{
+		//傘表示
+		umbrellaUI(chara, playerNumber);
+	}
+
+	//ゲージ表示
+	DrawExtendGraph(hpEmptyPosition_.x + (adjust_hp_empty_x * playerNumber), hpEmptyPosition_.y,
+		hpEmptyPosition_.x + hp_empty_width + (adjust_hp_empty_x * playerNumber), hpEmptyPosition_.y + hp_empty_height, hpEmpty_, TRUE);
+	if (chara->Gethp_() < max_hp / 3)
+	{
+
+		DrawExtendBrinkGraph(hpPosition_.x + (adjust_hp__x * playerNumber), hpPosition_.y,
+			(chara->Gethp_() * hp__width) / max_hp, hp__height, hp_, TRUE, 4);
+	}
+	else
+	{
+		DrawExtendGraphF(hpPosition_.x + (adjust_hp__x * playerNumber), hpPosition_.y,
+			hpPosition_.x + (chara->Gethp_() * hp__width) / max_hp + (adjust_hp__x * playerNumber), hpPosition_.y + hp__height, hp_, TRUE);
+	}
+}
+
+void PlayUI::fanUI(std::shared_ptr<CharaBase> chara, int playerNumber)
+{
 	if (chara->Getstate_() == std::dynamic_pointer_cast<CharaState::FanState>(chara->Getstate_()))
 	{
 		switch (playerNumber)
@@ -144,82 +177,79 @@ void PlayUI::playerUI(std::shared_ptr<CharaBase> chara, int playerNumber)
 			DrawString3DToHandle(VGet(chara->Getposition_().x, chara->Getposition_().y + 10.0f, chara->Getposition_().z), "4P", GetColor(255, 255, 255), fontHandleSize30_, GetColor(0, 0, 0), 0.01f);
 			break;
 		}
-	}
-	//ラッパ
-	if (chara->Gethp_() <= 0)
-	{
-		//傘表示
-		switch (playerNumber)
+
+		//風クールタイム
+		static double decrement = 100.0;
+		if (decrement > 0)
 		{
-		case 1:
-			DrawExtendGraph(umbrellaPosition_.x + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y,
-				umbrellaPosition_.x + umbrella_width * 1.5f + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y + umbrella_height, trumpet_[0], TRUE);
-			break;
-
-		case 2:
-			DrawExtendGraph(umbrellaPosition_.x + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y,
-				umbrellaPosition_.x + umbrella_width * 1.5f + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y + umbrella_height, trumpet_[1], TRUE);
-			break;
-
-		case 3:
-			DrawExtendGraph(umbrellaPosition_.x + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y,
-				umbrellaPosition_.x + umbrella_width * 1.5f + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y + umbrella_height, trumpet_[2], TRUE);
-			break;
-
-		case 4:
-			DrawExtendGraph(umbrellaPosition_.x + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y,
-				umbrellaPosition_.x + umbrella_width * 1.5f + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y + umbrella_height, trumpet_[3], TRUE);
-			break;
+			decrement -= 1.0;
 		}
-		DrawStringToHandle(umbrellaPosition_.x + (adjust_umbrella_x * playerNumber) + 15.0f, umbrellaPosition_.y - 10.0f, "復活不可...", GetColor(0, 191, 255), fontHandleSize60_);
-	}
-	else
-	{
-		//傘表示
-		switch (playerNumber)
+		else
 		{
-		case 1:
-			DrawExtendGraph(umbrellaPosition_.x + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y,
-				umbrellaPosition_.x + umbrella_width + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y + umbrella_height, umbrella1_, TRUE);
-			DrawString3DToHandle(VGet(chara->Getposition_().x, chara->Getposition_().y + 5.0f, chara->Getposition_().z), "1P", GetColor(255, 255, 255), fontHandleSize30_, GetColor(0,0,0), 0.01f);
-			break;
-
-		case 2:
-			DrawExtendGraph(umbrellaPosition_.x + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y,
-				umbrellaPosition_.x + umbrella_width + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y + umbrella_height, umbrella2_, TRUE);
-
-			DrawString3DToHandle(VGet(chara->Getposition_().x, chara->Getposition_().y + 5.0f, chara->Getposition_().z), "2P", GetColor(255, 255, 255), fontHandleSize30_, GetColor(0, 0, 0), 0.01f);
-			break;
-
-		case 3:
-			DrawExtendGraph(umbrellaPosition_.x + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y,
-				umbrellaPosition_.x + umbrella_width + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y + umbrella_height, umbrella3_, TRUE);
-
-			DrawString3DToHandle(VGet(chara->Getposition_().x, chara->Getposition_().y + 5.0f, chara->Getposition_().z), "3P", GetColor(255, 255, 255), fontHandleSize30_, GetColor(0, 0, 0), 0.01f);
-			break;
-
-		case 4:
-			DrawExtendGraph(umbrellaPosition_.x + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y,
-				umbrellaPosition_.x + umbrella_width + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y + umbrella_height, umbrella4_, TRUE);
-			DrawString3DToHandle(VGet(chara->Getposition_().x, chara->Getposition_().y + 5.0f, chara->Getposition_().z), "4P", GetColor(255, 255, 255), fontHandleSize30_, GetColor(0, 0, 0), 0.01f);
-			break;
+			decrement = 100.0;
 		}
-		//～P表示
-		DrawFormatStringToHandle(umbrellaPosition_.x + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y, GetColor(255, 255, 255), fontHandle_, "%dP", playerNumber);
+		DrawCircleGauge(umbrellaPosition_.x + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y , 100.0 - decrement, coolTimeGage_, 0.0, 0.3);
 	}
+}
 
-	//ゲージ表示
-	DrawExtendGraph(hpEmptyPosition_.x + (adjust_hp_empty_x * playerNumber), hpEmptyPosition_.y,
-		hpEmptyPosition_.x + hp_empty_width + (adjust_hp_empty_x * playerNumber), hpEmptyPosition_.y + hp_empty_height, hpEmpty_, TRUE);
-	if (chara->Gethp_() < max_hp / 3)
+void PlayUI::trumpetUI(int playerNumber)
+{
+	//傘表示
+	switch (playerNumber)
 	{
+	case 1:
+		DrawExtendGraph(umbrellaPosition_.x + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y,
+			umbrellaPosition_.x + umbrella_width * 1.5f + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y + umbrella_height, trumpet_[0], TRUE);
+		break;
 
-		DrawExtendBrinkGraph(hpPosition_.x + (adjust_hp__x * playerNumber), hpPosition_.y,
-			(chara->Gethp_() * hp__width) / max_hp, hp__height, hp_, TRUE, 4);
+	case 2:
+		DrawExtendGraph(umbrellaPosition_.x + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y,
+			umbrellaPosition_.x + umbrella_width * 1.5f + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y + umbrella_height, trumpet_[1], TRUE);
+		break;
+
+	case 3:
+		DrawExtendGraph(umbrellaPosition_.x + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y,
+			umbrellaPosition_.x + umbrella_width * 1.5f + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y + umbrella_height, trumpet_[2], TRUE);
+		break;
+
+	case 4:
+		DrawExtendGraph(umbrellaPosition_.x + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y,
+			umbrellaPosition_.x + umbrella_width * 1.5f + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y + umbrella_height, trumpet_[3], TRUE);
+		break;
 	}
-	else
+	DrawStringToHandle(umbrellaPosition_.x + (adjust_umbrella_x * playerNumber) + 15.0f, umbrellaPosition_.y - 10.0f, "復活不可...", GetColor(0, 191, 255), fontHandleSize60_);
+}
+
+void PlayUI::umbrellaUI(std::shared_ptr<CharaBase> chara, int playerNumber)
+{
+	switch (playerNumber)
 	{
-		DrawExtendGraphF(hpPosition_.x + (adjust_hp__x * playerNumber), hpPosition_.y,
-			hpPosition_.x + (chara->Gethp_() * hp__width) / max_hp + (adjust_hp__x * playerNumber), hpPosition_.y + hp__height, hp_, TRUE);
+	case 1:
+		DrawExtendGraph(umbrellaPosition_.x + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y,
+			umbrellaPosition_.x + umbrella_width + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y + umbrella_height, umbrella1_, TRUE);
+		DrawString3DToHandle(VGet(chara->Getposition_().x, chara->Getposition_().y + 5.0f, chara->Getposition_().z), "1P", GetColor(255, 255, 255), fontHandleSize30_, GetColor(0, 0, 0), 0.01f);
+		break;
+
+	case 2:
+		DrawExtendGraph(umbrellaPosition_.x + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y,
+			umbrellaPosition_.x + umbrella_width + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y + umbrella_height, umbrella2_, TRUE);
+
+		DrawString3DToHandle(VGet(chara->Getposition_().x, chara->Getposition_().y + 5.0f, chara->Getposition_().z), "2P", GetColor(255, 255, 255), fontHandleSize30_, GetColor(0, 0, 0), 0.01f);
+		break;
+
+	case 3:
+		DrawExtendGraph(umbrellaPosition_.x + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y,
+			umbrellaPosition_.x + umbrella_width + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y + umbrella_height, umbrella3_, TRUE);
+
+		DrawString3DToHandle(VGet(chara->Getposition_().x, chara->Getposition_().y + 5.0f, chara->Getposition_().z), "3P", GetColor(255, 255, 255), fontHandleSize30_, GetColor(0, 0, 0), 0.01f);
+		break;
+
+	case 4:
+		DrawExtendGraph(umbrellaPosition_.x + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y,
+			umbrellaPosition_.x + umbrella_width + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y + umbrella_height, umbrella4_, TRUE);
+		DrawString3DToHandle(VGet(chara->Getposition_().x, chara->Getposition_().y + 5.0f, chara->Getposition_().z), "4P", GetColor(255, 255, 255), fontHandleSize30_, GetColor(0, 0, 0), 0.01f);
+		break;
 	}
+	//～P表示
+	DrawFormatStringToHandle(umbrellaPosition_.x + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y, GetColor(255, 255, 255), fontHandle_, "%dP", playerNumber);
 }

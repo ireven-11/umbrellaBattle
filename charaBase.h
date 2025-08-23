@@ -12,8 +12,9 @@ constexpr float collision_radius		= 2.0f;
 constexpr float collision_radius_stage	= 0.2f;
 constexpr float	collision_radius_wind	= 4.0f;
 constexpr int	max_hp					= 200;
-constexpr int	vibration_power = 200;
-constexpr int	vibration_time = 200;
+constexpr int	vibration_power			= 200;
+constexpr int	vibration_time			= 200;
+constexpr short	max_wind_count			= 120;
 
 
 class Routine;
@@ -30,7 +31,6 @@ public:
 	void fall();
 	virtual void transformFan();
 	virtual void move();
-	virtual void swing();
 	virtual void tackle();
 	virtual void moveFan();
 	void SetonTilePosition(VECTOR tilePosition);
@@ -169,7 +169,6 @@ protected:
 	int		changeFanSound_;	//変身音
 	bool	onConstructFrame_;	//コンストラクタしたフレームかどうか
 
-	const short		max_wind_count			= 120;
 
 	//状態
 	std::shared_ptr<StateMachine::IState>	state_;
