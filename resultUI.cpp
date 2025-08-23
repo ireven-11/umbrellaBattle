@@ -11,6 +11,8 @@ ResultUI::ResultUI(const char* fontName)
 
 ResultUI::~ResultUI()
 {
+	DeleteFontToHandle(fontHandle_);
+	DeleteFontToHandle(fontHandleSize100_);
 }
 
 void ResultUI::update(short winPlayer)

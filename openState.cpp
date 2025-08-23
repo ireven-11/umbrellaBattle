@@ -24,7 +24,6 @@ namespace CharaState
 	/// <param name="charaBase">キャラの親クラス</param>
 	void OpenState::changeState(CharaBase* charaBase)
 	{
-		charaBase->changeOpenToClose();
 		charaBase->changeTrumpet();
 		charaBase->transformFan();
 	}

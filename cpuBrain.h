@@ -2,13 +2,6 @@
 #include<memory>
 #include<list>
 #include"IState.h"
-#include"waitState.h"
-#include"chaseState.h"
-#include"escapeState.h"
-#include"thinkState.h"
-#include"swingState.h"
-#include"tackleState.h"
-#include"windState.h"
 #include"AStar.h"
 
 class CharaBase;
@@ -42,41 +35,4 @@ private:
 	position aStarGoalPosition_;
 	int		chaseCount_;
 	position nextTilePosition_;
-
-	//s“®‚Ìó‘Ô
-	std::shared_ptr<StateMachine::IState> actionState_;
-	static std::shared_ptr<ActionState::WaitState> waitState_()
-	{
-		static std::shared_ptr<ActionState::WaitState> state = std::make_shared<ActionState::WaitState>();
-		return state;
-	}
-	static std::shared_ptr<ActionState::SwingState> swingState_()
-	{
-		static std::shared_ptr<ActionState::SwingState> state = std::make_shared<ActionState::SwingState>();
-		return state;
-	}
-	static std::shared_ptr<ActionState::TackleState> tackleState_()
-	{
-		static std::shared_ptr<ActionState::TackleState> state = std::make_shared<ActionState::TackleState>();
-		return state;
-	}
-	static std::shared_ptr <ActionState::WindState> windState_()
-	{
-		static std::shared_ptr<ActionState::WindState> state = std::make_shared<ActionState::WindState>();
-		return state;
-	}
-	static std::shared_ptr<ActionState::ChaseState> chaseState_()
-	{
-		static std::shared_ptr<ActionState::ChaseState> state = std::make_shared<ActionState::ChaseState>();
-		return state;
-	}static std::shared_ptr<ActionState::EscapeState> escapeState_()
-	{
-		static std::shared_ptr<ActionState::EscapeState> state = std::make_shared<ActionState::EscapeState>();
-		return state;
-	}
-	static std::shared_ptr<ActionState::ThinkState> thinkState_()
-	{
-		static std::shared_ptr<ActionState::ThinkState> state = std::make_shared<ActionState::ThinkState>();
-		return state;
-	}
 };

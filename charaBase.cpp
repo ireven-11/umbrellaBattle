@@ -187,10 +187,6 @@ void CharaBase::draw()const
 	{
 		MV1DrawModel(openingUmbrella_);
 	}
-	else if (state_ == std::dynamic_pointer_cast<CharaState::CloseState>(state_))
-	{
-		MV1DrawModel(closingUmbrella_);
-	}
 	else
 	{
 		MV1DrawModel(inverseUmbrella_);
@@ -487,44 +483,6 @@ void CharaBase::changeFan()
 void CharaBase::cannotChangeFan()
 {
 	canChangeFan_ = false;
-}
-
-/// <summary>
-/// ŠJ‚¢‚½ó‘Ô‚©‚ç•Â‚¶‚½ó‘Ô‚Ö
-/// </summary>
-void CharaBase::changeOpenToClose()
-{
-	/*if (input.Buttons[2] > 0)
-	{
-		if (!isPrevButton_ && !isTackle_)
-		{
-			state_ = closeState_();
-		}
-		isPrevButton_ = true;
-	}
-	else
-	{
-		isPrevButton_ = false;
-	}*/
-}
-
-/// <summary>
-/// •Â‚¶‚½ó‘Ô‚©‚çŠJ‚¢‚½ó‘Ô‚Ö
-/// </summary>
-void CharaBase::changeCloseToOpen()
-{
-	/*if (input.Buttons[2] > 0)
-	{
-		if (!isPrevButton_)
-		{
-			state_ = openState_();
-		}
-		isPrevButton_ = true;
-	}
-	else
-	{
-		isPrevButton_ = false;
-	}*/
 }
 
 /// <summary>

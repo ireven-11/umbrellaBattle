@@ -14,7 +14,6 @@ CPUBrain::CPUBrain()
 	canCharge_				= true;
 	doActionRandom_			= 0;
 	dicideActionCount_		= 0;
-	actionState_			= chaseState_();
 	dicideTargetCount_		= 0;
 	aStarStartPosition_.x	= 0;
 	aStarStartPosition_.y	= 0;
@@ -48,8 +47,6 @@ void CPUBrain::update(CharaBase* charaBase, Routine* routine, std::shared_ptr<St
 		isTarget_ = true;
 		dicideTargetCount_ = 0;
 	}
-
-	actionState_->update(charaBase);
 }
 
 /// <summary>

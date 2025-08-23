@@ -10,7 +10,8 @@ TitleUI::TitleUI(const char* fontName)
 
 TitleUI::~TitleUI()
 {
-
+    DeleteFontToHandle(fontHandle_);
+    DeleteFontToHandle(fontHandleSize200_);
 }
 
 void TitleUI::update()

@@ -10,10 +10,12 @@ public:
 
 private:
 	void playerJoin(bool isjoiningPlayer[], const int max_player_number);
+	void explaneRule();
 
 	int	fontHandle_;		//フォントハンドル
-	int	fontHandleSize100_;	//フォントハンドル
-	int fontHandleSize150_;
+	int	fontHandleSize100_;	//フォントハンドル100
+	int fontHandleSize150_;	//フォントハンドル150
+	int screenHandle_;		//スクリーンハンドル
 
 	const VECTOR	player_number_position	= VGet(270, 870, 0);
 	const int		player_number_gap		= 400;

@@ -9,7 +9,8 @@ StandbyUI::StandbyUI(const char* fontName)
 {
 	fontHandle_			= CreateFontToHandle(fontName, 50, 0, DX_FONTTYPE_ANTIALIASING_EDGE_4X4);
 	fontHandleSize100_	= CreateFontToHandle(fontName, 90, 0, DX_FONTTYPE_ANTIALIASING_EDGE_4X4);
-	fontHandleSize150_ = CreateFontToHandle(fontName, 150, 0, DX_FONTTYPE_ANTIALIASING_EDGE_4X4);
+	fontHandleSize150_	= CreateFontToHandle(fontName, 150, 0, DX_FONTTYPE_ANTIALIASING_EDGE_4X4);
+	screenHandle_		= MakeScreen(1920, 1080);
 }
 
 /// <summary>
@@ -17,6 +18,10 @@ StandbyUI::StandbyUI(const char* fontName)
 /// </summary>
 StandbyUI::~StandbyUI()
 {
+	DeleteFontToHandle(fontHandle_);
+	DeleteFontToHandle(fontHandleSize100_);
+	DeleteFontToHandle(fontHandleSize150_);
+	DeleteGraph(screenHandle_);
 }
 
 void StandbyUI::update(bool isjoiningPlayer[], const int max_player_number)
@@ -44,4 +49,9 @@ void StandbyUI::playerJoin(bool isjoiningPlayer[], const int max_player_number)
 	}
 
 	DrawBrinkStringToHandle(join_player_position, "Aボタンで参加！", GetColor(255, 50, 0), fontHandleSize100_);
+}
+
+void StandbyUI::explaneRule()
+{
+
 }

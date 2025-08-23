@@ -2,7 +2,6 @@
 #include<memory>
 #include"IState.h"
 #include"openState.h"
-#include"closeState.h"
 #include"fanState.h"
 #include"trumpetState.h"
 
@@ -29,8 +28,6 @@ public:
 	virtual void update(Routine* routine, std::shared_ptr<Stage> stage);
 	void reset();
 	void fall();
-	virtual void changeOpenToClose();
-	virtual void changeCloseToOpen();
 	virtual void transformFan();
 	virtual void move();
 	virtual void swing();
@@ -180,11 +177,6 @@ protected:
 	static std::shared_ptr<CharaState::OpenState> openState_()
 	{
 		static std::shared_ptr<CharaState::OpenState> state = std::make_shared<CharaState::OpenState>();
-		return state;
-	}
-	static std::shared_ptr<CharaState::CloseState> closeState_()
-	{
-		static std::shared_ptr<CharaState::CloseState> state = std::make_shared<CharaState::CloseState>();
 		return state;
 	}
 	static std::shared_ptr<CharaState::FanState> fanState_()
