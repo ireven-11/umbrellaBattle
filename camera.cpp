@@ -7,8 +7,10 @@
 /// </summary>
 Camera::Camera()
 {
-	position_				= VGet(0.0f, init_Y, init_z);
-	targetPosition_			= VGet(0.0f, 0.0f, 0.0f);
+	/*position_				= VGet(0.0f, init_Y, init_z);
+	targetPosition_			= VGet(0.0f, 0.0f, 0.0f);*/
+	position_ = VGet(0.0f, init_Y, init_z - 5.0f);
+	targetPosition_ = VGet(0.0f, 0.0f, 0.0f);
 	wasZoomUp_				= false;
 	for (auto i = 0; i < 3; i++)
 	{

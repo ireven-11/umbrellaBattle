@@ -220,7 +220,7 @@ void Routine::stanby()
             i->draw();
 
             //ui
-            playUI->update(i, i->GetcontrolerNumber_());
+            //playUI->update(i, i->GetcontrolerNumber_());
         }
 
         //エフェクトマネージャー
@@ -264,7 +264,7 @@ void Routine::stanby()
 
     }
 
-    standbyUI->update(isjoiningPlayer, max_player_number);
+    //standbyUI->update(isjoiningPlayer, max_player_number);
 
     //コンストラクタをしたフレームの最後にそのフレームが終わることを通知する
     if (isjoiningPlayer[0] || isjoiningPlayer[1] || isjoiningPlayer[2] || isjoiningPlayer[3])
@@ -365,6 +365,18 @@ void Routine::play()
 
     //勝者判定
     judgeWinner();
+
+    //コンストラクタをしたフレームの最後にそのフレームが終わることを通知する
+    if (isjoiningPlayer[0] || isjoiningPlayer[1] || isjoiningPlayer[2] || isjoiningPlayer[3])
+    {
+        for (const auto& p : players)
+        {
+            if (p->GetonConstructFrame_())
+            {
+                p->constructFrameEnd();
+            }
+        }
+    }
 }
 
 /// <summary>
@@ -484,6 +496,7 @@ void Routine::joinCPU()
         {
             players.emplace_back(std::make_shared<CPU>(i + 1));
             effectManager.emplace_back(std::make_shared<EffectManager>());
+            isjoiningPlayer[i] = true;
         }
     }
 }

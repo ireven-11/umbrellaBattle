@@ -147,6 +147,7 @@ void CharaBase::reset()
 	rad_			= 0.0f;
 	canChangeFan_	= false;
 	onConstructFrame_ = false;
+	waitHitCount_	= 0;
 }
 
 /// <summary>
@@ -538,9 +539,16 @@ void CharaBase::decideKnockBackWithChara(std::shared_ptr<CharaBase> otherChara)
 			StartJoypadVibration(controlerNumber_, vibration_power, vibration_time);
 			StartJoypadVibration(otherChara->GetcontrolerNumber_(), vibration_power, vibration_time);
 		}
-		else
+		
+		//ヒットが終わるのをカウントで待つ
+		if (isHit_)
 		{
-			isHit_ = false;
+			++waitHitCount_;
+		}
+		if(waitHitCount_ > 3)
+		{
+			isHit_			= false;
+			waitHitCount_	= 0;
 		}
 	}
 }

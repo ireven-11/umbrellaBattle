@@ -169,6 +169,7 @@ protected:
 	bool	canChangeFan_;		//変身フラグ
 	int		changeFanSound_;	//変身音
 	bool	onConstructFrame_;	//コンストラクタしたフレームかどうか
+	char	waitHitCount_;		//ヒットを待つカウント
 
 
 	//状態

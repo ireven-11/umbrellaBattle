@@ -24,11 +24,16 @@ PlayUI::PlayUI(const char* fontName)
 	trumpet_[3]			= LoadGraph("graph/trumpetPink.png");
 	fanGraph_			= LoadGraph("graph/fan.png");
 	coolTimeGage_		= LoadGraph("graph/coolTimeGage.png");
+	windGraph_			= LoadGraph("graph/wind.png");
 
 	hpPosition_			= hp__init_position;
 	hpEmptyPosition_	= hp_empty_init_position;
 	umbrellaPosition_	= umbrella_init_position;
-	coolTime_			= 100.0;
+	for (auto i = 0; i < 4; i++)
+	{
+		coolTime_[i]		= 0;
+		canSetCoolTime_[i]	= true;
+	}
 }
 
 PlayUI::~PlayUI()
@@ -52,6 +57,7 @@ PlayUI::~PlayUI()
 	}
 	DeleteGraph(fanGraph_);
 	DeleteGraph(coolTimeGage_);
+	DeleteGraph(windGraph_);
 }
 
 void PlayUI::reset()
@@ -59,7 +65,11 @@ void PlayUI::reset()
 	hpPosition_			= hp__init_position;
 	hpEmptyPosition_	= hp_empty_init_position;
 	umbrellaPosition_	= umbrella_init_position;
-	coolTime_			= 100.0;
+	for (auto i = 0; i < 4; i++)
+	{
+		coolTime_[i]		= 0;
+		canSetCoolTime_[i]	= true;
+	}
 }
 
 void PlayUI::update(std::shared_ptr<CharaBase> chara, int playerNumber)
@@ -180,18 +190,36 @@ void PlayUI::fanUI(std::shared_ptr<CharaBase> chara, int playerNumber)
 			break;
 		}
 
-		//風クールタイム
-		if (!chara->GetcanSpawnWind_())
-		{
-			coolTime_ -= 100.0 / max_wind_count;
-		}
-		else
-		{
-			//coolTime_ = 0;
-		}
-		
-		DrawCircleGauge(umbrellaPosition_.x + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y , 100.0 - coolTime_, coolTimeGage_, 0.0, 0.3);
+		windGage(chara, playerNumber);
 	}
+}
+
+void PlayUI::windGage(std::shared_ptr<CharaBase> chara, int playerNumber)
+{
+	for (auto i = 0; i < 4; i++)
+	{
+		if (i + 1 == playerNumber)
+		{
+			//風クールタイム
+			if (!chara->GetcanSpawnWind_())
+			{
+				if (canSetCoolTime_[i])
+				{
+					canSetCoolTime_[i] = false;
+					coolTime_[i] = max_cool_time;
+				}
+				coolTime_[i] -= max_cool_time / max_wind_count;
+			}
+			else
+			{
+				canSetCoolTime_[i] = true;
+				coolTime_[i] = 0;
+			}
+			DrawCircleGauge(umbrellaPosition_.x + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y, max_cool_time - coolTime_[i], coolTimeGage_, 0.0, 0.3);
+		}
+	}
+	DrawExtendGraph(umbrellaPosition_.x + (adjust_umbrella_x * playerNumber) - 50, umbrellaPosition_.y - 50,
+		umbrellaPosition_.x + (adjust_umbrella_x * playerNumber) + wind_width_height.x - 50, umbrellaPosition_.y + wind_width_height.y - 50, windGraph_, TRUE);
 }
 
 void PlayUI::trumpetUI(int playerNumber)

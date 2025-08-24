@@ -1,7 +1,9 @@
 #pragma once
 
-constexpr float init_Y = 30.0f;
-constexpr float init_z = -35.0f;
+//constexpr float init_Y = 30.0f;
+//constexpr float init_z = -35.0f;
+constexpr float init_Y = 15.0f;
+constexpr float init_z = -15.0f;
 
 class Camera
 {

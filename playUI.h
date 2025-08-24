@@ -17,6 +17,7 @@ private:
 	void fanUI(std::shared_ptr<CharaBase> chara, int playerNumber);
 	void trumpetUI(int playerNumber);
 	void umbrellaUI(std::shared_ptr<CharaBase> chara, int playerNumber);
+	void windGage(std::shared_ptr<CharaBase> chara, int playerNumber);
 
 	int		fontHandle_;		//フォントハンドル
 	int		umbrella1_;			//傘1
@@ -37,7 +38,9 @@ private:
 	int		fontHandleSize30_;	//フォントサイズ30
 	int		fanGraph_;			//扇風機画像
 	int		coolTimeGage_;		//クールタイムゲージ画像
-	double	coolTime_;			//クールタイム
+	double	coolTime_[4];		//クールタイム
+	bool	canSetCoolTime_[4];	//クールタイムをセットできるか
+	int		windGraph_;			//風画像
 
 	const int		umbrella_width				= 150;
 	const int		umbrella_height				= 150;
@@ -68,4 +71,6 @@ private:
 	const VECTOR	fan_graph_widht_height		= VGet(60, 60, 0);
 	const VECTOR	wind_text_position			= VGet(105, 295, 0);
 	const VECTOR	A_ui_wind_position			= VGet(60, 295, 0);
+	const double	max_cool_time				= 100.0;
+	const VECTOR	wind_width_height			= VGet(100, 100, 0);
 };
