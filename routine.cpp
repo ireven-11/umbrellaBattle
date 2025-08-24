@@ -220,7 +220,7 @@ void Routine::stanby()
             i->draw();
 
             //ui
-            //playUI->update(i, i->GetcontrolerNumber_());
+            playUI->update(i, i->GetcontrolerNumber_());
         }
 
         //エフェクトマネージャー
@@ -264,7 +264,7 @@ void Routine::stanby()
 
     }
 
-    //standbyUI->update(isjoiningPlayer, max_player_number);
+    standbyUI->update(isjoiningPlayer, max_player_number);
 
     //コンストラクタをしたフレームの最後にそのフレームが終わることを通知する
     if (isjoiningPlayer[0] || isjoiningPlayer[1] || isjoiningPlayer[2] || isjoiningPlayer[3])
