@@ -80,11 +80,11 @@ void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, std::sha
 	//探索したルートで追跡する
 	if (charaBase->Getstate_() != std::dynamic_pointer_cast<CharaState::FanState>(charaBase->Getstate_()))
 	{
-		/*switch (randomTarget_)
+		switch (randomTarget_)
 		{
 		default:
 		case 1:
-			DrawSphere3D(stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x], 1.0f, 32, GetColor(255, 255, 255), GetColor(255, 255, 255), TRUE);
+			DrawSphere3D(stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x], 1.0f, 32, GetColor(0, 0, 0), GetColor(255, 255, 255), TRUE);
 			break;
 
 		case 2:
@@ -96,7 +96,7 @@ void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, std::sha
 		case 4:
 			DrawSphere3D(stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x], 1.0f, 32, GetColor(0, 0, 255), GetColor(255, 255, 255), TRUE);
 			break;
-		}*/
+		}
 
 		//移動
 		//追跡ルート決定
@@ -117,8 +117,9 @@ void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, std::sha
 		{
 			charaBase->input.Y = 750;
 		}
+
 		//タイルにたどり着いたら
-		if (CalculateDistance<float>(charaBase->Getposition_(), stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x]) < 0.01f)
+		if (CalculateDistance<float>(charaBase->Getposition_(), stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x]) < 0.005f)
 		{
 			//先頭要素を削除
 			chaseRoot_.pop_front();

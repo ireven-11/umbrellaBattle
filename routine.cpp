@@ -353,10 +353,10 @@ void Routine::play()
         //ui
         playUI->update(i, i->GetcontrolerNumber_());
 
-        /*if (i->Getstate_() != std::dynamic_pointer_cast<CharaState::FanState>(i->Getstate_()))
+        if (i->Getstate_() != std::dynamic_pointer_cast<CharaState::FanState>(i->Getstate_()))
         {
             DrawFormatString(300, 200 * testCount, GetColor(255, 0, 0), "%dP‚Íƒ^ƒCƒ‹[%d][%d]‚Ìã‚É‚¢‚Ü‚·", testCount, i->GetonTileNumberY_(), i->GetonTileNumberX_());
-        }*/
+        }
     }
     DrawEffekseer3D();
 

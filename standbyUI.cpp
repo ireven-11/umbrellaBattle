@@ -11,6 +11,7 @@ StandbyUI::StandbyUI(const char* fontName)
 	fontHandleSize100_	= CreateFontToHandle(fontName, 90, 0, DX_FONTTYPE_ANTIALIASING_EDGE_4X4);
 	fontHandleSize150_	= CreateFontToHandle(fontName, 150, 0, DX_FONTTYPE_ANTIALIASING_EDGE_4X4);
 	screenHandle_		= MakeScreen(1920, 1080);
+	movieExplane_		= LoadGraph("movie/explaneRule.mp4");
 }
 
 /// <summary>
@@ -27,6 +28,8 @@ StandbyUI::~StandbyUI()
 void StandbyUI::update(bool isjoiningPlayer[], const int max_player_number)
 {
 	playerJoin(isjoiningPlayer, max_player_number);
+
+	explaneRule();
 
 	DrawStringToHandle(practice_position.x, practice_position.y, "練習場", GetColor(255, 255, 50), fontHandleSize150_);
 	DrawStringToHandle(game_start_position.x, game_start_position.y, "Enterでゲームスタート", GetColor(255, 255, 255), fontHandleSize100_);
@@ -53,5 +56,10 @@ void StandbyUI::playerJoin(bool isjoiningPlayer[], const int max_player_number)
 
 void StandbyUI::explaneRule()
 {
-
+	SetDrawScreen(screenHandle_);
+	PlayMovieToGraph(movieExplane_, DX_PLAYTYPE_LOOP);
+	DrawExtendGraph(movie_explane_pos.x, movie_explane_pos.y, movie_explane_pos.x + movie_explane_widht, movie_explane_pos.y + movie_explane_height, movieExplane_, TRUE);
+	SetDrawScreen(DX_SCREEN_BACK);
+	DrawBox(movie_explane_pos.x - 5, movie_explane_pos.y -5 , movie_explane_pos.x + movie_explane_widht + 5, movie_explane_pos.y + movie_explane_height + 5, GetColor(255,255,255), TRUE);
+	DrawExtendGraph(movie_explane_pos.x, movie_explane_pos.y, movie_explane_pos.x + movie_explane_widht, movie_explane_pos.y + movie_explane_height, movieExplane_, TRUE);
 }
