@@ -14,6 +14,12 @@ Camera::Camera()
 	{
 		wasZoomUPXYZ_[i] = false;
 	}
+
+	//ゼットバッファを有効にする
+	SetUseZBufferFlag(TRUE);
+
+	// Ｚバッファへの書き込みを有効にする
+	SetWriteZBuffer3D(TRUE);
 }
 
 /// <summary>
@@ -40,7 +46,7 @@ void Camera::reset()
 void Camera::update()
 {
 	//奥行1～100までをカメラの描画範囲とする
-	SetCameraNearFar(1.00f, 1000.00f);
+	SetCameraNearFar(1.00f, 500.00f);
 
 	//カメラの注視点を設定
 	SetCameraPositionAndTarget_UpVecY(position_, targetPosition_);
@@ -52,7 +58,7 @@ void Camera::update()
 void Camera::virtualUpdate(VECTOR upPosition)
 {
 	//奥行1～100までをカメラの描画範囲とする
-	SetCameraNearFar(1.00f, 1000.00f);
+	SetCameraNearFar(1.00f, 500.00f);
 
 	//カメラの注視点を設定
 	SetCameraPositionAndTarget_UpVecY(position_, targetPosition_);
