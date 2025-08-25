@@ -123,7 +123,6 @@ void CharaBase::reset()
 	angleSwing_		= 0.00;
 	fanMoveAngle_	= 90.0;
 	isPrevButton_	= false;
-	onTilePosition_ = VGet(0.0f, 0.0f, 0.0f);
 	moveVector_		= VGet(0.0f, 0.0f, 0.0f);
 	collisionCenterPosition_ = VGet(0.0f, 0.0f, 0.0f);
 	mass_			= init_mass;
@@ -462,16 +461,7 @@ void CharaBase::cannotChangeFan()
 }
 
 /// <summary>
-/// タイルの上にいるときのタイル座標を保存する
-/// </summary>
-/// <param name="tilePosition">タイル座標</param>
-void CharaBase::SetonTilePosition(VECTOR tilePosition)
-{
-	onTilePosition_ = VGet(tilePosition.x, tilePosition.y, tilePosition.z);
-}
-
-/// <summary>
-/// 何番目のタイルにいるかセット（Ｘ）
+/// 何番目のタイルにいるかセット（Ｘ）A*関係
 /// </summary>
 /// <param name="tileNumberX">タイルが何番目かｘ</param>
 void CharaBase::SetonTilePositionX_(short tileNumberX)
@@ -480,7 +470,7 @@ void CharaBase::SetonTilePositionX_(short tileNumberX)
 }
 
 /// <summary>
-/// 何番目のタイルにいるかをセット（Ｙ）
+/// 何番目のタイルにいるかをセット（Ｙ）A*関係
 /// </summary>
 /// <param name="tileNumberY">タイルが何番目かｙ</param>
 void CharaBase::SetonTilePositionY_(short tileNumberY)

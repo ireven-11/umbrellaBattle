@@ -61,7 +61,6 @@ public:
 	short								GetcontrolerNumber_()const { return controlerNumber_; }
 	float								GettackleCount_()const { return tackleCount_; }
 	float								Getmax_tackle_count()const { return max_tackle_count; }
-	VECTOR								GetonTilePosition_()const { return onTilePosition_; }
 	short								GetonTileNumberX_()const { return onTileNumberX_; }
 	short								GetonTileNumberY_()const { return onTileNumberY_; }
 	VECTOR								GetcollisionCenterPosition_()const { return collisionCenterPosition_; }
@@ -138,7 +137,6 @@ protected:
 	double	angleSwing_;		//スイングの角度
 	int		fan_;				//扇風機
 	double	fanMoveAngle_;		//扇風機の移動角度
-	VECTOR	onTilePosition_;	//乗っているタイルの座標
 	short	onTileNumberX_;		//乗っているタイルの配列の要素数x
 	short	onTileNumberY_;		//乗っているタイルの配列の要素数y
 	VECTOR  moveVector_;		//移動ベクトル

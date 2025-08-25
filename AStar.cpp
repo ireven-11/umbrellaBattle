@@ -72,6 +72,8 @@ std::list<position> a_star(position start, position goal) {
 			// 先頭に挿入することで、反転処理を省略している
 			for (current = open_list.front(); current != start; result.push_front(current)) {
 				node& current_node = map_node[current.y][current.x];
+
+				//間違ってるかも?
 				if (direction_delta[current_node.direction][Y_ELM] == 1 || direction_delta[current_node.direction][Y_ELM] == -1)
 				{
 					//現在のマスが奇数行、偶数行で隣接するマスの方向の数値(x)を変える用の変数
@@ -82,6 +84,7 @@ std::list<position> a_star(position start, position goal) {
 				{
 					current.x -= direction_delta[current_node.direction][X_ELM];
 				}
+
 				current.y -= direction_delta[current_node.direction][Y_ELM];
 			}
 			// ループ脱出
@@ -93,8 +96,8 @@ std::list<position> a_star(position start, position goal) {
 
 		// 未到達なので周囲のセルを検査(iが各方向を表すことに注意する)
 		for (int i = 0; i < DIR_MAX; i++) {
-			// 隣セル位置を計算(未完成？eoの足し方が違う?)
-			if (direction_delta[i][Y_ELM] == 1 || direction_delta[i][Y_ELM] == -1)
+			// 隣セル位置を計算
+			if (direction_delta[i][Y_ELM] == 1 || direction_delta[i][Y_ELM] == -1) //間違ってるかも?
 			{
 				//現在のマスが奇数行、偶数行で隣接するマスの方向の数値(x)を変える用の変数
 				int eo = current.y % 2 == 0 ? 1 : 0;
@@ -133,7 +136,7 @@ std::list<position> a_star(position start, position goal) {
 			// 4方向移動の場合のヒューリスティック
 			heuristic = (short)(deltax + deltay);
 #elif DIR_MAX == 6
-			// 6方向移動のヒューリスティック（間違ってる？）
+			// 6方向移動のヒューリスティック 間違ってるかも?
 			heuristic = (short)(deltax > deltay ? deltax : deltay);
 #endif
 			score = cost + heuristic;

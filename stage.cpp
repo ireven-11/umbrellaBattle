@@ -80,7 +80,7 @@ void Stage::update()
 		for (int j = 0; j < tile_number; j++)
 		{
 			MV1SetPosition(modelHandle_[j][i], position_[j][i]);
-			mapChipUpdate(canExist_[j][i], j, i);
+			mapChipUpdate(canExist_[j][i], j, i);//A*関係
 		}
 	}
 }
@@ -333,10 +333,8 @@ void Stage::collisionWithPlayer(std::vector<std::shared_ptr<CharaBase>>player)
 						}
 
 						//キャラがどのタイル上にいるかを座標を保存しておく
-						p->SetonTilePosition(position_[j][i]);
 						p->SetonTilePositionX_(i);
 						p->SetonTilePositionY_(j);
-						//p->SetonTilePositionY_((j - 6) * -1);
 					}
 				
 					//デバッグ用

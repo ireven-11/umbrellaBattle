@@ -118,12 +118,11 @@ void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, std::sha
 			charaBase->input.Y = 750;
 		}
 
-		//タイルにたどり着いたら
-		if (CalculateDistance<float>(charaBase->Getposition_(), stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x]) < 0.005f)
+		//タイルにたどり着いたら A*関係
+		if (CalculateDistance<float>(charaBase->Getposition_(), stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x]) < 0.001f)
 		{
 			//先頭要素を削除
 			chaseRoot_.pop_front();
-
 			//新しく先頭要素になったものの座標を次に進む座標とする
 			auto it = chaseRoot_.begin();
 			if (chaseRoot_.size() > 1)
@@ -145,7 +144,7 @@ void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, std::sha
 }
 
 /// <summary>
-/// 追跡ルート決定
+/// 追跡ルート決定 A*関係
 /// </summary>
 /// <param name="charaBase">キャラの親クラス</param>
 /// <param name="routine">ルーチンクラス</param>
