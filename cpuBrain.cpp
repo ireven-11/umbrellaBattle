@@ -80,21 +80,46 @@ void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, std::sha
 	//探索したルートで追跡する
 	if (charaBase->Getstate_() != std::dynamic_pointer_cast<CharaState::FanState>(charaBase->Getstate_()))
 	{
+		//デバッグ用
+		auto debugIt = chaseRoot_.begin();
+		
 		switch (randomTarget_)
 		{
-		default:
 		case 1:
 			DrawSphere3D(stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x], 1.0f, 32, GetColor(0, 0, 0), GetColor(255, 255, 255), TRUE);
+			for (auto i = 0; i < chaseRoot_.size(); i++)
+			{
+				DrawSphere3D(stage->Getposition_()[debugIt->y][debugIt->x], 1.0f, 32, GetColor(30 * i, 0, 0), GetColor(255, 255, 255), TRUE);
+				debugIt++;
+			}
+
 			break;
 
 		case 2:
 			DrawSphere3D(stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x], 1.0f, 32, GetColor(0, 0, 255), GetColor(255, 255, 255), TRUE);
+			for (auto i = 0; i < chaseRoot_.size(); i++)
+			{
+				DrawSphere3D(stage->Getposition_()[debugIt->y][debugIt->x], 1.0f, 32, GetColor(30 * i, 0, 255), GetColor(255, 255, 255), TRUE);
+				debugIt++;
+			}
 			break;
 		case 3:
 			DrawSphere3D(stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x], 1.0f, 32, GetColor(255, 255, 0), GetColor(255, 255, 255), TRUE);
+			for (auto i = 0; i < chaseRoot_.size(); i++)
+			{
+				DrawSphere3D(stage->Getposition_()[debugIt->y][debugIt->x], 1.0f, 32, GetColor(255, 255, 30 * i), GetColor(255, 255, 255), TRUE);
+				debugIt++;
+			}
 			break;
 		case 4:
 			DrawSphere3D(stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x], 1.0f, 32, GetColor(255, 0, 0), GetColor(255, 255, 255), TRUE);
+			for (auto i = 0; i < chaseRoot_.size(); i++)
+			{
+				DrawSphere3D(stage->Getposition_()[debugIt->y][debugIt->x], 1.0f, 32, GetColor(255, 0, 30 * i), GetColor(255, 255, 255), TRUE);
+				debugIt++;
+			}
+			break;
+		default:
 			break;
 		}
 
@@ -157,15 +182,6 @@ void CPUBrain::decideChaceRoot(CharaBase* charaBase, Routine* routine)
 	aStarGoalPosition_.y = routine->players[randomTarget_ - 1]->GetonTileNumberY_();
 	chaseRoot_ = a_star(aStarStartPosition_, aStarGoalPosition_);
 	auto it = chaseRoot_.begin();
-
-	//デバッグ用
-	auto debugIt = chaseRoot_.begin();
-	for (auto i = 0; i < chaseRoot_.size(); i++)
-	{
-		auto test = DrawFormatString(1000, 100 * i, GetColor(255, 255, 0), "Yルート:%d Xルート:%d", debugIt->y, debugIt->x);
-		debugIt++;
-	}
-
 	if (chaseRoot_.size() > 1)
 	{
 		it++;

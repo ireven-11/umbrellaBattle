@@ -2,7 +2,7 @@
 #include"AStar.h"
 #include"stage.h"
 
-//隣接するマスの方向を表す数値
+//隣接するマスの方向を表す数値(x,y)
 int direction_delta[DIR_MAX][2] = {
 #if DIR_MAX == 8//隣接マスが8個
 	{ -1,-1 },{  0,-1 },{ +1,-1 },
@@ -11,15 +11,9 @@ int direction_delta[DIR_MAX][2] = {
 #elif DIR_MAX == 4//隣接マスが4個(斜め移動なし)
 	{  0,-1 },{ -1, 0 },{ +1, 0 },{ 0, +1 },
 #elif DIR_MAX == 6//隣接マスが6個(奇数行を基準としてやる)
-	{ 0, -1 },{ +1, -1 },
-	{ -1, 0 },{ +1, 0 },
-	{ 0, +1 }, { +1, +1 },
-	/*{ -1, +1 }, { 0, +1 },
+	{ -1, +1 }, { 0, +1 },
 	{ -1, 0 }, { +1, 0 },
-	{ -1, -1 }, { 0, +1 },*/
-	/*{ 0, +1 }, { +1, +1 },
-	{ -1, 0 }, { +1, 0 },
-	{ 0, -1 }, { +1, -1 },*/
+	{ -1, -1 }, { 0, -1 },
 #endif
 };
 
@@ -54,6 +48,9 @@ std::list<position> a_star(position start, position goal) {
 	int deltax, deltay;				// x,y差分
 	short cost, score, heuristic;	// 評価値計算用
 	std::list<position> result;
+	
+	std::list<bool> debugChipType;
+	std::list<position> debugNeighbor;
 
 	// nodeデータの初期化
 	memset(map_node, 0, sizeof(map_node));
@@ -73,12 +70,12 @@ std::list<position> a_star(position start, position goal) {
 			for (current = open_list.front(); current != start; result.push_front(current)) {
 				node& current_node = map_node[current.y][current.x];
 
-				//間違ってるかも?
+				//WARNING: 間違ってる可能性がある
 				if (direction_delta[current_node.direction][Y_ELM] == 1 || direction_delta[current_node.direction][Y_ELM] == -1)
 				{
 					//現在のマスが奇数行、偶数行で隣接するマスの方向の数値(x)を変える用の変数
 					int eo = current.y % 2 == 0 ? 0 : 1;
-					current.x -= direction_delta[current_node.direction][X_ELM] - eo;
+					current.x -= direction_delta[current_node.direction][X_ELM] + eo;
 				}
 				else
 				{
@@ -97,11 +94,11 @@ std::list<position> a_star(position start, position goal) {
 		// 未到達なので周囲のセルを検査(iが各方向を表すことに注意する)
 		for (int i = 0; i < DIR_MAX; i++) {
 			// 隣セル位置を計算
-			if (direction_delta[i][Y_ELM] == 1 || direction_delta[i][Y_ELM] == -1) //間違ってるかも?
+			if (direction_delta[i][Y_ELM] == 1 || direction_delta[i][Y_ELM] == -1)
 			{
 				//現在のマスが奇数行、偶数行で隣接するマスの方向の数値(x)を変える用の変数
 				int eo = current.y % 2 == 0 ? 1 : 0;
-				neighborX = current.x + direction_delta[i][X_ELM] - eo;
+				neighborX = current.x + direction_delta[i][X_ELM] + eo;
 			}
 			else
 			{
@@ -118,6 +115,7 @@ std::list<position> a_star(position start, position goal) {
 			// 穴だったらチェックしない
 			char chip_type = map[neighborY][neighborX];
 			if (chip_type == HALL) {
+
 				continue;
 			}
 			node& next_node = map_node[neighborY][neighborX];
@@ -164,6 +162,10 @@ std::list<position> a_star(position start, position goal) {
 		current_node.state = IN_CLOSE_LIST;
 		open_list.remove(current);
 	}
+
+	//DEBUG: 移動先を穴Tileを指定する場合の検知
+
+
 	// コンテナを返す
 	return result;
 }
