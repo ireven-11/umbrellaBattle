@@ -2,6 +2,7 @@
 #include"charaBase.h"
 #include"playUI.h"
 #include"DrawExtendBrinkGraph.h"
+#include"routine.h"
 
 PlayUI::PlayUI(const char* fontName)
 {
@@ -65,7 +66,7 @@ void PlayUI::reset()
 	hpPosition_			= hp__init_position;
 	hpEmptyPosition_	= hp_empty_init_position;
 	umbrellaPosition_	= umbrella_init_position;
-	for (auto i = 0; i < 4; i++)
+	for (auto i = 0; i < max_player_number; i++)
 	{
 		coolTime_[i]		= 0;
 		canSetCoolTime_[i]	= true;
@@ -196,7 +197,7 @@ void PlayUI::fanUI(std::shared_ptr<CharaBase> chara, int playerNumber)
 
 void PlayUI::windGage(std::shared_ptr<CharaBase> chara, int playerNumber)
 {
-	for (auto i = 0; i < 4; i++)
+	for (auto i = 0; i < max_player_number; i++)
 	{
 		if (i + 1 == playerNumber)
 		{

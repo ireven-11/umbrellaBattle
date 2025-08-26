@@ -32,13 +32,13 @@ void HitEffect::update(std::shared_ptr<CharaBase> chara)
 
 		SetScalePlayingEffekseer3DEffect(playingHandle_, scale, scale, scale);
 		SetSpeedPlayingEffekseer3DEffect(playingHandle_, play_speed);
+
+		position_ = chara->GetcollisionCenterPosition_();
 	}
 
 	//エフェクトが再生中は座標を更新する
 	if (WrapIsEffekseer3DEffectPlaying(playingHandle_))
 	{
-		position_ = chara->GetcollisionCenterPosition_();
-
 		SetPosPlayingEffekseer3DEffect(playingHandle_, position_.x, position_.y + 2.0f, position_.z);
 	}
 }

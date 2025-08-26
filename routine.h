@@ -2,7 +2,7 @@
 #include<memory>
 #include<vector>
 
-const int max_player_number = 4;
+const int max_player_number = 2;
 
 class SceneManager;
 class Player;

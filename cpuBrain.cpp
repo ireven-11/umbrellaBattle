@@ -59,7 +59,7 @@ void CPUBrain::decideTarget(CharaBase* charaBase)
 	{
 		while (true)
 		{
-			randomTarget_ = GetRand(3) + 1;
+			randomTarget_ = GetRand(max_player_number - 1) + 1;
 
 			if (randomTarget_ != charaBase->GetcontrolerNumber_())
 			{
@@ -88,13 +88,13 @@ void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, std::sha
 			break;
 
 		case 2:
-			DrawSphere3D(stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x], 1.0f, 32, GetColor(255, 0, 0), GetColor(255, 255, 255), TRUE);
+			DrawSphere3D(stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x], 1.0f, 32, GetColor(0, 0, 255), GetColor(255, 255, 255), TRUE);
 			break;
 		case 3:
-			DrawSphere3D(stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x], 1.0f, 32, GetColor(0, 255, 0), GetColor(255, 255, 255), TRUE);
+			DrawSphere3D(stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x], 1.0f, 32, GetColor(255, 255, 0), GetColor(255, 255, 255), TRUE);
 			break;
 		case 4:
-			DrawSphere3D(stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x], 1.0f, 32, GetColor(0, 0, 255), GetColor(255, 255, 255), TRUE);
+			DrawSphere3D(stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x], 1.0f, 32, GetColor(255, 0, 0), GetColor(255, 255, 255), TRUE);
 			break;
 		}
 
@@ -119,7 +119,7 @@ void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, std::sha
 		}
 
 		//タイルにたどり着いたら A*関係
-		if (CalculateDistance<float>(charaBase->Getposition_(), stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x]) < 0.001f)
+		if (CalculateDistance<float>(charaBase->Getposition_(), stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x]) < 0.01f)
 		{
 			//先頭要素を削除
 			chaseRoot_.pop_front();
@@ -157,6 +157,15 @@ void CPUBrain::decideChaceRoot(CharaBase* charaBase, Routine* routine)
 	aStarGoalPosition_.y = routine->players[randomTarget_ - 1]->GetonTileNumberY_();
 	chaseRoot_ = a_star(aStarStartPosition_, aStarGoalPosition_);
 	auto it = chaseRoot_.begin();
+
+	//デバッグ用
+	auto debugIt = chaseRoot_.begin();
+	for (auto i = 0; i < chaseRoot_.size(); i++)
+	{
+		auto test = DrawFormatString(1000, 100 * i, GetColor(255, 255, 0), "Yルート:%d Xルート:%d", debugIt->y, debugIt->x);
+		debugIt++;
+	}
+
 	if (chaseRoot_.size() > 1)
 	{
 		it++;
