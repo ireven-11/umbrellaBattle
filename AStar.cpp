@@ -83,6 +83,11 @@ std::list<position> a_star(position start, position goal) {
 				}
 
 				current.y -= direction_delta[current_node.direction][Y_ELM];
+
+				if (map[current.y][current.x] == HALL)
+				{
+					WaitTimer(500);
+				}
 			}
 			// ÉãÅ[ÉvíEèo
 			break;
@@ -178,10 +183,10 @@ void mapChipUpdate(bool canExistTile, int tileXNumber, int tileYNumber)
 {
 	if (canExistTile)
 	{
-		map[tileYNumber][tileXNumber] = 0;
+		map[tileXNumber][tileYNumber] = 0;
 	}
 	else
 	{
-		map[tileYNumber][tileXNumber] = 1;
+		map[tileXNumber][tileYNumber] = 1;
 	}
 }
