@@ -41,7 +41,6 @@ private:
 	VECTOR	position_[tile_number][tile_number];	//座標
 	bool	canExist_[tile_number][tile_number];	//存在できるかフラグ
 	int		vanishingCount_;						//消えるカウント
-	int		skydomeHandle_;							//スカイドームハンドル
 	int		dicideRandomTileJ_;						//タイル用ランダム変数j
 	int		dicideRandomTileI_;						//タイル用ランダム変数i
 	int		tileCount_;								//タイルを何個消したかのカウント

@@ -11,10 +11,6 @@
 /// </summary>
 Stage::Stage()
 {
-	//ステージ背景をセット
-	skydomeHandle_ = MV1LoadModel("3dmodel/Skydome/スカイドーム_雨空PP3/Skydome_PP3/Dome_PP301.pmx");
-	MV1SetScale(skydomeHandle_, VGet(scale * 1.5, scale * 1.5, scale * 1.5));
-
 	fallSound_ = LoadSoundMem("sound/fall.mp3");
 	ChangeVolumeSoundMem(fall_sound_volume, fallSound_);
 
@@ -58,7 +54,6 @@ Stage::Stage()
 /// </summary>
 Stage::~Stage()
 {
-	MV1DeleteModel(skydomeHandle_);
 	for (int i = 0; i < tile_number; i++)
 	{
 		for (int j = 0; j < tile_number; j++)
@@ -74,7 +69,6 @@ Stage::~Stage()
 /// </summary>
 void Stage::update()
 {
-	MV1SetPosition(skydomeHandle_, VGet(0, 0, 0));
 	for (int i = 0; i < tile_number; i++)
 	{
 		for (int j = 0; j < tile_number; j++)
@@ -98,7 +92,6 @@ void Stage::updateGimmick(std::vector<std::shared_ptr<CharaBase>>player)
 /// </summary>
 void Stage::draw()
 {
-	MV1DrawModel(skydomeHandle_);
 	for (int i = 0; i < tile_number; i++)
 	{
 		for (int j = 0; j < tile_number; j++)

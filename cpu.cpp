@@ -68,22 +68,6 @@ void CPU::wind()
 	}
 }
 
-//void CPU::move()
-//{
-//	auto isNoneAction = !isTackle_ && !isSwing_;
-//
-//	//スティックを傾けたら移動を決定
-//	moveVector_ = VGet(move_speed, 0.0f, move_speed);
-//	
-//	//スティックの傾きからどのくらいモデルを回転させるか決定
-//	rotation();
-//
-//	//スティックを傾けてる向きに移動
-//	rotaionMatrix_	= MGetRotY(rotationAngleY_ + agnle_shift_number);
-//	moveVector_		= VTransform(moveVector_, rotaionMatrix_);
-//	position_		= VAdd(position_, moveVector_);
-//}
-
 void CPU::rotation()
 {
 	//アクションをしてない時だけ

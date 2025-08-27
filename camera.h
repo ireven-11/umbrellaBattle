@@ -20,8 +20,10 @@ private:
 	VECTOR	targetPosition_;		//カメラのターゲットポジション
 	bool	wasZoomUp_;				//ズームアップしたかどうか
 	bool	wasZoomUPXYZ_[3];		//ズームアップしたかどうかxyz
+	int		skydomeHandle_;			//スカイドームハンドル
 	
 	const float		move_speed			= 0.3f;						//移動スピード
 	const VECTOR	zoom_out_position	= VGet(0.0f, 10.0f, 8.0f);	//ズームアウト座標
 	const float		error				= 0.3;						//誤差
+	const float		scale				= 0.1;						//スカイドームのスケール
 };

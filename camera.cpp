@@ -7,6 +7,11 @@
 /// </summary>
 Camera::Camera()
 {
+	//ステージ背景をセット
+	skydomeHandle_ = MV1LoadModel("3dmodel/Skydome/スカイドーム_雨空PP3/Skydome_PP3/Dome_PP301.pmx");
+	MV1SetScale(skydomeHandle_, VGet(scale, scale, scale));
+	MV1SetUseZBuffer(skydomeHandle_, FALSE);
+
 	position_				= VGet(0.0f, init_Y, init_z);
 	targetPosition_			= VGet(0.0f, 0.0f, 0.0f);
 	wasZoomUp_				= false;
@@ -20,6 +25,8 @@ Camera::Camera()
 
 	// Ｚバッファへの書き込みを有効にする
 	SetWriteZBuffer3D(TRUE);
+
+	SetUseSetDrawScreenSettingReset(false);
 }
 
 /// <summary>
@@ -27,6 +34,7 @@ Camera::Camera()
 /// </summary>
 Camera::~Camera()
 {
+	MV1DeleteModel(skydomeHandle_);
 }
 
 void Camera::reset()
@@ -51,6 +59,10 @@ void Camera::update()
 	//カメラの注視点を設定
 	SetCameraPositionAndTarget_UpVecY(position_, targetPosition_);
 
+	//スカイボックス描画
+	MV1SetPosition(skydomeHandle_, VGet(position_.x, position_.y - 30.0f, position_.z));
+	MV1DrawModel(skydomeHandle_);
+	
 	// DXライブラリのカメラとEffekseerのカメラを同期する。
 	Effekseer_Sync3DSetting();
 }
@@ -59,9 +71,6 @@ void Camera::virtualUpdate(VECTOR upPosition)
 {
 	//奥行1～100までをカメラの描画範囲とする
 	SetCameraNearFar(1.00f, 500.00f);
-
-	//カメラの注視点を設定
-	SetCameraPositionAndTarget_UpVecY(position_, targetPosition_);
 
 	//注視点を移動
 	if (targetPosition_.x - upPosition.x > error || targetPosition_.x - upPosition.x < -error)//誤差を設定
@@ -129,11 +138,18 @@ void Camera::virtualUpdate(VECTOR upPosition)
 		wasZoomUPXYZ_[2] = true;
 	}
 
+	//スカイボックス描画
+	MV1SetPosition(skydomeHandle_, VGet(position_.x, position_.y, position_.z));
+	MV1DrawModel(skydomeHandle_);
+
 	//ズーム終わりを表す
 	if (wasZoomUPXYZ_[0] && wasZoomUPXYZ_[1] && wasZoomUPXYZ_[2])
 	{
 		wasZoomUp_ = true;
 	}
+
+	//カメラの注視点を設定
+	SetCameraPositionAndTarget_UpVecY(position_, targetPosition_);
 
 	// DXライブラリのカメラとEffekseerのカメラを同期する。
 	Effekseer_Sync3DSetting();
