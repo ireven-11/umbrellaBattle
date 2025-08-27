@@ -353,10 +353,11 @@ void Routine::play()
         //ui
         playUI->update(i, i->GetcontrolerNumber_());
 
-        if (i->Getstate_() != std::dynamic_pointer_cast<CharaState::FanState>(i->Getstate_()))
+        //デバッグ用
+        /*if (i->Getstate_() != std::dynamic_pointer_cast<CharaState::FanState>(i->Getstate_()))
         {
             DrawFormatString(300, 200 * testCount, GetColor(255, 0, 0), "%dPはタイル[%d][%d]の上にいます", testCount, i->GetonTileNumberY_(), i->GetonTileNumberX_());
-        }
+        }*/
     }
     DrawEffekseer3D();
 
@@ -553,7 +554,7 @@ void Routine::judgeWinner()
             winPlayer_          = players.at(1)->GetcontrolerNumber_();
             cameraUpPosition_   = players.at(1)->Getposition_();
         }
-       /* else if (winPlayer3)
+        /*else if (winPlayer3)
         {
             winPlayer_          = players.at(2)->GetcontrolerNumber_();
             cameraUpPosition_   = players.at(2)->Getposition_();

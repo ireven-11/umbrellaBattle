@@ -75,14 +75,13 @@ void CPUBrain::decideTarget(CharaBase* charaBase)
 /// </summary>
 /// <param name="charaBase">キャラの親クラス</param>
 /// <param name="routine">ルーチンクラス</param>
-void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, std::shared_ptr<Stage> stage)//バグあり
+void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, std::shared_ptr<Stage> stage)
 {
 	//探索したルートで追跡する
 	if (charaBase->Getstate_() != std::dynamic_pointer_cast<CharaState::FanState>(charaBase->Getstate_()))
 	{
 		//デバッグ用
 		auto debugIt = chaseRoot_.begin();
-		
 		switch (randomTarget_)
 		{
 		case 1:
@@ -126,7 +125,7 @@ void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, std::sha
 		//移動
 		//追跡ルート決定
 		decideChaceRoot(charaBase, routine);
-		if (charaBase->Getposition_().x < stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x].x)
+		/*if (charaBase->Getposition_().x < stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x].x)
 		{
 			charaBase->input.X = 635;
 		}
@@ -141,10 +140,13 @@ void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, std::sha
 		else if (charaBase->Getposition_().z > stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x].z)
 		{
 			charaBase->input.Y = 750;
-		}
+		}*/
+		auto pos = stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x];
+		charaBase->decideMoveAngle(pos);
+		charaBase->input.Y = 750;
 
 		//タイルにたどり着いたら A*関係
-		if (CalculateDistance<float>(charaBase->Getposition_(), stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x]) < 0.01f)
+		if (CalculateDistance<float>(charaBase->Getposition_(), stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x]) < distance_error)
 		{
 			//先頭要素を削除
 			chaseRoot_.pop_front();

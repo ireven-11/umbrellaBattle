@@ -35,4 +35,6 @@ private:
 	position aStarGoalPosition_;
 	int		chaseCount_;
 	position nextTilePosition_;
+
+	const float distance_error = 0.0025f;
 };

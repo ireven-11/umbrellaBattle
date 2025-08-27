@@ -81,13 +81,7 @@ std::list<position> a_star(position start, position goal) {
 				{
 					current.x -= direction_delta[current_node.direction][X_ELM];
 				}
-
 				current.y -= direction_delta[current_node.direction][Y_ELM];
-
-				if (map[current.y][current.x] == HALL)
-				{
-					WaitTimer(500);
-				}
 			}
 			// ƒ‹[ƒv’Eo
 			break;

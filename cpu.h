@@ -10,9 +10,11 @@ public:
 	~CPU();
 
 	void update(Routine* routine, std::shared_ptr<Stage> stage)override;
-
+	//void move()override;
+	
 private:
 	void wind()override;
+	void rotation()override;
 
 	//ƒuƒŒƒCƒ“‚ğéŒ¾
 	std::shared_ptr<CPUBrain> brain_ = std::make_shared<CPUBrain>();

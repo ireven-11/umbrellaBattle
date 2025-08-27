@@ -16,7 +16,6 @@ constexpr int	vibration_power			= 200;
 constexpr int	vibration_time			= 200;
 constexpr short	max_wind_count			= 120;
 
-
 class Routine;
 class Stage;
 
@@ -33,7 +32,6 @@ public:
 	virtual void move();
 	virtual void tackle();
 	virtual void moveFan();
-	void SetonTilePosition(VECTOR tilePosition);
 	void SetonTilePositionX_(short tileNumberX);
 	void SetonTilePositionY_(short tileNumberY);
 	void decideKnockBackWithChara(std::shared_ptr<CharaBase> otherChara);
@@ -53,6 +51,7 @@ public:
 	void constructFrameEnd();
 	void setPosition();
 	virtual void wind();
+	void decideMoveAngle(VECTOR movePosition);
 
 	DINPUT_JOYSTATE input;		//コントローラー(D)用構造体変数
 
@@ -84,12 +83,8 @@ public:
 private:
 	const float		fall_speed				= 0.25f;
 	const float		scale					= 0.15f;
-	const float		move_speed				= 0.3f;
 	const float		max_tackle_count		= 50.0f;
-	const double	agnle_shift_number		= 0.75;
 	const int		adjust_tackle			= 40;
-	const float		rotation_angle_x		= -45.0f;
-	const double	adjust_rotation_angle_y = agnle_shift_number * -2;
 	const float		adjust_position_y		= 0.2f;
 	const double	swing_speed				= 0.40;
 	const double	max_swing_angle			= 3.0;
@@ -169,6 +164,10 @@ protected:
 	bool	onConstructFrame_;	//コンストラクタしたフレームかどうか
 	char	waitHitCount_;		//ヒットを待つカウント
 
+	const float		move_speed				= 0.3f;
+	const double	agnle_shift_number		= 0.75;
+	const double	adjust_rotation_angle_y = agnle_shift_number * -2;
+	const float		rotation_angle_x		= -45.0f;
 
 	//状態
 	std::shared_ptr<StateMachine::IState>	state_;
