@@ -81,7 +81,7 @@ void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, std::sha
 	if (charaBase->Getstate_() != std::dynamic_pointer_cast<CharaState::FanState>(charaBase->Getstate_()))
 	{
 		//デバッグ用
-		auto debugIt = chaseRoot_.begin();
+		/*auto debugIt = chaseRoot_.begin();
 		switch (randomTarget_)
 		{
 		case 1:
@@ -120,7 +120,7 @@ void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, std::sha
 			break;
 		default:
 			break;
-		}
+		}*/
 
 		//移動
 		//追跡ルート決定
