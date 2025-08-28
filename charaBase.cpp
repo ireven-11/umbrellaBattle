@@ -66,6 +66,8 @@ CharaBase::CharaBase(const int join_number)
 	ChangeVolumeSoundMem(inverse_sound_volume, inverseSound_);
 	changeFanSound_ = LoadSoundMem("sound/changeFan.mp3");
 	ChangeVolumeSoundMem(change_fan_sound_volume, changeFanSound_);
+	tackleSound_	= LoadSoundMem("sound/tackle.mp3");
+	ChangeVolumeSoundMem(tackle_sound_volume, tackleSound_);
 
 	//コントローラーのデッドゾーンを設定
 	SetJoypadDeadZone(controlerNumber_, 0.1);
@@ -88,6 +90,7 @@ CharaBase::~CharaBase()
 	DeleteSoundMem(respawnSound_);
 	DeleteSoundMem(inverseSound_);
 	DeleteSoundMem(changeFanSound_);
+	DeleteSoundMem(tackleSound_);
 	state_ = nullptr;
 }
 
@@ -148,6 +151,7 @@ void CharaBase::reset()
 	onConstructFrame_ = false;
 	waitHitCount_	= 0;
 	tackleEffectPos_ = VGet(0.0f, 0.0f, 0.0f);
+	isOneSE_		= false;
 }
 
 /// <summary>
@@ -263,6 +267,12 @@ void CharaBase::tackle()
 		--tackleCount_;
 		tackleMoving();
 
+		if (!isOneSE_)
+		{
+			PlaySoundMem(tackleSound_, DX_PLAYTYPE_BACK);
+			isOneSE_ = true;
+		}
+
 		//アクションするとhpが減る
 		subHp();
 	}
@@ -319,6 +329,8 @@ void CharaBase::stopTackle()
 		tackleCount_	= 0;
 		mass_			= init_mass;
 		isMovingTackle_ = false;
+		StopSoundMem(tackleSound_);
+		isOneSE_		= false;
 	}
 }
 

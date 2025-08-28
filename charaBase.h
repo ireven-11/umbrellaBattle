@@ -107,6 +107,7 @@ private:
 	const short		respawn_sound_volume	= 255;
 	const short		inverse_sound_volume	= 255;
 	const short		change_fan_sound_volume = 200;
+	const short		tackle_sound_volume		= 210;
 	
 protected:
 	void tackleMoving();
@@ -166,6 +167,8 @@ protected:
 	bool	onConstructFrame_;	//コンストラクタしたフレームかどうか
 	char	waitHitCount_;		//ヒットを待つカウント
 	VECTOR	tackleEffectPos_;	//タックルエフェクト座標
+	bool	isOneSE_;			//一回だけse流すフラグ
+	int		tackleSound_;		//タックル音
 
 	const float		move_speed				= 0.3f;
 	const double	agnle_shift_number		= 0.75;
