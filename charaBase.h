@@ -79,6 +79,8 @@ public:
 	bool								GetonConstructFrame_()const { return onConstructFrame_; }
 	int									GetchargeSound_()const { return chargeSound_; }
 	short								GetwindCount_()const noexcept { return windCount_; }
+	double								GetrotationAngleY_()const noexcept { return rotationAngleY_; }
+	VECTOR								GettackleEffectPos_()const { return tackleEffectPos_; }
 	
 private:
 	const float		fall_speed				= 0.25f;
@@ -163,6 +165,7 @@ protected:
 	int		changeFanSound_;	//変身音
 	bool	onConstructFrame_;	//コンストラクタしたフレームかどうか
 	char	waitHitCount_;		//ヒットを待つカウント
+	VECTOR	tackleEffectPos_;	//タックルエフェクト座標
 
 	const float		move_speed				= 0.3f;
 	const double	agnle_shift_number		= 0.75;

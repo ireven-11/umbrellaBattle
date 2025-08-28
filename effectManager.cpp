@@ -6,6 +6,7 @@
 #include"hitEffect.h"
 #include"respawnEffect.h"
 #include"changeFanEffect.h"
+#include"tackleEffect.h"
 #include"charaBase.h"
 #include"effectManager.h"
 
@@ -17,6 +18,7 @@ EffectManager::EffectManager()
 	effects.emplace_back(std::make_shared<WindEffect>());
 	effects.emplace_back(std::make_shared<RespawnEffect>());
 	effects.emplace_back(std::make_shared<ChangeFanEffect>());
+	effects.emplace_back(std::make_shared<TackleEffect>());
 }
 
 EffectManager::~EffectManager()

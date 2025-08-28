@@ -147,6 +147,7 @@ void CharaBase::reset()
 	canChangeFan_	= false;
 	onConstructFrame_ = false;
 	waitHitCount_	= 0;
+	tackleEffectPos_ = VGet(0.0f, 0.0f, 0.0f);
 }
 
 /// <summary>
@@ -415,7 +416,7 @@ void CharaBase::rotation()
 		//スティックの倒れてる数値から角度を求める
 		rotationAngleY_ = atan2(static_cast<double>(input.Y), static_cast<double>(input.X));
 
-		MV1SetRotationXYZ(closingUmbrella_, VGet(0.0f, rotationAngleY_ + adjust_rotation_angle_y, 0.0f));
+		//MV1SetRotationXYZ(closingUmbrella_, VGet(0.0f, rotationAngleY_ + adjust_rotation_angle_y, 0.0f));
 		MV1SetRotationXYZ(openingUmbrella_, VGet(rotation_angle_x * DX_PI_F / 180.0f, rotationAngleY_ + adjust_rotation_angle_y, 0.0f));
 	}
 
@@ -593,6 +594,8 @@ void CharaBase::collisionRotation()
 	MATRIX tempMatrix = MGetRotY(rotationAngleY_);
 	VECTOR tempVector = VTransform(collision_adjust_position, rotaionMatrix_);
 	collisionCenterPosition_ = VAdd(position_, tempVector);
+	VECTOR tempVector2 = VTransform(VScale(collision_adjust_position, 2.0f), rotaionMatrix_);
+	tackleEffectPos_ = VAdd(position_, tempVector2);
 }
 
 void CharaBase::changeHitNowFlag()
@@ -702,6 +705,7 @@ void CharaBase::changeTrumpet()
 		state_		= TrumpetState_();
 		wasTrumpet_ = true;
 		PlaySoundMem(inverseSound_, DX_PLAYTYPE_BACK, TRUE);
+		isMovingTackle_ = false;
 	}
 }
 

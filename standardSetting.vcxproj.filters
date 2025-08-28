@@ -150,6 +150,9 @@
     <ClCompile Include="DrawExtendBrinkGraph.cpp">
       <Filter>ソース ファイル\UI</Filter>
     </ClCompile>
+    <ClCompile Include="tackleEffect.cpp">
+      <Filter>ソース ファイル\effect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="setting.h">
@@ -256,6 +259,9 @@
     </ClInclude>
     <ClInclude Include="DrawExtendBrinkGraph.h">
       <Filter>ヘッダー ファイル\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="tackleEffect.h">
+      <Filter>ヘッダー ファイル\effect</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
