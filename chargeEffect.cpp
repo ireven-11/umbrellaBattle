@@ -39,7 +39,7 @@ void ChargeEffect::update(std::shared_ptr<CharaBase> chara)
 	{
 		position_ = chara->Getposition_();
 
-		SetPosPlayingEffekseer3DEffect(playingHandle_, position_.x, position_.y + 2.0f, position_.z);
+		SetPosPlayingEffekseer3DEffect(playingHandle_, position_.x, position_.y + 0.75f, position_.z);
 	}
 }
 

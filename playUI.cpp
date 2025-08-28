@@ -94,9 +94,9 @@ void PlayUI::buttonUI()
 
 	DrawStringToHandle(action_text_position.x, action_text_position.y, ":タックル", GetColor(255, 255, 255), fontHandleSize60_);
 	DrawStringToHandle(move_text_position.x, move_text_position.y, ":移動", GetColor(255, 255, 255), fontHandleSize60_);
-	DrawStringToHandle(left_turn_text_position.x, left_turn_text_position.y, ":左回転", GetColor(255, 255, 255), fontHandleSize60_);
-	DrawStringToHandle(right_turn_text_position.x, right_turn_text_position.y, ":右回転", GetColor(255, 255, 255), fontHandleSize60_);
-	DrawStringToHandle(wind_text_position.x, wind_text_position.y, ":風", GetColor(255, 255, 255), fontHandleSize60_);
+	DrawStringToHandle(left_turn_text_position.x, left_turn_text_position.y, ":左回り", GetColor(255, 255, 255), fontHandleSize60_);
+	DrawStringToHandle(right_turn_text_position.x, right_turn_text_position.y, ":右回り", GetColor(255, 255, 255), fontHandleSize60_);
+	DrawStringToHandle(wind_text_position.x, wind_text_position.y, ":送風", GetColor(255, 255, 255), fontHandleSize60_);
 }
 
 /**
