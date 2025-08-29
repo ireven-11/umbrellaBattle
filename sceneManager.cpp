@@ -44,8 +44,17 @@ bool SceneManager::proceedStandby()
 
 	if (CheckHitKey(KEY_INPUT_RETURN) == TRUE ||
 		input1.Buttons[12] > 0 && GetJoypadType(DX_INPUT_PAD1) == DX_PADTYPE_SWITCH_PRO_CTRL ||
-		input1.Z < 0 && GetJoypadType(DX_INPUT_PAD1) == DX_PADTYPE_XBOX_360 ||
-		input1.Z < 0 && GetJoypadType(DX_INPUT_PAD1) == DX_PADTYPE_XBOX_ONE)
+		input1.Buttons[7] > 0 && GetJoypadType(DX_INPUT_PAD1) == DX_PADTYPE_XBOX_360 ||
+		input1.Buttons[7] > 0 && GetJoypadType(DX_INPUT_PAD1) == DX_PADTYPE_XBOX_ONE ||
+		input2.Buttons[12] > 0 && GetJoypadType(DX_INPUT_PAD2) == DX_PADTYPE_SWITCH_PRO_CTRL ||
+		input2.Buttons[7] > 0 && GetJoypadType(DX_INPUT_PAD2) == DX_PADTYPE_XBOX_360 ||
+		input2.Buttons[7] > 0 && GetJoypadType(DX_INPUT_PAD2) == DX_PADTYPE_XBOX_ONE || 
+		input3.Buttons[12] > 0 && GetJoypadType(DX_INPUT_PAD3) == DX_PADTYPE_SWITCH_PRO_CTRL ||
+		input3.Buttons[7] > 0 && GetJoypadType(DX_INPUT_PAD3) == DX_PADTYPE_XBOX_360 ||
+		input3.Buttons[7] > 0 && GetJoypadType(DX_INPUT_PAD3) == DX_PADTYPE_XBOX_ONE || 
+		input4.Buttons[12] > 0 && GetJoypadType(DX_INPUT_PAD4) == DX_PADTYPE_SWITCH_PRO_CTRL ||
+		input4.Buttons[7] > 0 && GetJoypadType(DX_INPUT_PAD4) == DX_PADTYPE_XBOX_360 ||
+		input4.Buttons[7] > 0 && GetJoypadType(DX_INPUT_PAD4) == DX_PADTYPE_XBOX_ONE)
 	{
 		if (!isPrevButton_)
 		{
@@ -79,7 +88,19 @@ bool SceneManager::proceedPlay()
 	GetJoypadDirectInputState(DX_INPUT_PAD3, &input3);
 	GetJoypadDirectInputState(DX_INPUT_PAD4, &input4);
 
-	if (CheckHitKey(KEY_INPUT_RETURN) == TRUE)
+	if (CheckHitKey(KEY_INPUT_RETURN) == TRUE ||
+		input1.Buttons[12] > 0 && GetJoypadType(DX_INPUT_PAD1) == DX_PADTYPE_SWITCH_PRO_CTRL ||
+		input1.Buttons[7] > 0 && GetJoypadType(DX_INPUT_PAD1) == DX_PADTYPE_XBOX_360 ||
+		input1.Buttons[7] > 0 && GetJoypadType(DX_INPUT_PAD1) == DX_PADTYPE_XBOX_ONE ||
+		input2.Buttons[12] > 0 && GetJoypadType(DX_INPUT_PAD2) == DX_PADTYPE_SWITCH_PRO_CTRL ||
+		input2.Buttons[7] > 0 && GetJoypadType(DX_INPUT_PAD2) == DX_PADTYPE_XBOX_360 ||
+		input2.Buttons[7] > 0 && GetJoypadType(DX_INPUT_PAD2) == DX_PADTYPE_XBOX_ONE ||
+		input3.Buttons[12] > 0 && GetJoypadType(DX_INPUT_PAD3) == DX_PADTYPE_SWITCH_PRO_CTRL ||
+		input3.Buttons[7] > 0 && GetJoypadType(DX_INPUT_PAD3) == DX_PADTYPE_XBOX_360 ||
+		input3.Buttons[7] > 0 && GetJoypadType(DX_INPUT_PAD3) == DX_PADTYPE_XBOX_ONE ||
+		input4.Buttons[12] > 0 && GetJoypadType(DX_INPUT_PAD4) == DX_PADTYPE_SWITCH_PRO_CTRL ||
+		input4.Buttons[7] > 0 && GetJoypadType(DX_INPUT_PAD4) == DX_PADTYPE_XBOX_360 ||
+		input4.Buttons[7] > 0 && GetJoypadType(DX_INPUT_PAD4) == DX_PADTYPE_XBOX_ONE)
 	{
 		if (!isPrevButton_)
 		{
@@ -123,7 +144,19 @@ bool SceneManager::proceedTitle()
 	GetJoypadDirectInputState(DX_INPUT_PAD3, &input3);
 	GetJoypadDirectInputState(DX_INPUT_PAD4, &input4);
 
-	if (CheckHitKey(KEY_INPUT_RETURN) == TRUE)
+	if (CheckHitKey(KEY_INPUT_RETURN) == TRUE ||
+		input1.Buttons[12] > 0 && GetJoypadType(DX_INPUT_PAD1) == DX_PADTYPE_SWITCH_PRO_CTRL ||
+		input1.Buttons[7] > 0 && GetJoypadType(DX_INPUT_PAD1) == DX_PADTYPE_XBOX_360 ||
+		input1.Buttons[7] > 0 && GetJoypadType(DX_INPUT_PAD1) == DX_PADTYPE_XBOX_ONE ||
+		input2.Buttons[12] > 0 && GetJoypadType(DX_INPUT_PAD2) == DX_PADTYPE_SWITCH_PRO_CTRL ||
+		input2.Buttons[7] > 0 && GetJoypadType(DX_INPUT_PAD2) == DX_PADTYPE_XBOX_360 ||
+		input2.Buttons[7] > 0 && GetJoypadType(DX_INPUT_PAD2) == DX_PADTYPE_XBOX_ONE ||
+		input3.Buttons[12] > 0 && GetJoypadType(DX_INPUT_PAD3) == DX_PADTYPE_SWITCH_PRO_CTRL ||
+		input3.Buttons[7] > 0 && GetJoypadType(DX_INPUT_PAD3) == DX_PADTYPE_XBOX_360 ||
+		input3.Buttons[7] > 0 && GetJoypadType(DX_INPUT_PAD3) == DX_PADTYPE_XBOX_ONE ||
+		input4.Buttons[12] > 0 && GetJoypadType(DX_INPUT_PAD4) == DX_PADTYPE_SWITCH_PRO_CTRL ||
+		input4.Buttons[7] > 0 && GetJoypadType(DX_INPUT_PAD4) == DX_PADTYPE_XBOX_360 ||
+		input4.Buttons[7] > 0 && GetJoypadType(DX_INPUT_PAD4) == DX_PADTYPE_XBOX_ONE)
 	{
 		if (!isPrevButton_)
 		{

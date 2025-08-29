@@ -19,5 +19,5 @@ void ResultUI::update(short winPlayer)
 {
 	DrawFormatStringToHandle(winner_text_position_.x, winner_text_position_.y, GetColor(225, 225, 50), fontHandle_, "Winner %dP!!!", winPlayer);
 
-	DrawBrinkStringToHandle(return_title_text_position_, "Enterでタイトルへ戻る", GetColor(255, 255, 255), fontHandleSize100_);
+	DrawBrinkStringToHandle(return_title_text_position_, "Startでタイトルへ戻る", GetColor(255, 255, 255), fontHandleSize100_);
 }
