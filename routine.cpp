@@ -139,6 +139,18 @@ void Routine::gameRoop()
 /// </summary>
 void Routine::title()
 {
+    //コントローラー(D)用構造体変数
+    DINPUT_JOYSTATE input1;
+    DINPUT_JOYSTATE input2;
+    DINPUT_JOYSTATE input3;
+    DINPUT_JOYSTATE input4;
+
+    //コントローラーを使えるようにする
+    GetJoypadDirectInputState(DX_INPUT_PAD1, &input1);
+    GetJoypadDirectInputState(DX_INPUT_PAD2, &input2);
+    GetJoypadDirectInputState(DX_INPUT_PAD3, &input3);
+    GetJoypadDirectInputState(DX_INPUT_PAD4, &input4);
+
     //スクリーンハンドルに動画を描画する
     SetDrawScreen(screenHandle_);
     PlayMovieToGraph(movieHandle_, DX_PLAYTYPE_LOOP);
@@ -385,6 +397,18 @@ void Routine::play()
 /// </summary>
 void Routine::result()
 {
+    //コントローラー(D)用構造体変数
+    DINPUT_JOYSTATE input1;
+    DINPUT_JOYSTATE input2;
+    DINPUT_JOYSTATE input3;
+    DINPUT_JOYSTATE input4;
+
+    //コントローラーを使えるようにする
+    GetJoypadDirectInputState(DX_INPUT_PAD1, &input1);
+    GetJoypadDirectInputState(DX_INPUT_PAD2, &input2);
+    GetJoypadDirectInputState(DX_INPUT_PAD3, &input3);
+    GetJoypadDirectInputState(DX_INPUT_PAD4, &input4);
+
     //バーチャルカメラ更新
     camera->virtualUpdate(cameraUpPosition_);
 
@@ -450,6 +474,7 @@ void Routine::joinPlayer()
     GetJoypadDirectInputState(DX_INPUT_PAD2, &input2);
     GetJoypadDirectInputState(DX_INPUT_PAD3, &input3);
     GetJoypadDirectInputState(DX_INPUT_PAD4, &input4);
+
     //プレイヤーはコントローラのAボタンを押したら参加できる
     if (input1.Buttons[1] > 0 && !isjoiningPlayer[0] && GetJoypadType(DX_INPUT_PAD1) == DX_PADTYPE_SWITCH_PRO_CTRL ||
         input1.Buttons[0] > 0 && !isjoiningPlayer[0] && GetJoypadType(DX_INPUT_PAD1) == DX_PADTYPE_XBOX_360 ||
