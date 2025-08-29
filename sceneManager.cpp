@@ -30,7 +30,22 @@ void SceneManager::reset()
 /// </summary>
 bool SceneManager::proceedStandby()
 {
-	if (CheckHitKey(KEY_INPUT_RETURN) == TRUE)
+	//コントローラー(D)用構造体変数
+	DINPUT_JOYSTATE input1;
+	DINPUT_JOYSTATE input2;
+	DINPUT_JOYSTATE input3;
+	DINPUT_JOYSTATE input4;
+
+	//コントローラーを使えるようにする
+	GetJoypadDirectInputState(DX_INPUT_PAD1, &input1);
+	GetJoypadDirectInputState(DX_INPUT_PAD2, &input2);
+	GetJoypadDirectInputState(DX_INPUT_PAD3, &input3);
+	GetJoypadDirectInputState(DX_INPUT_PAD4, &input4);
+
+	if (CheckHitKey(KEY_INPUT_RETURN) == TRUE ||
+		input1.Buttons[12] > 0 && GetJoypadType(DX_INPUT_PAD1) == DX_PADTYPE_SWITCH_PRO_CTRL ||
+		input1.Z < 0 && GetJoypadType(DX_INPUT_PAD1) == DX_PADTYPE_XBOX_360 ||
+		input1.Z < 0 && GetJoypadType(DX_INPUT_PAD1) == DX_PADTYPE_XBOX_ONE)
 	{
 		if (!isPrevButton_)
 		{
@@ -52,6 +67,18 @@ bool SceneManager::proceedStandby()
 /// </summary>
 bool SceneManager::proceedPlay()
 {
+	//コントローラー(D)用構造体変数
+	DINPUT_JOYSTATE input1;
+	DINPUT_JOYSTATE input2;
+	DINPUT_JOYSTATE input3;
+	DINPUT_JOYSTATE input4;
+
+	//コントローラーを使えるようにする
+	GetJoypadDirectInputState(DX_INPUT_PAD1, &input1);
+	GetJoypadDirectInputState(DX_INPUT_PAD2, &input2);
+	GetJoypadDirectInputState(DX_INPUT_PAD3, &input3);
+	GetJoypadDirectInputState(DX_INPUT_PAD4, &input4);
+
 	if (CheckHitKey(KEY_INPUT_RETURN) == TRUE)
 	{
 		if (!isPrevButton_)
@@ -84,6 +111,18 @@ bool SceneManager::proceedResult()
 /// </summary>
 bool SceneManager::proceedTitle()
 {
+	//コントローラー(D)用構造体変数
+	DINPUT_JOYSTATE input1;
+	DINPUT_JOYSTATE input2;
+	DINPUT_JOYSTATE input3;
+	DINPUT_JOYSTATE input4;
+
+	//コントローラーを使えるようにする
+	GetJoypadDirectInputState(DX_INPUT_PAD1, &input1);
+	GetJoypadDirectInputState(DX_INPUT_PAD2, &input2);
+	GetJoypadDirectInputState(DX_INPUT_PAD3, &input3);
+	GetJoypadDirectInputState(DX_INPUT_PAD4, &input4);
+
 	if (CheckHitKey(KEY_INPUT_RETURN) == TRUE)
 	{
 		if (!isPrevButton_)

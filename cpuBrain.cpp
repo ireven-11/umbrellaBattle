@@ -125,22 +125,6 @@ void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, std::sha
 		//ˆÚ“®
 		//’ÇÕƒ‹[ƒgŒˆ’è
 		decideChaceRoot(charaBase, routine);
-		/*if (charaBase->Getposition_().x < stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x].x)
-		{
-			charaBase->input.X = 635;
-		}
-		else if (charaBase->Getposition_().x > stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x].x)
-		{
-			charaBase->input.X = -745;
-		}
-		if (charaBase->Getposition_().z < stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x].z)
-		{
-			charaBase->input.Y = -830;
-		}
-		else if (charaBase->Getposition_().z > stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x].z)
-		{
-			charaBase->input.Y = 750;
-		}*/
 		auto pos = stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x];
 		charaBase->decideMoveAngle(pos);
 		charaBase->input.Y = 750;
