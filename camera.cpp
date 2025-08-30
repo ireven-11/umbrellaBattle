@@ -15,6 +15,7 @@ Camera::Camera()
 	position_				= VGet(0.0f, init_Y, init_z);
 	targetPosition_			= VGet(0.0f, 0.0f, 0.0f);
 	wasZoomUp_				= false;
+	acceleration_			= 0.0f;
 	for (auto i = 0; i < 3; i++)
 	{
 		wasZoomUPXYZ_[i] = false;
@@ -39,9 +40,10 @@ Camera::~Camera()
 
 void Camera::reset()
 {
-	position_ = VGet(0.0f, init_Y, init_z);
+	position_		= VGet(0.0f, init_Y, init_z);
 	targetPosition_ = VGet(0.0f, 0.0f, 0.0f);
-	wasZoomUp_ = false;
+	wasZoomUp_		= false;
+	acceleration_	= 0.0f;
 	for (auto i = 0; i < 3; i++)
 	{
 		wasZoomUPXYZ_[i] = false;
@@ -77,22 +79,22 @@ void Camera::virtualUpdate(VECTOR upPosition)
 	{
 		if (targetPosition_.x < upPosition.x)
 		{
-			targetPosition_.x += move_speed;
+			targetPosition_.x += acceleration_;
 		}
 		else if (targetPosition_.x > upPosition.x)
 		{
-			targetPosition_.x -= move_speed;
+			targetPosition_.x -= acceleration_;
 		}
 	}
 	if (targetPosition_.z - upPosition.z > error || targetPosition_.z - upPosition.z < -error)//誤差を設定
 	{
 		if (targetPosition_.z < upPosition.z)
 		{
-			targetPosition_.z += move_speed;
+			targetPosition_.z += acceleration_;
 		}
 		else if (targetPosition_.z > upPosition.z)
 		{
-			targetPosition_.z -= move_speed;
+			targetPosition_.z -= acceleration_;
 		}
 	}
 
@@ -102,11 +104,11 @@ void Camera::virtualUpdate(VECTOR upPosition)
 	{
 		if (position_.x < upPosition.x)
 		{
-			position_.x += move_speed;
+			position_.x += acceleration_;
 		}
 		else if (position_.x > upPosition.x)
 		{
-			position_.x -= move_speed;
+			position_.x -= acceleration_;
 		}
 	}
 	else
@@ -115,7 +117,7 @@ void Camera::virtualUpdate(VECTOR upPosition)
 	}
 	if (position_.y > upPosition.y + zoom_out_position.y)
 	{
-		position_.y -= move_speed;
+		position_.y -= acceleration_;
 	}
 	else
 	{
@@ -126,11 +128,11 @@ void Camera::virtualUpdate(VECTOR upPosition)
 	{
 		if (position_.z < upPosition.z + zoom_out_position.z)
 		{
-			position_.z += move_speed;
+			position_.z += acceleration_;
 		}
 		else if (position_.z > upPosition.z + zoom_out_position.z)
 		{
-			position_.z -= move_speed;
+			position_.z -= acceleration_;
 		}
 	}
 	else
@@ -146,6 +148,11 @@ void Camera::virtualUpdate(VECTOR upPosition)
 	if (wasZoomUPXYZ_[0] && wasZoomUPXYZ_[1] && wasZoomUPXYZ_[2])
 	{
 		wasZoomUp_ = true;
+	}
+	else
+	{
+		//ズームが終わってなければ加速度を速くする
+		acceleration_ += add_move_speed;
 	}
 
 	//カメラの注視点を設定
