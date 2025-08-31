@@ -24,7 +24,7 @@ private:
 	float	acceleration_;			//加速度
 	
 	const VECTOR	zoom_out_position	= VGet(0.0f, 10.0f, 8.0f);	//ズームアウト座標
-	const float		error				= 0.3;						//誤差
+	const float		distance_error		= 13.0;						//距離誤差
 	const float		scale				= 0.1;						//スカイドームのスケール
-	const float		add_move_speed		= 0.0075;					//カメラの加速度
+	const float		add_move_speed		= 0.002;					//カメラの加速度
 };

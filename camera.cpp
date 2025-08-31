@@ -1,6 +1,8 @@
 #include"DxLib.h"
 #include"camera.h"
 #include"EffekseerForDXLib.h"
+#include"calculateDistance.h"
+#include <cmath>
 
 /// <summary>
 /// コンストラクタ
@@ -75,85 +77,40 @@ void Camera::virtualUpdate(VECTOR upPosition)
 	SetCameraNearFar(1.00f, 500.00f);
 
 	//注視点を移動
-	if (targetPosition_.x - upPosition.x > error || targetPosition_.x - upPosition.x < -error)//誤差を設定
+	if (targetPosition_.x != upPosition.x ||
+		targetPosition_.y != upPosition.y ||
+		targetPosition_.z != upPosition.z)
 	{
-		if (targetPosition_.x < upPosition.x)
-		{
-			targetPosition_.x += acceleration_;
-		}
-		else if (targetPosition_.x > upPosition.x)
-		{
-			targetPosition_.x -= acceleration_;
-		}
-	}
-	if (targetPosition_.z - upPosition.z > error || targetPosition_.z - upPosition.z < -error)//誤差を設定
-	{
-		if (targetPosition_.z < upPosition.z)
-		{
-			targetPosition_.z += acceleration_;
-		}
-		else if (targetPosition_.z > upPosition.z)
-		{
-			targetPosition_.z -= acceleration_;
-		}
+		targetPosition_.x = std::lerp(targetPosition_.x, upPosition.x, acceleration_);
+		targetPosition_.y = std::lerp(targetPosition_.y, upPosition.y, acceleration_);
+		targetPosition_.z = std::lerp(targetPosition_.z, upPosition.z, acceleration_);
 	}
 
 	//カメラ座標を移動
-	if (position_.x - upPosition.x > error ||
-		position_.x - upPosition.x < -error)//誤差を設定
+	if (position_.x != upPosition.x ||
+		position_.y != upPosition.y ||
+		position_.z != upPosition.z)
 	{
-		if (position_.x < upPosition.x)
+		//ズームが終わってなければ加速度を速くする
+		if (!wasZoomUp_)
 		{
-			position_.x += acceleration_;
+			acceleration_ += add_move_speed;
+
+			position_.x = std::lerp(position_.x, upPosition.x, acceleration_);
+			position_.y = std::lerp(position_.y, upPosition.y + zoom_out_position.y, acceleration_);
+			position_.z = std::lerp(position_.z, upPosition.z - zoom_out_position.z, acceleration_);
 		}
-		else if (position_.x > upPosition.x)
+
+		//ズームアップ終わり
+		if (CalculateDistance<float>(position_,upPosition) < distance_error)
 		{
-			position_.x -= acceleration_;
+			wasZoomUp_ = true;
 		}
-	}
-	else
-	{
-		wasZoomUPXYZ_[0] = true;
-	}
-	if (position_.y > upPosition.y + zoom_out_position.y)
-	{
-		position_.y -= acceleration_;
-	}
-	else
-	{
-		wasZoomUPXYZ_[1] = true;
-	}
-	if (position_.z - upPosition.z + zoom_out_position.z > error ||
-		position_.z - upPosition.z + zoom_out_position.z < -error)//誤差を設定
-	{
-		if (position_.z < upPosition.z + zoom_out_position.z)
-		{
-			position_.z += acceleration_;
-		}
-		else if (position_.z > upPosition.z + zoom_out_position.z)
-		{
-			position_.z -= acceleration_;
-		}
-	}
-	else
-	{
-		wasZoomUPXYZ_[2] = true;
 	}
 
 	//スカイボックス描画
 	MV1SetPosition(skydomeHandle_, VGet(position_.x, position_.y, position_.z));
 	MV1DrawModel(skydomeHandle_);
-
-	//ズーム終わりを表す
-	if (wasZoomUPXYZ_[0] && wasZoomUPXYZ_[1] && wasZoomUPXYZ_[2])
-	{
-		wasZoomUp_ = true;
-	}
-	else
-	{
-		//ズームが終わってなければ加速度を速くする
-		acceleration_ += add_move_speed;
-	}
 
 	//カメラの注視点を設定
 	SetCameraPositionAndTarget_UpVecY(position_, targetPosition_);
