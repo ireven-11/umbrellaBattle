@@ -39,6 +39,16 @@ void DrawAnimationGraph(VECTOR position, int graphHandle[], int graphWidth, int 
 	static int waitCount;
 	static int animationCount = startGraphNumber;
 	++waitCount;
+
+	//別種のアニメーションへの切り替えを感知してカウントを０に戻す
+	static int checkChangeAnim = startGraphNumber;
+	if (checkChangeAnim != startGraphNumber)
+	{
+		waitCount = 0;
+		animationCount = startGraphNumber;
+		checkChangeAnim = startGraphNumber;
+	}
+
 	if (waitCount >= tilSwitchTime)
 	{
 		//アニメーションカウントを増やす
