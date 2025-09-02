@@ -8,8 +8,8 @@
 void DxlibSetting()
 {
     SetGraphMode(screenWIDTH, screenHEIGHT, 32);//ウィンドウのサイズとカラーモードを決める
-    ChangeWindowMode(TRUE);				   //ウィンドウモードにする
-    SetWindowStyleMode(7);				   //最大化ボタンが存在するウインドウモードに変更
+    ChangeWindowMode(TRUE);						//ウィンドウモードにする
+    SetWindowStyleMode(7);						//最大化ボタンが存在するウインドウモードに変更
 
 	if (DxLib_Init() == -1)return;
 

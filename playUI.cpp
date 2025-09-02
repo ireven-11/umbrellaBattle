@@ -99,7 +99,7 @@ void PlayUI::buttonUI()
 	DrawStringToHandle(wind_text_position.x, wind_text_position.y, ":送風", GetColor(255, 255, 255), fontHandleSize60_);
 }
 
-/**
+/**newbieからもらった関数
  * 3D空間に文字列をフォントハンドルを使用して描画します。
  *
  * 文字列は指定された位置にビルボード形式で表示されます。
