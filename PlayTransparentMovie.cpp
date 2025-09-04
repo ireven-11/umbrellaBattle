@@ -8,13 +8,16 @@
 /// <param name="movieBackColorType">動画背景色のタイプ(0:黒, 1:緑, 2:白を指定する)</param>
 /// <param name="movieWidht">動画幅</param>
 /// <param name="movieHeght">動画高さ</param>
+/// <param name="position">動画座標</param>
 /// <param name="isLoop">動画をループするか</param>
 /// <param name="screenType">最終的に描画するとこのスクリーンハンドル</param>
 void PlayTransparentMovie(int movieHandle, int screenHandle, unsigned short movieBackColorType, int movieWidht, int movieHeight, VECTOR position, bool isLoop, int screenType)
 {
     //スクリーンハンドルに動画を描画する
     SetDrawScreen(screenHandle);
-    if (isLoop)//ループ再生するかどうか
+
+    //ループ再生するかどうか
+    if (isLoop)
     {
         PlayMovieToGraph(movieHandle, DX_PLAYTYPE_LOOP);
     }
@@ -29,17 +32,18 @@ void PlayTransparentMovie(int movieHandle, int screenHandle, unsigned short movi
 
     //スクリーンハンドルを画像として透過してから描画
     //背景の色によって透過する色を変える
-    if (movieBackColorType == 0)
+    if (movieBackColorType == 0)//黒
     {
-        GraphFilter(screenHandle, DX_GRAPH_FILTER_BRIGHT_CLIP, DX_CMP_LESS, 128, TRUE, GetColor(0, 255, 0), 0);
+        GraphFilter(screenHandle, DX_GRAPH_FILTER_BRIGHT_CLIP, DX_CMP_LESS, 10, TRUE, GetColor(0, 255, 0), 0);
     }
-    else if (movieBackColorType == 1)
+    else if (movieBackColorType == 1)//緑
     {
-        GraphFilter(screenHandle, DX_GRAPH_FILTER_BRIGHT_CLIP, DX_CMP_LESS, 128, TRUE, GetColor(0, 0, 0), 0);
+        //GraphFilter(screenHandle, DX_GRAPH_FILTER_BRIGHT_CLIP, DX_CMP_LESS, 128, TRUE, GetColor(0, 0, 0), 0);
+        GraphFilter(screenHandle, DX_GRAPH_FILTER_REPLACEMENT, 0, 255, 0, 255, 0, 0, 0, 0);
     }
-    else
+    else//白
     {
-        GraphFilter(screenHandle, DX_GRAPH_FILTER_BRIGHT_CLIP, DX_CMP_LESS, 128, TRUE, GetColor(0, 255, 0), 0);
+        GraphFilter(screenHandle, DX_GRAPH_FILTER_BRIGHT_CLIP, DX_CMP_GREATER, 245, TRUE, GetColor(0, 255, 0), 0);
     }
     DrawExtendGraph(position.x, position.y, position.x + movieWidht, position.y + movieHeight, screenHandle, TRUE);
 }
