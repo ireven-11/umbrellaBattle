@@ -42,7 +42,7 @@ void PlayGraph::update()
 	//動画を流す
 	if (onCountDown_)
 	{
-		PlayTransparentMovie(countDownMovie_, screenHandle_, 1, movieWidht_, movieHeight_, moviePosition_, false);
+		PlayTransparentMovie(countDownMovie_, screenHandle_, 0, movieWidht_, movieHeight_, moviePosition_, false);
 
 		//カウントが一定になるとカウントダウン動画を拡大させる
 		++expandMovieCount_;
