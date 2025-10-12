@@ -101,7 +101,7 @@ private:
 	const short		tackle_mass				= 3;
 	const float		blow_away_percent		= 1.4f;
 	const short		hit_sound_volume		= 185;
-	const short		knock_back_max_count	= 4;
+	const short		init_knock_back_max_	= 4;
 	const short		charge_sound_volume		= 215;
 	const short		wind_sound_volume		= 200;
 	const short		respawn_sound_volume	= 255;
@@ -129,7 +129,6 @@ protected:
 	VECTOR	tackleVector_;		//タックルのベクトル
 	double	rotationAngleY_;	//回転角度
 	MATRIX	rotaionMatrix_;		//回転行列を保存する変数
-	bool	isMovingtackle_;	//タックル移動中かどうか
 	short	controlerNumber_;	//どのコントローラかを表す数字
 	bool	isSwing_;			//スイング中かどうか
 	double	angleSwing_;		//スイングの角度
@@ -169,6 +168,7 @@ protected:
 	VECTOR	tackleEffectPos_;	//タックルエフェクト座標
 	bool	isOneSE_;			//一回だけse流すフラグ
 	int		tackleSound_;		//タックル音
+	short	maxKnockBackCount_;	//最大ノックバックカウント
 
 	const float		move_speed				= 0.3f;
 	const double	agnle_shift_number		= 0.75;

@@ -71,7 +71,7 @@ void CPU::wind()
 void CPU::rotation()
 {
 	//ƒAƒNƒVƒ‡ƒ“‚ð‚µ‚Ä‚È‚¢Žž‚¾‚¯
-	if (!isMovingtackle_ && !isSwing_)
+	if (!isMovingTackle_ && !isSwing_)
 	{
 		MV1SetRotationXYZ(closingUmbrella_, VGet(0.0f, rotationAngleY_ + adjust_rotation_angle_y, 0.0f));
 		MV1SetRotationXYZ(openingUmbrella_, VGet(rotation_angle_x * DX_PI_F / 180.0f, rotationAngleY_ + adjust_rotation_angle_y, 0.0f));

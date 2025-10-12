@@ -207,6 +207,8 @@ void Routine::stanby()
                 //サンドバッグとの当たり判定
                 i->decideKnockBackWithChara(s);
                 i->collisionWindWithChara(s, stage);
+                s->decideKnockBackWithChara(i);
+                s->collisionWindWithChara(i, stage);
             }
 
             //判定が終わった後にノックバック（反発）をする

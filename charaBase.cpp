@@ -120,7 +120,6 @@ void CharaBase::reset()
 	tackleVector_	= VGet(0.0f, 0.0f, 0.0f);
 	rotationAngleY_ = 0.0;
 	rotaionMatrix_	= MGetIdent();
-	isMovingtackle_ = false;
 	isSwing_		= false;
 	hp_				= max_hp;
 	angleSwing_		= 0.00;
@@ -152,6 +151,7 @@ void CharaBase::reset()
 	waitHitCount_	= 0;
 	tackleEffectPos_ = VGet(0.0f, 0.0f, 0.0f);
 	isOneSE_		= false;
+	maxKnockBackCount_ = init_knock_back_max_;
 }
 
 /// <summary>
@@ -245,9 +245,9 @@ void CharaBase::move()
 /// </summary>
 void CharaBase::tackle()
 {
-	if (input.Buttons[1] > 0 && !isMovingtackle_ && GetJoypadType(controlerNumber_) == DX_PADTYPE_SWITCH_PRO_CTRL ||
-		input.Buttons[0] > 0 && !isMovingtackle_ && GetJoypadType(controlerNumber_) == DX_PADTYPE_XBOX_360 ||
-		input.Buttons[0] > 0 && !isMovingtackle_ && GetJoypadType(controlerNumber_) == DX_PADTYPE_XBOX_ONE)
+	if (input.Buttons[1] > 0 && !isMovingTackle_ && GetJoypadType(controlerNumber_) == DX_PADTYPE_SWITCH_PRO_CTRL ||
+		input.Buttons[0] > 0 && !isMovingTackle_ && GetJoypadType(controlerNumber_) == DX_PADTYPE_XBOX_360 ||
+		input.Buttons[0] > 0 && !isMovingTackle_ && GetJoypadType(controlerNumber_) == DX_PADTYPE_XBOX_ONE)
 	{
 		isChargeTackle_ = true;
 	}
@@ -261,7 +261,7 @@ void CharaBase::tackle()
 		tackleCount_ > 0 && input.Buttons[0] == 0 && GetJoypadType(controlerNumber_) == DX_PADTYPE_XBOX_360 ||
 		tackleCount_ > 0 && input.Buttons[0] == 0 && GetJoypadType(controlerNumber_) == DX_PADTYPE_XBOX_ONE)
 	{
-		isMovingtackle_ = true;
+		isMovingTackle_ = true;
 		StopSoundMem(chargeSound_);
 		canLoopSound_	= false;
 		--tackleCount_;
@@ -320,12 +320,12 @@ void CharaBase::tackleMoving()
 void CharaBase::stopTackle()
 {
 	//カウントが０なるかタックル中にBを押したらやめる
-	if (tackleCount_ == 0 && isMovingtackle_ || isMovingtackle_ && input.Buttons[1] > 0 && GetJoypadType(controlerNumber_) == DX_PADTYPE_SWITCH_PRO_CTRL ||
-		tackleCount_ == 0 && isMovingtackle_ || isMovingtackle_ && input.Buttons[0] > 0 && GetJoypadType(controlerNumber_) == DX_PADTYPE_XBOX_360 ||
-		tackleCount_ == 0 && isMovingtackle_ || isMovingtackle_ && input.Buttons[0] > 0 && GetJoypadType(controlerNumber_) == DX_PADTYPE_XBOX_ONE)
+	if (tackleCount_ == 0 && isMovingTackle_ || isMovingTackle_ && input.Buttons[1] > 0 && GetJoypadType(controlerNumber_) == DX_PADTYPE_SWITCH_PRO_CTRL ||
+		tackleCount_ == 0 && isMovingTackle_ || isMovingTackle_ && input.Buttons[0] > 0 && GetJoypadType(controlerNumber_) == DX_PADTYPE_XBOX_360 ||
+		tackleCount_ == 0 && isMovingTackle_ || isMovingTackle_ && input.Buttons[0] > 0 && GetJoypadType(controlerNumber_) == DX_PADTYPE_XBOX_ONE)
 	{
 		isTackle_		= false;
-		isMovingtackle_ = false;
+		isMovingTackle_ = false;
 		tackleCount_	= 0;
 		mass_			= init_mass;
 		isMovingTackle_ = false;
@@ -423,7 +423,7 @@ void CharaBase::fall()
 void CharaBase::rotation()
 {
 	//アクションをしてない時だけ
-	if (!isMovingtackle_ && !isSwing_)
+	if (!isMovingTackle_ && !isSwing_)
 	{
 		//スティックの倒れてる数値から角度を求める
 		rotationAngleY_ = atan2(static_cast<double>(input.Y), static_cast<double>(input.X));
@@ -519,17 +519,30 @@ void CharaBase::decideKnockBackWithChara(std::shared_ptr<CharaBase> otherChara)
 			// 重なり解消のための位置補正
 			VECTOR knockBackVector	= VScale(normalLine, overlap);
 			knockBackVector			= VNorm(knockBackVector);
-			collisionCenterPosition_.x -= knockBackVector.x / 2 * otherChara->Getmass_() * blow_away_percent;
-			collisionCenterPosition_.z -= knockBackVector.z / 2 * otherChara->Getmass_() * blow_away_percent;
+			knockBackVector			= VScale(VScale(VScale(knockBackVector, 0.5f), otherChara->Getmass_()), blow_away_percent);
+
+			//タックルされたときはふっとばし量を変える
+			if (otherChara->GetisMovingTackle_())
+			{
+				knockBackVector = VScale(knockBackVector, 5.0f);
+				maxKnockBackCount_ *= 5;
+			}
+			else
+			{
+				maxKnockBackCount_ = init_knock_back_max_;
+			}
+
+			collisionCenterPosition_.x -= knockBackVector.x;
+			collisionCenterPosition_.z -= knockBackVector.z;
 
 			// 自キャラへの反発速度適用
-			moveVector_.x = -(knockBackVector.x / 2 * otherChara->Getmass_() * blow_away_percent);
-			moveVector_.z = -(knockBackVector.z / 2 * otherChara->Getmass_() * blow_away_percent);
+			moveVector_.x = -knockBackVector.x;
+			moveVector_.z = -knockBackVector.z;
 			
 			//相手キャラの当たり判定の座標を押し戻す
-			otherChara->AdjustPositionAfterCollision(knockBackVector.x / 2 * otherChara->Getmass_() * blow_away_percent, knockBackVector.z / 2 * otherChara->Getmass_() * blow_away_percent);
+			otherChara->AdjustPositionAfterCollision(knockBackVector.x, knockBackVector.z);
 			// 相手キャラへの反発速度適用
-			otherChara->AddImpulse(knockBackVector.x / 2 * otherChara->Getmass_() * blow_away_percent, knockBackVector.z / 2 * otherChara->Getmass_() * blow_away_percent);
+			otherChara->AddImpulse(knockBackVector.x, knockBackVector.z);
 
 			//ヒット音
 			PlaySoundMem(hitSound_, DX_PLAYTYPE_BACK, TRUE);
@@ -585,12 +598,14 @@ void CharaBase::knockBackNow()
 {
 	if(isKnockBack_)
 	{
-		//カウントが一定になるかタックル移動中だったらノックバックをやめる
+		//カウントが一定になるかタックル移動中だったらノックバックとタックルをやめる
 		++knockBackCount_;
-		if (knockBackCount_ > knock_back_max_count || isMovingTackle_)
+		if (knockBackCount_ > maxKnockBackCount_ || isMovingTackle_)
 		{
 			knockBackCount_	= 0;
 			isKnockBack_	= false;
+			tackleCount_	= 0;
+			stopTackle();
 			return;
 		}
 
@@ -603,11 +618,11 @@ void CharaBase::knockBackNow()
 /// </summary>
 void CharaBase::collisionRotation()
 {
-	MATRIX tempMatrix = MGetRotY(rotationAngleY_);
-	VECTOR tempVector = VTransform(collision_adjust_position, rotaionMatrix_);
-	collisionCenterPosition_ = VAdd(position_, tempVector);
-	VECTOR tempVector2 = VTransform(VScale(collision_adjust_position, 2.0f), rotaionMatrix_);
-	tackleEffectPos_ = VAdd(position_, tempVector2);
+	MATRIX tempMatrix			= MGetRotY(rotationAngleY_);
+	VECTOR tempVector			= VTransform(collision_adjust_position, rotaionMatrix_);
+	collisionCenterPosition_	= VAdd(position_, tempVector);
+	VECTOR tempVector2			= VTransform(VScale(collision_adjust_position, 2.0f), rotaionMatrix_);
+	tackleEffectPos_			= VAdd(position_, tempVector2);
 }
 
 void CharaBase::changeHitNowFlag()
