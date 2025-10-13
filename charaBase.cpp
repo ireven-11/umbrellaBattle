@@ -524,8 +524,8 @@ void CharaBase::decideKnockBackWithChara(std::shared_ptr<CharaBase> otherChara)
 			//ƒ^ƒbƒNƒ‹‚³‚ê‚½‚Æ‚«‚Í‚Ó‚Á‚Æ‚Î‚µ—Ê‚ð•Ï‚¦‚é
 			if (otherChara->GetisMovingTackle_())
 			{
-				knockBackVector = VScale(knockBackVector, 5.0f);
-				maxKnockBackCount_ *= 5;
+				knockBackVector = VScale(knockBackVector, 1.0f);
+				maxKnockBackCount_ *= 3;
 			}
 			else
 			{
