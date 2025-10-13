@@ -308,8 +308,8 @@ void CharaBase::tackle()
 /// <param name="rotation">どの方向にタックルするか決める回転行列</param>
 void CharaBase::tackleMoving()
 {
-	moveVector_		= VTransform(VGet(tackleCount_ / adjust_tackle, 0.0f, tackleCount_ / adjust_tackle), rotaionMatrix_);
-	position_		= VAdd(position_, moveVector_);
+	VECTOR moveVector		= VTransform(VGet(tackleCount_ / adjust_tackle, 0.0f, tackleCount_ / adjust_tackle), rotaionMatrix_);
+	position_		= VAdd(position_, moveVector);
 	mass_			= tackle_mass;
 	isMovingTackle_ = true;
 }
