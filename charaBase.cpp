@@ -524,8 +524,8 @@ void CharaBase::decideKnockBackWithChara(std::shared_ptr<CharaBase> otherChara)
 			//タックルされたときはふっとばし量を変える
 			if (otherChara->GetisMovingTackle_())
 			{
-				knockBackVector = VScale(knockBackVector, 1.0f);
-				maxKnockBackCount_ *= 3;
+				knockBackVector = VScale(knockBackVector, 1.1f);
+				maxKnockBackCount_ += 2;
 			}
 			else
 			{
@@ -554,17 +554,6 @@ void CharaBase::decideKnockBackWithChara(std::shared_ptr<CharaBase> otherChara)
 			//コントローラーを振動させる
 			StartJoypadVibration(controlerNumber_, vibration_power, vibration_time);
 			StartJoypadVibration(otherChara->GetcontrolerNumber_(), vibration_power, vibration_time);
-		}
-		
-		//ヒットが終わるのをカウントで待つ
-		if (isHit_)
-		{
-			++waitHitCount_;
-		}
-		if(waitHitCount_ > 3)
-		{
-			isHit_			= false;
-			waitHitCount_	= 0;
 		}
 	}
 }
@@ -605,11 +594,24 @@ void CharaBase::knockBackNow()
 			knockBackCount_	= 0;
 			isKnockBack_	= false;
 			tackleCount_	= 0;
+			maxKnockBackCount_ = init_knock_back_max_;
 			stopTackle();
 			return;
 		}
 
 		position_ = VAdd(position_, moveVector_);
+	}
+
+	//ヒットが終わるのをカウントで待つ
+	if (isHit_)
+	{
+		++waitHitCount_;
+
+		if (waitHitCount_ > 3)
+		{
+			isHit_ = false;
+			waitHitCount_ = 0;
+		}
 	}
 }
 

@@ -189,7 +189,7 @@ void Routine::stanby()
             for (const auto& j : players)
             {
                 //この条件分がなかったらバグるので注意
-                if (i != j)
+                if (i < j)
                 {
                     //ノックバック量（反発量）を決める
                     i->decideKnockBackWithChara(j);
@@ -205,10 +205,8 @@ void Routine::stanby()
                 s->update(this, stage);
 
                 //サンドバッグとの当たり判定
-                /*i->decideKnockBackWithChara(s);
-                i->collisionWindWithChara(s, stage);*/
                 s->decideKnockBackWithChara(i);
-                s->collisionWindWithChara(i, stage);
+                i->collisionWindWithChara(s, stage);
             }
 
             //判定が終わった後にノックバック（反発）をする
@@ -305,7 +303,7 @@ void Routine::play()
             for (const auto& j : players)
             {
                 //この条件分がなかったらバグるので注意
-                if (i != j)
+                if (i < j)
                 {
                     //ノックバック量（反発量）を決める
                     i->decideKnockBackWithChara(j);
