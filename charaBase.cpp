@@ -593,9 +593,9 @@ void CharaBase::knockBackNow()
 		{
 			knockBackCount_	= 0;
 			isKnockBack_	= false;
-			tackleCount_	= 0;
 			maxKnockBackCount_ = init_knock_back_max_;
-			stopTackle();
+			/*tackleCount_	= 0;
+			stopTackle();*/
 			return;
 		}
 
