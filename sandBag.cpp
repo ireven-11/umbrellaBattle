@@ -19,7 +19,7 @@ SandBag::~SandBag()
 
 void SandBag::update(Routine* routine, std::shared_ptr<Stage> stage)
 {
-	position_ = VGet(collisionCenterPosition_.x,position_.y,collisionCenterPosition_.z);
+	collisionCenterPosition_ = position_;
 
 	//ステージの外に出たら元に戻す
 	if (position_.y < -10.0f)

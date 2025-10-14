@@ -185,7 +185,7 @@ void Routine::stanby()
         {
             i->update(this, stage);
 
-            //二重範囲forにして当たり判定をチェック
+            //二重範囲forにして当たり判定をチェック※バグ原因かも
             for (const auto& j : players)
             {
                 //この条件分がなかったらバグるので注意
@@ -261,7 +261,6 @@ void Routine::stanby()
         StopSoundMem(bgmPractice_, 0);
         PlayMovie("movie/umbrella.mp4", 1, DX_MOVIEPLAYTYPE_NORMAL);
         PlaySoundMem(bgm_, DX_PLAYTYPE_LOOP, TRUE);
-
     }
 
     standbyUI->update(isjoiningPlayer, max_player_number);
