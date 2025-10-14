@@ -189,7 +189,7 @@ void Routine::stanby()
             for (const auto& j : players)
             {
                 //この条件分がなかったらバグるので注意
-                if (i < j)
+                if (i != j)
                 {
                     //ノックバック量（反発量）を決める
                     i->decideKnockBackWithChara(j);
@@ -303,7 +303,7 @@ void Routine::play()
             for (const auto& j : players)
             {
                 //この条件分がなかったらバグるので注意
-                if (i < j)
+                if (i != j)
                 {
                     //ノックバック量（反発量）を決める
                     i->decideKnockBackWithChara(j);
@@ -317,12 +317,12 @@ void Routine::play()
             i->knockBackNow();
 
             //デバッグ用
-            //DrawSphere3D(i->GetcollisionCenterPosition_(), collision_radius, 32, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
-            //DrawSphere3D(i->Getposition_(), collision_radius_stage, 32, GetColor(255, 255, 255), GetColor(255, 255, 255), FALSE);
-            //DrawSphere3D(i->GetwindPosition_(), collision_radius_wind, 32, GetColor(0, 255, 0), GetColor(255, 255, 255), FALSE);
-            //DrawSphere3D(stage_center, collision_radius_wind, 32, GetColor(0, 0, 255), GetColor(255, 255, 255), FALSE);
-            //DrawFormatString(100, 100 * collisionCount, GetColor(255, 0, 0), "player%d, x:%f, y:%f, z:%f", collisionCount, i->Getposition_().x, i->Getposition_().y, i->Getposition_().z);
-            //DrawFormatString(100, 100 * collisionCount + 15 * collisionCount, GetColor(255, 0, 0), "player%d, moveVector(%f, %f, %f)", collisionCount, i->GetmoveVector_().x, i->GetmoveVector_().y, i->GetmoveVector_().z);     
+            DrawSphere3D(i->GetcollisionCenterPosition_(), collision_radius, 32, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
+            DrawSphere3D(i->Getposition_(), collision_radius_stage, 32, GetColor(255, 255, 255), GetColor(255, 255, 255), FALSE);
+            DrawSphere3D(i->GetwindPosition_(), collision_radius_wind, 32, GetColor(0, 255, 0), GetColor(255, 255, 255), FALSE);
+            DrawSphere3D(stage_center, collision_radius_wind, 32, GetColor(0, 0, 255), GetColor(255, 255, 255), FALSE);
+            DrawFormatString(100, 100 * i->GetcontrolerNumber_(), GetColor(255, 0, 0), "player%d, x:%f, y:%f, z:%f", i->GetcontrolerNumber_(), i->Getposition_().x, i->Getposition_().y, i->Getposition_().z);
+            DrawFormatString(100, 100 * i->GetcontrolerNumber_() + 15 * i->GetcontrolerNumber_(), GetColor(255, 0, 0), "player%d, moveVector(%f, %f, %f)", i->GetcontrolerNumber_(), i->GetmoveVector_().x, i->GetmoveVector_().y, i->GetmoveVector_().z);
         }
     }
 

@@ -520,8 +520,8 @@ void CharaBase::decideKnockBackWithChara(std::shared_ptr<CharaBase> otherChara)
 			knockBackVector			= VNorm(knockBackVector);
 			knockBackVector			= VScale(VScale(VScale(knockBackVector, 0.5f), otherChara->Getmass_()), blow_away_percent);
 
-			//タックルされたときはふっとばし量と吹き飛ぶ時間を変える
-			if (otherChara->GetisMovingTackle_())
+			//タックルした、されたときはふっとばし量と吹き飛ぶ時間を変える
+			if (isMovingTackle_ ||otherChara->GetisMovingTackle_())
 			{
 				knockBackVector = VScale(knockBackVector, tackle_inpluse_percent);
 				maxKnockBackCount_ += extend_tackle;
