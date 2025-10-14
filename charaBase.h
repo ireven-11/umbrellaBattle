@@ -108,6 +108,8 @@ private:
 	const short		inverse_sound_volume	= 255;
 	const short		change_fan_sound_volume = 200;
 	const short		tackle_sound_volume		= 210;
+	const float		tackle_inpluse_percent	= 1.1f;
+	const char		extend_tackle			= 1;
 	
 protected:
 	void tackleMoving();

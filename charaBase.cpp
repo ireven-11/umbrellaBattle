@@ -295,8 +295,14 @@ void CharaBase::tackle()
 		}
 	}
 
-	//タックルをやめる
-	stopTackle();
+	//カウントが０なるかタックル中にBを押したらやめる
+	if (tackleCount_ == 0 && isMovingTackle_ || isMovingTackle_ && input.Buttons[1] > 0 && GetJoypadType(controlerNumber_) == DX_PADTYPE_SWITCH_PRO_CTRL ||
+		tackleCount_ == 0 && isMovingTackle_ || isMovingTackle_ && input.Buttons[0] > 0 && GetJoypadType(controlerNumber_) == DX_PADTYPE_XBOX_360 ||
+		tackleCount_ == 0 && isMovingTackle_ || isMovingTackle_ && input.Buttons[0] > 0 && GetJoypadType(controlerNumber_) == DX_PADTYPE_XBOX_ONE)
+	{
+		//タックルをやめる
+		stopTackle();
+	}
 
 	//デバッグ用
 	//DrawFormatString(100, 300, GetColor(255, 255, 255), "タックル:%f", tackleCount_);
@@ -319,19 +325,13 @@ void CharaBase::tackleMoving()
 /// </summary>
 void CharaBase::stopTackle()
 {
-	//カウントが０なるかタックル中にBを押したらやめる
-	if (tackleCount_ == 0 && isMovingTackle_ || isMovingTackle_ && input.Buttons[1] > 0 && GetJoypadType(controlerNumber_) == DX_PADTYPE_SWITCH_PRO_CTRL ||
-		tackleCount_ == 0 && isMovingTackle_ || isMovingTackle_ && input.Buttons[0] > 0 && GetJoypadType(controlerNumber_) == DX_PADTYPE_XBOX_360 ||
-		tackleCount_ == 0 && isMovingTackle_ || isMovingTackle_ && input.Buttons[0] > 0 && GetJoypadType(controlerNumber_) == DX_PADTYPE_XBOX_ONE)
-	{
-		isTackle_		= false;
-		isMovingTackle_ = false;
-		tackleCount_	= 0;
-		mass_			= init_mass;
-		isMovingTackle_ = false;
-		StopSoundMem(tackleSound_);
-		isOneSE_		= false;
-	}
+	isTackle_		= false;
+	isMovingTackle_ = false;
+	tackleCount_	= 0;
+	mass_			= init_mass;
+	isMovingTackle_ = false;
+	isOneSE_		= false;
+	StopSoundMem(tackleSound_);
 }
 
 /// <summary>
@@ -521,11 +521,11 @@ void CharaBase::decideKnockBackWithChara(std::shared_ptr<CharaBase> otherChara)
 			knockBackVector			= VNorm(knockBackVector);
 			knockBackVector			= VScale(VScale(VScale(knockBackVector, 0.5f), otherChara->Getmass_()), blow_away_percent);
 
-			//タックルされたときはふっとばし量を変える
+			//タックルされたときはふっとばし量と吹き飛ぶ時間を変える
 			if (otherChara->GetisMovingTackle_())
 			{
-				knockBackVector = VScale(knockBackVector, 1.1f);
-				maxKnockBackCount_ += 2;
+				knockBackVector = VScale(knockBackVector, tackle_inpluse_percent);
+				maxKnockBackCount_ += extend_tackle;
 			}
 			else
 			{
@@ -587,15 +587,24 @@ void CharaBase::knockBackNow()
 {
 	if(isKnockBack_)
 	{
-		//カウントが一定になるかタックル移動中だったらノックバックとタックルをやめる
+		//カウントが一定になったらノックバックをやめる
 		++knockBackCount_;
-		if (knockBackCount_ > maxKnockBackCount_ || isMovingTackle_)
+		if (knockBackCount_ > maxKnockBackCount_ )
 		{
 			knockBackCount_	= 0;
 			isKnockBack_	= false;
 			maxKnockBackCount_ = init_knock_back_max_;
-			/*tackleCount_	= 0;
-			stopTackle();*/
+			return;
+		}
+
+		//タックル移動中だったらタックルをやめる。ノックバックもしない
+		if (isMovingTackle_)
+		{
+			tackleCount_ = 0;
+			stopTackle();
+			knockBackCount_ = 0;
+			isKnockBack_ = false;
+			maxKnockBackCount_ = init_knock_back_max_;
 			return;
 		}
 
