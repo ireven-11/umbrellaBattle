@@ -538,9 +538,9 @@ void CharaBase::decideKnockBackWithChara(std::shared_ptr<CharaBase> otherChara)
 			moveVector_.x = -knockBackVector.x;
 			moveVector_.z = -knockBackVector.z;
 			
-			//相手キャラの当たり判定の座標を押し戻す※バグ原因かも
+			//相手キャラの当たり判定の座標を押し戻す
 			otherChara->AdjustPositionAfterCollision(knockBackVector.x, knockBackVector.z);
-			// 相手キャラへの反発速度適用※バグ原因かも
+			// 相手キャラへの反発速度適用
 			otherChara->AddImpulse(knockBackVector.x, knockBackVector.z);
 
 			//ヒット音
