@@ -315,9 +315,9 @@ void CharaBase::tackle()
 void CharaBase::tackleMoving()
 {
 	VECTOR moveVector		= VTransform(VGet(tackleCount_ / adjust_tackle, 0.0f, tackleCount_ / adjust_tackle), rotaionMatrix_);
-	position_		= VAdd(position_, moveVector);
-	mass_			= tackle_mass;
-	isMovingTackle_ = true;
+	position_				= VAdd(position_, moveVector);
+	mass_					= tackle_mass;
+	isMovingTackle_			= true;
 }
 
 /// <summary>
@@ -329,7 +329,6 @@ void CharaBase::stopTackle()
 	isMovingTackle_ = false;
 	tackleCount_	= 0;
 	mass_			= init_mass;
-	isMovingTackle_ = false;
 	isOneSE_		= false;
 	StopSoundMem(tackleSound_);
 }
@@ -591,20 +590,19 @@ void CharaBase::knockBackNow()
 		++knockBackCount_;
 		if (knockBackCount_ > maxKnockBackCount_ )
 		{
-			knockBackCount_	= 0;
-			isKnockBack_	= false;
-			maxKnockBackCount_ = init_knock_back_max_;
+			knockBackCount_		= 0;
+			isKnockBack_		= false;
+			maxKnockBackCount_	= init_knock_back_max_;
 			return;
 		}
 
 		//タックル移動中だったらタックルをやめる。ノックバックもしない
 		if (isMovingTackle_)
 		{
-			tackleCount_ = 0;
 			stopTackle();
-			knockBackCount_ = 0;
-			isKnockBack_ = false;
-			maxKnockBackCount_ = init_knock_back_max_;
+			knockBackCount_		= 0;
+			isKnockBack_		= false;
+			maxKnockBackCount_	= init_knock_back_max_;
 			return;
 		}
 
