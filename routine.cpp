@@ -189,13 +189,15 @@ void Routine::stanby()
             for (const auto& j : players)
             {
                 //この条件分がなかったらバグるので注意
-                if (i != j)
+                if (i < j)
                 {
                     //ノックバック量（反発量）を決める
                     i->decideKnockBackWithChara(j);
+                    j->decideKnockBackWithChara(i);
 
                     //風の当たり判定
                     i->collisionWindWithChara(j, stage);
+                    j->collisionWindWithChara(i, stage);
                 }
             }
 
@@ -302,13 +304,15 @@ void Routine::play()
             for (const auto& j : players)
             {
                 //この条件分がなかったらバグるので注意
-                if (i != j)
+                if (i < j)
                 {
                     //ノックバック量（反発量）を決める
                     i->decideKnockBackWithChara(j);
+                    j->decideKnockBackWithChara(i);
 
                     //風の当たり判定
                     i->collisionWindWithChara(j, stage);
+                    j->collisionWindWithChara(i, stage);
                 }
             }
 

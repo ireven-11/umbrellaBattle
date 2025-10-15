@@ -172,10 +172,10 @@ protected:
 	bool	isOneSE_;			//一回だけse流すフラグ
 	int		tackleSound_;		//タックル音
 	short	maxKnockBackCount_;	//最大ノックバックカウント
-	float distanceX_;
-	float distanceZ_;
-	float distance_;
-	VECTOR knockBackVector_;
+	float	distanceX_;
+	float	distanceZ_;
+	float	distance_;
+	VECTOR	knockBackVector_;
 	bool	isTackleKnockBack_;
 
 	const float		move_speed				= 0.3f;
