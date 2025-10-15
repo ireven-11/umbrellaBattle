@@ -110,6 +110,7 @@ private:
 	const short		tackle_sound_volume		= 210;
 	const float		tackle_inpluse_percent	= 1.1f;
 	const char		extend_tackle			= 1;
+	const float		adjust_wind_vector		= 0.017f;
 	
 protected:
 	void tackleMoving();
@@ -171,6 +172,10 @@ protected:
 	bool	isOneSE_;			//一回だけse流すフラグ
 	int		tackleSound_;		//タックル音
 	short	maxKnockBackCount_;	//最大ノックバックカウント
+	float distanceX_;
+	float distanceZ_;
+	float distance_;
+	VECTOR knockBackVector_;
 
 	const float		move_speed				= 0.3f;
 	const double	agnle_shift_number		= 0.75;

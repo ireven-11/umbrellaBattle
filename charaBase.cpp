@@ -152,6 +152,10 @@ void CharaBase::reset()
 	tackleEffectPos_ = VGet(0.0f, 0.0f, 0.0f);
 	isOneSE_		= false;
 	maxKnockBackCount_ = init_knock_back_max_;
+	distanceX_		= 0.0f;
+	distanceZ_		= 0.0f;
+	distance_		= 0.0f;
+	knockBackVector_ = VGet(0.0f, 0.0f, 0.0f);
 }
 
 /// <summary>
@@ -500,48 +504,49 @@ void CharaBase::decideKnockBackWithChara(std::shared_ptr<CharaBase> otherChara)
 	if (state_== openState_())
 	{
 		//2点間の距離を出す
-		float dx		= otherChara->GetcollisionCenterPosition_().x - collisionCenterPosition_.x;
-		float dz		= otherChara->GetcollisionCenterPosition_().z - collisionCenterPosition_.z;
-		float distance	= CalculateDistance<float>(collisionCenterPosition_, otherChara->GetcollisionCenterPosition_());
-
+		distanceX_ = otherChara->GetcollisionCenterPosition_().x - collisionCenterPosition_.x;
+		distanceZ_ = otherChara->GetcollisionCenterPosition_().z - collisionCenterPosition_.z;
+		distance_ = CalculateDistance<float>(collisionCenterPosition_, otherChara->GetcollisionCenterPosition_());
+		
 		//距離が直径未満だったら
-		if (distance < collision_radius * 2 && otherChara->Getstate_() == openState_())
+		if (distance_ < collision_radius * 2 && otherChara->Getstate_() == openState_())
 		{
 			// 衝突の法線ベクトル
 			VECTOR normalLine = VGet(0.0f, 0.0f, 0.0f);
-			normalLine.x = dx / distance;
-			normalLine.z = dz / distance;
+			normalLine.x = distanceX_ / distance_;
+			normalLine.z = distanceZ_ / distance_;
 
 			//めり込み量
-			float overlap = collision_radius * 2 - distance;
+			float overlap = collision_radius * 2 - distance_;
 
 			// 重なり解消のための位置補正
-			VECTOR knockBackVector	= VScale(normalLine, overlap);
-			knockBackVector			= VNorm(knockBackVector);
-			knockBackVector			= VScale(VScale(VScale(knockBackVector, 0.5f), otherChara->Getmass_()), blow_away_percent);
+			knockBackVector_	= VScale(normalLine, overlap);
+			knockBackVector_	= VNorm(knockBackVector_);
+			knockBackVector_	= VScale(VScale(VScale(knockBackVector_, 0.5f), otherChara->Getmass_()), blow_away_percent);
 
 			//タックルした、されたときはふっとばし量と吹き飛ぶ時間を変える
 			if (isMovingTackle_ ||otherChara->GetisMovingTackle_())
 			{
-				knockBackVector = VScale(knockBackVector, tackle_inpluse_percent);
-				maxKnockBackCount_ += extend_tackle;
+				knockBackVector_		= VScale(knockBackVector_, tackle_inpluse_percent);
+				maxKnockBackCount_	+= extend_tackle;
+			
 			}
 			else
 			{
 				maxKnockBackCount_ = init_knock_back_max_;
 			}
 
-			collisionCenterPosition_.x -= knockBackVector.x;
-			collisionCenterPosition_.z -= knockBackVector.z;
+			collisionCenterPosition_.x -= knockBackVector_.x;
+			collisionCenterPosition_.z -= knockBackVector_.z;
 
 			// 自キャラへの反発速度適用
-			moveVector_.x = -knockBackVector.x;
-			moveVector_.z = -knockBackVector.z;
+			moveVector_.x = -knockBackVector_.x;
+			moveVector_.z = -knockBackVector_.z;
 			
 			//相手キャラの当たり判定の座標を押し戻す
-			otherChara->AdjustPositionAfterCollision(knockBackVector.x, knockBackVector.z);
+			otherChara->AdjustPositionAfterCollision(knockBackVector_.x, knockBackVector_.z);
 			// 相手キャラへの反発速度適用
-			otherChara->AddImpulse(knockBackVector.x, knockBackVector.z);
+			otherChara->AddImpulse(knockBackVector_.x, knockBackVector_.z);
 
 			//ヒット音
 			PlaySoundMem(hitSound_, DX_PLAYTYPE_BACK, TRUE);
@@ -671,8 +676,8 @@ void CharaBase::collisionWindWithChara(std::shared_ptr<CharaBase> otherChara, st
 
 void CharaBase::hitWind(VECTOR windVector)
 {
-	position_ = VAdd(position_, VScale(windVector, 0.017f));
-	collisionCenterPosition_ = VAdd(collisionCenterPosition_, VScale(windVector, 0.017f));
+	position_					= VAdd(position_, VScale(windVector, adjust_wind_vector));
+	collisionCenterPosition_	= VAdd(collisionCenterPosition_, VScale(windVector, adjust_wind_vector));
 }
 
 VECTOR CharaBase::decideRespawnPosition(std::shared_ptr<Stage> stage)
