@@ -176,6 +176,7 @@ protected:
 	float distanceZ_;
 	float distance_;
 	VECTOR knockBackVector_;
+	bool	isTackleKnockBack_;
 
 	const float		move_speed				= 0.3f;
 	const double	agnle_shift_number		= 0.75;

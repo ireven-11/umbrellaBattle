@@ -156,6 +156,7 @@ void CharaBase::reset()
 	distanceZ_		= 0.0f;
 	distance_		= 0.0f;
 	knockBackVector_ = VGet(0.0f, 0.0f, 0.0f);
+	isTackleKnockBack_ = false;
 }
 
 /// <summary>
@@ -528,7 +529,9 @@ void CharaBase::decideKnockBackWithChara(std::shared_ptr<CharaBase> otherChara)
 			if (isMovingTackle_ ||otherChara->GetisMovingTackle_())
 			{
 				knockBackVector_		= VScale(knockBackVector_, tackle_inpluse_percent);
-				maxKnockBackCount_	+= extend_tackle;
+				maxKnockBackCount_		+= extend_tackle;
+				isTackleKnockBack_				= true;
+				otherChara->isTackleKnockBack_	= true;
 			
 			}
 			else
