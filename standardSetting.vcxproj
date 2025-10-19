@@ -162,6 +162,7 @@
     <ClCompile Include="DrawExtendBrinkGraph.cpp" />
     <ClCompile Include="effectManager.cpp" />
     <ClCompile Include="fallEffect.cpp" />
+    <ClCompile Include="FPS.cpp" />
     <ClCompile Include="hitEffect.cpp" />
     <ClCompile Include="main.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
@@ -212,6 +213,7 @@
     <ClInclude Include="effectManager.h" />
     <ClInclude Include="fallEffect.h" />
     <ClInclude Include="fanState.h" />
+    <ClInclude Include="FPS.h" />
     <ClInclude Include="hitEffect.h" />
     <ClInclude Include="IEffect.h" />
     <ClInclude Include="IState.h" />

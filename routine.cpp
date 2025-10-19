@@ -1,5 +1,6 @@
 #include"DxLib.h"
 #include"setting.h"
+#include"FPS.h"
 #include"sceneManager.h"
 #include"camera.h"
 #include"player.h"
@@ -88,6 +89,7 @@ void Routine::game()
     resultGraph     = nullptr;
     sandBag.clear();
     playGraph       = nullptr;
+    fps             = nullptr;
 }
 
 /// <summary>
@@ -127,7 +129,9 @@ void Routine::gameRoop()
         }
 
         //fpsを設定
-        SetFPS();
+        fps->update();
+        fps->draw();
+        fps->wait();
 
         // 裏画面の内容を表画面に反映(ゲームループの最後に呼ぶ)
         ScreenFlip();

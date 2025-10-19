@@ -18,6 +18,7 @@ class ResultUI;
 class ResultGraph;
 class SandBag;
 class PlayGraph;
+class FPS;
 
 class Routine
 {
@@ -41,6 +42,7 @@ private:
 	std::shared_ptr<PlayUI>playUI				= std::make_shared<PlayUI>("April Gothic one Regular");
 	std::shared_ptr<ResultUI>resultUI			= std::make_shared<ResultUI>("April Gothic one Regular");
 	std::shared_ptr<ResultGraph>resultGraph		= std::make_shared<ResultGraph>();
+	std::shared_ptr<FPS>fps						= std::make_shared<FPS>();
 	std::vector<std::shared_ptr<CharaBase>>sandBag;
 	std::shared_ptr<PlayGraph>playGraph			/*= std::make_shared<PlayGraph>("April Gothic one Regular")*/;
 
