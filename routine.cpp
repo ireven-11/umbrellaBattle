@@ -130,7 +130,7 @@ void Routine::gameRoop()
 
         //fpsを設定
         fps->update();
-        fps->draw();
+        //fps->draw();
         fps->wait();
 
         // 裏画面の内容を表画面に反映(ゲームループの最後に呼ぶ)

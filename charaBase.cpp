@@ -156,7 +156,6 @@ void CharaBase::reset()
 	distanceZ_		= 0.0f;
 	distance_		= 0.0f;
 	knockBackVector_ = VGet(0.0f, 0.0f, 0.0f);
-	isTackleKnockBack_ = false;
 }
 
 /// <summary>
@@ -240,7 +239,7 @@ void CharaBase::move()
 	rotation();
 
 	//スティックを傾けてる向きに移動
-	rotaionMatrix_		= MGetRotY(rotationAngleY_ + agnle_shift_number);
+	rotaionMatrix_		= MGetRotY(static_cast<float>(rotationAngleY_ + agnle_shift_number));
 	moveVector_			= VTransform(moveVector_, rotaionMatrix_);
 	position_			= VAdd(position_, moveVector_);
 }
@@ -291,7 +290,7 @@ void CharaBase::tackle()
 		}
 
 		//どの方向にタックルするかY軸の回転行列で決める
-		rotaionMatrix_ = MGetRotY(rotationAngleY_ + agnle_shift_number);
+		rotaionMatrix_ = MGetRotY(static_cast<float>(rotationAngleY_ + agnle_shift_number));
 
 		if (!canLoopSound_)
 		{
@@ -387,8 +386,8 @@ void CharaBase::moveFan()
 		double addAngleX = cos(radiun) * stage_radius;
 		double addAngleZ = sin(radiun) * stage_radius;
 		fanMoveAngle_ += fan_move_speed;
-		position_.x = stage_center.x + addAngleX;
-		position_.z = stage_center.z + addAngleZ;
+		position_.x = stage_center.x + static_cast<float>(addAngleX);
+		position_.z = stage_center.z + static_cast<float>(addAngleZ);
 	}
 	if (input.Buttons[7] > 0 && GetJoypadType(controlerNumber_) == DX_PADTYPE_SWITCH_PRO_CTRL ||
 		input.Z < 0 && GetJoypadType(controlerNumber_) == DX_PADTYPE_XBOX_360 ||
@@ -397,13 +396,13 @@ void CharaBase::moveFan()
 		double addAngleX = cos(radiun) * stage_radius;
 		double addAngleZ = sin(radiun) * stage_radius;
 		fanMoveAngle_ -= fan_move_speed;
-		position_.x = stage_center.x + addAngleX;
-		position_.z = stage_center.z + addAngleZ;
+		position_.x = stage_center.x + static_cast<float>(addAngleX);
+		position_.z = stage_center.z + static_cast<float>(addAngleZ);
 	}
 
 	fanAngle_ = atan2(position_.x - stage_center.x, position_.z - stage_center.z);
 	//ステージの中心を向くようにモデルを回転
-	MV1SetRotationXYZ(fan_, VGet(0.0f, fanAngle_ + DX_PI, 0.0f));
+	MV1SetRotationXYZ(fan_, VGet(0.0f, static_cast<float>(fanAngle_ + DX_PI), 0.0f));
 
 	//オーバーフロー対策
 	if (fanMoveAngle_ > 452.5 || fanMoveAngle_ < -270.5)
@@ -433,7 +432,7 @@ void CharaBase::rotation()
 		rotationAngleY_ = atan2(static_cast<double>(input.Y), static_cast<double>(input.X));
 
 		//MV1SetRotationXYZ(closingUmbrella_, VGet(0.0f, rotationAngleY_ + adjust_rotation_angle_y, 0.0f));
-		MV1SetRotationXYZ(openingUmbrella_, VGet(rotation_angle_x * DX_PI_F / 180.0f, rotationAngleY_ + adjust_rotation_angle_y, 0.0f));
+		MV1SetRotationXYZ(openingUmbrella_, VGet(rotation_angle_x * DX_PI_F / 180.0f, static_cast<float>(rotationAngleY_ + adjust_rotation_angle_y), 0.0f));
 	}
 
 	//デバッグ用
@@ -458,7 +457,7 @@ void CharaBase::changeFan()
 	position_.y = player_init_positionY;
 
 	//落ちた瞬間に扇風機の移動をして扇風機の位置を設定する
-	input.Buttons[6]	= 2025;
+	input.Buttons[6]	= 128;
 	input.Z				= 2025;
 	moveFan();
 
@@ -526,28 +525,19 @@ void CharaBase::decideKnockBackWithChara(std::shared_ptr<CharaBase> otherChara)
 			knockBackVector_	= VScale(VScale(VScale(knockBackVector_, 0.5f), otherChara->Getmass_()), blow_away_percent);
 
 			//タックルした、されたときはふっとばし量と吹き飛ぶ時間を変える
-			if (isMovingTackle_ ||otherChara->GetisMovingTackle_())
+			if (isMovingTackle_ || otherChara->GetisMovingTackle_())
 			{
 				knockBackVector_		= VScale(knockBackVector_, tackle_inpluse_percent);
 				maxKnockBackCount_		+= extend_tackle;
-				isTackleKnockBack_				= true;
-				otherChara->isTackleKnockBack_	= true;
-			
 			}
 			else
 			{
 				maxKnockBackCount_ = init_knock_back_max_;
 			}
 
-			collisionCenterPosition_.x -= knockBackVector_.x;
-			collisionCenterPosition_.z -= knockBackVector_.z;
-
 			// 自キャラへの反発速度適用
-			moveVector_.x = -knockBackVector_.x;
-			moveVector_.z = -knockBackVector_.z;
+			AddImpulse(-knockBackVector_.x, -knockBackVector_.z);
 			
-			//相手キャラの当たり判定の座標を押し戻す
-			otherChara->AdjustPositionAfterCollision(knockBackVector_.x, knockBackVector_.z);
 			// 相手キャラへの反発速度適用
 			otherChara->AddImpulse(knockBackVector_.x, knockBackVector_.z);
 
@@ -614,7 +604,8 @@ void CharaBase::knockBackNow()
 			return;
 		}
 
-		position_ = VAdd(position_, moveVector_);
+		collisionCenterPosition_	= VAdd(collisionCenterPosition_, moveVector_);
+		position_					= VAdd(position_, moveVector_);
 	}
 
 	//ヒットが終わるのをカウントで待つ
@@ -635,7 +626,7 @@ void CharaBase::knockBackNow()
 /// </summary>
 void CharaBase::collisionRotation()
 {
-	MATRIX tempMatrix			= MGetRotY(rotationAngleY_);
+	MATRIX tempMatrix			= MGetRotY(static_cast<float>(rotationAngleY_));
 	VECTOR tempVector			= VTransform(collision_adjust_position, rotaionMatrix_);
 	collisionCenterPosition_	= VAdd(position_, tempVector);
 	VECTOR tempVector2			= VTransform(VScale(collision_adjust_position, 2.0f), rotaionMatrix_);
@@ -708,7 +699,6 @@ void CharaBase::respawn()
 	if (canRespawn_)
 	{
 		canRespawn_ = false;
-
 		position_	= respawnPosition_;
 		state_		= openState_();
 
