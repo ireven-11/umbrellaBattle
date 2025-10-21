@@ -416,7 +416,10 @@ void CharaBase::moveFan()
 /// </summary>
 void CharaBase::fall()
 {
-	position_.y -= fall_speed;
+	///ノックバック中は落下しない
+	if (isKnockBack_)return;
+
+	position_.y	-= fall_speed;
 	isFalling_	= true;
 }
 
