@@ -36,6 +36,7 @@ private:
 	void vanishTile();
 	void addvanishingCount();
 	void change3dModelColor();
+	void brinkTile();
 	
 	int		modelHandle_[tile_number][tile_number];	//モデルハンドル
 	VECTOR	position_[tile_number][tile_number];	//座標
@@ -46,8 +47,12 @@ private:
 	int		tileCount_;								//タイルを何個消したかのカウント
 	int		fallSound_;								//落下音
 	COLOR_F modelOriginColor_;						//モデルの元の色
+	float	brinkInterval_;							//点滅のインターバル
 
-	const short fall_sound_volume = 120;
+	const short fall_sound_volume	= 120;
+	const short brink_speed			= 2;
+	const float	init_period			= 100.0f;
+	const float decrease_rate		= 0.05f;
 };
 
 bool HitTriangleAndPixel(VECTOR trianglePos0, VECTOR trianglePos1, VECTOR trianglePos2, VECTOR pixelPos);

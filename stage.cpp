@@ -119,6 +119,7 @@ void Stage::updateGimmick(std::vector<std::shared_ptr<CharaBase>>player)
 	addvanishingCount();
 	change3dModelColor();
 	vanishTile();
+	brinkTile();
 	collisionWithPlayer(player);
 }
 
@@ -370,9 +371,31 @@ void Stage::change3dModelColor()
 
 			if (canExist_[dicideRandomTileJ_][dicideRandomTileI_])
 			{
-				MV1SetDifColorScale(modelHandle_[dicideRandomTileJ_][dicideRandomTileI_], GetColorF(2.0f, 2.0f, 2.0f, 1.0f));
+				MV1SetDifColorScale(modelHandle_[dicideRandomTileJ_][dicideRandomTileI_], GetColorF(1.0f, 0.0f, 0.0f, 1.0f));
 				break;
 			}
+		}
+	}
+}
+
+/// <summary>
+/// タイルを点滅させる
+/// </summary>
+void Stage::brinkTile()
+{
+	//消えるカウントが一定以上だったら
+	if (vanishingCount_ > change_color_timing)
+	{
+		brinkInterval_ = init_period * exp(-decrease_rate * (vanishingCount_ - change_color_timing));
+		if (fmod((vanishingCount_ - change_color_timing), brinkInterval_) < brinkInterval_ / 2)
+		{
+			//赤
+			MV1SetDifColorScale(modelHandle_[dicideRandomTileJ_][dicideRandomTileI_], GetColorF(1.0f, 0.0f, 0.0f, 1.0f));
+		}
+		else
+		{
+			//元の色
+			MV1SetDifColorScale(modelHandle_[dicideRandomTileJ_][dicideRandomTileI_], modelOriginColor_);
 		}
 	}
 }
