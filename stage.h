@@ -45,6 +45,7 @@ private:
 	int		dicideRandomTileI_;						//タイル用ランダム変数i
 	int		tileCount_;								//タイルを何個消したかのカウント
 	int		fallSound_;								//落下音
+	COLOR_F modelOriginColor_;						//モデルの元の色
 
 	const short fall_sound_volume = 120;
 };

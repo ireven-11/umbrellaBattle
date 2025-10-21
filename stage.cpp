@@ -46,6 +46,9 @@ Stage::Stage()
 		}
 	}
 
+	//モデルの元の色を保存
+	modelOriginColor_ = MV1GetDifColorScale(modelHandle_[1][1]);
+
 	reset();
 }
 
@@ -62,6 +65,38 @@ Stage::~Stage()
 		}
 	}
 	DeleteSoundMem(fallSound_);
+}
+
+/// <summary>
+/// 変数をリセット
+/// </summary>
+void Stage::reset()
+{
+	vanishingCount_ = 0;
+	dicideRandomTileJ_ = 0;
+	dicideRandomTileI_ = 0;
+	tileCount_ = 0;
+	for (int i = 0; i < tile_number; i++)
+	{
+		for (int j = 0; j < tile_number; j++)
+		{
+			if (i == 0 || i == tile_number - 1 || j == 0 || j == tile_number - 1)
+			{
+				canExist_[j][i] = false;
+			}
+			else
+			{
+				canExist_[j][i] = true;
+			}
+		}
+	}
+	for (int i = 0; i < tile_number; i++)
+	{
+		for (int j = 0; j < tile_number; j++)
+		{
+			MV1SetDifColorScale(modelHandle_[j][i], modelOriginColor_);
+		}
+	}
 }
 
 /// <summary>
@@ -108,53 +143,6 @@ void Stage::draw()
 	//デバッグ用
 	//DrawFormatString(100, 100, GetColor(255, 255, 255), "ステージカウント：%d", vanishingCount_);
 	//DrawSphere3D(stage_center, 2.0f, 64, GetColor(255, 0, 0), GetColor(255,0,0), true);
-}
-
-/// <summary>
-/// 変数をリセット
-/// </summary>
-void Stage::reset()
-{
-	vanishingCount_		= 0;
-	dicideRandomTileJ_	= 0;
-	dicideRandomTileI_	= 0;
-	tileCount_			= 0;
-	for (int i = 0; i < tile_number; i++)
-	{
-		for (int j = 0; j < tile_number; j++)
-		{
-			if (i == 0 || i == tile_number - 1 || j == 0 || j == tile_number - 1)
-			{
-				canExist_[j][i] = false;
-			}
-			else
-			{
-				canExist_[j][i] = true;
-			}
-		}
-	}
-	for (int i = 0; i < tile_number; i++)
-	{
-		for (int j = 0; j < tile_number; j++)
-		{
-			if (i == 0 || i == tile_number - 1 || j == 0 || j == tile_number - 1)
-			{
-				//ステージの端っこの方は何も読み込まないようにする
-				modelHandle_[j][i] = 0;
-			}
-			else if (i == 1 && j == 1)
-			{
-				//同じ3dモデルを使いまわせるようにする
-				modelHandle_[j][i] = MV1LoadModel("3dmodel/stage/hex_grass.mv1");
-				MV1SetScale(modelHandle_[j][i], VGet(scale, scale, scale));
-			}
-			else
-			{
-				modelHandle_[j][i] = MV1DuplicateModel(modelHandle_[1][1]);
-				MV1SetScale(modelHandle_[j][i], VGet(scale, scale, scale));
-			}
-		}
-	}
 }
 
 /// <summary>
