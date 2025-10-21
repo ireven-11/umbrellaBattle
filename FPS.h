@@ -16,7 +16,7 @@ private:
 	int		count_;			//カウンタ
 	float	currentFPS_;	//fps
 
-	static const int n = 60;	//平均を取るサンプル数
-	static const int fps = 60;	//設定したFPS
-	const VECTOR drawingPosition = VGet(0.0f, 0.0f, 0.0f);//描画座標
+	static const int n				= 60;						//平均を取るサンプル数
+	static const int fps			= 30;						//設定したFPS
+	const VECTOR drawingPosition	= VGet(0.0f, 0.0f, 0.0f);	//描画座標
 };
