@@ -213,6 +213,7 @@ void Routine::stanby()
 
                 //サンドバッグとの当たり判定
                 s->decideKnockBackWithChara(i);
+                i->decideKnockBackWithChara(s);
                 i->collisionWindWithChara(s, stage);
             }
 

@@ -519,13 +519,13 @@ void CharaBase::decideKnockBackWithChara(std::shared_ptr<CharaBase> otherChara)
 			//めり込み量
 			float overlap = collision_radius * 2 - distance_;
 
-			// 重なり解消のための位置補正
+			//ノックバック用のベクトルを計算
 			knockBackVector_	= VScale(normalLine, overlap);
 			knockBackVector_	= VNorm(knockBackVector_);
 			knockBackVector_	= VScale(VScale(VScale(knockBackVector_, 0.5f), otherChara->Getmass_()), blow_away_percent);
 
 			//タックルした、されたときはふっとばし量と吹き飛ぶ時間を変える
-			if (isMovingTackle_ || otherChara->GetisMovingTackle_())
+			if (/*isMovingTackle_ ||*/ otherChara->GetisMovingTackle_())
 			{
 				knockBackVector_		= VScale(knockBackVector_, tackle_inpluse_percent);
 				maxKnockBackCount_		+= extend_tackle;
@@ -536,10 +536,11 @@ void CharaBase::decideKnockBackWithChara(std::shared_ptr<CharaBase> otherChara)
 			}
 
 			// 自キャラへの反発速度適用
-			AddImpulse(-knockBackVector_.x, -knockBackVector_.z);
-			
+			//AddImpulse(-knockBackVector_.x, -knockBackVector_.z);
+			knockBackVector_ = VScale(knockBackVector_, -1.0f);
+
 			// 相手キャラへの反発速度適用
-			otherChara->AddImpulse(knockBackVector_.x, knockBackVector_.z);
+			//otherChara->AddImpulse(knockBackVector_.x, knockBackVector_.z);
 
 			//ヒット音
 			PlaySoundMem(hitSound_, DX_PLAYTYPE_BACK, TRUE);
@@ -582,6 +583,18 @@ void CharaBase::AdjustPositionAfterCollision(float amountX, float amountZ)
 /// </summary>
 void CharaBase::knockBackNow()
 {
+	//ヒットが終わるのをカウントで待つ
+	if (isHit_)
+	{
+		++waitHitCount_;
+
+		if (waitHitCount_ > 3)
+		{
+			isHit_			= false;
+			waitHitCount_	= 0;
+		}
+	}
+
 	if(isKnockBack_)
 	{
 		//カウントが一定になったらノックバックをやめる
@@ -604,20 +617,10 @@ void CharaBase::knockBackNow()
 			return;
 		}
 
-		collisionCenterPosition_	= VAdd(collisionCenterPosition_, moveVector_);
-		position_					= VAdd(position_, moveVector_);
-	}
-
-	//ヒットが終わるのをカウントで待つ
-	if (isHit_)
-	{
-		++waitHitCount_;
-
-		if (waitHitCount_ > 3)
-		{
-			isHit_ = false;
-			waitHitCount_ = 0;
-		}
+		/*collisionCenterPosition_	= VAdd(collisionCenterPosition_, moveVector_);
+		position_					= VAdd(position_, moveVector_);*/
+		collisionCenterPosition_	= VAdd(collisionCenterPosition_, knockBackVector_);
+		position_					= VAdd(position_, knockBackVector_);
 	}
 }
 
