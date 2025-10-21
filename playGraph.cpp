@@ -25,6 +25,9 @@ PlayGraph::~PlayGraph()
 	DeleteGraph(countDownMovie_);
 	DeleteFontToHandle(fontHandle_);
 	DeleteSoundMem(startSound_);
+	DeleteGraph(screenHandle_);
+	DeleteGraph(trumpet_);
+	DeleteGraph(beat_);
 }
 
 void PlayGraph::reset()
