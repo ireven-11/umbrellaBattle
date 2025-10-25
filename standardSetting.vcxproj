@@ -175,9 +175,11 @@
     <ClCompile Include="playGraph.cpp" />
     <ClCompile Include="PlayTransparentMovie.cpp" />
     <ClCompile Include="playUI.cpp" />
+    <ClCompile Include="Rain.cpp" />
     <ClCompile Include="respawnEffect.cpp" />
     <ClCompile Include="resultGraph.cpp" />
     <ClCompile Include="resultUI.cpp" />
+    <ClCompile Include="RotationVector.cpp" />
     <ClCompile Include="routine.cpp" />
     <ClCompile Include="sandBag.cpp" />
     <ClCompile Include="sceneManager.cpp" />
@@ -209,7 +211,6 @@
     <ClInclude Include="cpuBrain.h" />
     <ClInclude Include="DrawBrinkStringToHandle.h" />
     <ClInclude Include="DrawExtendBrinkGraph.h" />
-    <ClInclude Include="DxLibForIreven.h" />
     <ClInclude Include="effectManager.h" />
     <ClInclude Include="fallEffect.h" />
     <ClInclude Include="fanState.h" />
@@ -222,9 +223,11 @@
     <ClInclude Include="playGraph.h" />
     <ClInclude Include="PlayTransparentMovie.h" />
     <ClInclude Include="playUI.h" />
+    <ClInclude Include="Rain.h" />
     <ClInclude Include="respawnEffect.h" />
     <ClInclude Include="resultGraph.h" />
     <ClInclude Include="resultUI.h" />
+    <ClInclude Include="RotationVectorY.h" />
     <ClInclude Include="routine.h" />
     <ClInclude Include="sandBag.h" />
     <ClInclude Include="sceneManager.h" />

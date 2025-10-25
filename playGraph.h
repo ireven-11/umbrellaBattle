@@ -1,4 +1,7 @@
 #pragma once
+#include<memory>
+
+class Rain;
 
 class PlayGraph
 {
@@ -24,6 +27,7 @@ private:
 	int		trumpet_;			//トランペット画像
 	int		fontHandleSize300_;	//フォントハンドル300
 	int		beat_;				//相手倒す画像
+	std::shared_ptr<Rain> rain = std::make_shared<Rain>();//雨
 
 	const int		init_movie_width		= 750;				//動画初期幅
 	const int		init_movie_height		= 460;				//動画初期高さ

@@ -156,6 +156,12 @@
     <ClCompile Include="FPS.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Rain.cpp">
+      <Filter>ソース ファイル\graph</Filter>
+    </ClCompile>
+    <ClCompile Include="RotationVector.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="setting.h">
@@ -266,10 +272,13 @@
     <ClInclude Include="tackleEffect.h">
       <Filter>ヘッダー ファイル\effect</Filter>
     </ClInclude>
-    <ClInclude Include="DxLibForIreven.h">
+    <ClInclude Include="FPS.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="FPS.h">
+    <ClInclude Include="Rain.h">
+      <Filter>ヘッダー ファイル\graph</Filter>
+    </ClInclude>
+    <ClInclude Include="RotationVectorY.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

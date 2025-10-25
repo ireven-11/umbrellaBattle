@@ -1,6 +1,7 @@
 #include"DxLib.h"
 #include"playGraph.h"
 #include"PlayTransparentMovie.h"
+#include"Rain.h"
 
 PlayGraph::PlayGraph(const char* fontName)
 {
@@ -28,16 +29,17 @@ PlayGraph::~PlayGraph()
 	DeleteGraph(screenHandle_);
 	DeleteGraph(trumpet_);
 	DeleteGraph(beat_);
+	rain = nullptr;
 }
 
 void PlayGraph::reset()
 {
-	screenHandle_ = MakeScreen(1920, 1080, TRUE);
-	movieWidht_ = init_movie_width;
-	movieHeight_ = init_movie_height;
-	moviePosition_ = init_movie_position;
-	onCountDown_ = true;
-	expandMovieCount_ = 0;
+	screenHandle_		= MakeScreen(1920, 1080, TRUE);
+	movieWidht_			= init_movie_width;
+	movieHeight_		= init_movie_height;
+	moviePosition_		= init_movie_position;
+	onCountDown_		= true;
+	expandMovieCount_	= 0;
 }
 
 void PlayGraph::update()
@@ -96,4 +98,8 @@ void PlayGraph::update()
 			DeleteGraph(screenHandle_);
 		}
 	}
+
+	//‰J‚ª~‚é
+	rain->update();
+	rain->draw();
 }
