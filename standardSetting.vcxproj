@@ -232,6 +232,7 @@
     <ClInclude Include="sandBag.h" />
     <ClInclude Include="sceneManager.h" />
     <ClInclude Include="setting.h" />
+    <ClInclude Include="shadow.h" />
     <ClInclude Include="stage.h" />
     <ClInclude Include="standbyUI.h" />
     <ClInclude Include="tackleEffect.h" />
