@@ -12,6 +12,9 @@ public:
 
 	void addPlayerShadows(std::shared_ptr<CharaBase> chara);
 	void addSandBagShadows(std::shared_ptr<CharaBase> chara);
+	void drawToShadowMap();
+	void setUse();
+	void release();
 
 private:
 	int shadowMapHandle_;

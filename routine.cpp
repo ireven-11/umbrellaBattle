@@ -40,7 +40,6 @@ Routine::Routine()
 
     //一部をインスタンス化
     shadowMap = std::make_shared<ShadowMap>();
-    //sandBag.emplace_back(std::make_shared<SandBag>(0));
     shadowMap->addSandBagShadows(sandBag.emplace_back(std::make_shared<SandBag>(0)));
 
     //フォントを使えるようにする
@@ -189,6 +188,12 @@ void Routine::stanby()
     //プレイヤーが参加している時だけ
     if (isjoiningPlayer[0] || isjoiningPlayer[1] || isjoiningPlayer[2] || isjoiningPlayer[3])
     {
+        //シャドウマップに影を描画
+        shadowMap->drawToShadowMap();
+
+        //シャドウマップを設定
+        shadowMap->setUse();
+
         for (const auto& i : players)
         {
             i->update(this, stage);
@@ -254,6 +259,9 @@ void Routine::stanby()
         {
             s->draw();
         }
+
+        //シャドウマップを解除
+        shadowMap->release();
     }
     
     if (sceneManager->proceedPlay())
@@ -297,6 +305,12 @@ void Routine::play()
     //カメラ更新
     camera->update();
 
+    //シャドウマップに影を描画
+    shadowMap->drawToShadowMap();
+
+    //シャドウマップを設定
+    shadowMap->setUse();
+
     //カウントダウンが終わってから
     if (!playGraph->GetonCountDown_())
     {
@@ -329,12 +343,12 @@ void Routine::play()
             i->knockBackNow();
 
             //デバッグ用
-            DrawSphere3D(i->GetcollisionCenterPosition_(), collision_radius, 32, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
+            /*DrawSphere3D(i->GetcollisionCenterPosition_(), collision_radius, 32, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
             DrawSphere3D(i->Getposition_(), collision_radius_stage, 32, GetColor(255, 255, 255), GetColor(255, 255, 255), FALSE);
             DrawSphere3D(i->GetwindPosition_(), collision_radius_wind, 32, GetColor(0, 255, 0), GetColor(255, 255, 255), FALSE);
             DrawSphere3D(stage_center, collision_radius_wind, 32, GetColor(0, 0, 255), GetColor(255, 255, 255), FALSE);
             DrawFormatString(100, 100 * i->GetcontrolerNumber_(), GetColor(255, 0, 0), "player%d, x:%f, y:%f, z:%f", i->GetcontrolerNumber_(), i->Getposition_().x, i->Getposition_().y, i->Getposition_().z);
-            DrawFormatString(100, 100 * i->GetcontrolerNumber_() + 15 * i->GetcontrolerNumber_(), GetColor(255, 0, 0), "player%d, moveVector(%f, %f, %f)", i->GetcontrolerNumber_(), i->GetmoveVector_().x, i->GetmoveVector_().y, i->GetmoveVector_().z);
+            DrawFormatString(100, 100 * i->GetcontrolerNumber_() + 15 * i->GetcontrolerNumber_(), GetColor(255, 0, 0), "player%d, moveVector(%f, %f, %f)", i->GetcontrolerNumber_(), i->GetmoveVector_().x, i->GetmoveVector_().y, i->GetmoveVector_().z);*/
         }
     }
 
@@ -390,6 +404,9 @@ void Routine::play()
             }
         }
     }
+
+    //シャドウマップを解除
+    shadowMap->release();
 }
 
 /// <summary>
@@ -468,7 +485,6 @@ void Routine::joinPlayer()
         input1.Buttons[0] > 0 && !isjoiningPlayer[0] && GetJoypadType(DX_INPUT_PAD1) == DX_PADTYPE_XBOX_360 ||
         input1.Buttons[0] > 0 && !isjoiningPlayer[0] && GetJoypadType(DX_INPUT_PAD1) == DX_PADTYPE_XBOX_ONE)
     {
-        //players.emplace_back(std::make_shared<Player>(DX_INPUT_PAD1));
         isjoiningPlayer[0] = true;
         effectManager.emplace_back(std::make_shared<EffectManager>());
         shadowMap->addPlayerShadows(players.emplace_back(std::make_shared<Player>(DX_INPUT_PAD1)));
@@ -477,25 +493,25 @@ void Routine::joinPlayer()
         input2.Buttons[0] > 0 && !isjoiningPlayer[1] && GetJoypadType(DX_INPUT_PAD2) == DX_PADTYPE_XBOX_360 ||
         input2.Buttons[0] > 0 && !isjoiningPlayer[1] && GetJoypadType(DX_INPUT_PAD2) == DX_PADTYPE_XBOX_ONE)
     {
-        players.emplace_back(std::make_shared<Player>(DX_INPUT_PAD2));
         isjoiningPlayer[1] = true;
         effectManager.emplace_back(std::make_shared<EffectManager>());
+        shadowMap->addPlayerShadows(players.emplace_back(std::make_shared<Player>(DX_INPUT_PAD2)));
     }
     if (input3.Buttons[1] > 0 && !isjoiningPlayer[2] && GetJoypadType(DX_INPUT_PAD3) == DX_PADTYPE_SWITCH_PRO_CTRL ||
         input3.Buttons[0] > 0 && !isjoiningPlayer[2] && GetJoypadType(DX_INPUT_PAD3) == DX_PADTYPE_XBOX_360 ||
         input3.Buttons[0] > 0 && !isjoiningPlayer[2] && GetJoypadType(DX_INPUT_PAD3) == DX_PADTYPE_XBOX_ONE)
     {
-        players.emplace_back(std::make_shared<Player>(DX_INPUT_PAD3));
         isjoiningPlayer[2] = true;
         effectManager.emplace_back(std::make_shared<EffectManager>());
+        shadowMap->addPlayerShadows(players.emplace_back(std::make_shared<Player>(DX_INPUT_PAD3)));
     }
     if (input4.Buttons[1] > 0 && !isjoiningPlayer[3] && GetJoypadType(DX_INPUT_PAD4) == DX_PADTYPE_SWITCH_PRO_CTRL ||
         input4.Buttons[0] > 0 && !isjoiningPlayer[3] && GetJoypadType(DX_INPUT_PAD4) == DX_PADTYPE_XBOX_360 ||
         input4.Buttons[0] > 0 && !isjoiningPlayer[3] && GetJoypadType(DX_INPUT_PAD4) == DX_PADTYPE_XBOX_ONE)
     {
-        players.emplace_back(std::make_shared<Player>(DX_INPUT_PAD4));
         isjoiningPlayer[3] = true;
         effectManager.emplace_back(std::make_shared<EffectManager>());
+        shadowMap->addPlayerShadows(players.emplace_back(std::make_shared<Player>(DX_INPUT_PAD4)));
     }
 }
 
@@ -509,7 +525,7 @@ void Routine::joinCPU()
         //プレイヤーが参加してなければ
         if (!isjoiningPlayer[i])
         {
-            players.emplace_back(std::make_shared<CPU>(i + 1));
+            shadowMap->addPlayerShadows(players.emplace_back(std::make_shared<CPU>(i + 1)));
             effectManager.emplace_back(std::make_shared<EffectManager>());
             isjoiningPlayer[i] = true;
         }
