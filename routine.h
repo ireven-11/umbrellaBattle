@@ -1,6 +1,7 @@
 #pragma once
 #include<memory>
 #include<vector>
+#include"IRendelbleShadow.h"
 
 const int max_player_number = 4;
 
@@ -19,6 +20,8 @@ class ResultGraph;
 class SandBag;
 class PlayGraph;
 class FPS;
+class ShadowMap;
+class IRendelbleShadow;
 
 class Routine
 {
@@ -43,8 +46,9 @@ private:
 	std::shared_ptr<ResultUI>resultUI			= std::make_shared<ResultUI>("April Gothic one Regular");
 	std::shared_ptr<ResultGraph>resultGraph		= std::make_shared<ResultGraph>();
 	std::shared_ptr<FPS>fps						= std::make_shared<FPS>();
+	std::shared_ptr<PlayGraph>playGraph			= std::make_shared<PlayGraph>("April Gothic one Regular");
+	std::shared_ptr<ShadowMap>shadowMap;
 	std::vector<std::shared_ptr<CharaBase>>sandBag;
-	std::shared_ptr<PlayGraph>playGraph			/*= std::make_shared<PlayGraph>("April Gothic one Regular")*/;
 
 	void gameRoop();
 	void title();

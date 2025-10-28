@@ -17,6 +17,7 @@
 #include"resultGraph.h"
 #include"sandBag.h"
 #include"playGraph.h"
+#include"ShadowMap.h"
 
 /// <summary>
 /// コンストラクタ
@@ -38,8 +39,9 @@ Routine::Routine()
     ChangeVolumeSoundMem(200, bgmPractice_);
 
     //一部をインスタンス化
-    sandBag.emplace_back(std::make_shared<SandBag>(0));
-    playGraph = std::make_shared<PlayGraph>("April Gothic one Regular");
+    shadowMap = std::make_shared<ShadowMap>();
+    //sandBag.emplace_back(std::make_shared<SandBag>(0));
+    shadowMap->addSandBagShadows(sandBag.emplace_back(std::make_shared<SandBag>(0)));
 
     //フォントを使えるようにする
     AddFontResourceEx("font/AprilGothicOne-R.ttf", FR_PRIVATE, NULL);
@@ -90,6 +92,7 @@ void Routine::game()
     sandBag.clear();
     playGraph       = nullptr;
     fps             = nullptr;
+    shadowMap       = nullptr;
 }
 
 /// <summary>
@@ -465,9 +468,10 @@ void Routine::joinPlayer()
         input1.Buttons[0] > 0 && !isjoiningPlayer[0] && GetJoypadType(DX_INPUT_PAD1) == DX_PADTYPE_XBOX_360 ||
         input1.Buttons[0] > 0 && !isjoiningPlayer[0] && GetJoypadType(DX_INPUT_PAD1) == DX_PADTYPE_XBOX_ONE)
     {
-        players.emplace_back(std::make_shared<Player>(DX_INPUT_PAD1));
+        //players.emplace_back(std::make_shared<Player>(DX_INPUT_PAD1));
         isjoiningPlayer[0] = true;
         effectManager.emplace_back(std::make_shared<EffectManager>());
+        shadowMap->addPlayerShadows(players.emplace_back(std::make_shared<Player>(DX_INPUT_PAD1)));
     }
     if (input2.Buttons[1] > 0 && !isjoiningPlayer[1] && GetJoypadType(DX_INPUT_PAD2) == DX_PADTYPE_SWITCH_PRO_CTRL ||
         input2.Buttons[0] > 0 && !isjoiningPlayer[1] && GetJoypadType(DX_INPUT_PAD2) == DX_PADTYPE_XBOX_360 ||

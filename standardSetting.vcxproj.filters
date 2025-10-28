@@ -43,6 +43,12 @@
     <Filter Include="ソース ファイル\effect">
       <UniqueIdentifier>{23f6149f-2b0b-42d7-a314-5100f947bd14}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\shadow">
+      <UniqueIdentifier>{807f9649-dd52-49d4-9dff-7600aeadca76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\shadow">
+      <UniqueIdentifier>{12e64e10-c004-4bcb-a235-1f475a3a1e49}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -161,6 +167,9 @@
     </ClCompile>
     <ClCompile Include="RotationVector.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="ShadowMap.cpp">
+      <Filter>ソース ファイル\shadow</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -281,8 +290,11 @@
     <ClInclude Include="RotationVectorY.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="shadow.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="IRendelbleShadow.h">
+      <Filter>ヘッダー ファイル\shadow</Filter>
+    </ClInclude>
+    <ClInclude Include="ShadowMap.h">
+      <Filter>ヘッダー ファイル\shadow</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

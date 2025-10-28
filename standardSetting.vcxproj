@@ -184,6 +184,7 @@
     <ClCompile Include="sandBag.cpp" />
     <ClCompile Include="sceneManager.cpp" />
     <ClCompile Include="setting.cpp" />
+    <ClCompile Include="ShadowMap.cpp" />
     <ClCompile Include="stage.cpp" />
     <ClCompile Include="standbyUI.cpp" />
     <ClCompile Include="fanState.cpp" />
@@ -217,6 +218,7 @@
     <ClInclude Include="FPS.h" />
     <ClInclude Include="hitEffect.h" />
     <ClInclude Include="IEffect.h" />
+    <ClInclude Include="IRendelbleShadow.h" />
     <ClInclude Include="IState.h" />
     <ClInclude Include="openState.h" />
     <ClInclude Include="player.h" />
@@ -232,7 +234,7 @@
     <ClInclude Include="sandBag.h" />
     <ClInclude Include="sceneManager.h" />
     <ClInclude Include="setting.h" />
-    <ClInclude Include="shadow.h" />
+    <ClInclude Include="ShadowMap.h" />
     <ClInclude Include="stage.h" />
     <ClInclude Include="standbyUI.h" />
     <ClInclude Include="tackleEffect.h" />

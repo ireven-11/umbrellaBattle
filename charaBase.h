@@ -4,6 +4,7 @@
 #include"openState.h"
 #include"fanState.h"
 #include"trumpetState.h"
+#include"IRendelbleShadow.h"
 
 constexpr float	player_init_positionX	= 0.0f;
 constexpr float	player_init_positionY	= 0.0f;
@@ -18,8 +19,9 @@ constexpr short	max_wind_count			= 120;
 
 class Routine;
 class Stage;
+class IRendelbleShadow;
 
-class CharaBase
+class CharaBase : public IRendelbleShadow
 {
 public:
 	CharaBase(const int join_number);
