@@ -49,6 +49,9 @@ Routine::Routine()
     screenHandle_   = MakeScreen(1920, 1080);
     movieHandle_    = LoadGraph("movie/demo.mp4");
 
+    //stage用の影を生成
+    shadowMap->addStageShadows(stage);
+
     reset();
 }
 
@@ -178,6 +181,12 @@ void Routine::stanby()
     //カメラ更新
     camera->update();
 
+    //シャドウマップに影を描画
+    shadowMap->drawToShadowMap();
+
+    //シャドウマップを設定
+    shadowMap->setUse();
+
     //ステージ更新
     stage->update();
     stage->draw();
@@ -188,12 +197,6 @@ void Routine::stanby()
     //プレイヤーが参加している時だけ
     if (isjoiningPlayer[0] || isjoiningPlayer[1] || isjoiningPlayer[2] || isjoiningPlayer[3])
     {
-        //シャドウマップに影を描画
-        shadowMap->drawToShadowMap();
-
-        //シャドウマップを設定
-        shadowMap->setUse();
-
         for (const auto& i : players)
         {
             i->update(this, stage);
@@ -259,9 +262,6 @@ void Routine::stanby()
         {
             s->draw();
         }
-
-        //シャドウマップを解除
-        shadowMap->release();
     }
     
     if (sceneManager->proceedPlay())
@@ -295,6 +295,9 @@ void Routine::stanby()
             }
         }
     }
+
+    //シャドウマップを解除
+    shadowMap->release();
 }
 
 /// <summary>

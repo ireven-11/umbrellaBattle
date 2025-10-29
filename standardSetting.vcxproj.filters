@@ -171,6 +171,9 @@
     <ClCompile Include="ShadowMap.cpp">
       <Filter>ソース ファイル\shadow</Filter>
     </ClCompile>
+    <ClCompile Include="testMain.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="setting.h">

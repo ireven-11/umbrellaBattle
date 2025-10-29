@@ -1,4 +1,7 @@
 #include"DxLib.h"
+#include"charaBase.h"
+#include"stage.h"
+
 #include"ShadowMap.h"
 
 ShadowMap::ShadowMap()
@@ -21,6 +24,7 @@ ShadowMap::~ShadowMap()
 	DeleteShadowMap(shadowMapHandle_);
 	playersShadows.clear();
 	sandBagShadows.clear();
+	stageShadows = nullptr;
 }
 
 void ShadowMap::addPlayerShadows(std::shared_ptr<CharaBase> chara)
@@ -33,19 +37,25 @@ void ShadowMap::addSandBagShadows(std::shared_ptr<CharaBase> chara)
 	sandBagShadows.emplace_back(chara);
 }
 
+void ShadowMap::addStageShadows(std::shared_ptr<Stage> stage)
+{
+	stageShadows = stage;
+}
+
 void ShadowMap::drawToShadowMap()
 {
 	//シャドウマップへの描画の準備
 	ShadowMap_DrawSetup(shadowMapHandle_);
 
+	stageShadows->draw();
 	for (const auto& shadows : playersShadows)
 	{
 		shadows->draw();
 	}
-	for (const auto& shadows : sandBagShadows)
+	/*for (const auto& shadows : sandBagShadows)
 	{
 		shadows->draw();
-	}
+	}*/
 
 	//シャドウマップへの描画を終了
 	ShadowMap_DrawEnd();
@@ -54,6 +64,9 @@ void ShadowMap::drawToShadowMap()
 void ShadowMap::setUse()
 {
 	SetUseShadowMap(0, shadowMapHandle_);
+
+
+	//TestDrawShadowMap(shadowMapHandle_, 0, 0, 1920, 1080);
 }
 
 void ShadowMap::release()

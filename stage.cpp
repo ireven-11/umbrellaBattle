@@ -126,7 +126,7 @@ void Stage::updateGimmick(std::vector<std::shared_ptr<CharaBase>>player)
 /// <summary>
 /// ステージを描画
 /// </summary>
-void Stage::draw()
+void Stage::draw()const
 {
 	for (int i = 0; i < tile_number; i++)
 	{

@@ -186,7 +186,7 @@ void CharaBase::setPosition()
 void CharaBase::draw()const
 {
 	//デバッグ用
-	//DrawFormatString(0, 300, GetColor(255, 0, 0), "px:%f,py:%f,pz:%f", position_.x, position_.y, position_.z);
+	DrawFormatString(0, 300, GetColor(255, 0, 0), "px:%f,py:%f,pz:%f", position_.x, position_.y, position_.z);
 
 	if (state_ == std::dynamic_pointer_cast<CharaState::FanState>(state_))
 	{

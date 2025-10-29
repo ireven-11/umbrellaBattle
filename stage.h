@@ -1,6 +1,7 @@
 #pragma once
 #include<memory>
 #include<vector>
+#include"IRendelbleShadow.h"
 
 constexpr	int		tile_number			= 7;
 constexpr	int		all_tile_number		= tile_number * tile_number;
@@ -17,8 +18,9 @@ const		VECTOR	stage_center		= VGet(-2.5f, 0.0f, 14.0f);
 constexpr	float	sphereRad			= 185.0f * scale / 1.6f;
 
 class CharaBase;
+class IRendelbleShadow;
 
-class Stage
+class Stage : public IRendelbleShadow
 {
 public:
 	Stage();
@@ -26,7 +28,7 @@ public:
 
 	void update();
 	void updateGimmick(std::vector<std::shared_ptr<CharaBase>>player);
-	void draw();
+	void draw()const;
 	void reset();
 	void collisionWithPlayer(std::vector<std::shared_ptr<CharaBase>>player);
 	const VECTOR (&Getposition_()const) [tile_number][tile_number]{ return position_; }

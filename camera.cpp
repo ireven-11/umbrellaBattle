@@ -58,14 +58,14 @@ void Camera::reset()
 void Camera::update()
 {
 	//奥行1～100までをカメラの描画範囲とする
-	SetCameraNearFar(1.00f, 500.00f);
+	SetCameraNearFar(1.00f, 200.00f);
 
 	//カメラの注視点を設定
 	SetCameraPositionAndTarget_UpVecY(position_, targetPosition_);
 
 	//スカイボックス描画
-	MV1SetPosition(skydomeHandle_, VGet(position_.x, position_.y - 30.0f, position_.z));
-	MV1DrawModel(skydomeHandle_);
+	//MV1SetPosition(skydomeHandle_, VGet(position_.x, position_.y - 30.0f, position_.z));
+	//MV1DrawModel(skydomeHandle_);
 	
 	// DXライブラリのカメラとEffekseerのカメラを同期する。
 	Effekseer_Sync3DSetting();
