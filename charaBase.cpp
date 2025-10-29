@@ -539,11 +539,7 @@ void CharaBase::decideKnockBackWithChara(std::shared_ptr<CharaBase> otherChara)
 			}
 
 			// 自キャラへの反発速度適用
-			//AddImpulse(-knockBackVector_.x, -knockBackVector_.z);
 			knockBackVector_ = VScale(knockBackVector_, -1.0f);
-
-			// 相手キャラへの反発速度適用
-			//otherChara->AddImpulse(knockBackVector_.x, knockBackVector_.z);
 
 			//ヒット音
 			PlaySoundMem(hitSound_, DX_PLAYTYPE_BACK, TRUE);
@@ -620,8 +616,6 @@ void CharaBase::knockBackNow()
 			return;
 		}
 
-		/*collisionCenterPosition_	= VAdd(collisionCenterPosition_, moveVector_);
-		position_					= VAdd(position_, moveVector_);*/
 		collisionCenterPosition_	= VAdd(collisionCenterPosition_, knockBackVector_);
 		position_					= VAdd(position_, knockBackVector_);
 	}
