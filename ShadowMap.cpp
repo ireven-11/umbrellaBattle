@@ -1,7 +1,6 @@
 #include"DxLib.h"
 #include"charaBase.h"
 #include"stage.h"
-
 #include"ShadowMap.h"
 
 ShadowMap::ShadowMap()
@@ -65,8 +64,7 @@ void ShadowMap::setUse()
 {
 	SetUseShadowMap(0, shadowMapHandle_);
 
-
-	//TestDrawShadowMap(shadowMapHandle_, 0, 0, 1920, 1080);
+	TestDrawShadowMap(shadowMapHandle_, 0, 0, 1920, 1080);
 }
 
 void ShadowMap::release()
