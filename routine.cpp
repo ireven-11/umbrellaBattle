@@ -190,7 +190,7 @@ void Routine::stanby()
     //ステージ更新
     stage->update();
     stage->draw();
-
+    
     //プレイヤー参加
     joinPlayer();
 
@@ -201,7 +201,7 @@ void Routine::stanby()
         {
             i->update(this, stage);
 
-            //二重範囲forにして当たり判定をチェック※バグ原因かも
+            //二重範囲forにして当たり判定をチェック
             for (const auto& j : players)
             {
                 //この条件分がなかったらバグるので注意
@@ -270,6 +270,10 @@ void Routine::stanby()
         {
             p->reset();
             StopSoundMem(p->GetchargeSound_());
+        }
+        for (const auto& s : sandBag)
+        {
+            s->reset();
         }
 
         PlaySoundMem(decideSound_, DX_PLAYTYPE_BACK, TRUE);
@@ -545,7 +549,11 @@ void Routine::allReset()
     stage->reset();
     playUI->reset();
     playGraph->reset();
-    
+    shadowMap = nullptr;
+    shadowMap = std::make_shared<ShadowMap>();
+    shadowMap->addSandBagShadows(sandBag.at(0));
+    shadowMap->addStageShadows(stage);
+
     reset();
 }
 

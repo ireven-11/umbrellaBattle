@@ -28,9 +28,11 @@ public:
 
 	void update();
 	void updateGimmick(std::vector<std::shared_ptr<CharaBase>>player);
-	void draw()const;
+	void draw();
 	void reset();
 	void collisionWithPlayer(std::vector<std::shared_ptr<CharaBase>>player);
+	bool isDrawing();
+
 	const VECTOR (&Getposition_()const) [tile_number][tile_number]{ return position_; }
 	const bool (&GetcanExist_()const)[tile_number][tile_number]{ return canExist_; }
 

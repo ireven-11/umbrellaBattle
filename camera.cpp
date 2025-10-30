@@ -29,7 +29,7 @@ Camera::Camera()
 	// Ｚバッファへの書き込みを有効にする
 	SetWriteZBuffer3D(TRUE);
 
-	SetUseSetDrawScreenSettingReset(false);
+	SetUseSetDrawScreenSettingReset(true);
 }
 
 /// <summary>
@@ -64,8 +64,8 @@ void Camera::update()
 	SetCameraPositionAndTarget_UpVecY(position_, targetPosition_);
 
 	//スカイボックス描画
-	//MV1SetPosition(skydomeHandle_, VGet(position_.x, position_.y - 30.0f, position_.z));
-	//MV1DrawModel(skydomeHandle_);
+	MV1SetPosition(skydomeHandle_, VGet(position_.x, position_.y - 30.0f, position_.z));
+	MV1DrawModel(skydomeHandle_);
 	
 	// DXライブラリのカメラとEffekseerのカメラを同期する。
 	Effekseer_Sync3DSetting();

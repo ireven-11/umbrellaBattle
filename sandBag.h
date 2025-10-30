@@ -10,7 +10,8 @@ public:
 	~SandBag();
 
 	void update(Routine* routine, std::shared_ptr<Stage> stage)override;
-	void draw()const override;
+	void draw() override;
+	void reset();
 
 private:
 	int modelHandle_;

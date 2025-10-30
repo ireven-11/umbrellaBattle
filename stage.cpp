@@ -126,7 +126,7 @@ void Stage::updateGimmick(std::vector<std::shared_ptr<CharaBase>>player)
 /// <summary>
 /// ステージを描画
 /// </summary>
-void Stage::draw()const
+void Stage::draw()
 {
 	for (int i = 0; i < tile_number; i++)
 	{
@@ -398,4 +398,9 @@ void Stage::brinkTile()
 			MV1SetDifColorScale(modelHandle_[dicideRandomTileJ_][dicideRandomTileI_], modelOriginColor_);
 		}
 	}
+}
+
+bool Stage::isDrawing()
+{
+	return true;
 }

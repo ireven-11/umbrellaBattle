@@ -21,7 +21,7 @@ SceneManager::~SceneManager()
 /// </summary>
 void SceneManager::reset()
 {
-	sceneType_		= PLAY;
+	sceneType_		= TITLE;
 	isPrevButton_	= false;
 }
 

@@ -14,6 +14,9 @@ public:
 	void addSandBagShadows(std::shared_ptr<CharaBase> chara);
 	void addStageShadows(std::shared_ptr<Stage> stage);
 	void drawToShadowMap();
+	void drawStageToShadowMap();
+	void drawPlayerToShadowMap();
+	void drawSandBagToShadowMap();
 	void setUse();
 	void release();
 

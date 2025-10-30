@@ -41,7 +41,7 @@ public:
 	void AdjustPositionAfterCollision(float amountX, float amountZ);
 	void AddImpulse(float impulseX, float impulseZ);
 	void knockBackNow();
-	virtual void draw()const;
+	virtual void draw();
 	void changeHitNowFlag();
 	void collisionWindWithChara(std::shared_ptr<CharaBase> otherChara, std::shared_ptr<Stage> stage);
 	void respawn();
@@ -54,6 +54,7 @@ public:
 	void setPosition();
 	virtual void wind();
 	void decideMoveAngle(VECTOR movePosition);
+	bool isDrawing();
 
 	DINPUT_JOYSTATE input;		//コントローラー(D)用構造体変数
 
@@ -178,6 +179,7 @@ protected:
 	float	distanceZ_;
 	float	distance_;
 	VECTOR	knockBackVector_;
+	bool	isDrawing_;	
 
 	const float		move_speed				= 0.3f;
 	const double	agnle_shift_number		= 0.75;

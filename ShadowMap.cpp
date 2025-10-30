@@ -41,20 +41,44 @@ void ShadowMap::addStageShadows(std::shared_ptr<Stage> stage)
 	stageShadows = stage;
 }
 
+void ShadowMap::drawStageToShadowMap()
+{
+	//•`‰æ‚³‚ê‚Ä‚È‚¢‚Æ‚«‚Í‰e‚ğ•`‰æ‚µ‚È‚¢
+	if (!stageShadows->isDrawing())return;
+
+	stageShadows->draw();
+}
+
+void ShadowMap::drawPlayerToShadowMap()
+{
+	for (const auto& shadows : playersShadows)
+	{
+		//•`‰æ‚³‚ê‚Ä‚È‚¢‚Æ‚«‚Í‰e‚ğ•`‰æ‚µ‚È‚¢
+		if (!shadows->isDrawing())continue;
+
+		shadows->draw();
+	}
+}
+
+void ShadowMap::drawSandBagToShadowMap()
+{
+	for (const auto& shadows : sandBagShadows)
+	{
+		//•`‰æ‚³‚ê‚Ä‚È‚¢‚Æ‚«‚Í‰e‚ğ•`‰æ‚µ‚È‚¢
+		if (!shadows->isDrawing())continue;
+
+		shadows->draw();
+	}
+}
+
 void ShadowMap::drawToShadowMap()
 {
 	//ƒVƒƒƒhƒEƒ}ƒbƒv‚Ö‚Ì•`‰æ‚Ì€”õ
 	ShadowMap_DrawSetup(shadowMapHandle_);
 
-	stageShadows->draw();
-	for (const auto& shadows : playersShadows)
-	{
-		shadows->draw();
-	}
-	/*for (const auto& shadows : sandBagShadows)
-	{
-		shadows->draw();
-	}*/
+	drawStageToShadowMap();
+	drawPlayerToShadowMap();
+	drawSandBagToShadowMap();
 
 	//ƒVƒƒƒhƒEƒ}ƒbƒv‚Ö‚Ì•`‰æ‚ğI—¹
 	ShadowMap_DrawEnd();
@@ -64,7 +88,7 @@ void ShadowMap::setUse()
 {
 	SetUseShadowMap(0, shadowMapHandle_);
 
-	TestDrawShadowMap(shadowMapHandle_, 0, 0, 1920, 1080);
+	//TestDrawShadowMap(shadowMapHandle_, 0, 0, 1920, 1080);
 }
 
 void ShadowMap::release()

@@ -156,6 +156,7 @@ void CharaBase::reset()
 	distanceZ_		= 0.0f;
 	distance_		= 0.0f;
 	knockBackVector_ = VGet(0.0f, 0.0f, 0.0f);
+	isDrawing_		= false;
 }
 
 /// <summary>
@@ -183,11 +184,17 @@ void CharaBase::setPosition()
 /// <summary>
 /// 描画
 /// </summary>
-void CharaBase::draw()const
+void CharaBase::draw()
 {
 	//デバッグ用
-	DrawFormatString(0, 300, GetColor(255, 0, 0), "px:%f,py:%f,pz:%f", position_.x, position_.y, position_.z);
+	//DrawFormatString(0, 300, GetColor(255, 0, 0), "px:%f,py:%f,pz:%f", position_.x, position_.y, position_.z);
 
+	//カメラに入ってないときは描画しない
+	isDrawing_ = false;
+	if (CheckCameraViewClip(position_))return;
+
+	//描画してる
+	isDrawing_ = true;
 	if (state_ == std::dynamic_pointer_cast<CharaState::FanState>(state_))
 	{
 		MV1DrawModel(fan_);
@@ -770,4 +777,11 @@ void CharaBase::constructFrameEnd()
 void CharaBase::decideMoveAngle(VECTOR movePosition)
 {
 	rotationAngleY_ = atan2(static_cast<double>(movePosition.x - position_.x), static_cast<double>(movePosition.z - position_.z)) - 90 * DX_PI /180;
+}
+
+bool CharaBase::isDrawing()
+{
+	if (isDrawing_)return true;
+
+	return false;
 }

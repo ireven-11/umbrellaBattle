@@ -10,11 +10,20 @@ SandBag::SandBag(const int join_number) : CharaBase(join_number)
 	MV1SetScale(modelHandle_, VGet(0.2f, 0.15f, 0.2f));
 	position_					= VGet(0.0f, 0.0f, 0.0f);
 	collisionCenterPosition_	= VGet(0.0f, 0.0f, -5.5f);
+	isDrawing_ = false;
 }
 
 SandBag::~SandBag()
 {
 	MV1DeleteModel(modelHandle_);
+}
+
+void SandBag::reset()
+{
+	MV1SetScale(modelHandle_, VGet(0.2f, 0.15f, 0.2f));
+	position_ = VGet(0.0f, 0.0f, 0.0f);
+	collisionCenterPosition_ = VGet(0.0f, 0.0f, -5.5f);
+	isDrawing_ = false;
 }
 
 void SandBag::update(Routine* routine, std::shared_ptr<Stage> stage)
@@ -31,7 +40,12 @@ void SandBag::update(Routine* routine, std::shared_ptr<Stage> stage)
 	MV1SetPosition(modelHandle_, position_);
 }
 
-void SandBag::draw()const
+void SandBag::draw()
 {
+	//ƒJƒƒ‰‚É“ü‚Á‚Ä‚È‚¢‚Æ‚«‚Í•`‰æ‚µ‚È‚¢
+	isDrawing_ = false;
+	if (CheckCameraViewClip(position_))return;
+
+	isDrawing_ = true;
 	MV1DrawModel(modelHandle_);
 }
