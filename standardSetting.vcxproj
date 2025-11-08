@@ -80,12 +80,12 @@
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalIncludeDirectories>EffekseerForDXLib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>DxLib;EffekseerForDXLib</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>EffekseerForDXLib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>DxLib;EffekseerForDXLib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -99,14 +99,14 @@
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalIncludeDirectories>EffekseerForDXLib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>DxLib;EffekseerForDXLib</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>EffekseerForDXLib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>DxLib;EffekseerForDXLib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -118,12 +118,12 @@
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalIncludeDirectories>EffekseerForDXLib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>DxLib;EffekseerForDXLib</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>EffekseerForDXLib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>DxLib;EffekseerForDXLib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -137,14 +137,14 @@
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalIncludeDirectories>EffekseerForDXLib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>DxLib;EffekseerForDXLib</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>EffekseerForDXLib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>DxLib;EffekseerForDXLib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -248,15 +248,4 @@
     </ClInclude>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-    <Import Project="packages\nlohmann.json.3.12.0\build\native\nlohmann.json.targets" Condition="Exists('packages\nlohmann.json.3.12.0\build\native\nlohmann.json.targets')" />
-    <Import Project="packages\DxLib.vc.3.2.4.3\build\native\DxLib.vc.targets" Condition="Exists('packages\DxLib.vc.3.2.4.3\build\native\DxLib.vc.targets')" />
-  </ImportGroup>
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>このプロジェクトは、このコンピューター上にない NuGet パッケージを参照しています。それらのパッケージをダウンロードするには、[NuGet パッケージの復元] を使用します。詳細については、http://go.microsoft.com/fwlink/?LinkID=322105 を参照してください。見つからないファイルは {0} です。</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('packages\nlohmann.json.3.12.0\build\native\nlohmann.json.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\nlohmann.json.3.12.0\build\native\nlohmann.json.targets'))" />
-    <Error Condition="!Exists('packages\DxLib.vc.3.2.4.3\build\native\DxLib.vc.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\DxLib.vc.3.2.4.3\build\native\DxLib.vc.targets'))" />
-  </Target>
 </Project>
