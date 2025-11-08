@@ -29,7 +29,7 @@ Camera::Camera()
 	// Ｚバッファへの書き込みを有効にする
 	SetWriteZBuffer3D(TRUE);
 
-	SetUseSetDrawScreenSettingReset(true);
+	SetUseSetDrawScreenSettingReset(false);
 }
 
 /// <summary>
