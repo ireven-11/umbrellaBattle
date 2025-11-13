@@ -264,26 +264,30 @@ void Routine::stanby()
         }
     }
     
-    if (sceneManager->proceedPlay())
+
+    if (!players.empty())
     {
-        for (const auto& p : players)
+        if (sceneManager->proceedPlay())
         {
-            p->reset();
-            StopSoundMem(p->GetchargeSound_());
+            for (const auto& p : players)
+            {
+                p->reset();
+                StopSoundMem(p->GetchargeSound_());
+            }
+            for (const auto& s : sandBag)
+            {
+                s->reset();
+            }
+
+            PlaySoundMem(decideSound_, DX_PLAYTYPE_BACK, TRUE);
+
+            //プレイ画面へ行くときにcpuを参加
+            joinCPU();
+
+            StopSoundMem(bgmPractice_, 0);
+            PlayMovie("movie/umbrella.mp4", 1, DX_MOVIEPLAYTYPE_NORMAL);
+            PlaySoundMem(bgm_, DX_PLAYTYPE_LOOP, TRUE);
         }
-        for (const auto& s : sandBag)
-        {
-            s->reset();
-        }
-
-        PlaySoundMem(decideSound_, DX_PLAYTYPE_BACK, TRUE);
-
-        //プレイ画面へ行くときにcpuを参加
-        joinCPU();
-
-        StopSoundMem(bgmPractice_, 0);
-        PlayMovie("movie/umbrella.mp4", 1, DX_MOVIEPLAYTYPE_NORMAL);
-        PlaySoundMem(bgm_, DX_PLAYTYPE_LOOP, TRUE);
     }
 
     standbyUI->update(isjoiningPlayer, max_player_number);
