@@ -16,6 +16,7 @@ constexpr int	max_hp					= 200;
 constexpr int	vibration_power			= 200;
 constexpr int	vibration_time			= 200;
 constexpr short	max_wind_count			= 120;
+constexpr float	max_tackle_count		= 50.0f;
 
 class Routine;
 class Stage;
@@ -88,7 +89,6 @@ public:
 private:
 	const float		fall_speed				= 0.25f;
 	const float		scale					= 0.15f;
-	const float		max_tackle_count		= 50.0f;
 	const int		adjust_tackle			= 40;
 	const float		adjust_position_y		= 0.2f;
 	const double	swing_speed				= 0.40;

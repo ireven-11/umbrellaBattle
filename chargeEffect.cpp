@@ -39,6 +39,12 @@ void ChargeEffect::update(std::shared_ptr<CharaBase> chara)
 	{
 		position_ = chara->Getposition_();
 
+		//最大までチャージしたら色を変える
+		if (chara->GettackleCount_() == max_tackle_count)
+		{
+			SetColorPlayingEffekseer3DEffect(playingHandle_, 255, 50, 0, 255);
+		}
+
 		SetPosPlayingEffekseer3DEffect(playingHandle_, position_.x, position_.y + 0.75f, position_.z);
 	}
 }
