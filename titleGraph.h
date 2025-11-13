@@ -11,12 +11,8 @@ public:
 private:
 	void reset();
 
-	int		umbrella1Handle_;		//éPÇP
-	int		umbrella2Handle_;		//éPÇQ
-	VECTOR	umbrellaPosition_[4];	//éPç¿ïW
-	
-	const int		umbrella_width	= 500;	//éPïù
-	const int		umbrella_height	= 400;	//çÇÇ≥
-	const VECTOR	umbrella1_init_position = VGet(550, 60, 0);	//Ç©Ç≥ÇµÇÂÇ´Ç¥Ç–ÇÂÇ§
-	const VECTOR	umbrella2_init_position = VGet(850, 60, 0);	//Ç©Ç≥ÇµÇÂÇ´Ç¥Ç–ÇÂÇ§
+	int	logo_;
+
+	const VECTOR logo_max_pos = VGet(1475.0f, 600.0f, 0.0f);
+	const VECTOR logo_min_pos = VGet(375.0f, 50.0f, 0.0f);
 }; 

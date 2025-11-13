@@ -11,6 +11,7 @@ public:
 private:
 	int	fontHandle_;		//フォントハンドル
 	int	fontHandleSize200_;	//フォントハンドル
+	int Logo_;
 
 	const VECTOR start_text_position = VGet(550, 600, 0);
 };
