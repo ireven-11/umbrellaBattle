@@ -281,6 +281,7 @@ void CharaBase::tackle()
 		if (!isOneSE_)
 		{
 			PlaySoundMem(tackleSound_, DX_PLAYTYPE_BACK);
+			SetFrequencySoundMem(-1, chargeSound_);
 			isOneSE_ = true;
 		}
 
@@ -294,6 +295,11 @@ void CharaBase::tackle()
 		if (max_tackle_count > tackleCount_)
 		{
 			tackleCount_++;
+
+			if (max_tackle_count == tackleCount_)
+			{
+				SetFrequencySoundMem(65000, chargeSound_);
+			}
 		}
 
 		//どの方向にタックルするかY軸の回転行列で決める

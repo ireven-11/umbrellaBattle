@@ -36,7 +36,7 @@ Routine::Routine()
     bgm_ = LoadSoundMem("sound/bgm.mp3");
     ChangeVolumeSoundMem(bgm_volume, bgm_);
     bgmPractice_ = LoadSoundMem("sound/bgm2.mp3");
-    ChangeVolumeSoundMem(200, bgmPractice_);
+    ChangeVolumeSoundMem(255, bgmPractice_);
 
     //一部をインスタンス化
     shadowMap = std::make_shared<ShadowMap>();

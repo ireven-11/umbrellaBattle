@@ -73,7 +73,7 @@ private:
 	int		screenHandle_;						//スクリーンハンドル
 	int		movieHandle_;						//動画ハンドル
 	
-	const short bgm_volume		= 90;
+	const short bgm_volume		= 110;
 	const short crap_volume		= 180;
 	const short fanfare_volume	= 200;
 	const short decide_volume	= 150;
