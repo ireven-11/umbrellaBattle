@@ -26,6 +26,8 @@ StandbyUI::~StandbyUI()
 	DeleteFontToHandle(fontHandleSize100_);
 	DeleteFontToHandle(fontHandleSize150_);
 	DeleteGraph(screenHandle_);
+	DeleteGraph(transparentScreen_);
+	DeleteGraph(concentrationlLinesMovie_);
 }
 
 void StandbyUI::update(bool isjoiningPlayer[], const int max_player_number)
