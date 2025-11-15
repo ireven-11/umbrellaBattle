@@ -11,7 +11,8 @@
 /// <param name="position">動画座標</param>
 /// <param name="isLoop">動画をループするか</param>
 /// <param name="screenType">最終的に描画するとこのスクリーンハンドル</param>
-void PlayTransparentMovie(int movieHandle, int screenHandle, unsigned short movieBackColorType, int movieWidht, int movieHeight, VECTOR position, bool isLoop, int screenType)
+void PlayTransparentMovie(int movieHandle, int screenHandle, unsigned short movieBackColorType,
+    int movieWidht, int movieHeight, VECTOR position, bool isLoop, int screenType)
 {
     //スクリーンハンドルに動画を描画する
     SetDrawScreen(screenHandle);

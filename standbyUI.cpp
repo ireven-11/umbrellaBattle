@@ -1,17 +1,20 @@
 #include"DxLib.h"
 #include"standbyUI.h"
 #include"DrawBrinkStringToHandle.h"
+#include"PlayTransparentMovie.h"
 
 /// <summary>
 /// コンストラクタ
 /// </summary>
 StandbyUI::StandbyUI(const char* fontName)
 {
-	fontHandle_			= CreateFontToHandle(fontName, 50, 0, DX_FONTTYPE_ANTIALIASING_EDGE_4X4);
-	fontHandleSize100_	= CreateFontToHandle(fontName, 90, 0, DX_FONTTYPE_ANTIALIASING_EDGE_4X4);
-	fontHandleSize150_	= CreateFontToHandle(fontName, 150, 0, DX_FONTTYPE_ANTIALIASING_EDGE_4X4);
-	screenHandle_		= MakeScreen(1920, 1080);
-	movieExplane_		= LoadGraph("movie/explaneRule.mp4");
+	fontHandle_					= CreateFontToHandle(fontName, 50, 0, DX_FONTTYPE_ANTIALIASING_EDGE_4X4);
+	fontHandleSize100_			= CreateFontToHandle(fontName, 90, 0, DX_FONTTYPE_ANTIALIASING_EDGE_4X4);
+	fontHandleSize150_			= CreateFontToHandle(fontName, 150, 0, DX_FONTTYPE_ANTIALIASING_EDGE_4X4);
+	screenHandle_				= MakeScreen(1920, 1080);
+	movieExplane_				= LoadGraph("movie/explaneRule.mp4");
+	concentrationlLinesMovie_	= LoadGraph("movie/concentrationlLines.mp4");
+	transparentScreen_			= MakeScreen(1920, 1080, TRUE);
 }
 
 /// <summary>
@@ -60,6 +63,8 @@ void StandbyUI::explaneRule()
 	PlayMovieToGraph(movieExplane_, DX_PLAYTYPE_LOOP);
 	DrawExtendGraph(movie_explane_pos.x, movie_explane_pos.y, movie_explane_pos.x + movie_explane_widht, movie_explane_pos.y + movie_explane_height, movieExplane_, TRUE);
 	SetDrawScreen(DX_SCREEN_BACK);
-	DrawBox(movie_explane_pos.x - 5, movie_explane_pos.y -5 , movie_explane_pos.x + movie_explane_widht + 5, movie_explane_pos.y + movie_explane_height + 5, GetColor(255,255,255), TRUE);
+	DrawBox(movie_explane_pos.x - 5, movie_explane_pos.y - 5, movie_explane_pos.x + movie_explane_widht + 5, movie_explane_pos.y + movie_explane_height + 5, GetColor(255,255,255), TRUE);
 	DrawExtendGraph(movie_explane_pos.x, movie_explane_pos.y, movie_explane_pos.x + movie_explane_widht, movie_explane_pos.y + movie_explane_height, movieExplane_, TRUE);
+	PlayTransparentMovie(concentrationlLinesMovie_, transparentScreen_, 0, movie_explane_widht * extend_width_height, movie_explane_height * extend_width_height,
+		VGet(movie_explane_pos.x - 5 * adjsut_concentrationl_lines_pos.x, movie_explane_pos.y - 5 * adjsut_concentrationl_lines_pos.y, 0));
 }
