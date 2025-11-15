@@ -152,9 +152,10 @@ void PlayUI::playerUI(std::shared_ptr<CharaBase> chara, int playerNumber)
 		umbrellaUI(chara, playerNumber);
 	}
 
-	//ゲージ表示
-	DrawExtendGraph(hpEmptyPosition_.x + (adjust_hp_empty_x * playerNumber), hpEmptyPosition_.y,
-		hpEmptyPosition_.x + hp_empty_width + (adjust_hp_empty_x * playerNumber), hpEmptyPosition_.y + hp_empty_height, hpEmpty_, TRUE);
+	//hpゲージ表示
+	//DrawExtendGraph(hpEmptyPosition_.x + (adjust_hp_empty_x * playerNumber), hpEmptyPosition_.y,
+		//hpEmptyPosition_.x + hp_empty_width + (adjust_hp_empty_x * playerNumber), hpEmptyPosition_.y + hp_empty_height, hpEmpty_, TRUE);
+	DrawExtendGraph3D(chara->Getposition_().x, chara->Getposition_().y,chara->Getposition_().z,1.0,1.0, hpEmpty_, TRUE);
 	if (chara->Gethp_() < max_hp / 3)
 	{
 
