@@ -50,10 +50,10 @@ private:
 	const int		hp_empty_width				= 210;
 	const int		hp_empty_height				= 50;
 	const int		adjust_hp_empty_x			= 400;
-	const VECTOR	hp__init_position			= VGet(-130.0f, 987.0f, 0.0f);
-	const int		hp__width					= 150;
-	const int		hp__height					= 25;
-	const int		adjust_hp__x				= 400;
+	const VECTOR	hp_init_position			= VGet(-130.0f, 987.0f, 0.0f);
+	const int		hp_width					= 150;
+	const int		hp_height					= 25;
+	const int		adjust_hp_x					= 400;
 	const VECTOR	A_ui_position				= VGet(60, 110, 0);
 	const VECTOR	Lstick_ui_position			= VGet(60, 160, 0);
 	const VECTOR	LT_ui_position				= VGet(60, 350, 0);
@@ -73,4 +73,5 @@ private:
 	const VECTOR	A_ui_wind_position			= VGet(60, 295, 0);
 	const double	max_cool_time				= 100.0;
 	const VECTOR	wind_width_height			= VGet(100, 100, 0);
+	const VECTOR	adjust_hp_gage_pos			= VGet(0.0f, 4.25f, 1.5f);
 };

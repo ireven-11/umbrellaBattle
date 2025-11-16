@@ -27,7 +27,7 @@ PlayUI::PlayUI(const char* fontName)
 	coolTimeGage_		= LoadGraph("graph/coolTimeGage.png");
 	windGraph_			= LoadGraph("graph/wind.png");
 
-	hpPosition_			= hp__init_position;
+	hpPosition_			= hp_init_position;
 	hpEmptyPosition_	= hp_empty_init_position;
 	umbrellaPosition_	= umbrella_init_position;
 	for (auto i = 0; i < 4; i++)
@@ -63,7 +63,7 @@ PlayUI::~PlayUI()
 
 void PlayUI::reset()
 {
-	hpPosition_			= hp__init_position;
+	hpPosition_			= hp_init_position;
 	hpEmptyPosition_	= hp_empty_init_position;
 	umbrellaPosition_	= umbrella_init_position;
 	for (auto i = 0; i < max_player_number; i++)
@@ -153,19 +153,17 @@ void PlayUI::playerUI(std::shared_ptr<CharaBase> chara, int playerNumber)
 	}
 
 	//hpƒQ[ƒW•\Ž¦
-	//DrawExtendGraph(hpEmptyPosition_.x + (adjust_hp_empty_x * playerNumber), hpEmptyPosition_.y,
-		//hpEmptyPosition_.x + hp_empty_width + (adjust_hp_empty_x * playerNumber), hpEmptyPosition_.y + hp_empty_height, hpEmpty_, TRUE);
-	DrawExtendGraph3D(chara->Getposition_().x, chara->Getposition_().y + 4.0f,chara->Getposition_().z - 1.5f,0.01,0.01, hpEmpty_, TRUE);
-	if (chara->Gethp_() < max_hp / 3)
+	if (chara->Getstate_() == std::dynamic_pointer_cast<CharaState::OpenState>(chara->Getstate_()))
 	{
-
-		DrawExtendBrinkGraph(hpPosition_.x + (adjust_hp__x * playerNumber), hpPosition_.y,
-			(chara->Gethp_() * hp__width) / max_hp, hp__height, hp_, TRUE, 4);
-	}
-	else
-	{
-		DrawExtendGraphF(hpPosition_.x + (adjust_hp__x * playerNumber), hpPosition_.y,
-			hpPosition_.x + (chara->Gethp_() * hp__width) / max_hp + (adjust_hp__x * playerNumber), hpPosition_.y + hp__height, hp_, TRUE);
+		DrawExtendGraph3D(chara->Getposition_().x, chara->Getposition_().y + adjust_hp_gage_pos.y, chara->Getposition_().z - adjust_hp_gage_pos.z,
+			0.01, 0.01, hpEmpty_, TRUE);
+		const float adust_decrease_hp_gage	= 0.01f;
+		const float adust_hp_gage			= 0.3f;
+		const float hpSizeY					= 0.01f;
+		float decreaseHP					= (max_hp - chara->Gethp_()) * adust_decrease_hp_gage;
+		float hpSizeX						= (chara->Gethp_() * 0.00005);
+		DrawExtendGraph3D(chara->Getposition_().x + adust_hp_gage - decreaseHP, chara->Getposition_().y + adjust_hp_gage_pos.y, chara->Getposition_().z - adjust_hp_gage_pos.z,
+			hpSizeX, hpSizeY, hp_, TRUE);
 	}
 }
 
