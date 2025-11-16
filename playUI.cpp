@@ -155,15 +155,30 @@ void PlayUI::playerUI(std::shared_ptr<CharaBase> chara, int playerNumber)
 	//hpゲージ表示
 	if (chara->Getstate_() == std::dynamic_pointer_cast<CharaState::OpenState>(chara->Getstate_()))
 	{
-		DrawExtendGraph3D(chara->Getposition_().x, chara->Getposition_().y + adjust_hp_gage_pos.y, chara->Getposition_().z - adjust_hp_gage_pos.z,
-			0.01, 0.01, hpEmpty_, TRUE);
-		const float adust_decrease_hp_gage	= 0.01f;
-		const float adust_hp_gage			= 0.3f;
-		const float hpSizeY					= 0.01f;
-		float decreaseHP					= (max_hp - chara->Gethp_()) * adust_decrease_hp_gage;
-		float hpSizeX						= (chara->Gethp_() * 0.00005);
-		DrawExtendGraph3D(chara->Getposition_().x + adust_hp_gage - decreaseHP, chara->Getposition_().y + adjust_hp_gage_pos.y, chara->Getposition_().z - adjust_hp_gage_pos.z,
-			hpSizeX, hpSizeY, hp_, TRUE);
+		hpGage(chara);
+	}
+}
+
+void PlayUI::hpGage(std::shared_ptr<CharaBase> chara)
+{
+	DrawExtendGraph3D(chara->Getposition_().x, chara->Getposition_().y + adjust_hp_gage_pos.y, chara->Getposition_().z - adjust_hp_gage_pos.z,
+		0.01, 0.01, hpEmpty_, TRUE);
+	const float		adust_decrease_hp_gage	= 0.01f;
+	const float		adust_hp_gage			= 0.3f;
+	const float		hp_size_y				= 0.01f;
+	const double	adjust_hp_max_x			= 0.00005;
+	float decreaseHP						= (max_hp - chara->Gethp_()) * adust_decrease_hp_gage;
+	float hpSizeX							= (chara->Gethp_() * adjust_hp_max_x);
+
+	//ダメージ状態の画像に切り替える	
+	if (chara->GetOnDamage())
+	{
+
+	}
+	else
+	{
+		DrawExtendGraph3D(chara->Getposition_().x + adust_hp_gage - decreaseHP, chara->Getposition_().y + adjust_hp_gage_pos.y,
+			chara->Getposition_().z - adjust_hp_gage_pos.z, hpSizeX, hp_size_y, hp_, TRUE);
 	}
 }
 

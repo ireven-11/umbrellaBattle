@@ -157,6 +157,7 @@ void CharaBase::reset()
 	distance_		= 0.0f;
 	knockBackVector_ = VGet(0.0f, 0.0f, 0.0f);
 	isDrawing_		= false;
+	onDamage_		= false;
 }
 
 /// <summary>
@@ -166,6 +167,9 @@ void CharaBase::update(Routine* routine, std::shared_ptr<Stage> stage)
 {
 	//コントローラーの入力状態を取得する
 	GetJoypadDirectInputState(controlerNumber_, &input);
+
+	//ダメージ状態をリセットする
+	onDamage_ = false;
 
 	//状態によって行動を変える
 	state_->update(this);
@@ -739,6 +743,7 @@ void CharaBase::onBeatedChara(std::shared_ptr<CharaBase> otherChara, std::shared
 void CharaBase::subHp()
 {
 	--hp_;
+	onDamage_ = true;
 }
 
 /// <summary>

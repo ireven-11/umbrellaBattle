@@ -85,6 +85,7 @@ public:
 	short								GetwindCount_()const noexcept { return windCount_; }
 	double								GetrotationAngleY_()const noexcept { return rotationAngleY_; }
 	VECTOR								GettackleEffectPos_()const { return tackleEffectPos_; }
+	bool								GetOnDamage()const { return onDamage_; }
 	
 private:
 	const float		fall_speed				= 0.25f;
@@ -180,6 +181,7 @@ protected:
 	float	distance_;
 	VECTOR	knockBackVector_;
 	bool	isDrawing_;	
+	bool	onDamage_;
 
 	const float		move_speed				= 0.3f;
 	const double	agnle_shift_number		= 0.75;

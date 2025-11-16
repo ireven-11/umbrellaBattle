@@ -79,7 +79,7 @@ void PlayGraph::update()
 		else if (expandMovieCount_ < max_expand_count / 2 - 20)
 		{
 			//ŠÈ’P‚ÈƒQ[ƒ€à–¾
-			DrawStringToHandle(explane_rule_position.x, explane_rule_position.y, "ƒ‰ƒbƒpŽP‚É‚È‚ç‚¸‚É", GetColor(255, 50, 50), fontHandle_);
+			DrawStringToHandle(explane_rule_position.x, explane_rule_position.y, "HP‚ð0‚É‚¹‚¸‚É", GetColor(255, 50, 50), fontHandle_);
 			DrawExtendGraph(trumpet_position.x, trumpet_position.y, trumpet_position.x + trumpet_width, trumpet_position.y + trumpet_height, trumpet_, TRUE);
 			DrawStringToHandle(batu_position.x, batu_position.y, "¨ ~", GetColor(255, 50, 50), fontHandleSize300_);
 		}

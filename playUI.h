@@ -18,6 +18,7 @@ private:
 	void trumpetUI(int playerNumber);
 	void umbrellaUI(std::shared_ptr<CharaBase> chara, int playerNumber);
 	void windGage(std::shared_ptr<CharaBase> chara, int playerNumber);
+	void hpGage(std::shared_ptr<CharaBase> chara);
 
 	int		fontHandle_;		//フォントハンドル
 	int		umbrella1_;			//傘1
