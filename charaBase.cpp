@@ -790,7 +790,7 @@ void CharaBase::constructFrameEnd()
 
 void CharaBase::decideMoveAngle(VECTOR movePosition)
 {
-	rotationAngleY_ = atan2(static_cast<double>(movePosition.x - position_.x), static_cast<double>(movePosition.z - position_.z)) - 90 * DX_PI /180;
+	rotationAngleY_ = atan2(static_cast<double>(movePosition.x - position_.x), static_cast<double>(movePosition.z - position_.z)) - 90 * DX_PI / 180;
 }
 
 bool CharaBase::isDrawing()

@@ -22,6 +22,8 @@ private:
 	void decideTarget(CharaBase* charaBase);
 	void decideNextAction(CharaBase* charaBase, Routine* routine, std::shared_ptr<Stage> stage);
 	void decideChaceRoot(CharaBase* charaBase, Routine* routine);
+	void chase(CharaBase* charaBase, Routine* routine, std::shared_ptr<Stage> stage);
+	void tackle();
 
 	bool	isTarget_;
 	int		randomTarget_;

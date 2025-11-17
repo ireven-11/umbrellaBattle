@@ -33,10 +33,8 @@ void CPUBrain::update(CharaBase* charaBase, Routine* routine, std::shared_ptr<St
 	decideTarget(charaBase);
 	dicideTargetCount_++;
 
-	distance_ = CalculateDistance<float>(charaBase->Getposition_(), routine->players[randomTarget_ - 1]->Getposition_());
-
 	//ターゲットが扇風機でない時だけ次の行動に移る
-	if (routine->players[randomTarget_ - 1]->Getstate_() != std::dynamic_pointer_cast<CharaState::FanState>(routine->players[randomTarget_ - 1]->Getstate_())
+	if (routine->players[randomTarget_ - 1]->Getstate_() == std::dynamic_pointer_cast<CharaState::OpenState>(routine->players[randomTarget_ - 1]->Getstate_())
 		&& dicideTargetCount_ != 150)
 	{
 		decideNextAction(charaBase, routine, stage);
@@ -77,51 +75,28 @@ void CPUBrain::decideTarget(CharaBase* charaBase)
 /// <param name="routine">ルーチンクラス</param>
 void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, std::shared_ptr<Stage> stage)
 {
+	VECTOR targetCharaPos = routine->players[randomTarget_ - 1]->Getposition_();
+	distance_ = CalculateDistance<float>(charaBase->Getposition_(), targetCharaPos);
+
+
+	if (distance_ < 5.0f)
+	{
+		chase(charaBase, routine, stage);
+	}
+	else
+	{
+		charaBase->decideMoveAngle(targetCharaPos);
+		charaBase->input.Y			= 750;
+		charaBase->input.Buttons[0] = 100;
+		charaBase->input.Buttons[1] = 100;
+	}
+}
+
+void CPUBrain::chase(CharaBase* charaBase, Routine* routine, std::shared_ptr<Stage> stage)
+{
 	//探索したルートで追跡する
 	if (charaBase->Getstate_() != std::dynamic_pointer_cast<CharaState::FanState>(charaBase->Getstate_()))
 	{
-		//デバッグ用
-		/*auto debugIt = chaseRoot_.begin();
-		switch (randomTarget_)
-		{
-		case 1:
-			DrawSphere3D(stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x], 1.0f, 32, GetColor(0, 0, 0), GetColor(255, 255, 255), TRUE);
-			for (auto i = 0; i < chaseRoot_.size(); i++)
-			{
-				DrawSphere3D(stage->Getposition_()[debugIt->y][debugIt->x], 1.0f, 32, GetColor(30 * i, 0, 0), GetColor(255, 255, 255), TRUE);
-				debugIt++;
-			}
-
-			break;
-
-		case 2:
-			DrawSphere3D(stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x], 1.0f, 32, GetColor(0, 0, 255), GetColor(255, 255, 255), TRUE);
-			for (auto i = 0; i < chaseRoot_.size(); i++)
-			{
-				DrawSphere3D(stage->Getposition_()[debugIt->y][debugIt->x], 1.0f, 32, GetColor(30 * i, 0, 255), GetColor(255, 255, 255), TRUE);
-				debugIt++;
-			}
-			break;
-		case 3:
-			DrawSphere3D(stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x], 1.0f, 32, GetColor(255, 255, 0), GetColor(255, 255, 255), TRUE);
-			for (auto i = 0; i < chaseRoot_.size(); i++)
-			{
-				DrawSphere3D(stage->Getposition_()[debugIt->y][debugIt->x], 1.0f, 32, GetColor(255, 255, 30 * i), GetColor(255, 255, 255), TRUE);
-				debugIt++;
-			}
-			break;
-		case 4:
-			DrawSphere3D(stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x], 1.0f, 32, GetColor(255, 0, 0), GetColor(255, 255, 255), TRUE);
-			for (auto i = 0; i < chaseRoot_.size(); i++)
-			{
-				DrawSphere3D(stage->Getposition_()[debugIt->y][debugIt->x], 1.0f, 32, GetColor(255, 0, 30 * i), GetColor(255, 255, 255), TRUE);
-				debugIt++;
-			}
-			break;
-		default:
-			break;
-		}*/
-
 		//移動
 		//追跡ルート決定
 		decideChaceRoot(charaBase, routine);
@@ -150,7 +125,7 @@ void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, std::sha
 	{
 		//扇風機の時に移動するようにinputに直接数値を入れる
 		charaBase->input.Buttons[6] = 2025;
-		charaBase->input.Z			= 2025;
+		charaBase->input.Z = 2025;
 	}
 }
 
