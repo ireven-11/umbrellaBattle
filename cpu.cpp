@@ -25,12 +25,12 @@ void CPU::update(Routine* routine, std::shared_ptr<Stage> stage)
 	//コントローラーの入力状態を取得する
 	GetJoypadDirectInputState(controlerNumber_, &input);
 
+	//ダメージ状態をリセットする
+	onDamage_ = false;
+
 	//状態によって行動を変える
 	brain_->update(this, routine, stage);
 	state_->update(this);
-
-	//ダメージ状態をリセットする
-	onDamage_ = false;
 
 	MV1SetPosition(openingUmbrella_, position_);
 	MV1SetPosition(closingUmbrella_, position_);

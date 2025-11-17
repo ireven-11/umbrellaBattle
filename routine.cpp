@@ -47,7 +47,7 @@ Routine::Routine()
 
     //ムービー
     screenHandle_   = MakeScreen(1920, 1080);
-    movieHandle_    = LoadGraph("movie/demo.mp4");
+    movieHandle_    = LoadGraph("movie/demo3.mp4");
 
     //stage用の影を生成
     shadowMap->addStageShadows(stage);

@@ -4,7 +4,7 @@
 TitleGraph::TitleGraph()
 {
 	
-	logo_				= LoadGraph("graph/titleLogo.png");
+	logo_ = LoadGraph("graph/titleLogo.png");
 	
 	reset();
 }

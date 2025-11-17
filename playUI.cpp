@@ -77,9 +77,9 @@ void PlayUI::reset()
 
 void PlayUI::update(std::shared_ptr<CharaBase> chara, int playerNumber)
 {
-	playerUI(chara, playerNumber);
+	/*playerUI(chara, playerNumber);
 
-	buttonUI();
+	buttonUI();*/
 }
 
 void PlayUI::buttonUI()
