@@ -74,3 +74,72 @@ void CPU::rotation()
 		MV1SetRotationXYZ(openingUmbrella_, VGet(rotation_angle_x * DX_PI_F / 180.0f, rotationAngleY_ + adjust_rotation_angle_y, 0.0f));
 	}
 }
+
+void CPU::tackle()
+{
+	if (input.Buttons[1] > 0 && !isMovingTackle_ ||
+		input.Buttons[0] > 0 && !isMovingTackle_ ||
+		input.Buttons[0] > 0 && !isMovingTackle_)
+	{
+		isChargeTackle_ = true;
+	}
+	else
+	{
+		isChargeTackle_ = false;
+	}
+
+	//ボタンを押してはなしたら
+	if (tackleCount_ > 0 && input.Buttons[1] == 0 ||
+		tackleCount_ > 0 && input.Buttons[0] == 0 ||
+		tackleCount_ > 0 && input.Buttons[0] == 0)
+	{
+		isMovingTackle_ = true;
+		StopSoundMem(chargeSound_);
+		canLoopSound_ = false;
+		--tackleCount_;
+		tackleMoving();
+
+		if (!isOneSE_)
+		{
+			PlaySoundMem(tackleSound_, DX_PLAYTYPE_BACK);
+			SetFrequencySoundMem(-1, chargeSound_);
+			isOneSE_ = true;
+		}
+
+		//アクションするとhpが減る
+		subHp();
+	}
+	//Bボタンを押したら
+	else if (isChargeTackle_)
+	{
+		isTackle_ = true;
+		if (max_tackle_count > tackleCount_)
+		{
+			tackleCount_++;
+			tackleInplusePercent_ += add_tackle_inpluse_percent;
+
+			if (max_tackle_count == tackleCount_)
+			{
+				SetFrequencySoundMem(65000, chargeSound_);
+			}
+		}
+
+		//どの方向にタックルするかY軸の回転行列で決める
+		rotaionMatrix_ = MGetRotY(static_cast<float>(rotationAngleY_ + agnle_shift_number));
+
+		if (!canLoopSound_)
+		{
+			PlaySoundMem(chargeSound_, DX_PLAYTYPE_LOOP, TRUE);
+			canLoopSound_ = true;
+		}
+	}
+
+	//カウントが０なるかタックル中にBを押したらやめる
+	if (tackleCount_ == 0 && isMovingTackle_ || isMovingTackle_ && input.Buttons[1] > 0 ||
+		tackleCount_ == 0 && isMovingTackle_ || isMovingTackle_ && input.Buttons[0] > 0 ||
+		tackleCount_ == 0 && isMovingTackle_ || isMovingTackle_ && input.Buttons[0] > 0)
+	{
+		//タックルをやめる
+		stopTackle();
+	}
+}

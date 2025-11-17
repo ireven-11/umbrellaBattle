@@ -45,6 +45,10 @@ void CPUBrain::update(CharaBase* charaBase, Routine* routine, std::shared_ptr<St
 		isTarget_ = true;
 		dicideTargetCount_ = 0;
 	}
+
+	//扇風機の時に移動するようにinputに直接数値を入れる
+	charaBase->input.Buttons[6] = 2025;
+	charaBase->input.Z = 2025;
 }
 
 /// <summary>
@@ -78,17 +82,21 @@ void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, std::sha
 	VECTOR targetCharaPos = routine->players[randomTarget_ - 1]->Getposition_();
 	distance_ = CalculateDistance<float>(charaBase->Getposition_(), targetCharaPos);
 
-
-	if (distance_ < 5.0f)
+	if (distance_ < 20.0f)
 	{
+		//追いかける
 		chase(charaBase, routine, stage);
 	}
 	else
 	{
-		charaBase->decideMoveAngle(targetCharaPos);
-		charaBase->input.Y			= 750;
+		if (charaBase->GettackleCount_() == max_tackle_count) return;	//最大までチャージしたらタックルする
+		if (charaBase->GetisMovingTackle_()) return;					//タックルしてるときは再チャージしない
+
+		//タックルチャージ
 		charaBase->input.Buttons[0] = 100;
 		charaBase->input.Buttons[1] = 100;
+		charaBase->decideMoveAngle(targetCharaPos);
+		charaBase->input.Y			= 750;
 	}
 }
 
@@ -120,12 +128,6 @@ void CPUBrain::chase(CharaBase* charaBase, Routine* routine, std::shared_ptr<Sta
 				nextTilePosition_ = *it;
 			}
 		}
-	}
-	else
-	{
-		//扇風機の時に移動するようにinputに直接数値を入れる
-		charaBase->input.Buttons[6] = 2025;
-		charaBase->input.Z = 2025;
 	}
 }
 

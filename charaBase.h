@@ -115,7 +115,6 @@ private:
 	const short		tackle_sound_volume		= 210;
 	const char		extend_tackle			= 1;
 	const float		adjust_wind_vector		= 0.017f;
-	const float		add_tackle_inpluse_percent = 0.035;
 	
 protected:
 	void tackleMoving();
@@ -189,6 +188,7 @@ protected:
 	const double	agnle_shift_number		= 0.75;
 	const double	adjust_rotation_angle_y = agnle_shift_number * -2;
 	const float		rotation_angle_x		= -45.0f;
+	const float		add_tackle_inpluse_percent = 0.035;
 
 	//èÛë‘
 	std::shared_ptr<StateMachine::IState>	state_;

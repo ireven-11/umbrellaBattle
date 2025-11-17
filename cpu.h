@@ -14,6 +14,7 @@ public:
 private:
 	void wind()override;
 	void rotation()override;
+	void tackle()override;
 
 	//ƒuƒŒƒCƒ“‚ğéŒ¾
 	std::shared_ptr<CPUBrain> brain_ = std::make_shared<CPUBrain>();
