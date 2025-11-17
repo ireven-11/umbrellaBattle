@@ -29,11 +29,8 @@ void CPU::update(Routine* routine, std::shared_ptr<Stage> stage)
 	brain_->update(this, routine, stage);
 	state_->update(this);
 
-	//でばっぐリセット
-	if (CheckHitKey(KEY_INPUT_D) == true)
-	{
-		position_.y = 0.0f;
-	}
+	//ダメージ状態をリセットする
+	onDamage_ = false;
 
 	MV1SetPosition(openingUmbrella_, position_);
 	MV1SetPosition(closingUmbrella_, position_);
