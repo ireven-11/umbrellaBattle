@@ -158,6 +158,7 @@ void CharaBase::reset()
 	knockBackVector_ = VGet(0.0f, 0.0f, 0.0f);
 	isDrawing_		= false;
 	onDamage_		= false;
+	tackleInplusePercent_ = 0.0f;
 }
 
 /// <summary>
@@ -299,6 +300,7 @@ void CharaBase::tackle()
 		if (max_tackle_count > tackleCount_)
 		{
 			tackleCount_++;
+			tackleInplusePercent_ += add_tackle_inpluse_percent;
 
 			if (max_tackle_count == tackleCount_)
 			{
@@ -352,6 +354,7 @@ void CharaBase::stopTackle()
 	mass_			= init_mass;
 	isOneSE_		= false;
 	StopSoundMem(tackleSound_);
+	tackleInplusePercent_ = 0.0f;
 }
 
 /// <summary>
@@ -547,7 +550,7 @@ void CharaBase::decideKnockBackWithChara(std::shared_ptr<CharaBase> otherChara)
 			//ƒ^ƒbƒNƒ‹‚³‚ê‚½‚Æ‚«‚Í‚Ó‚Á‚Æ‚Î‚µ—Ê‚Æ‚«”ò‚ÔŽžŠÔ‚ð•Ï‚¦‚é
 			if (otherChara->GetisMovingTackle_())
 			{
-				knockBackVector_		= VScale(knockBackVector_, tackle_inpluse_percent);
+				knockBackVector_		= VScale(knockBackVector_, otherChara->GetTackleInplusePercent());
 				maxKnockBackCount_		+= extend_tackle;
 			}
 			else
@@ -771,7 +774,7 @@ void CharaBase::stopSound()
 /// </summary>
 void CharaBase::vibration()
 {
-	rad_ += static_cast<float>((DX_PI / 180) * 100);
+	rad_ += ((DX_PI_F / 180) * 100);
 
 	position_.x = position_.x + sinf(rad_);
 	position_.z = position_.z + sinf(rad_);

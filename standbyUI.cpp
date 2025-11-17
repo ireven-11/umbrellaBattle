@@ -2,6 +2,8 @@
 #include"standbyUI.h"
 #include"DrawBrinkStringToHandle.h"
 #include"PlayTransparentMovie.h"
+#include<cmath>
+#include<algorithm>
 
 /// <summary>
 /// コンストラクタ
@@ -30,13 +32,30 @@ StandbyUI::~StandbyUI()
 	DeleteGraph(concentrationlLinesMovie_);
 }
 
+
+float UpDownPositionY(float positionY, const float amplitude = 1.0f, const float period = 1.0f)
+{
+	if (period == 0.0f) return -1.0f;
+
+	static	float rad = 0.0f;
+	const	float add_rad = 10.0f;
+	rad += add_rad;
+	if (rad > 360.0f)
+	{
+		rad = 0.0f;
+	}
+
+	positionY += sinf(rad / period) * amplitude;
+	return positionY;
+}
+
 void StandbyUI::update(bool isjoiningPlayer[], const int max_player_number)
 {
 	playerJoin(isjoiningPlayer, max_player_number);
 
 	explaneRule();
 
-	DrawStringToHandle(practice_position.x, practice_position.y, "練習場", GetColor(255, 255, 50), fontHandleSize150_);
+	DrawStringToHandle(practice_position.x, UpDownPositionY(practice_position.y, 10.0f, 100.0f), "練習場", GetColor(255, 255, 50), fontHandleSize150_);
 	DrawStringToHandle(game_start_position.x, game_start_position.y, "Startでゲームスタート", GetColor(255, 255, 255), fontHandleSize100_);
 }
 
