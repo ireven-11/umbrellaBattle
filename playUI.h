@@ -42,6 +42,7 @@ private:
 	double	coolTime_[4];		//クールタイム
 	bool	canSetCoolTime_[4];	//クールタイムをセットできるか
 	int		windGraph_;			//風画像
+	int		damageHP_;
 
 	const int		umbrella_width				= 150;
 	const int		umbrella_height				= 150;

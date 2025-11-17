@@ -26,6 +26,7 @@ PlayUI::PlayUI(const char* fontName)
 	fanGraph_			= LoadGraph("graph/fan.png");
 	coolTimeGage_		= LoadGraph("graph/coolTimeGage.png");
 	windGraph_			= LoadGraph("graph/wind.png");
+	damageHP_			= LoadGraph("graph/hpDamage.png");
 
 	hpPosition_			= hp_init_position;
 	hpEmptyPosition_	= hp_empty_init_position;
@@ -59,6 +60,7 @@ PlayUI::~PlayUI()
 	DeleteGraph(fanGraph_);
 	DeleteGraph(coolTimeGage_);
 	DeleteGraph(windGraph_);
+	DeleteGraph(damageHP_);
 }
 
 void PlayUI::reset()
@@ -161,25 +163,58 @@ void PlayUI::playerUI(std::shared_ptr<CharaBase> chara, int playerNumber)
 
 void PlayUI::hpGage(std::shared_ptr<CharaBase> chara)
 {
-	DrawExtendGraph3D(chara->Getposition_().x, chara->Getposition_().y + adjust_hp_gage_pos.y, chara->Getposition_().z - adjust_hp_gage_pos.z,
-		0.01, 0.01, hpEmpty_, TRUE);
-	const float		adust_decrease_hp_gage	= 0.01f;
+	const float		adust_decrease_hp_gage	= 0.008f;
 	const float		adust_hp_gage			= 0.3f;
 	const float		hp_size_y				= 0.01f;
 	const double	adjust_hp_max_x			= 0.00005;
 	float decreaseHP						= (max_hp - chara->Gethp_()) * adust_decrease_hp_gage;
 	float hpSizeX							= (chara->Gethp_() * adjust_hp_max_x);
 
-	//ダメージ状態の画像に切り替える	
-	if (chara->GetOnDamage())
-	{
+	DrawExtendGraph3D(chara->Getposition_().x, chara->Getposition_().y + adjust_hp_gage_pos.y, chara->Getposition_().z - adjust_hp_gage_pos.z,
+		0.01, 0.01, hpEmpty_, TRUE);
 
+	//hpが少なかったら点滅させる
+	if (chara->Gethp_() < max_hp / 3)
+	{
+		const	short max_brink_counter = 30;
+		static	short brinkCounter		= 0;
+		++brinkCounter;
+
+		if (brinkCounter > max_brink_counter)
+		{
+			brinkCounter = 0;
+		}
+
+		if (brinkCounter < max_brink_counter * 0.5f)
+		{
+			//ダメージ状態の画像に切り替える	
+			if (chara->GetOnDamage())
+			{
+				DrawExtendGraph3D(chara->Getposition_().x + adust_hp_gage - decreaseHP, chara->Getposition_().y + adjust_hp_gage_pos.y,
+					chara->Getposition_().z - adjust_hp_gage_pos.z, hpSizeX, hp_size_y, damageHP_, TRUE);
+			}
+			else
+			{
+				DrawExtendGraph3D(chara->Getposition_().x + adust_hp_gage - decreaseHP, chara->Getposition_().y + adjust_hp_gage_pos.y,
+					chara->Getposition_().z - adjust_hp_gage_pos.z, hpSizeX, hp_size_y, hp_, TRUE);
+			}
+		}
 	}
 	else
 	{
-		DrawExtendGraph3D(chara->Getposition_().x + adust_hp_gage - decreaseHP, chara->Getposition_().y + adjust_hp_gage_pos.y,
-			chara->Getposition_().z - adjust_hp_gage_pos.z, hpSizeX, hp_size_y, hp_, TRUE);
+		//ダメージ状態の画像に切り替える	
+		if (chara->GetOnDamage())
+		{
+			DrawExtendGraph3D(chara->Getposition_().x + adust_hp_gage - decreaseHP, chara->Getposition_().y + adjust_hp_gage_pos.y,
+				chara->Getposition_().z - adjust_hp_gage_pos.z, hpSizeX, hp_size_y, damageHP_, TRUE);
+		}
+		else
+		{
+			DrawExtendGraph3D(chara->Getposition_().x + adust_hp_gage - decreaseHP, chara->Getposition_().y + adjust_hp_gage_pos.y,
+				chara->Getposition_().z - adjust_hp_gage_pos.z, hpSizeX, hp_size_y, hp_, TRUE);
+		}
 	}
+	
 }
 
 void PlayUI::fanUI(std::shared_ptr<CharaBase> chara, int playerNumber)
