@@ -600,13 +600,14 @@ void CharaBase::decideKnockBackWithChara(std::shared_ptr<CharaBase> otherChara)
 			changeHitNowFlag();
 			otherChara->changeHitNowFlag();
 		}
-	}
 
-	if (onFinishingHitStop_)
-	{
-		onHitStop_				= false;
-		otherChara->onHitStop_	= false;
-		onFinishingHitStop_		= false;
+		if (onFinishingHitStop_)
+		{
+			onHitStop_ = false;
+			otherChara->onHitStop_ = false;
+			onFinishingHitStop_ = false;
+			otherChara->onFinishingHitStop_ = false;
+		}
 	}
 }
 
@@ -637,7 +638,7 @@ void CharaBase::AdjustPositionAfterCollision(float amountX, float amountZ)
 /// </summary>
 void CharaBase::knockBackNow()
 {
-	if (!onHitStop_)
+	//if (!onHitStop_)
 	{
 		//ヒットが終わるのをカウントで待つ
 		if (isHit_)

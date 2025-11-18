@@ -171,6 +171,9 @@
     <ClCompile Include="ShadowMap.cpp">
       <Filter>ソース ファイル\shadow</Filter>
     </ClCompile>
+    <ClCompile Include="hitStopState.cpp">
+      <Filter>ソース ファイル\chara\state</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="setting.h">
@@ -295,6 +298,9 @@
     </ClInclude>
     <ClInclude Include="ShadowMap.h">
       <Filter>ヘッダー ファイル\shadow</Filter>
+    </ClInclude>
+    <ClInclude Include="hitStopState.h">
+      <Filter>ヘッダー ファイル\chara\state</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
