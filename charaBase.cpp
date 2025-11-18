@@ -162,6 +162,9 @@ void CharaBase::reset()
 	isDrawing_		= false;
 	onDamage_		= false;
 	tackleInplusePercent_ = 0.0f;
+	onHitStop_		= false;
+	hitStopCounter_ = 0;
+	onFinishingHitStop_ = false;
 }
 
 /// <summary>
@@ -175,9 +178,21 @@ void CharaBase::update(Routine* routine, std::shared_ptr<Stage> stage)
 	//ダメージ状態をリセットする
 	onDamage_ = false;
 
-	//状態によって行動を変える
-	state_->update(this);
-
+	if (onHitStop_)
+	{
+		++hitStopCounter_;
+		if (hitStopCounter_ > max_hit_stop_conut)
+		{
+			hitStopCounter_ = 0;
+			onFinishingHitStop_ = true;
+		}
+	}
+	else
+	{
+		//状態によって行動を変える
+		state_->update(this);
+	}
+	
 	setPosition();
 }
 
@@ -561,7 +576,10 @@ void CharaBase::decideKnockBackWithChara(std::shared_ptr<CharaBase> otherChara)
 
 				//コントローラーを振動させる
 				StartJoypadVibration(controlerNumber_, vibration_power * 2, vibration_time);
-				StartJoypadVibration(otherChara->GetcontrolerNumber_(), vibration_power * 2, vibration_time);
+				StartJoypadVibration(otherChara->controlerNumber_, vibration_power * 2, vibration_time);
+
+				onHitStop_				= true;
+				otherChara->onHitStop_	= true;
 			}
 			else
 			{
@@ -572,7 +590,7 @@ void CharaBase::decideKnockBackWithChara(std::shared_ptr<CharaBase> otherChara)
 
 				//コントローラーを振動させる
 				StartJoypadVibration(controlerNumber_, vibration_power, vibration_time);
-				StartJoypadVibration(otherChara->GetcontrolerNumber_(), vibration_power, vibration_time);
+				StartJoypadVibration(otherChara->controlerNumber_, vibration_power * 2, vibration_time);
 			}
 
 			// 自キャラへの反発速度適用
@@ -582,6 +600,13 @@ void CharaBase::decideKnockBackWithChara(std::shared_ptr<CharaBase> otherChara)
 			changeHitNowFlag();
 			otherChara->changeHitNowFlag();
 		}
+	}
+
+	if (onFinishingHitStop_)
+	{
+		onHitStop_				= false;
+		otherChara->onHitStop_	= false;
+		onFinishingHitStop_		= false;
 	}
 }
 
@@ -612,42 +637,45 @@ void CharaBase::AdjustPositionAfterCollision(float amountX, float amountZ)
 /// </summary>
 void CharaBase::knockBackNow()
 {
-	//ヒットが終わるのをカウントで待つ
-	if (isHit_)
+	if (!onHitStop_)
 	{
-		++waitHitCount_;
-
-		if (waitHitCount_ > 3)
+		//ヒットが終わるのをカウントで待つ
+		if (isHit_)
 		{
-			isHit_			= false;
-			waitHitCount_	= 0;
-		}
-	}
+			++waitHitCount_;
 
-	if(isKnockBack_)
-	{
-		//カウントが一定になったらノックバックをやめる
-		++knockBackCount_;
-		if (knockBackCount_ > maxKnockBackCount_ )
-		{
-			knockBackCount_		= 0;
-			isKnockBack_		= false;
-			maxKnockBackCount_	= init_knock_back_max_;
-			return;
+			if (waitHitCount_ > 3)
+			{
+				isHit_ = false;
+				waitHitCount_ = 0;
+			}
 		}
 
-		//タックル移動中だったらタックルをやめる。ノックバックもしない
-		if (isMovingTackle_)
+		if (isKnockBack_)
 		{
-			stopTackle();
-			knockBackCount_		= 0;
-			isKnockBack_		= false;
-			maxKnockBackCount_	= init_knock_back_max_;
-			return;
-		}
+			//カウントが一定になったらノックバックをやめる
+			++knockBackCount_;
+			if (knockBackCount_ > maxKnockBackCount_)
+			{
+				knockBackCount_ = 0;
+				isKnockBack_ = false;
+				maxKnockBackCount_ = init_knock_back_max_;
+				return;
+			}
 
-		collisionCenterPosition_	= VAdd(collisionCenterPosition_, knockBackVector_);
-		position_					= VAdd(position_, knockBackVector_);
+			//タックル移動中だったらタックルをやめる。ノックバックもしない
+			if (isMovingTackle_)
+			{
+				stopTackle();
+				knockBackCount_ = 0;
+				isKnockBack_ = false;
+				maxKnockBackCount_ = init_knock_back_max_;
+				return;
+			}
+
+			collisionCenterPosition_ = VAdd(collisionCenterPosition_, knockBackVector_);
+			position_ = VAdd(position_, knockBackVector_);
+		}
 	}
 }
 

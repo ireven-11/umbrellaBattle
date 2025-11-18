@@ -1,5 +1,5 @@
-#include"DxLib.h"
 #include"setting.h"
+#include"DxLib.h"
 #include"FPS.h"
 #include"sceneManager.h"
 #include"camera.h"

@@ -87,8 +87,13 @@ public:
 	VECTOR								GettackleEffectPos_()const  noexcept { return tackleEffectPos_; }
 	bool								GetOnDamage()const noexcept { return onDamage_; }
 	float								GetTackleInplusePercent()const noexcept { return tackleInplusePercent_; }
+	bool								GetOnHitStop()const noexcept { return onHitStop_; }
 	
 private:
+	bool	onHitStop_;
+	short	hitStopCounter_;
+	bool	onFinishingHitStop_;
+
 	const float		fall_speed				= 0.25f;
 	const float		scale					= 0.15f;
 	const int		adjust_tackle			= 40;
@@ -115,6 +120,7 @@ private:
 	const short		tackle_sound_volume		= 210;
 	const char		extend_tackle			= 1;
 	const float		adjust_wind_vector		= 0.017f;
+	const short		max_hit_stop_conut		= 2;
 	
 protected:
 	void tackleMoving();

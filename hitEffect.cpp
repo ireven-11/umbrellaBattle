@@ -30,9 +30,17 @@ void HitEffect::update(std::shared_ptr<CharaBase> chara)
 	{
 		playingHandle_ = PlayEffekseer3DEffect(effectHandle_);
 
-		SetScalePlayingEffekseer3DEffect(playingHandle_, scale, scale, scale);
-		SetSpeedPlayingEffekseer3DEffect(playingHandle_, play_speed);
+		if (chara->GetOnHitStop())
+		{
+			SetScalePlayingEffekseer3DEffect(playingHandle_, scale * 2.5f, scale * 2.5f, scale * 2.5f);
+			//SetColorPlayingEffekseer3DEffect(playingHandle_, 0, 0, 255, 255);
+		}
+		else
+		{
+			SetScalePlayingEffekseer3DEffect(playingHandle_, scale, scale, scale);
+		}
 
+		SetSpeedPlayingEffekseer3DEffect(playingHandle_, play_speed);
 		position_ = chara->GetcollisionCenterPosition_();
 	}
 
