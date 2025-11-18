@@ -23,7 +23,6 @@ private:
 	void decideNextAction(CharaBase* charaBase, Routine* routine, std::shared_ptr<Stage> stage);
 	void decideChaceRoot(CharaBase* charaBase, Routine* routine);
 	void chase(CharaBase* charaBase, Routine* routine, std::shared_ptr<Stage> stage);
-	void tackle();
 
 	bool	isTarget_;
 	int		randomTarget_;
@@ -38,5 +37,6 @@ private:
 	int		chaseCount_;
 	position nextTilePosition_;
 
-	const float distance_error = 0.0025f;
+	const float distance_error	= 0.0025f;
+	const float tackle_range	= 22.5f;
 };

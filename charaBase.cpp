@@ -68,6 +68,8 @@ CharaBase::CharaBase(const int join_number)
 	ChangeVolumeSoundMem(change_fan_sound_volume, changeFanSound_);
 	tackleSound_	= LoadSoundMem("sound/tackle.mp3");
 	ChangeVolumeSoundMem(tackle_sound_volume, tackleSound_);
+	crashSound_ = LoadSoundMem("sound/crash/mp3");
+	ChangeVolumeSoundMem(hit_sound_volume, hitSound_);
 
 	//コントローラーのデッドゾーンを設定
 	SetJoypadDeadZone(controlerNumber_, 0.1);
@@ -91,6 +93,7 @@ CharaBase::~CharaBase()
 	DeleteSoundMem(inverseSound_);
 	DeleteSoundMem(changeFanSound_);
 	DeleteSoundMem(tackleSound_);
+	DeleteSoundMem(crashSound_);
 	state_ = nullptr;
 }
 
@@ -552,25 +555,32 @@ void CharaBase::decideKnockBackWithChara(std::shared_ptr<CharaBase> otherChara)
 			{
 				knockBackVector_		= VScale(knockBackVector_, otherChara->GetTackleInplusePercent());
 				maxKnockBackCount_		+= extend_tackle;
+
+				//ヒット音
+				PlaySoundMem(crashSound_, DX_PLAYTYPE_BACK, TRUE);
+
+				//コントローラーを振動させる
+				StartJoypadVibration(controlerNumber_, vibration_power * 2, vibration_time);
+				StartJoypadVibration(otherChara->GetcontrolerNumber_(), vibration_power * 2, vibration_time);
 			}
 			else
 			{
 				maxKnockBackCount_ = init_knock_back_max_;
+
+				//ヒット音
+				PlaySoundMem(hitSound_, DX_PLAYTYPE_BACK, TRUE);
+
+				//コントローラーを振動させる
+				StartJoypadVibration(controlerNumber_, vibration_power, vibration_time);
+				StartJoypadVibration(otherChara->GetcontrolerNumber_(), vibration_power, vibration_time);
 			}
 
 			// 自キャラへの反発速度適用
 			knockBackVector_ = VScale(knockBackVector_, -1.0f);
-
-			//ヒット音
-			PlaySoundMem(hitSound_, DX_PLAYTYPE_BACK, TRUE);
-
+			
 			//フラグをtrueに
 			changeHitNowFlag();
 			otherChara->changeHitNowFlag();
-
-			//コントローラーを振動させる
-			StartJoypadVibration(controlerNumber_, vibration_power, vibration_time);
-			StartJoypadVibration(otherChara->GetcontrolerNumber_(), vibration_power, vibration_time);
 		}
 	}
 }

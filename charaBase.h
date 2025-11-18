@@ -183,6 +183,7 @@ protected:
 	bool	isDrawing_;	
 	bool	onDamage_;
 	float	tackleInplusePercent_;
+	int		crashSound_;
 
 	const float		move_speed				= 0.3f;
 	const double	agnle_shift_number		= 0.75;

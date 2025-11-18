@@ -82,7 +82,7 @@ void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, std::sha
 	VECTOR targetCharaPos = routine->players[randomTarget_ - 1]->Getposition_();
 	distance_ = CalculateDistance<float>(charaBase->Getposition_(), targetCharaPos);
 
-	if (distance_ < 20.0f)
+	if (distance_ < tackle_range)
 	{
 		//’Ç‚¢‚©‚¯‚é
 		chase(charaBase, routine, stage);
