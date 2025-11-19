@@ -90,10 +90,6 @@ public:
 	bool								GetOnHitStop()const noexcept { return onHitStop_; }
 	
 private:
-	bool	onHitStop_;
-	short	hitStopCounter_;
-	bool	onFinishingHitStop_;
-
 	const float		fall_speed				= 0.25f;
 	const float		scale					= 0.15f;
 	const int		adjust_tackle			= 40;
@@ -120,7 +116,6 @@ private:
 	const short		tackle_sound_volume		= 210;
 	const char		extend_tackle			= 1;
 	const float		adjust_wind_vector		= 0.017f;
-	const short		max_hit_stop_conut		= 2;
 	
 protected:
 	void tackleMoving();
@@ -190,12 +185,17 @@ protected:
 	bool	onDamage_;
 	float	tackleInplusePercent_;
 	int		crashSound_;
+	bool	onHitStop_;
+	short	hitStopCounter_;
+	bool	onFinishingHitStop_;
+
 
 	const float		move_speed				= 0.3f;
 	const double	agnle_shift_number		= 0.75;
 	const double	adjust_rotation_angle_y = agnle_shift_number * -2;
 	const float		rotation_angle_x		= -45.0f;
 	const float		add_tackle_inpluse_percent = 0.035;
+	const short		max_hit_stop_conut = 2;
 
 	//èÛë‘
 	std::shared_ptr<StateMachine::IState>	state_;

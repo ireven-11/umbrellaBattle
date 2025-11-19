@@ -164,7 +164,6 @@
     <ClCompile Include="fallEffect.cpp" />
     <ClCompile Include="FPS.cpp" />
     <ClCompile Include="hitEffect.cpp" />
-    <ClCompile Include="hitStopState.cpp" />
     <ClCompile Include="main.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
@@ -218,7 +217,6 @@
     <ClInclude Include="fanState.h" />
     <ClInclude Include="FPS.h" />
     <ClInclude Include="hitEffect.h" />
-    <ClInclude Include="hitStopState.h" />
     <ClInclude Include="IEffect.h" />
     <ClInclude Include="IRendelbleShadow.h" />
     <ClInclude Include="IState.h" />

@@ -638,7 +638,7 @@ void CharaBase::AdjustPositionAfterCollision(float amountX, float amountZ)
 /// </summary>
 void CharaBase::knockBackNow()
 {
-	//if (!onHitStop_)
+	if (!onHitStop_)
 	{
 		//ヒットが終わるのをカウントで待つ
 		if (isHit_)
