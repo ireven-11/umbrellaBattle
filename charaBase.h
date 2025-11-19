@@ -117,7 +117,8 @@ private:
 	const short		tackle_sound_volume		= 210;
 	const char		extend_tackle			= 1;
 	const float		adjust_wind_vector		= 0.017f;
-	
+	const int		tackle_damage			= 15;
+
 protected:
 	void tackleMoving();
 	virtual void stopTackle();
