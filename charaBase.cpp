@@ -178,19 +178,14 @@ void CharaBase::update(Routine* routine, std::shared_ptr<Stage> stage)
 	//ダメージ状態をリセットする
 	onDamage_ = false;
 
-	if (onHitStop_)
-	{
-		++hitStopCounter_;
-		if (hitStopCounter_ > max_hit_stop_conut)
-		{
-			hitStopCounter_ = 0;
-			onFinishingHitStop_ = true;
-		}
-	}
-	else
+	if (!onHitStop_)
 	{
 		//状態によって行動を変える
 		state_->update(this);
+	}
+	else
+	{
+		hitStopNow();
 	}
 	
 	setPosition();
@@ -318,7 +313,10 @@ void CharaBase::tackle()
 		if (max_tackle_count > tackleCount_)
 		{
 			tackleCount_++;
-			tackleInplusePercent_ += add_tackle_inpluse_percent;
+			if (tackleInplusePercent_ < max_tackle_inpulse_persent)
+			{
+				tackleInplusePercent_ += add_tackle_inpluse_percent;
+			}
 
 			if (max_tackle_count == tackleCount_)
 			{
@@ -688,8 +686,7 @@ void CharaBase::collisionRotation()
 	MATRIX tempMatrix			= MGetRotY(static_cast<float>(rotationAngleY_));
 	VECTOR tempVector			= VTransform(collision_adjust_position, rotaionMatrix_);
 	collisionCenterPosition_	= VAdd(position_, tempVector);
-	VECTOR tempVector2			= VTransform(VScale(collision_adjust_position, 2.0f), rotaionMatrix_);
-	tackleEffectPos_			= VAdd(position_, tempVector2);
+	setTackleEffetctPos();
 }
 
 void CharaBase::changeHitNowFlag()
@@ -837,4 +834,21 @@ bool CharaBase::isDrawing()
 	if (isDrawing_)return true;
 
 	return false;
+}
+
+void CharaBase::hitStopNow()
+{
+	++hitStopCounter_;
+	if (hitStopCounter_ > max_hit_stop_conut)
+	{
+		hitStopCounter_		= 0;
+		onFinishingHitStop_ = true;
+	}
+	setTackleEffetctPos();
+}
+
+void CharaBase::setTackleEffetctPos()
+{
+	VECTOR tempVector2	= VTransform(VScale(collision_adjust_position, 2.0f), rotaionMatrix_);
+	tackleEffectPos_	= VAdd(position_, tempVector2);
 }

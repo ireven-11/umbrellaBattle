@@ -125,7 +125,9 @@ protected:
 	VECTOR decideRespawnPosition(std::shared_ptr<Stage> stage);
 	void onBeatedChara(std::shared_ptr<CharaBase> otherChara, std::shared_ptr<Stage> stage);
 	void subHp();
-	
+	void hitStopNow();
+	void setTackleEffetctPos();
+
 	VECTOR	position_;			//座標
 	int		openingUmbrella_;	//モデルハンドル(開いた状態)
 	int		closingUmbrella_;	//モデルハンドル(閉じた状態)
@@ -189,13 +191,13 @@ protected:
 	short	hitStopCounter_;
 	bool	onFinishingHitStop_;
 
-
 	const float		move_speed				= 0.3f;
 	const double	agnle_shift_number		= 0.75;
 	const double	adjust_rotation_angle_y = agnle_shift_number * -2;
 	const float		rotation_angle_x		= -45.0f;
 	const float		add_tackle_inpluse_percent = 0.035;
 	const short		max_hit_stop_conut = 2;
+	const float		max_tackle_inpulse_persent = 1.4f;
 
 	//状態
 	std::shared_ptr<StateMachine::IState>	state_;

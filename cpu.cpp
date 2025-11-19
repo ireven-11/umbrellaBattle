@@ -28,20 +28,15 @@ void CPU::update(Routine* routine, std::shared_ptr<Stage> stage)
 	//ダメージ状態をリセットする
 	onDamage_ = false;
 
-	if (onHitStop_)
-	{
-		++hitStopCounter_;
-		if (hitStopCounter_ > max_hit_stop_conut)
-		{
-			hitStopCounter_ = 0;
-			onFinishingHitStop_ = true;
-		}
-	}
-	else
+	if (!onHitStop_)
 	{
 		//状態によって行動を変える
 		brain_->update(this, routine, stage);
 		state_->update(this);
+	}
+	else
+	{
+		hitStopNow();
 	}
 
 	MV1SetPosition(openingUmbrella_, position_);
