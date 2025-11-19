@@ -56,6 +56,7 @@ public:
 	virtual void wind();
 	void decideMoveAngle(VECTOR movePosition);
 	bool isDrawing();
+	void finishHitStopTiming();
 
 	DINPUT_JOYSTATE input;		//コントローラー(D)用構造体変数
 

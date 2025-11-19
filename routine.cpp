@@ -228,10 +228,14 @@ void Routine::stanby()
                 i->collisionWindWithChara(s, stage);
             }
 
+            //ノックバックの前にヒットストップが終わった時の処理をする
+            i->finishHitStopTiming();
+
             //判定が終わった後にノックバック（反発）をする
             i->knockBackNow();
             for (const auto& s : sandBag)
             {
+                s->finishHitStopTiming();
                 s->knockBackNow();
             }
 
@@ -349,6 +353,9 @@ void Routine::play()
                     j->collisionWindWithChara(i, stage);
                 }
             }
+
+            //ノックバックの前にヒットストップが終わった時の処理をする
+            i->finishHitStopTiming();
 
             //判定が終わった後にノックバック（反発）をする
             i->knockBackNow();

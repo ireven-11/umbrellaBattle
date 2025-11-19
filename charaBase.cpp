@@ -598,14 +598,6 @@ void CharaBase::decideKnockBackWithChara(std::shared_ptr<CharaBase> otherChara)
 			changeHitNowFlag();
 			otherChara->changeHitNowFlag();
 		}
-
-		if (onFinishingHitStop_)
-		{
-			onHitStop_ = false;
-			otherChara->onHitStop_ = false;
-			onFinishingHitStop_ = false;
-			otherChara->onFinishingHitStop_ = false;
-		}
 	}
 }
 
@@ -851,4 +843,13 @@ void CharaBase::setTackleEffetctPos()
 {
 	VECTOR tempVector2	= VTransform(VScale(collision_adjust_position, 2.0f), rotaionMatrix_);
 	tackleEffectPos_	= VAdd(position_, tempVector2);
+}
+
+void CharaBase::finishHitStopTiming()
+{
+	if (onFinishingHitStop_)
+	{
+		onHitStop_			= false;
+		onFinishingHitStop_ = false;
+	}
 }

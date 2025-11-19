@@ -37,6 +37,8 @@ void SandBag::update(Routine* routine, std::shared_ptr<Stage> stage)
 		collisionCenterPosition_ = VGet(0.0f, 0.0f, 0.0f);
 	}
 
+	hitStopNow();
+
 	MV1SetPosition(modelHandle_, position_);
 }
 
