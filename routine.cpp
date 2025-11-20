@@ -269,7 +269,7 @@ void Routine::stanby()
     }
     
 
-    //if (!players.empty())
+    if (!players.empty())
     {
         if (sceneManager->proceedPlay())
         {
@@ -432,6 +432,12 @@ void Routine::play()
 /// </summary>
 void Routine::result()
 {
+    //シャドウマップに影を描画
+    shadowMap->drawToShadowMap();
+
+    //シャドウマップを設定
+    shadowMap->setUse();
+
     //バーチャルカメラ更新
     camera->virtualUpdate(cameraUpPosition_);
 
@@ -465,6 +471,9 @@ void Routine::result()
             PlayMovie("movie/umbrella.mp4", 1, DX_MOVIEPLAYTYPE_NORMAL);
         }
     }
+
+    //シャドウマップを解除
+    shadowMap->release();
 }
 
 /// <summary>

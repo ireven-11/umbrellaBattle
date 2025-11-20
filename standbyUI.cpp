@@ -56,7 +56,14 @@ void StandbyUI::update(bool isjoiningPlayer[], const int max_player_number)
 	explaneRule();
 
 	DrawStringToHandle(practice_position.x, UpDownPositionY(practice_position.y, 10.0f, 100.0f), "練習場", GetColor(255, 255, 50), fontHandleSize150_);
-	DrawStringToHandle(game_start_position.x, game_start_position.y, "Startでゲームスタート", GetColor(255, 255, 255), fontHandleSize100_);
+	
+	for (auto i = 0; i < max_player_number; i++)
+	{
+		//誰も参加してなかったら描画しない
+		if (!isjoiningPlayer[i]) continue;
+
+		DrawStringToHandle(game_start_position.x, game_start_position.y, "Startでバトル開始！", GetColor(255, 255, 255), fontHandleSize100_);
+	}
 }
 
 /// <summary>
@@ -75,7 +82,13 @@ void StandbyUI::playerJoin(bool isjoiningPlayer[], const int max_player_number)
 		}
 	}
 
-	DrawBrinkStringToHandle(join_player_position, "Aボタンで参加！", GetColor(255, 50, 0), fontHandleSize100_);
+	//全員参加してたら描画しない
+	for (int i = 0; i < max_player_number; i++)
+	{
+		if (isjoiningPlayer[i]) continue;
+
+		DrawBrinkStringToHandle(join_player_position, "Aボタンで参加！", GetColor(255, 50, 0), fontHandleSize100_);
+	}
 }
 
 void StandbyUI::explaneRule()
