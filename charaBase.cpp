@@ -540,7 +540,7 @@ void CharaBase::SetonTilePositionY_(short tileNumberY)
 void CharaBase::decideKnockBackWithChara(std::shared_ptr<CharaBase> otherChara)
 {
 	//開き状態のときに判定をする
-	if (state_== openState_())
+	if (state_== openState_() && !onFinishingHitStop_)
 	{
 		//2点間の距離を出す
 		distanceX_ = otherChara->GetcollisionCenterPosition_().x - collisionCenterPosition_.x;
@@ -588,7 +588,7 @@ void CharaBase::decideKnockBackWithChara(std::shared_ptr<CharaBase> otherChara)
 
 				//ヒット音
 				PlaySoundMem(hitSound_, DX_PLAYTYPE_BACK, TRUE);
-
+				
 				//コントローラーを振動させる
 				StartJoypadVibration(controlerNumber_, vibration_power, vibration_time);
 				StartJoypadVibration(otherChara->controlerNumber_, vibration_power * 2, vibration_time);
