@@ -417,7 +417,8 @@ void CharaBase::moveFan()
 		input.Z > 0 && GetJoypadType(controlerNumber_) == DX_PADTYPE_XBOX_360 ||
 		input.Z > 0 && GetJoypadType(controlerNumber_) == DX_PADTYPE_XBOX_ONE ||
 		input.Z > 2000 ||
-		input.Buttons[6] > 2000)
+		input.Buttons[6] > 2000 ||
+		input.X < 0)
 	{
 		double addAngleX = cos(radiun) * stage_radius;
 		double addAngleZ = sin(radiun) * stage_radius;
@@ -427,7 +428,8 @@ void CharaBase::moveFan()
 	}
 	if (input.Buttons[7] > 0 && GetJoypadType(controlerNumber_) == DX_PADTYPE_SWITCH_PRO_CTRL ||
 		input.Z < 0 && GetJoypadType(controlerNumber_) == DX_PADTYPE_XBOX_360 ||
-		input.Z < 0 && GetJoypadType(controlerNumber_) == DX_PADTYPE_XBOX_ONE)
+		input.Z < 0 && GetJoypadType(controlerNumber_) == DX_PADTYPE_XBOX_ONE ||
+		input.X > 0)
 	{
 		double addAngleX = cos(radiun) * stage_radius;
 		double addAngleZ = sin(radiun) * stage_radius;
