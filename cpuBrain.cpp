@@ -115,6 +115,9 @@ void CPUBrain::chase(CharaBase* charaBase, Routine* routine, std::shared_ptr<Sta
 		//タイルにたどり着いたら A*関係
 		if (CalculateDistance<float>(charaBase->Getposition_(), stage->Getposition_()[nextTilePosition_.y][nextTilePosition_.x]) < distance_error)
 		{
+			//ルートが存在しなかったら抜ける
+			if (chaseRoot_.empty())return;
+
 			//先頭要素を削除
 			chaseRoot_.pop_front();
 			//新しく先頭要素になったものの座標を次に進む座標とする
