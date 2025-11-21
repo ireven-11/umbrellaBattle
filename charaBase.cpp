@@ -209,7 +209,7 @@ void CharaBase::draw()
 
 	//ƒJƒƒ‰‚É“ü‚Á‚Ä‚È‚¢‚Æ‚«‚Í•`‰æ‚µ‚È‚¢
 	isDrawing_ = false;
-	if (CheckCameraViewClip(position_))return;
+	if (CheckCameraViewClip(position_)) return;
 
 	//•`‰æ‚µ‚Ä‚é
 	isDrawing_ = true;
@@ -394,7 +394,7 @@ void CharaBase::wind()
 	if (!canSpawnWind_)
 	{
 		++windCount_;
-		windPosition_ = VAdd(windPosition_, VGet(windMoveVector_.x / 35, windMoveVector_.y / 35, windMoveVector_.z / 35));
+		windPosition_ = VAdd(windPosition_, VGet(windMoveVector_.x / 35, 0.0f, windMoveVector_.z / 35));
 
 		//•—‚ğÁ‚·
 		if (max_wind_count < windCount_)
@@ -754,7 +754,7 @@ void CharaBase::respawn()
 	if (canRespawn_)
 	{
 		canRespawn_ = false;
-		position_	= respawnPosition_;
+		position_	= VGet(respawnPosition_.x, 0.0f, respawnPosition_.z);
 		state_		= openState_();
 
 		PlaySoundMem(respawnSound_, DX_PLAYTYPE_BACK, TRUE);

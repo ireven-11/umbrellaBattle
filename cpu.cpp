@@ -49,17 +49,17 @@ void CPU::wind()
 	//ïóÇî≠ê∂Ç≥ÇπÇÈ
 	if (canSpawnWind_)
 	{
-		canSpawnWind_ = false;
-		windPosition_ = position_;
-		windMoveVector_ = VSub(stage_center, position_);
-		windAngle_ = fanAngle_;
+		canSpawnWind_		= false;
+		windPosition_		= position_;
+		windMoveVector_		= VSub(stage_center, position_);
+		windAngle_			= fanAngle_;
 		PlaySoundMem(windSound_, DX_PLAYTYPE_BACK, TRUE);
 	}
 	//à⁄ìÆ
 	if (!canSpawnWind_)
 	{
 		++windCount_;
-		windPosition_ = VAdd(windPosition_, VGet(windMoveVector_.x / 35, windMoveVector_.y / 35, windMoveVector_.z / 35));
+		windPosition_ = VAdd(windPosition_, VGet(windMoveVector_.x / 35, 0.0f, windMoveVector_.z / 35));
 
 		//ïóÇè¡Ç∑
 		if (max_wind_count < windCount_)

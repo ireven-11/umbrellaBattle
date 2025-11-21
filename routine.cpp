@@ -267,7 +267,6 @@ void Routine::stanby()
             s->draw();
         }
     }
-    
 
     if (!players.empty())
     {
