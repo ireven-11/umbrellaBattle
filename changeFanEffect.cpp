@@ -20,8 +20,8 @@ ChangeFanEffect::~ChangeFanEffect()
 
 void ChangeFanEffect::reset()
 {
-	position_ = VGet(0.0f, 0.0f, 0.0f);
-	playingHandle_ = 0;
+	position_		= VGet(0.0f, 0.0f, 0.0f);
+	playingHandle_	= 0;
 }
 
 void ChangeFanEffect::update(std::shared_ptr<CharaBase> chara)
