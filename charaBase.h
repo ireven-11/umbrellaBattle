@@ -199,7 +199,7 @@ protected:
 	const double	agnle_shift_number			= 0.75;
 	const double	adjust_rotation_angle_y		= agnle_shift_number * -2;
 	const float		rotation_angle_x			= -45.0f;
-	const float		add_tackle_inpluse_percent	= 0.035f;
+	const float		add_tackle_inpluse_percent	= 0.025f;
 	const short		max_hit_stop_conut			= 4;
 	const float		max_tackle_inpulse_persent	= 1.5f;
 
