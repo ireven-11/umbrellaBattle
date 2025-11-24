@@ -85,7 +85,7 @@ void PlayGraph::update()
 		}
 		else
 		{
-			DrawStringToHandle(explane_rule_position.x - 100, explane_rule_position.y, "‘Šè‚ğ—‚Æ‚µ‚Ä¶‚«c‚ê!", GetColor(255, 50, 50), fontHandle_);
+			DrawStringToHandle(explane_rule_position.x - 130, explane_rule_position.y, "‘Šè‚ğ—‚Æ‚µ‚Ä¶‚«c‚ê!", GetColor(255, 50, 50), fontHandle_);
 			DrawExtendGraph(beat_position.x, beat_position.y, beat_position.x + beat_width, beat_position.y + beat_height, beat_, TRUE);
 		}
 

@@ -35,7 +35,7 @@ private:
 	const int		max_expand_count		= 210;				//最大拡大カウント
 	const short		expand_speed_x			= 20;				//拡大スピードx
 	const short		expand_speed_y			= 10;				//拡大スピードy
-	const VECTOR	explane_rule_position	= VGet(440, 90, 0);	//ルール説明座標
+	const VECTOR	explane_rule_position	= VGet(460, 90, 0);	//ルール説明座標
 	const short		start_sound_volume		= 150;				//スタートサウンドボリューム
 	const VECTOR	trumpet_position		= VGet(350, 300, 0);//トランペット座標
 	const float		trumpet_width			= 625.0f;
