@@ -172,6 +172,13 @@ void CharaBase::reset()
 /// </summary>
 void CharaBase::update(Routine* routine, std::shared_ptr<Stage> stage)
 {
+	//デバッグ用
+	/*if (position_.y > 0.0f)
+	{
+		printfDx("空中浮遊したよ");
+		WaitTimer(1000);
+	}*/
+
 	//コントローラーの入力状態を取得する
 	GetJoypadDirectInputState(controlerNumber_, &input);
 
