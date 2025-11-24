@@ -57,7 +57,7 @@ public:
 	void decideMoveAngle(VECTOR movePosition);
 	bool isDrawing();
 	void finishHitStopTiming();
-
+	
 	DINPUT_JOYSTATE input;		//コントローラー(D)用構造体変数
 
 	VECTOR								Getposition_()const { return  position_; }
@@ -89,6 +89,7 @@ public:
 	bool								GetOnDamage()const noexcept { return onDamage_; }
 	float								GetTackleInplusePercent()const noexcept { return tackleInplusePercent_; }
 	bool								GetOnHitStop()const noexcept { return onHitStop_; }
+	bool								GetWasTrumpet()const noexcept { return wasTrumpet_; }
 	
 private:
 	const float		fall_speed				= 0.25f;

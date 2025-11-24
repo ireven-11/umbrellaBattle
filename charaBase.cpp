@@ -224,13 +224,13 @@ void CharaBase::draw()
 	{
 		MV1DrawModel(fan_);
 	}
+	else if(wasTrumpet_ || state_ == TrumpetState_())
+	{
+		MV1DrawModel(inverseUmbrella_);
+	}
 	else if (state_ == std::dynamic_pointer_cast<CharaState::OpenState>(state_))
 	{
 		MV1DrawModel(openingUmbrella_);
-	}
-	else
-	{
-		MV1DrawModel(inverseUmbrella_);
 	}
 }
 
@@ -481,6 +481,7 @@ void CharaBase::rotation()
 
 		//MV1SetRotationXYZ(closingUmbrella_, VGet(0.0f, rotationAngleY_ + adjust_rotation_angle_y, 0.0f));
 		MV1SetRotationXYZ(openingUmbrella_, VGet(rotation_angle_x * DX_PI_F / 180.0f, static_cast<float>(rotationAngleY_ + adjust_rotation_angle_y), 0.0f));
+		MV1SetRotationXYZ(inverseUmbrella_, VGet(rotation_angle_x * DX_PI_F / 180.0f, static_cast<float>(rotationAngleY_ + adjust_rotation_angle_y), 0.0f));
 	}
 
 	//デバッグ用
@@ -772,6 +773,7 @@ void CharaBase::respawn()
 		canRespawn_ = false;
 		position_	= VGet(respawnPosition_.x, 0.0f, respawnPosition_.z);
 		state_		= openState_();
+		stopTackle();
 
 		PlaySoundMem(respawnSound_, DX_PLAYTYPE_BACK, TRUE);
 	}
@@ -779,15 +781,17 @@ void CharaBase::respawn()
 
 void CharaBase::onBeatedChara(std::shared_ptr<CharaBase> otherChara, std::shared_ptr<Stage> stage)
 {
-	//トランペットになったことなかったら
-	if (!wasTrumpet_)
+	//相手をステージ外に押し出すかhpを０にする
+	if (!stage->GetcanExist_()[otherChara->GetonTileNumberY_()][otherChara->GetonTileNumberX_()] ||
+		otherChara->Gethp_() <= 0)
 	{
-		//相手をステージ外に押し出すかhpを０にする
-		if (!stage->GetcanExist_()[otherChara->GetonTileNumberY_()][otherChara->GetonTileNumberX_()] ||
-			otherChara->Gethp_() <= 0)
+		//トランペットになったことあったら
+		if (wasTrumpet_)
 		{
-			canRespawn_ = true;
+			hp_ = max_hp / 5;
 		}
+		
+		canRespawn_ = true;
 	}
 }
 

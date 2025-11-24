@@ -144,7 +144,7 @@ void PlayUI::playerUI(std::shared_ptr<CharaBase> chara, int playerNumber)
 	fanUI(chara, playerNumber);
 
 	//ラッパ
-	if (chara->Gethp_() <= 0)
+	if (chara->GetWasTrumpet())
 	{
 		trumpetUI(playerNumber);
 	}
@@ -297,7 +297,7 @@ void PlayUI::trumpetUI(int playerNumber)
 			umbrellaPosition_.x + umbrella_width * 1.5f + (adjust_umbrella_x * playerNumber), umbrellaPosition_.y + umbrella_height, trumpet_[3], TRUE);
 		break;
 	}
-	DrawStringToHandle(umbrellaPosition_.x + (adjust_umbrella_x * playerNumber) + 15.0f, umbrellaPosition_.y - 10.0f, "復活不可...", GetColor(0, 191, 255), fontHandleSize60_);
+	//DrawStringToHandle(umbrellaPosition_.x + (adjust_umbrella_x * playerNumber) + 15.0f, umbrellaPosition_.y - 10.0f, "復活不可...", GetColor(0, 191, 255), fontHandleSize60_);
 }
 
 void PlayUI::umbrellaUI(std::shared_ptr<CharaBase> chara, int playerNumber)

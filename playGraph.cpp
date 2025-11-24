@@ -81,7 +81,7 @@ void PlayGraph::update()
 			//ä»íPÇ»ÉQÅ[ÉÄê‡ñæ
 			DrawStringToHandle(explane_rule_position.x, explane_rule_position.y, "HPÇ0Ç…ÇπÇ∏Ç…", GetColor(255, 50, 50), fontHandle_);
 			DrawExtendGraph(trumpet_position.x, trumpet_position.y, trumpet_position.x + trumpet_width, trumpet_position.y + trumpet_height, trumpet_, TRUE);
-			DrawStringToHandle(batu_position.x, batu_position.y, "Å® Å~", GetColor(255, 50, 50), fontHandleSize300_);
+			DrawStringToHandle(batu_position.x, batu_position.y, " Å®  Å~", GetColor(255, 50, 50), fontHandleSize300_);
 		}
 		else
 		{
