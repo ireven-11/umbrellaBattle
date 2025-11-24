@@ -47,8 +47,8 @@ void CPUBrain::update(CharaBase* charaBase, Routine* routine, std::shared_ptr<St
 	}
 
 	//î•—‹@‚ÌŽž‚ÉˆÚ“®‚·‚é‚æ‚¤‚Éinput‚É’¼Ú”’l‚ð“ü‚ê‚é
-	charaBase->input.Buttons[6] = 128;
-	charaBase->input.Z			= 1000;
+	charaBase->input.Buttons[6] = 2025;
+	charaBase->input.Z			= 2025;
 }
 
 /// <summary>
