@@ -68,8 +68,8 @@ CharaBase::CharaBase(const int join_number)
 	ChangeVolumeSoundMem(change_fan_sound_volume, changeFanSound_);
 	tackleSound_	= LoadSoundMem("sound/tackle.mp3");
 	ChangeVolumeSoundMem(tackle_sound_volume, tackleSound_);
-	crashSound_ = LoadSoundMem("sound/crash/mp3");
-	ChangeVolumeSoundMem(hit_sound_volume, hitSound_);
+	crashSound_ = LoadSoundMem("sound/crash.mp3");
+	ChangeVolumeSoundMem(hit_sound_volume, crashSound_);
 
 	//コントローラーのデッドゾーンを設定
 	SetJoypadDeadZone(controlerNumber_, 0.1);
@@ -541,6 +541,9 @@ void CharaBase::SetonTilePositionY_(short tileNumberY)
 /// <param name="otherChara">判定するほかのキャラ</param>
 void CharaBase::decideKnockBackWithChara(std::shared_ptr<CharaBase> otherChara)
 {
+	//ヒットストップ中は判定に入らない
+	if (onHitStop_ || otherChara->onHitStop_) return;
+
 	//開き状態のときに判定をする
 	if (state_== openState_() && !onFinishingHitStop_)
 	{
@@ -548,6 +551,7 @@ void CharaBase::decideKnockBackWithChara(std::shared_ptr<CharaBase> otherChara)
 		distanceX_ = otherChara->GetcollisionCenterPosition_().x - collisionCenterPosition_.x;
 		distanceZ_ = otherChara->GetcollisionCenterPosition_().z - collisionCenterPosition_.z;
 		distance_ = CalculateDistance<float>(collisionCenterPosition_, otherChara->GetcollisionCenterPosition_());
+
 		
 		//距離が直径未満だったら
 		if (distance_ < collision_radius * 2 && otherChara->Getstate_() == openState_())
@@ -571,18 +575,18 @@ void CharaBase::decideKnockBackWithChara(std::shared_ptr<CharaBase> otherChara)
 				knockBackVector_		= VScale(knockBackVector_, otherChara->GetTackleInplusePercent());
 				maxKnockBackCount_		+= extend_tackle;
 
-				//ヒット音
-				PlaySoundMem(crashSound_, DX_PLAYTYPE_BACK, TRUE);
-
-				//コントローラーを振動させる
-				StartJoypadVibration(controlerNumber_, vibration_power * 2, vibration_time);
-				StartJoypadVibration(otherChara->controlerNumber_, vibration_power * 2, vibration_time);
-
 				onHitStop_				= true;
 				otherChara->onHitStop_	= true;
 
 				hp_			-= tackle_damage;
 				onDamage_	= true;
+
+				//でかいヒット音
+				PlaySoundMem(crashSound_, DX_PLAYTYPE_BACK, TRUE);
+
+				//コントローラーを振動させる
+				StartJoypadVibration(controlerNumber_, vibration_power * 2, vibration_time);
+				StartJoypadVibration(otherChara->controlerNumber_, vibration_power * 2, vibration_time);
 			}
 			else
 			{

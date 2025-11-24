@@ -24,7 +24,7 @@ private:
 	const int		player_number_gap				= 400;
 	const VECTOR	wait_or_join_position			= VGet(245, 940, 0);
 	const VECTOR	join_player_position			= VGet(700, 625, 0);
-	const VECTOR	game_start_position				= VGet(585, 725, 0);
+	const VECTOR	game_start_position				= VGet(615, 725, 0);
 	const VECTOR	practice_position				= VGet(775, 25, 0);
 	const VECTOR	movie_explane_pos				= VGet(1350, 70, 0);
 	const int		movie_explane_widht				= 500;

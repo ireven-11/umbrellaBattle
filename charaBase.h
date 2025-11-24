@@ -115,7 +115,7 @@ private:
 	const short		inverse_sound_volume	= 255;
 	const short		change_fan_sound_volume = 200;
 	const short		tackle_sound_volume		= 210;
-	const char		extend_tackle			= 1;
+	const char		extend_tackle			= 3;
 	const float		adjust_wind_vector		= 0.017f;
 	const int		tackle_damage			= 15;
 
@@ -193,13 +193,13 @@ protected:
 	short	hitStopCounter_;
 	bool	onFinishingHitStop_;
 
-	const float		move_speed				= 0.3f;
-	const double	agnle_shift_number		= 0.75;
-	const double	adjust_rotation_angle_y = agnle_shift_number * -2;
-	const float		rotation_angle_x		= -45.0f;
-	const float		add_tackle_inpluse_percent = 0.035;
-	const short		max_hit_stop_conut = 2;
-	const float		max_tackle_inpulse_persent = 1.4f;
+	const float		move_speed					= 0.3f;
+	const double	agnle_shift_number			= 0.75;
+	const double	adjust_rotation_angle_y		= agnle_shift_number * -2;
+	const float		rotation_angle_x			= -45.0f;
+	const float		add_tackle_inpluse_percent	= 0.035;
+	const short		max_hit_stop_conut			= 4;
+	const float		max_tackle_inpulse_persent	= 1.5f;
 
 	//èÛë‘
 	std::shared_ptr<StateMachine::IState>	state_;
