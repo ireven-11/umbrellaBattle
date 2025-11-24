@@ -18,7 +18,7 @@ int direction_delta[DIR_MAX][2] = {
 };
 
 // 地形コスト(地形によるコスト差がない場合は壁以外をすべて1にする)
-short chip_cost[] = { 0, 255 };
+short chip_cost[] = { 0, 255, 3 };
 
 // マップ
 char map[MAP_HEIGHTMAX][MAP_WIDTHMAX] = {
@@ -173,14 +173,18 @@ std::list<position> a_star(position start, position goal) {
 /// マップチップの更新
 /// </summary>
 /// <param name="stage">タイル存在フラグ</param>
-void mapChipUpdate(bool canExistTile, int tileXNumber, int tileYNumber)
+void mapChipUpdate(short tileType, int tileXNumber, int tileYNumber)
 {
-	if (canExistTile)
+	if (tileType == 1)	//普通のタイル
 	{
 		map[tileXNumber][tileYNumber] = 0;
 	}
-	else
+	else if(tileType == 0)	//穴
 	{
 		map[tileXNumber][tileYNumber] = 1;
+	}
+	else //消えそうなタイル
+	{
+		map[tileXNumber][tileYNumber] = 2;
 	}
 }

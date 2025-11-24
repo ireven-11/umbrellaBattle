@@ -268,7 +268,7 @@ void Routine::stanby()
         }
     }
 
-    if (!players.empty())
+    //if (!players.empty())
     {
         if (sceneManager->proceedPlay())
         {

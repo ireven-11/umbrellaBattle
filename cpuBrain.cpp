@@ -33,17 +33,17 @@ void CPUBrain::update(CharaBase* charaBase, Routine* routine, std::shared_ptr<St
 	decideTarget(charaBase);
 	dicideTargetCount_++;
 
-	//ターゲットが扇風機でない時だけ次の行動に移る
+	//次の行動に移る
 	if (routine->players[randomTarget_ - 1]->Getstate_() == std::dynamic_pointer_cast<CharaState::OpenState>(routine->players[randomTarget_ - 1]->Getstate_())
-		&& dicideTargetCount_ != 150)
+		&& dicideTargetCount_ != 150 && routine->players[randomTarget_ - 1]->Getposition_().y >= 0.0f)
 	{
 		decideNextAction(charaBase, routine, stage);
 	}
 	else
 	{
 		//ターゲットを再決定
-		isTarget_ = true;
-		dicideTargetCount_ = 0;
+		isTarget_			= true;
+		dicideTargetCount_	= 0;
 	}
 
 	//扇風機の時に移動するようにinputに直接数値を入れる

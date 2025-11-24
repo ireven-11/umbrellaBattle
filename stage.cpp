@@ -109,7 +109,20 @@ void Stage::update()
 		for (int j = 0; j < tile_number; j++)
 		{
 			MV1SetPosition(modelHandle_[j][i], position_[j][i]);
-			mapChipUpdate(canExist_[j][i], j, i);//A*関係
+
+			//次に消えるタイルだったら
+			if (dicideRandomTileJ_ == j && dicideRandomTileI_ == i)
+			{
+				//消えるカウントが一定以上だったら
+				if (vanishingCount_ > change_color_timing)
+				{
+					mapChipUpdate(2, j, i);	//いけるけどいかないほうがいいタイル
+				}
+			}
+			else
+			{
+				mapChipUpdate(canExist_[j][i], j, i);//A*関係
+			}
 		}
 	}
 }
@@ -360,10 +373,10 @@ void Stage::addvanishingCount()
 //3dモデルの色を変える
 void Stage::change3dModelColor()
 {
-	//一定カウントごとにランダな場所のタイルをけしていく
+	//一定カウントごとにランダムなタイルをえらぶ
 	if (vanishingCount_ == change_color_timing && tileCount_ < (tile_number - 2) * (tile_number - 2) - 1)
 	{
-		//まだ消えてないタイルをランダムに選んで消す
+		//まだ消えてないタイルをランダムに選ぶ
 		while (true)
 		{
 			dicideRandomTileJ_ = GetRand(tile_number - 1);
