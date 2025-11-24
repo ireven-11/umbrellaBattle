@@ -128,7 +128,7 @@ void Routine::gameRoop()
         }
 
         //ã≠êßÉäÉZÉbÉg
-        if (CheckHitKey(KEY_INPUT_R) == true)
+        if (CheckHitKey(KEY_INPUT_R))
         {
             allReset();
         }

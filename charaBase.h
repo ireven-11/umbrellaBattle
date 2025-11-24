@@ -129,6 +129,7 @@ protected:
 	void subHp();
 	void hitStopNow();
 	void setTackleEffetctPos();
+	void finishKnockBack();
 
 	VECTOR	position_;			//座標
 	int		openingUmbrella_;	//モデルハンドル(開いた状態)
@@ -197,7 +198,7 @@ protected:
 	const double	agnle_shift_number			= 0.75;
 	const double	adjust_rotation_angle_y		= agnle_shift_number * -2;
 	const float		rotation_angle_x			= -45.0f;
-	const float		add_tackle_inpluse_percent	= 0.035;
+	const float		add_tackle_inpluse_percent	= 0.035f;
 	const short		max_hit_stop_conut			= 4;
 	const float		max_tackle_inpulse_persent	= 1.5f;
 

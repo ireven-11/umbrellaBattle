@@ -568,6 +568,7 @@ void CharaBase::decideKnockBackWithChara(std::shared_ptr<CharaBase> otherChara)
 			knockBackVector_	= VScale(normalLine, overlap);
 			knockBackVector_	= VNorm(knockBackVector_);
 			knockBackVector_	= VScale(VScale(VScale(knockBackVector_, 0.5f), otherChara->Getmass_()), blow_away_percent);
+			knockBackVector_	= VGet(knockBackVector_.x, 0.0f, knockBackVector_.z);
 
 			//ƒ^ƒbƒNƒ‹‚³‚ê‚½‚Æ‚«‚Í‚Ó‚Á‚Æ‚Î‚µ—Ê‚Æ‚«”ò‚ÔŽžŠÔ‚ð•Ï‚¦‚é
 			if (otherChara->GetisMovingTackle_())
@@ -648,8 +649,8 @@ void CharaBase::knockBackNow()
 
 			if (waitHitCount_ > 3)
 			{
-				isHit_ = false;
-				waitHitCount_ = 0;
+				isHit_			= false;
+				waitHitCount_	= 0;
 			}
 		}
 
@@ -659,9 +660,7 @@ void CharaBase::knockBackNow()
 			++knockBackCount_;
 			if (knockBackCount_ > maxKnockBackCount_)
 			{
-				knockBackCount_ = 0;
-				isKnockBack_ = false;
-				maxKnockBackCount_ = init_knock_back_max_;
+				finishKnockBack();
 				return;
 			}
 
@@ -669,16 +668,22 @@ void CharaBase::knockBackNow()
 			if (isMovingTackle_)
 			{
 				stopTackle();
-				knockBackCount_ = 0;
-				isKnockBack_ = false;
-				maxKnockBackCount_ = init_knock_back_max_;
+				finishKnockBack();
 				return;
 			}
 
-			collisionCenterPosition_ = VAdd(collisionCenterPosition_, knockBackVector_);
-			position_ = VAdd(position_, knockBackVector_);
+			collisionCenterPosition_	= VAdd(collisionCenterPosition_, knockBackVector_);
+			position_					= VAdd(position_, knockBackVector_);
 		}
 	}
+}
+
+
+void CharaBase::finishKnockBack()
+{
+	knockBackCount_		= 0;
+	isKnockBack_		= false;
+	maxKnockBackCount_	= init_knock_back_max_;
 }
 
 /// <summary>
@@ -688,7 +693,7 @@ void CharaBase::collisionRotation()
 {
 	MATRIX tempMatrix			= MGetRotY(static_cast<float>(rotationAngleY_));
 	VECTOR tempVector			= VTransform(collision_adjust_position, rotaionMatrix_);
-	collisionCenterPosition_	= VAdd(position_, tempVector);
+	collisionCenterPosition_	= VAdd(position_, VGet(tempVector.x, 0.0f, tempVector.z));
 	setTackleEffetctPos();
 }
 

@@ -386,7 +386,7 @@ void Stage::brinkTile()
 	//Á‚¦‚éƒJƒEƒ“ƒg‚ªˆê’èˆÈã‚¾‚Á‚½‚ç
 	if (vanishingCount_ > change_color_timing)
 	{
-		brinkInterval_ = init_period * exp(-decrease_rate * (vanishingCount_ - change_color_timing));
+		brinkInterval_ = init_period * static_cast<float>(exp(-decrease_rate * (vanishingCount_ - change_color_timing)));
 		if (fmod((vanishingCount_ - change_color_timing), brinkInterval_) < brinkInterval_ / 2)
 		{
 			//Ô

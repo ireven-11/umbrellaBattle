@@ -8,5 +8,5 @@ T CalculateDistance(VECTOR position1, VECTOR position2 = VGet(0.0f,0.0f,0.0f))
 	tempVector = VSub(tempVector, position2);
 	tempVector = VGet(tempVector.x * tempVector.x, tempVector.y * tempVector.y, tempVector.z * tempVector.z);
 	T value = tempVector.x + tempVector.y + tempVector.z;
-	return sqrt(value);
+	return static_cast<T>(sqrt(value));
 }
