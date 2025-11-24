@@ -7,7 +7,8 @@
 
 HitEffect::HitEffect()
 {
-	effectHandle_ = LoadEffekseerEffect("effect/00_Basic/hit.efkefc");
+	effectHandle_	= LoadEffekseerEffect("effect/00_Basic/hit.efkefc");
+	effectHandle2_	= LoadEffekseerEffect("effect/01_AndrewFM01/bigHit.efkefc");
 
 	reset();
 }
@@ -28,19 +29,19 @@ void HitEffect::update(std::shared_ptr<CharaBase> chara)
 {
 	if (chara->GetisHit_() && !WrapIsEffekseer3DEffectPlaying(playingHandle_) && chara->Getstate_() != std::dynamic_pointer_cast<CharaState::FanState>(chara->Getstate_()))
 	{
-		playingHandle_ = PlayEffekseer3DEffect(effectHandle_);
-
 		if (chara->GetOnHitStop())
 		{
-			SetScalePlayingEffekseer3DEffect(playingHandle_, scale * 2.5f, scale * 2.5f, scale * 2.5f);
-			//SetColorPlayingEffekseer3DEffect(playingHandle_, 0, 0, 255, 255);
+			playingHandle_ = PlayEffekseer3DEffect(effectHandle2_);
+			SetScalePlayingEffekseer3DEffect(playingHandle_, scale * 5.0f, scale * 5.0f, scale * 5.0f);
+			SetSpeedPlayingEffekseer3DEffect(playingHandle_, play_speed * 1.4f);
 		}
 		else
 		{
+			playingHandle_ = PlayEffekseer3DEffect(effectHandle_);
 			SetScalePlayingEffekseer3DEffect(playingHandle_, scale, scale, scale);
+			SetSpeedPlayingEffekseer3DEffect(playingHandle_, play_speed);
 		}
-
-		SetSpeedPlayingEffekseer3DEffect(playingHandle_, play_speed);
+		
 		position_ = chara->GetcollisionCenterPosition_();
 	}
 

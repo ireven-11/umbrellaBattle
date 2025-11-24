@@ -17,6 +17,7 @@ private:
 	void reset();
 
 	int		effectHandle_;
+	int		effectHandle2_;
 	int		playingHandle_;
 	VECTOR	position_;
 
