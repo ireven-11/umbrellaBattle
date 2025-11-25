@@ -39,9 +39,7 @@ void CPU::update(Routine* routine, std::shared_ptr<Stage> stage)
 		hitStopNow();
 	}
 
-	MV1SetPosition(openingUmbrella_, position_);
-	MV1SetPosition(closingUmbrella_, position_);
-	MV1SetPosition(fan_, position_);
+	setPosition();
 }
 
 void CPU::wind()

@@ -592,7 +592,7 @@ void CharaBase::decideKnockBackWithChara(std::shared_ptr<CharaBase> otherChara)
 
 				//コントローラーを振動させる
 				StartJoypadVibration(controlerNumber_, vibration_power * 2, vibration_time);
-				//StartJoypadVibration(otherChara->controlerNumber_, vibration_power * 2, vibration_time);
+				StartJoypadVibration(otherChara->controlerNumber_, vibration_power * 2, vibration_time);
 			}
 			else
 			{
@@ -603,7 +603,7 @@ void CharaBase::decideKnockBackWithChara(std::shared_ptr<CharaBase> otherChara)
 				
 				//コントローラーを振動させる
 				StartJoypadVibration(controlerNumber_, vibration_power, vibration_time);
-				//StartJoypadVibration(otherChara->controlerNumber_, vibration_power * 2, vibration_time);
+				StartJoypadVibration(otherChara->controlerNumber_, vibration_power * 2, vibration_time);
 
 				subHp();
 			}
