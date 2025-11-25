@@ -204,7 +204,7 @@ protected:
 	const float		max_tackle_inpulse_persent	= 1.5f;
 
 	//ó‘Ô
-	std::shared_ptr<StateMachine::IState>	state_;
+	std::shared_ptr<StateMachine::IState> state_;
 	//‚Ç‚Ìó‘Ô‚ğ•\‚·‚©•Ô‚·staticŠÖ”
 	static std::shared_ptr<CharaState::OpenState> openState_()
 	{

@@ -22,6 +22,8 @@ class PlayGraph;
 class FPS;
 class ShadowMap;
 class IRendelbleShadow;
+template<class T>
+class IEffect;
 
 class Routine
 {
@@ -49,7 +51,8 @@ private:
 	std::shared_ptr<PlayGraph>playGraph			= std::make_shared<PlayGraph>("April Gothic one Regular");
 	std::shared_ptr<ShadowMap>shadowMap;
 	std::vector<std::shared_ptr<CharaBase>>sandBag;
-
+	std::shared_ptr<IEffect<CharaBase>> fallEffect;
+	
 	void gameRoop();
 	void title();
 	void play();

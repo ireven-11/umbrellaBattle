@@ -18,6 +18,8 @@
 #include"sandBag.h"
 #include"playGraph.h"
 #include"ShadowMap.h"
+#include"IEffect.h"
+#include"fallEffect.h"
 
 /// <summary>
 /// コンストラクタ
@@ -33,14 +35,16 @@ Routine::Routine()
     ChangeVolumeSoundMem(decide_volume, decideSound_);
 
     //bgmを読み込み
-    bgm_ = LoadSoundMem("sound/bgm.mp3");
+    bgm_            = LoadSoundMem("sound/bgm.mp3");
+    bgmPractice_    = LoadSoundMem("sound/bgm2.mp3");
     ChangeVolumeSoundMem(bgm_volume, bgm_);
-    bgmPractice_ = LoadSoundMem("sound/bgm2.mp3");
     ChangeVolumeSoundMem(255, bgmPractice_);
 
     //一部をインスタンス化
     shadowMap = std::make_shared<ShadowMap>();
     shadowMap->addSandBagShadows(sandBag.emplace_back(std::make_shared<SandBag>(0)));
+    fallEffect = std::make_shared<FallEffect>();
+
 
     //フォントを使えるようにする
     AddFontResourceEx("font/AprilGothicOne-R.ttf", FR_PRIVATE, NULL);
@@ -95,6 +99,7 @@ void Routine::game()
     playGraph       = nullptr;
     fps             = nullptr;
     shadowMap       = nullptr;
+    fallEffect      = nullptr;
 }
 
 /// <summary>
@@ -253,6 +258,8 @@ void Routine::stanby()
             e->update(*playerIt);
             ++playerIt;
         }
+        auto sandBagIt = sandBag.begin();
+        fallEffect->update(*sandBagIt);
 
         UpdateEffekseer3D();
         DrawEffekseer3D();
