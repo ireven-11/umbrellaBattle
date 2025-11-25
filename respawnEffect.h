@@ -21,5 +21,5 @@ private:
 	VECTOR	position_;
 
 	const float scale		= 1.3f;
-	const float play_speed	= 3.0f;
+	const float play_speed	= 5.0f;
 };

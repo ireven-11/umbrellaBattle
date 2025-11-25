@@ -240,13 +240,10 @@ void CharaBase::draw()
 /// </summary>
 void CharaBase::move()
 {
-	auto isNoneAction = !isTackle_ && !isSwing_;
-
 	//早期リターン
-	if (input.X == 0 && input.Y == 0 || isKnockBack_ || position_.y < 0.0f)
-	{
-		return;
-	}
+	if (input.X == 0 && input.Y == 0 || isKnockBack_ || position_.y < 0.0f) return;
+
+	auto isNoneAction = !isTackle_ && !isSwing_;
 
 	//スティックを傾けたら移動を決定
 	moveVector_ = VGet(0.0f, 0.0f, 0.0f);
@@ -595,7 +592,7 @@ void CharaBase::decideKnockBackWithChara(std::shared_ptr<CharaBase> otherChara)
 
 				//コントローラーを振動させる
 				StartJoypadVibration(controlerNumber_, vibration_power * 2, vibration_time);
-				StartJoypadVibration(otherChara->controlerNumber_, vibration_power * 2, vibration_time);
+				//StartJoypadVibration(otherChara->controlerNumber_, vibration_power * 2, vibration_time);
 			}
 			else
 			{
@@ -606,7 +603,7 @@ void CharaBase::decideKnockBackWithChara(std::shared_ptr<CharaBase> otherChara)
 				
 				//コントローラーを振動させる
 				StartJoypadVibration(controlerNumber_, vibration_power, vibration_time);
-				StartJoypadVibration(otherChara->controlerNumber_, vibration_power * 2, vibration_time);
+				//StartJoypadVibration(otherChara->controlerNumber_, vibration_power * 2, vibration_time);
 
 				subHp();
 			}
@@ -788,7 +785,7 @@ void CharaBase::onBeatedChara(std::shared_ptr<CharaBase> otherChara, std::shared
 		//トランペットになったことあったら
 		if (wasTrumpet_)
 		{
-			hp_ = max_hp / 5;
+			hp_ = max_hp * 0.2f;
 		}
 		
 		canRespawn_ = true;

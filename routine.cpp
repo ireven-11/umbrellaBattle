@@ -210,7 +210,7 @@ void Routine::stanby()
             for (const auto& j : players)
             {
                 //この条件分がなかったらバグるので注意
-                if (i < j)
+                if (i != j)
                 {
                     //ノックバック量（反発量）を決める
                     i->decideKnockBackWithChara(j);
@@ -348,7 +348,7 @@ void Routine::play()
             for (const auto& j : players)
             {
                 //この条件分がなかったらバグるので注意
-                if (i < j)
+                if (i != j)
                 {
                     //ノックバック量（反発量）を決める
                     i->decideKnockBackWithChara(j);
