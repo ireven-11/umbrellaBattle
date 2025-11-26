@@ -45,7 +45,7 @@ public:
 	virtual void draw();
 	void changeHitNowFlag();
 	void collisionWindWithChara(std::shared_ptr<CharaBase> otherChara, std::shared_ptr<Stage> stage);
-	void respawn();
+	void respawn(std::shared_ptr<Stage> stage);
 	void changeTrumpet();
 	void changeFan();
 	void vibration();
@@ -57,6 +57,7 @@ public:
 	void decideMoveAngle(VECTOR movePosition);
 	bool isDrawing();
 	void finishHitStopTiming();
+	void changeCanRespawn();
 	
 	DINPUT_JOYSTATE input;		//コントローラー(D)用構造体変数
 
@@ -119,6 +120,7 @@ private:
 	const char		extend_tackle			= 3;
 	const float		adjust_wind_vector		= 0.017f;
 	const int		tackle_damage			= 15;
+	const float		trumpet_stat_decrease	= 0.8f;
 
 protected:
 	void tackleMoving();

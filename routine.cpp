@@ -251,6 +251,12 @@ void Routine::stanby()
             playUI->update(i, i->GetcontrolerNumber_());
         }
 
+        //リスポーンがここにないとエフェクトがバグる
+        for (const auto& i : players)
+        {
+            i->respawn(stage);
+        }
+
         //エフェクトマネージャー
         auto playerIt = players.begin();
         for (const auto& e : effectManager)
@@ -379,6 +385,7 @@ void Routine::play()
     //プレイヤーの座標セット
     for (const auto& i : players)
     {
+        i->respawn(stage);
         i->setPosition();
     }
 

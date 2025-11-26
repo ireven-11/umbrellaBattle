@@ -33,7 +33,9 @@ void RespawnEffect::update(std::shared_ptr<CharaBase> chara)
 		SetScalePlayingEffekseer3DEffect(playingHandle_, scale, scale, scale);
 		SetSpeedPlayingEffekseer3DEffect(playingHandle_, play_speed);
 
-		position_ = chara->GetrespawnPosition_();
+		position_ = chara->Getposition_();
+
+		chara->changeCanRespawn();
 	}
 
 	//エフェクトが再生中は座標を更新する

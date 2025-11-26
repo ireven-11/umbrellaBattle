@@ -44,6 +44,10 @@ void PlayGraph::reset()
 
 void PlayGraph::update()
 {
+	//‰J‚ª~‚é
+	rain->update();
+	rain->draw();
+
 	//“®‰æ‚ğ—¬‚·
 	if (onCountDown_)
 	{
@@ -98,8 +102,4 @@ void PlayGraph::update()
 			DeleteGraph(screenHandle_);
 		}
 	}
-
-	//‰J‚ª~‚é
-	rain->update();
-	rain->draw();
 }

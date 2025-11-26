@@ -270,6 +270,7 @@ void CharaBase::move()
 	//スティックを傾けてる向きに移動
 	rotaionMatrix_		= MGetRotY(static_cast<float>(rotationAngleY_ + agnle_shift_number));
 	moveVector_			= VTransform(moveVector_, rotaionMatrix_);
+	if (wasTrumpet_) moveVector_ = VScale(moveVector_, trumpet_stat_decrease);
 	position_			= VAdd(position_, moveVector_);
 }
 
@@ -358,6 +359,7 @@ void CharaBase::tackle()
 void CharaBase::tackleMoving()
 {
 	VECTOR moveVector		= VTransform(VGet(tackleCount_ / adjust_tackle, 0.0f, tackleCount_ / adjust_tackle), rotaionMatrix_);
+	if (wasTrumpet_) moveVector = VScale(moveVector, trumpet_stat_decrease);
 	position_				= VAdd(position_, moveVector);
 	mass_					= tackle_mass;
 	isMovingTackle_			= true;
@@ -728,9 +730,6 @@ void CharaBase::collisionWindWithChara(std::shared_ptr<CharaBase> otherChara, st
 			otherChara->subHp();
 			otherChara->subHp();
 
-			//復活座標をセット
-			respawnPosition_ = decideRespawnPosition(stage);
-
 			//敵を倒した時の処理
 			onBeatedChara(otherChara, stage);
 		}
@@ -762,18 +761,24 @@ VECTOR CharaBase::decideRespawnPosition(std::shared_ptr<Stage> stage)
 	return tempPosition;
 }
 
-void CharaBase::respawn()
+void CharaBase::respawn(std::shared_ptr<Stage> stage)
 {
 	//復活フラグがtrueだったら復活
 	if (canRespawn_)
 	{
-		canRespawn_ = false;
-		position_	= VGet(respawnPosition_.x, 0.0f, respawnPosition_.z);
-		state_		= openState_();
+		//復活座標をセット
+		VECTOR tempVector	= decideRespawnPosition(stage);
+		position_			= VGet(tempVector.x, 0.0f, tempVector.z);
+		state_				= openState_();
 		stopTackle();
 
 		PlaySoundMem(respawnSound_, DX_PLAYTYPE_BACK, TRUE);
 	}
+}
+
+void CharaBase::changeCanRespawn()
+{
+	canRespawn_ = false;
 }
 
 void CharaBase::onBeatedChara(std::shared_ptr<CharaBase> otherChara, std::shared_ptr<Stage> stage)

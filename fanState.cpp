@@ -26,6 +26,7 @@ namespace CharaState
 	/// <param name="charaBase">キャラの親クラス</param>
 	void FanState::changeState(CharaBase* charaBase)
 	{
+		//charaBase->respawn();
 	}
 
 	/// <summary>
@@ -36,7 +37,6 @@ namespace CharaState
 	{
 		charaBase->wind();
 		charaBase->moveFan();
-		charaBase->respawn();
-		changeState(charaBase);
+		//changeState(charaBase);
 	}
 }
