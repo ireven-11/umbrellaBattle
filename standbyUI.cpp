@@ -32,14 +32,18 @@ StandbyUI::~StandbyUI()
 	DeleteGraph(concentrationlLinesMovie_);
 }
 
+void StandbyUI::init()
+{
+	SeekMovieToGraph(movieExplane_, 0);
+}
 
 float UpDownPositionY(float positionY, const float amplitude = 1.0f, const float period = 1.0f)
 {
 	if (period == 0.0f) return -1.0f;
 
-	static	float rad = 0.0f;
-	const	float add_rad = 10.0f;
-	rad += add_rad;
+	static	float rad		= 0.0f;
+	const	float add_rad	= 10.0f;
+	rad						+= add_rad;
 	if (rad > 360.0f)
 	{
 		rad = 0.0f;

@@ -579,6 +579,7 @@ void Routine::allReset()
     shadowMap = std::make_shared<ShadowMap>();
     shadowMap->addSandBagShadows(sandBag.at(0));
     shadowMap->addStageShadows(stage);
+    //standbyUI->init();
 
     reset();
 }

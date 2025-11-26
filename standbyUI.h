@@ -7,6 +7,7 @@ public:
 	~StandbyUI();
 
 	void update(bool isjoiningPlayer[], const int max_player_number);
+	void init();
 
 private:
 	void playerJoin(bool isjoiningPlayer[], const int max_player_number);
