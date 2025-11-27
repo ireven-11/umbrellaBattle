@@ -23,6 +23,7 @@ private:
 	void decideNextAction(CharaBase* charaBase, Routine* routine, std::shared_ptr<Stage> stage);
 	void decideChaceRoot(CharaBase* charaBase, Routine* routine);
 	void chase(CharaBase* charaBase, Routine* routine, std::shared_ptr<Stage> stage);
+	void cpuTackle(VECTOR targetCharaPos, CharaBase* charaBase);
 
 	bool	isTarget_;
 	int		randomTarget_;

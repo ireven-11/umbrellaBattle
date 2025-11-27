@@ -79,24 +79,34 @@ void CPUBrain::decideTarget(CharaBase* charaBase)
 /// <param name="routine">ルーチンクラス</param>
 void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, std::shared_ptr<Stage> stage)
 {
-	VECTOR targetCharaPos = routine->players[randomTarget_ - 1]->Getposition_();
-	distance_ = CalculateDistance<float>(charaBase->Getposition_(), targetCharaPos);
+	VECTOR targetCharaPos	= routine->players[randomTarget_ - 1]->Getposition_();
+	distance_				= CalculateDistance<float>(charaBase->Getposition_(), targetCharaPos);
 
-	if (distance_ < tackle_range)
+	//hpが少ないときに行動ルーチンを変える
+	if (charaBase->Gethp_() < max_hp / 3)
+	{
+		if (charaBase->GetOnDamage())
+		{
+			chase(charaBase, routine, stage);
+			return;
+		}
+		else
+		{
+			cpuTackle(targetCharaPos, charaBase);
+			return;
+		}
+	}
+
+	//プレイヤーとの距離が遠かったら
+	if (distance_ < tackle_range && !charaBase->GetisMovingTackle_())
 	{
 		//追いかける
 		chase(charaBase, routine, stage);
 	}
 	else
 	{
-		if (charaBase->GettackleCount_() == max_tackle_count) return;	//最大までチャージしたらタックルする
-		if (charaBase->GetisMovingTackle_()) return;					//タックルしてるときは再チャージしない
-
-		//タックルチャージ
-		charaBase->input.Buttons[0] = 100;
-		charaBase->input.Buttons[1] = 100;
-		charaBase->decideMoveAngle(targetCharaPos);
-		charaBase->input.Y			= 750;
+		//タックル
+		cpuTackle(targetCharaPos, charaBase);
 	}
 }
 
@@ -132,6 +142,18 @@ void CPUBrain::chase(CharaBase* charaBase, Routine* routine, std::shared_ptr<Sta
 			}
 		}
 	}
+}
+
+void CPUBrain::cpuTackle(VECTOR targetCharaPos, CharaBase* charaBase)
+{
+	if (charaBase->GettackleCount_() == max_tackle_count) return;	//最大までチャージしたらタックルする
+	if (charaBase->GetisMovingTackle_()) return;					//タックルしてるときは再チャージしない
+
+	//タックルチャージ
+	charaBase->input.Buttons[0] = 100;
+	charaBase->input.Buttons[1] = 100;
+	charaBase->input.Y			= 750;
+	charaBase->decideMoveAngle(targetCharaPos);
 }
 
 /// <summary>
