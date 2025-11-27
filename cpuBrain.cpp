@@ -33,6 +33,10 @@ void CPUBrain::update(CharaBase* charaBase, Routine* routine, std::shared_ptr<St
 	decideTarget(charaBase);
 	dicideTargetCount_++;
 
+	//扇風機の時に移動するようにinputに直接数値を入れる
+	charaBase->input.Buttons[6] = 2025;
+	charaBase->input.Z = 2025;
+
 	//次の行動に移る
 	if (routine->players[randomTarget_ - 1]->Getstate_() == std::dynamic_pointer_cast<CharaState::OpenState>(routine->players[randomTarget_ - 1]->Getstate_())
 		&& dicideTargetCount_ != 150 && routine->players[randomTarget_ - 1]->Getposition_().y >= 0.0f)
@@ -45,10 +49,6 @@ void CPUBrain::update(CharaBase* charaBase, Routine* routine, std::shared_ptr<St
 		isTarget_			= true;
 		dicideTargetCount_	= 0;
 	}
-
-	//扇風機の時に移動するようにinputに直接数値を入れる
-	charaBase->input.Buttons[6] = 2025;
-	charaBase->input.Z			= 2025;
 }
 
 /// <summary>
@@ -154,6 +154,51 @@ void CPUBrain::cpuTackle(VECTOR targetCharaPos, CharaBase* charaBase)
 	charaBase->input.Buttons[1] = 100;
 	charaBase->input.Y			= 750;
 	charaBase->decideMoveAngle(targetCharaPos);
+}
+
+void CPUBrain::escape(CharaBase* charaBase, Routine* routine, std::shared_ptr<Stage> stage)
+{
+	//探索したルートで追跡する
+	if (charaBase->Getstate_() != std::dynamic_pointer_cast<CharaState::FanState>(charaBase->Getstate_()))
+	{
+		//移動
+		//逃走ルート決定
+		auto pos = VGet(0.0f, 0.0f, 0.0f);
+		while (true)
+		{
+			auto posYNumber = GetRand(tile_number);
+			auto posXNumber = GetRand(tile_number);
+
+			//存在するタイルにだけ逃げる
+			if (stage->GetcanExist_()[posYNumber][posXNumber])
+			{
+				pos = stage->Getposition_()[posYNumber][posXNumber];
+				break;
+			}
+		}
+		charaBase->decideMoveAngle(pos);
+		charaBase->input.Y = 750;
+
+		//タイルにたどり着いたら A*関係
+		if (CalculateDistance<float>(charaBase->Getposition_(), pos) < distance_error)
+		{
+			//ルートが存在しなかったら抜ける
+			if (chaseRoot_.empty())return;
+
+			//先頭要素を削除
+			chaseRoot_.pop_front();
+			//新しく先頭要素になったものの座標を次に進む座標とする
+			auto it = chaseRoot_.begin();
+			if (chaseRoot_.size() > 1)
+			{
+				it++;
+			}
+			if (it != chaseRoot_.end())
+			{
+				nextTilePosition_ = *it;
+			}
+		}
+	}
 }
 
 /// <summary>
