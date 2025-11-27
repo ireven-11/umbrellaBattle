@@ -111,9 +111,6 @@
     <ClCompile Include="WrapIsEffekseer3DEffectPlaying.cpp">
       <Filter>ソース ファイル\effect</Filter>
     </ClCompile>
-    <ClCompile Include="trumpetState.cpp">
-      <Filter>ソース ファイル\chara\state</Filter>
-    </ClCompile>
     <ClCompile Include="respawnEffect.cpp">
       <Filter>ソース ファイル\effect</Filter>
     </ClCompile>
@@ -170,6 +167,9 @@
     </ClCompile>
     <ClCompile Include="ShadowMap.cpp">
       <Filter>ソース ファイル\shadow</Filter>
+    </ClCompile>
+    <ClCompile Include="trumpetState.cpp">
+      <Filter>ソース ファイル\chara\state</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

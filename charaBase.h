@@ -124,7 +124,7 @@ private:
 	const float		adjust_wind_vector		= 0.017f;
 	const int		tackle_damage			= 15;
 	const float		trumpet_stat_decrease	= 0.8f;
-	const short		max_invincible_count	= 100;
+	const short		max_invincible_count	= 60;
 
 protected:
 	void tackleMoving();
@@ -202,6 +202,7 @@ protected:
 	bool	onFinishingHitStop_;
 	short	invincibleCounter_;
 	bool	isInvincible_;
+	COLOR_F	modelOriginColor_[2];
 
 	const float		move_speed					= 0.3f;
 	const double	agnle_shift_number			= 0.75;

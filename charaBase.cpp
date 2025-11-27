@@ -75,6 +75,9 @@ CharaBase::CharaBase(const int join_number)
 	SetJoypadDeadZone(controlerNumber_, 0.1);
 
 	onConstructFrame_ = true;
+
+	modelOriginColor_[0] = MV1GetDifColorScale(openingUmbrella_);
+	modelOriginColor_[1] = MV1GetDifColorScale(inverseUmbrella_);
 }
 
 /// <summary>
@@ -775,6 +778,11 @@ void CharaBase::respawn(std::shared_ptr<Stage> stage)
 		stopTackle();
 		becomeInvincible();
 
+		//モデルの色を変える
+		const COLOR_F changeColor = GetColorF(2.0f, 2.0f, 2.0f, 0.6f);
+		auto test = MV1SetDifColorScale(openingUmbrella_, changeColor);
+		auto test2 = MV1SetDifColorScale(inverseUmbrella_, changeColor);
+
 		PlaySoundMem(respawnSound_, DX_PLAYTYPE_BACK, TRUE);
 	}
 }
@@ -899,8 +907,12 @@ void CharaBase::invincibleNow()
 
 		if (invincibleCounter_ > max_invincible_count)
 		{
-			isInvincible_ = false;
-		}
+			isInvincible_		= false;
+			invincibleCounter_	= 0;
 
+			//モデルの色をもとに戻す
+			MV1SetDifColorScale(openingUmbrella_, modelOriginColor_[0]);
+			MV1SetDifColorScale(inverseUmbrella_, modelOriginColor_[1]);
+		}
 	}
 }

@@ -72,9 +72,9 @@ Stage::~Stage()
 /// </summary>
 void Stage::reset()
 {
-	vanishingCount_ = 0;
-	dicideRandomTileJ_ = 0;
-	dicideRandomTileI_ = 0;
+	vanishingCount_		= 0;
+	dicideRandomTileJ_	= 0;
+	dicideRandomTileI_	= 0;
 	tileCount_ = 0;
 	for (int i = 0; i < tile_number; i++)
 	{
@@ -384,7 +384,6 @@ void Stage::change3dModelColor()
 
 			if (canExist_[dicideRandomTileJ_][dicideRandomTileI_])
 			{
-				MV1SetDifColorScale(modelHandle_[dicideRandomTileJ_][dicideRandomTileI_], GetColorF(1.0f, 0.0f, 0.0f, 1.0f));
 				break;
 			}
 		}
