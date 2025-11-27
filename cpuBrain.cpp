@@ -83,7 +83,7 @@ void CPUBrain::decideNextAction(CharaBase* charaBase, Routine* routine, std::sha
 	distance_				= CalculateDistance<float>(charaBase->Getposition_(), targetCharaPos);
 
 	//hp‚ª­‚È‚¢‚Æ‚«‚És“®ƒ‹[ƒ`ƒ“‚ð•Ï‚¦‚é
-	if (charaBase->Gethp_() < max_hp / 3)
+	if (charaBase->Gethp_() < max_hp / 2 && routine->players[randomTarget_ - 1]->Gethp_() > charaBase->Gethp_())
 	{
 		if (charaBase->GetOnDamage())
 		{
