@@ -165,6 +165,8 @@ void CharaBase::reset()
 	onHitStop_		= false;
 	hitStopCounter_ = 0;
 	onFinishingHitStop_ = false;
+	isInvincible_	= false;
+	invincibleCounter_ = 0;
 }
 
 /// <summary>
@@ -548,8 +550,8 @@ void CharaBase::SetonTilePositionY_(short tileNumberY)
 /// <param name="otherChara">判定するほかのキャラ</param>
 void CharaBase::decideKnockBackWithChara(std::shared_ptr<CharaBase> otherChara)
 {
-	//ヒットストップ中は判定に入らない
-	if (onHitStop_ || otherChara->onHitStop_) return;
+	if (onHitStop_ || otherChara->onHitStop_) return;			//ヒットストップ中は判定に入らない
+	if (isInvincible_ || otherChara->isInvincible_) return;		//無敵中は判定に入らない
 
 	//開き状態のときに判定をする
 	if (state_== openState_() && !onFinishingHitStop_)
@@ -771,6 +773,7 @@ void CharaBase::respawn(std::shared_ptr<Stage> stage)
 		position_			= VGet(tempVector.x, 0.0f, tempVector.z);
 		state_				= openState_();
 		stopTackle();
+		becomeInvincible();
 
 		PlaySoundMem(respawnSound_, DX_PLAYTYPE_BACK, TRUE);
 	}
@@ -880,5 +883,24 @@ void CharaBase::finishHitStopTiming()
 	{
 		onHitStop_			= false;
 		onFinishingHitStop_ = false;
+	}
+}
+
+void CharaBase::becomeInvincible()
+{
+	isInvincible_ = true;
+}
+
+void CharaBase::invincibleNow()
+{
+	if(isInvincible_)
+	{
+		++invincibleCounter_;
+
+		if (invincibleCounter_ > max_invincible_count)
+		{
+			isInvincible_ = false;
+		}
+
 	}
 }

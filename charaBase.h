@@ -58,6 +58,8 @@ public:
 	bool isDrawing();
 	void finishHitStopTiming();
 	void changeCanRespawn();
+	void becomeInvincible();
+	void invincibleNow();
 	
 	DINPUT_JOYSTATE input;		//コントローラー(D)用構造体変数
 
@@ -91,6 +93,7 @@ public:
 	float								GetTackleInplusePercent()const noexcept { return tackleInplusePercent_; }
 	bool								GetOnHitStop()const noexcept { return onHitStop_; }
 	bool								GetWasTrumpet()const noexcept { return wasTrumpet_; }
+	bool								GetIsInvincible()const noexcept { return isInvincible_; }
 	
 private:
 	const float		fall_speed				= 0.25f;
@@ -121,6 +124,7 @@ private:
 	const float		adjust_wind_vector		= 0.017f;
 	const int		tackle_damage			= 15;
 	const float		trumpet_stat_decrease	= 0.8f;
+	const short		max_invincible_count	= 100;
 
 protected:
 	void tackleMoving();
@@ -196,6 +200,8 @@ protected:
 	bool	onHitStop_;
 	short	hitStopCounter_;
 	bool	onFinishingHitStop_;
+	short	invincibleCounter_;
+	bool	isInvincible_;
 
 	const float		move_speed					= 0.3f;
 	const double	agnle_shift_number			= 0.75;

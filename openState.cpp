@@ -37,6 +37,7 @@ namespace CharaState
 		charaBase->move();
 		charaBase->tackle();
 		charaBase->collisionRotation();
+		charaBase->invincibleNow();
 		changeState(charaBase);
 	}
 }
