@@ -48,7 +48,8 @@ CharaBase::CharaBase(const int join_number)
 	}
 	
 	//テクスチャーを変更
-	auto test = MV1SetTextureGraphHandle(fan_, 5, fanTexture_, FALSE);
+	int texIndex = MV1GetMaterialDifMapTexture(fan_, 5);
+	MV1SetTextureGraphHandle(fan_, texIndex, fanTexture_, FALSE);
 
 	MV1SetScale(openingUmbrella_, VGet(scale, scale, scale));
 	MV1SetScale(closingUmbrella_, VGet(scale, scale, scale));
