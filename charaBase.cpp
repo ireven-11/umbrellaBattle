@@ -15,34 +15,41 @@ CharaBase::CharaBase(const int join_number)
 	switch (join_number)
 	{
 	case 1:
-		openingUmbrella_ = MV1LoadModel("3dmodel/umbrella/umblleraopen.mv1");
-		closingUmbrella_ = MV1LoadModel("3dmodel/umbrella/umblleraclose.mv1");
-		inverseUmbrella_ = MV1LoadModel("3dmodel/umbrella/inverseUmbllera.mv1");
-		fan_ = MV1LoadModel("3dmodel/fan/fanWithTile.mv1");
+		openingUmbrella_	= MV1LoadModel("3dmodel/umbrella/umblleraopen.mv1");
+		closingUmbrella_	= MV1LoadModel("3dmodel/umbrella/umblleraclose.mv1");
+		inverseUmbrella_	= MV1LoadModel("3dmodel/umbrella/inverseUmbllera.mv1");
+		fan_				= MV1LoadModel("3dmodel/fan/fanWithTile.mv1");
+		fanTexture_			= LoadGraph("3dmodel/fan/player1.png");
 		break;
 
 	case 2:
-		openingUmbrella_ = MV1LoadModel("3dmodel/umbrella/umblleraopen2.mv1");
-		closingUmbrella_ = MV1LoadModel("3dmodel/umbrella/umblleraclose2.mv1");
-		inverseUmbrella_ = MV1LoadModel("3dmodel/umbrella/inverseUmbllera2.mv1");
-		fan_ = MV1LoadModel("3dmodel/fan/fanWithTile.mv1");
+		openingUmbrella_	= MV1LoadModel("3dmodel/umbrella/umblleraopen2.mv1");
+		closingUmbrella_	= MV1LoadModel("3dmodel/umbrella/umblleraclose2.mv1");
+		inverseUmbrella_	= MV1LoadModel("3dmodel/umbrella/inverseUmbllera2.mv1");
+		fan_				= MV1LoadModel("3dmodel/fan/fanWithTile.mv1");
+		fanTexture_			= LoadGraph("3dmodel/fan/player2.png");
 		break;
 
 	case 3:
-		openingUmbrella_ = MV1LoadModel("3dmodel/umbrella/umblleraopen3.mv1");
-		closingUmbrella_ = MV1LoadModel("3dmodel/umbrella/umblleraclose3.mv1");
-		inverseUmbrella_ = MV1LoadModel("3dmodel/umbrella/inverseUmbllera3.mv1");
-		fan_ = MV1LoadModel("3dmodel/fan/fanWithTile.mv1");
+		openingUmbrella_	= MV1LoadModel("3dmodel/umbrella/umblleraopen3.mv1");
+		closingUmbrella_	= MV1LoadModel("3dmodel/umbrella/umblleraclose3.mv1");
+		inverseUmbrella_	= MV1LoadModel("3dmodel/umbrella/inverseUmbllera3.mv1");
+		fan_				= MV1LoadModel("3dmodel/fan/fanWithTile.mv1");
+		fanTexture_			= LoadGraph("3dmodel/fan/player3.png");
 		break;
 
 	case 4:
-		openingUmbrella_ = MV1LoadModel("3dmodel/umbrella/umblleraopen4.mv1");
-		closingUmbrella_ = MV1LoadModel("3dmodel/umbrella/umblleraclose4.mv1");
-		inverseUmbrella_ = MV1LoadModel("3dmodel/umbrella/inverseUmbllera4.mv1");
-		fan_ = MV1LoadModel("3dmodel/fan/fanWithTile.mv1");
+		openingUmbrella_	= MV1LoadModel("3dmodel/umbrella/umblleraopen4.mv1");
+		closingUmbrella_	= MV1LoadModel("3dmodel/umbrella/umblleraclose4.mv1");
+		inverseUmbrella_	= MV1LoadModel("3dmodel/umbrella/inverseUmbllera4.mv1");
+		fan_				= MV1LoadModel("3dmodel/fan/fanWithTile.mv1");
+		fanTexture_			= LoadGraph("3dmodel/fan/player4.png");
 		break;
 	}
 	
+	//テクスチャーを変更
+	auto test = MV1SetTextureGraphHandle(fan_, 5, fanTexture_, FALSE);
+
 	MV1SetScale(openingUmbrella_, VGet(scale, scale, scale));
 	MV1SetScale(closingUmbrella_, VGet(scale, scale, scale));
 	MV1SetScale(inverseUmbrella_, VGet(scale, scale, scale));
@@ -98,6 +105,7 @@ CharaBase::~CharaBase()
 	DeleteSoundMem(tackleSound_);
 	DeleteSoundMem(crashSound_);
 	state_ = nullptr;
+	DeleteGraph(fanTexture_);
 }
 
 /// <summary>

@@ -203,6 +203,7 @@ protected:
 	short	invincibleCounter_;
 	bool	isInvincible_;
 	COLOR_F	modelOriginColor_[2];
+	int		fanTexture_;
 
 	const float		move_speed					= 0.3f;
 	const double	agnle_shift_number			= 0.75;
