@@ -1,13 +1,13 @@
 #include"EffekseerForDXLib.h"
 #include"DxLib.h"
 #include"setting.h"
+#include <windows.h>
 
 /// <summary>
 /// dxlib設定
 /// </summary>
 void DxlibSetting()
 {
-    SetGraphMode(screenWIDTH, screenHEIGHT, 32);//ウィンドウのサイズとカラーモードを決める
     ChangeWindowMode(FALSE);					//ウィンドウモードにする
     SetWindowStyleMode(7);						//最大化ボタンが存在するウインドウモードに変更
 
@@ -16,8 +16,14 @@ void DxlibSetting()
     // サイズ変更を可能にする
     SetWindowSizeChangeEnableFlag(TRUE, FALSE);
 
-    // ウインドウサイズはゲーム画面と一致させる
-    SetWindowSize(screenWIDTH, screenHEIGHT);
+	//pc自体の画面解像度をdxlibのスクリーンサイズに合うように変更
+	DEVMODE pcScreenInfo;	//DEVMODEはpcのスクリーン情報を格納する構造体（windowsAPI）
+	pcScreenInfo.dmPelsWidth	= screenWIDTH;
+	pcScreenInfo.dmPelsHeight	= screenHEIGHT;
+	ChangeDisplaySettings(&pcScreenInfo, CDS_FULLSCREEN);	//第二引数を「CDS_FULLSCREEN」にするとアプリ終了時に元の解像度に戻る
+
+	//ウィンドウのサイズとカラーモードを決める
+	SetGraphMode(screenWIDTH, screenHEIGHT, 32);
 
     SetMainWindowText("gamename");              //ウィンドウ（白いところ）にゲーム名を書く
     SetDrawScreen(DX_SCREEN_BACK);		        //背景をセットする
