@@ -4,6 +4,8 @@
 #include"stage.h"
 #include"routine.h"
 #include"calculateDistance.h"
+#include"cpu.h"
+#include <typeinfo>
 
 /// <summary>
 /// コンストラクタ
@@ -572,11 +574,17 @@ void CharaBase::decideKnockBackWithChara(std::shared_ptr<CharaBase> otherChara)
 		distanceX_ = otherChara->GetcollisionCenterPosition_().x - collisionCenterPosition_.x;
 		distanceZ_ = otherChara->GetcollisionCenterPosition_().z - collisionCenterPosition_.z;
 		distance_ = CalculateDistance<float>(collisionCenterPosition_, otherChara->GetcollisionCenterPosition_());
-
 		
 		//距離が直径未満だったら
 		if (distance_ < collision_radius * 2 && otherChara->Getstate_() == openState_())
 		{
+			//otherCharaがcpu型かしらべる（typeidは特定の型ポインタが特定の型型かどうか判別するやつ）
+			bool isCPU = false;
+			if (typeid(otherChara) == typeid(CPU))
+			{
+				isCPU = true;
+			}
+
 			// 衝突の法線ベクトル
 			VECTOR normalLine = VGet(0.0f, 0.0f, 0.0f);
 			normalLine.x = distanceX_ / distance_;
@@ -607,8 +615,11 @@ void CharaBase::decideKnockBackWithChara(std::shared_ptr<CharaBase> otherChara)
 				PlaySoundMem(crashSound_, DX_PLAYTYPE_BACK, TRUE);
 
 				//コントローラーを振動させる
-				StartJoypadVibration(controlerNumber_, vibration_power * 2, vibration_time);
-				StartJoypadVibration(otherChara->controlerNumber_, vibration_power * 2, vibration_time);
+				if (!isCPU)
+				{
+					StartJoypadVibration(controlerNumber_, vibration_power * 2, vibration_time);
+					StartJoypadVibration(otherChara->controlerNumber_, vibration_power * 2, vibration_time);
+				}
 			}
 			else
 			{
@@ -618,8 +629,11 @@ void CharaBase::decideKnockBackWithChara(std::shared_ptr<CharaBase> otherChara)
 				PlaySoundMem(hitSound_, DX_PLAYTYPE_BACK, TRUE);
 				
 				//コントローラーを振動させる
-				StartJoypadVibration(controlerNumber_, vibration_power, vibration_time);
-				StartJoypadVibration(otherChara->controlerNumber_, vibration_power * 2, vibration_time);
+				if (!isCPU)
+				{
+					StartJoypadVibration(controlerNumber_, vibration_power, vibration_time);
+					StartJoypadVibration(otherChara->controlerNumber_, vibration_power * 2, vibration_time);
+				}
 
 				subHp();
 			}
@@ -734,11 +748,21 @@ void CharaBase::collisionWindWithChara(std::shared_ptr<CharaBase> otherChara, st
 		//距離が2つの半径を足した数値未満だったら
 		if (distance < collision_radius + collision_radius_wind)
 		{
+			//otherCharaがcpu型かしらべる
+			bool isCPU = false;
+			if (typeid(otherChara) == typeid(CPU))
+			{
+				isCPU = true;
+			}
+
 			//風で押し出す
 			otherChara->hitWind(windMoveVector_);
 
 			//コントローラーを振動させる
-			StartJoypadVibration(otherChara->GetcontrolerNumber_(), vibration_power, vibration_time);
+			if (!isCPU)
+			{
+				StartJoypadVibration(otherChara->GetcontrolerNumber_(), vibration_power, vibration_time);
+			}
 			
 			//敵のhpを減らす
 			otherChara->subHp();
