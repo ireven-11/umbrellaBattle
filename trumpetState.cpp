@@ -35,7 +35,7 @@ namespace CharaState
 		if (typeid(charaBase) != typeid(CPU))
 		{
 			//コントローラーを振動させる
-			StartJoypadVibration(charaBase->GetcontrolerNumber_(), vibration_power * 2, vibration_time / 2);
+			//StartJoypadVibration(charaBase->GetcontrolerNumber_(), vibration_power * 2, vibration_time / 2);
 		}
 		
 		if (directionCount_ > max_direction_count)

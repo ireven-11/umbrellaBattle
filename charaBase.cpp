@@ -617,8 +617,8 @@ void CharaBase::decideKnockBackWithChara(std::shared_ptr<CharaBase> otherChara)
 				//コントローラーを振動させる
 				if (!isCPU)
 				{
-					StartJoypadVibration(controlerNumber_, vibration_power * 2, vibration_time);
-					StartJoypadVibration(otherChara->controlerNumber_, vibration_power * 2, vibration_time);
+					//StartJoypadVibration(controlerNumber_, vibration_power * 2, vibration_time);
+					//StartJoypadVibration(otherChara->controlerNumber_, vibration_power * 2, vibration_time);
 				}
 			}
 			else
@@ -631,8 +631,8 @@ void CharaBase::decideKnockBackWithChara(std::shared_ptr<CharaBase> otherChara)
 				//コントローラーを振動させる
 				if (!isCPU)
 				{
-					StartJoypadVibration(controlerNumber_, vibration_power, vibration_time);
-					StartJoypadVibration(otherChara->controlerNumber_, vibration_power * 2, vibration_time);
+					//StartJoypadVibration(controlerNumber_, vibration_power, vibration_time);
+					//StartJoypadVibration(otherChara->controlerNumber_, vibration_power * 2, vibration_time);
 				}
 
 				subHp();
@@ -761,7 +761,7 @@ void CharaBase::collisionWindWithChara(std::shared_ptr<CharaBase> otherChara, st
 			//コントローラーを振動させる
 			if (!isCPU)
 			{
-				StartJoypadVibration(otherChara->GetcontrolerNumber_(), vibration_power, vibration_time);
+				//StartJoypadVibration(otherChara->GetcontrolerNumber_(), vibration_power, vibration_time);
 			}
 			
 			//敵のhpを減らす
