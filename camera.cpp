@@ -118,3 +118,17 @@ void Camera::virtualUpdate(VECTOR upPosition)
 	// DXライブラリのカメラとEffekseerのカメラを同期する。
 	Effekseer_Sync3DSetting();
 }
+
+void Camera::attensionTargetPlayer(VECTOR attensionPos)
+{
+	targetPosition_ = attensionPos;
+	position_		= VGet(targetPosition_.x + zoom_in_position.x, targetPosition_.y + zoom_in_position.y, targetPosition_.z + zoom_in_position.z);
+
+	bool isZeroX = attensionPos.x == 0.0f;
+	bool isZeroY = attensionPos.y == 0.0f;
+	bool isZeroZ = attensionPos.z == 0.0f;
+	if (isZeroX && isZeroY && isZeroZ)
+	{
+		position_ = VGet(0.0f, init_Y, init_z);
+	}
+}

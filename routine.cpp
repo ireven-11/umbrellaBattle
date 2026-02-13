@@ -112,6 +112,8 @@ void Routine::gameRoop()
         //‰æ–Ê‚É•`‚©‚ê‚½•¨‚ðÁ‚·(ƒQ[ƒ€ƒ‹[ƒv‚ÌÅ‰‚ÉŒÄ‚Ô)
         ClearDrawScreen();
         
+        attension();
+
         switch (sceneManager->GetsceneType_())
         {
         case TITLE:
@@ -281,7 +283,7 @@ void Routine::stanby()
         }
     }
 
-    //if (!players.empty())
+    if (!players.empty())
     {
         if (sceneManager->proceedPlay())
         {
@@ -639,5 +641,19 @@ void Routine::judgeWinner()
             winPlayer_          = players.at(3)->GetcontrolerNumber_();
             cameraUpPosition_   = players.at(3)->Getposition_();
         }
+    }
+}
+
+void Routine::attension()
+{
+    if (players.empty()) return;
+
+    if (CheckHitKey(KEY_INPUT_1))
+    {
+        camera->attensionTargetPlayer(players[0]->Getposition_());
+    }
+    else if (CheckHitKey(KEY_INPUT_0))
+    {
+        camera->attensionTargetPlayer();
     }
 }

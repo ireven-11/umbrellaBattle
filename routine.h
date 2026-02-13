@@ -63,6 +63,7 @@ private:
 	void joinCPU();
 	void allReset();
 	void judgeWinner();
+	void attension();
 
 	bool	isjoiningPlayer[max_player_number];	//プレイヤー参加フラグ
 	int		bgm_;								//bgm
