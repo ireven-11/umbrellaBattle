@@ -76,6 +76,7 @@ private:
 	int		decideSound_;						//決定音
 	int		screenHandle_;						//スクリーンハンドル
 	int		movieHandle_;						//動画ハンドル
+	bool	drawGame_;
 	
 	const short bgm_volume		= 110;
 	const short crap_volume		= 180;

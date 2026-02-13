@@ -503,6 +503,7 @@ void Routine::reset()
     winPlayer_          = 0;
     cameraUpPosition_   = VGet(0.0f, 0.0f, 0.0f);
     wasPlayingSE_       = false;
+    drawGame_           = false;
 }
 
 /// <summary>
@@ -612,6 +613,22 @@ void Routine::judgeWinner()
         && players.at(1)->Getstate_() == std::dynamic_pointer_cast<CharaState::FanState>(players.at(1)->Getstate_())
         && players.at(2)->Getstate_() == std::dynamic_pointer_cast<CharaState::FanState>(players.at(2)->Getstate_())
         && players.at(3)->Getstate_() != std::dynamic_pointer_cast<CharaState::FanState>(players.at(3)->Getstate_());
+    drawGame_ = players.at(0)->Getstate_() == std::dynamic_pointer_cast<CharaState::FanState>(players.at(0)->Getstate_())
+        && players.at(1)->Getstate_() == std::dynamic_pointer_cast<CharaState::FanState>(players.at(1)->Getstate_())
+        && players.at(2)->Getstate_() == std::dynamic_pointer_cast<CharaState::FanState>(players.at(2)->Getstate_())
+        && players.at(3)->Getstate_() == std::dynamic_pointer_cast<CharaState::FanState>(players.at(3)->Getstate_());
+
+    if (drawGame_)
+    {
+        sceneManager->proceedResult();
+        StopSoundMem(bgm_);
+        for (const auto& p : players)
+        {
+            StopSoundMem(p->GetchargeSound_());
+        }
+        return;
+    }
+
     if (winPlayer1 || winPlayer2 || winPlayer3 || winPlayer4)
     {
         sceneManager->proceedResult();
