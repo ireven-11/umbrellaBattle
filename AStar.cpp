@@ -43,7 +43,7 @@ bool operator!=(const position& o1, const position& o2)
 	return o1.x != o2.x || o1.y != o2.y;
 }
 
-std::list<position> ASter(position start, position goal)
+std::list<position> aSter(position start, position goal)
 {
 	//ノード用メモリの確保
 	node mapNode[MAP_HEIGHTMAX][MAP_WIDTHMAX] = {};

@@ -40,5 +40,5 @@ constexpr short COORDINATE_ELEMENT_MAX	= 2;	//x, yの２つ
 constexpr short X_ELM = 0;						//親子ノードのx成分
 constexpr short Y_ELM = 1;						//親子ノードのy成分
 
-std::list<position> ASter(position start, position goal);
+std::list<position> aSter(position start, position goal);
 void mapChipUpdate(short tileType, int tileXNumber, int tileYNumber);
