@@ -74,6 +74,7 @@ std::list<position> aSter(position start, position goal)
 			{
 				node& current_node = mapNode[current.y][current.x];
 
+				//現在のノードにｙ方向(行)の隣接マスがあれば隣接マスの方向に補正をかける可能性がある
 				if (direction_delta[current_node.direction][Y_ELM] == 1 || direction_delta[current_node.direction][Y_ELM] == -1)
 				{
 					//現在のマスが奇数行、偶数行で隣接するマスの方向の数値(x)を変える用の変数
@@ -98,7 +99,7 @@ std::list<position> aSter(position start, position goal)
 		//未到達なので周囲のセルを検査(iが各方向を表すことに注意する)
 		for (int i = 0; i < DIR_MAX; i++)
 		{
-			//隣セル位置を計算
+			//隣セル位置を計算。ｙ方向(行)の隣接マスがあれば隣接マスの方向に補正をかける可能性がある
 			if (direction_delta[i][Y_ELM] == 1 || direction_delta[i][Y_ELM] == -1)
 			{
 				//現在のマスが奇数行、偶数行で隣接するマスの方向の数値(x)を変える用の変数
@@ -125,7 +126,6 @@ std::list<position> aSter(position start, position goal)
 			char chip_type = map[neighborY][neighborX];
 			if (chip_type == HALL)
 			{
-
 				continue;
 			}
 			node& next_node = mapNode[neighborY][neighborX];
@@ -157,14 +157,18 @@ std::list<position> aSter(position start, position goal)
 				heuristic = static_cast<short>(deltaX > deltaY ? deltaX : deltaY);
 			}
 			
+			//スコア計算
 			score = cost + heuristic;
+
 			//コスト、スコアを隣セルノードに記入
 			next_node.cost		= cost;
 			next_node.score		= score;
 			next_node.direction = static_cast<char>(i);			//親セルの方向
+
 			//隣セルノードをオープンリストに追加する
 			next_node.state = IN_OPEN_LIST;
 			std::list<position>::iterator iter;
+
 			//オープンリスト内のノードがスコアの昇順になるように新ノードを挿入する
 			for (iter = openList.begin(); iter != openList.end(); ++iter) 
 			{
