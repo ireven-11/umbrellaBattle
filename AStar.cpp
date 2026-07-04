@@ -5,17 +5,17 @@
 //隣接するマスの方向を表す数値({xの方向,yの方向})
 const int direction_delta[DIR_MAX][2] = 
 {
-//#if DIR_MAX == 8	//隣接マスが8個
-//	{ -1,-1 },{  0,-1 },{ +1,-1 },
-//	{ -1, 0 },{ +1, 0 },
-//	{ -1,+1 },{  0,+1 },{ +1,+1 },
-//#elif DIR_MAX == 4	//隣接マスが4個(斜め移動なし)
-//	{  0,-1 },{ -1, 0 },{ +1, 0 },{ 0, +1 },
-//#elif DIR_MAX == 6	//隣接マスが6個(奇数行を基準としてやる)
+#if DIR_MAX == DIR_OCTA	//隣接マスが8個
+	{ -1,-1 },{  0,-1 },{ +1,-1 },
+	{ -1, 0 },{ +1, 0 },
+	{ -1,+1 },{  0,+1 },{ +1,+1 },
+#elif DIR_MAX == DIR_QUAD	//隣接マスが4個(斜め移動なし)
+	{  0,-1 },{ -1, 0 },{ +1, 0 },{ 0, +1 },
+#elif DIR_MAX == DIR_HEXA	//隣接マスが6個(奇数行を基準としてやる)
 	{ -1, +1 }, { 0, +1 },
 	{ -1, 0 }, { +1, 0 },
 	{ -1, -1 }, { 0, -1 },
-//#endif
+#endif
 };
 
 //地形コスト(地形によるコスト差がない場合は壁以外をすべて1にする)
@@ -78,8 +78,8 @@ std::list<position> aSter(position start, position goal)
 				if (direction_delta[current_node.direction][Y_ELM] == 1 || direction_delta[current_node.direction][Y_ELM] == -1)
 				{
 					//現在のマスが奇数行、偶数行で隣接するマスの方向の数値(x)を変える用の変数
-					int eo = current.y % 2 == 0 ? 0 : 1;
-					current.x -= direction_delta[current_node.direction][X_ELM] + eo;
+					int eo		= current.y % 2 == 0 ? 0 : 1;
+					current.x	-= direction_delta[current_node.direction][X_ELM] + eo;
 				}
 				else
 				{
@@ -93,8 +93,8 @@ std::list<position> aSter(position start, position goal)
 		}
 
 		//オープンリストの先頭要素を取得する。
-		current = openList.front();
-		node& current_node = mapNode[current.y][current.x];
+		current				= openList.front();
+		node& current_node	= mapNode[current.y][current.x];
 
 		//未到達なので周囲のセルを検査(iが各方向を表すことに注意する)
 		for (int i = 0; i < DIR_MAX; i++)
@@ -103,8 +103,8 @@ std::list<position> aSter(position start, position goal)
 			if (direction_delta[i][Y_ELM] == 1 || direction_delta[i][Y_ELM] == -1)
 			{
 				//現在のマスが奇数行、偶数行で隣接するマスの方向の数値(x)を変える用の変数
-				int eo = current.y % 2 == 0 ? 1 : 0;
-				neighborX = current.x + direction_delta[i][X_ELM] + eo;
+				int eo		= current.y % 2 == 0 ? 1 : 0;
+				neighborX	= current.x + direction_delta[i][X_ELM] + eo;
 			}
 			else
 			{
@@ -141,21 +141,16 @@ std::list<position> aSter(position start, position goal)
 			deltaX	= neighborX > goal.x ? neighborX - goal.x : goal.x - neighborX;
 			deltaY	= neighborY > goal.y ? neighborY - goal.y : goal.y - neighborY;
 
-			if (DIR_MAX == 8)
-			{
-				//8方向移動の場合のヒューリスティック
-				heuristic = static_cast<short>(deltaX > deltaY ? deltaX : deltaY);
-			}
-			else if (DIR_MAX == 4)
-			{
-				//4方向移動の場合のヒューリスティック
-				heuristic = static_cast<short>(deltaX + deltaY);
-			}
-			else if (DIR_MAX == 6)
-			{
-				//6方向移動のヒューリスティック
-				heuristic = static_cast<short>(deltaX > deltaY ? deltaX : deltaY);
-			}
+#if DIR_MAX == DIR_OCTA	//隣接マスが8個
+			//8方向移動の場合のヒューリスティック
+			heuristic = static_cast<short>(deltaX > deltaY ? deltaX : deltaY);
+#elif DIR_MAX == DIR_QUAD	//隣接マスが4個(斜め移動なし)
+			//4方向移動の場合のヒューリスティック
+			heuristic = static_cast<short>(deltaX + deltaY);
+#elif DIR_MAX == DIR_HEXA	//隣接マスが6個(奇数行を基準としてやる)
+			//6方向移動のヒューリスティック
+			heuristic = static_cast<short>(deltaX > deltaY ? deltaX : deltaY);
+#endif
 			
 			//スコア計算
 			score = cost + heuristic;
